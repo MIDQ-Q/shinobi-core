@@ -1,0 +1,15 @@
+﻿{
+  "id": "shinobicore:water_release_water_bullet",
+  "name": "Water Release: Water Bullet Jutsu",
+  "category": "elemental_ninjutsu",
+  "nature": "water",
+  "baseCost": 25,
+  "baseDamage": 5,
+  "strain": 6,
+  "requiredUsesForFullProficiency": 50,
+  "requirements": {
+    "control": 15,
+    "nature_water": 20,
+    "ninjutsu": 10
+  }
+}

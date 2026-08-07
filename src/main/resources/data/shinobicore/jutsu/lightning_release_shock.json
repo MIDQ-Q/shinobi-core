@@ -1,0 +1,20 @@
+﻿{
+  "id": "shinobicore:lightning_release_shock",
+  "name": "Lightning Release: Shock",
+  "category": "elemental_ninjutsu",
+  "nature": "lightning",
+  "type": "melee",
+  "params": {
+    "range": 2.5,
+    "width": 1.5
+  },
+  "baseCost": 25,
+  "baseDamage": 7,
+  "strain": 7,
+  "requiredUsesForFullProficiency": 45,
+  "requirements": {
+    "control": 12,
+    "nature_lightning": 18,
+    "ninjutsu": 10
+  }
+}

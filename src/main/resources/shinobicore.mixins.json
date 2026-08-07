@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "com.example.shinobicore.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "ServerPlayerEntityMixin",
+    "FallDamageMixin",
+    "ChakraWaterTouchMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

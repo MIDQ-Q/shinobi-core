@@ -1,0 +1,17 @@
+{
+  "id": "nara",
+  "name": "Nara Clan",
+  "affinity": "earth",
+  "extraAffinityCount": 0,
+  "statBonuses": {
+    "control": 8,
+    "perception": 5
+  },
+  "natureBonuses": {
+    "earth": 5
+  },
+  "costMultiplier": {},
+  "fatigueMultiplier": 1.1,
+  "reserveBonus": 0,
+  "dojutsuHook": null
+}
