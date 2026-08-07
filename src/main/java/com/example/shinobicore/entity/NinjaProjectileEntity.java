@@ -1,11 +1,8 @@
 package com.example.shinobicore.entity;
 
-import com.example.shinobicore.ShinobiCore;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageSources;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -39,8 +36,8 @@ public class NinjaProjectileEntity extends ProjectileEntity {
         super(ModEntities.NINJA_PROJECTILE, world);
         this.setOwner(owner);
         this.ownerId = owner.getUuid();
-        this.setPos(owner.getX(), owner.getEyeY() - 0.2, owner.getZ());
-        this.setVelocity(velocity.x, velocity.y, velocity.z, (float) velocity.length(), 0);
+        this.setPosition(owner.getX(), owner.getEyeY() - 0.2, owner.getZ());
+        this.setVelocity(velocity);
         
         this.dataTracker.set(DAMAGE, damage);
         this.dataTracker.set(RADIUS, radius);
@@ -66,12 +63,13 @@ public class NinjaProjectileEntity extends ProjectileEntity {
             return;
         }
 
-        // Частицы
         if (this.getWorld() instanceof ServerWorld serverWorld) {
             String particle = this.dataTracker.get(PARTICLE_TYPE);
             var particleType = ParticleTypes.FLAME;
             if (particle.equals("water")) particleType = ParticleTypes.FALLING_WATER;
             else if (particle.equals("smoke")) particleType = ParticleTypes.SMOKE;
+            else if (particle.equals("lightning")) particleType = ParticleTypes.ELECTRIC_SPARK;
+            else if (particle.equals("wind")) particleType = ParticleTypes.CLOUD;
             
             serverWorld.spawnParticles(particleType,
                 this.getX(), this.getY(), this.getZ(),
@@ -89,7 +87,6 @@ public class NinjaProjectileEntity extends ProjectileEntity {
         float radius = this.dataTracker.get(RADIUS);
         
         if (radius > 0.5f) {
-            // AOE урон
             for (Entity entity : this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(radius))) {
                 if (entity instanceof LivingEntity living && !living.equals(this.getOwner())) {
                     living.damage(this.getDamageSources().magic(), damage);

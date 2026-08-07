@@ -53,7 +53,7 @@ public class JutsuCaster {
         float damage = def.baseDamage() * NinjaFormula.damageMultiplier(data, def);
 
         // Вызываем behavior
-        JutsuBehavior behavior = BehaviorRegistry.get(def.type());
+        JutsuBehavior behavior = BehaviorRegistry.getFor(def);
         behavior.cast(player, def, data, def.params(), damage);
 
         return true;

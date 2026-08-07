@@ -11,7 +11,6 @@ public class NinjaFormula {
 
     private static ModConfig cfg() { return ModConfig.instance; }
 
-    // ========== ЧАКРА ==========
     public static float maxChakra(NinjaPlayerData data) {
         return cfg().chakra.baseChakra
             + (data.getReserveLevel() - 1) * cfg().chakra.chakraPerReserveLevel
@@ -34,7 +33,6 @@ public class NinjaFormula {
         return cfg().fatigue.decayPerSecond;
     }
 
-    // ========== MASTERY ==========
     public static float characterScore(JutsuDefinition def, NinjaPlayerData data) {
         Map<String, Float> weights = cfg().combat.categoryWeights.get(def.category());
         if (weights == null)
@@ -68,7 +66,6 @@ public class NinjaFormula {
         return Math.max(0f, Math.min(100f, m));
     }
 
-    // ========== СТОИМОСТЬ ==========
     public static float calculateCost(JutsuDefinition def, NinjaPlayerData data) {
         float cost = def.baseCost();
         float m = mastery(def, data) / 100f;
@@ -94,7 +91,6 @@ public class NinjaFormula {
         return Math.max(1f, cost);
     }
 
-    // ========== УРОН ==========
     public static float damageMultiplier(NinjaPlayerData data, JutsuDefinition def) {
         float m = mastery(def, data) / 100f;
         float mult = cfg().combat.damageBaseMultiplier + m * cfg().combat.damageMasteryScale;
@@ -104,7 +100,6 @@ public class NinjaFormula {
         return mult;
     }
 
-    // ========== ТРЕБОВАНИЯ ==========
     public static boolean checkRequirements(JutsuDefinition def, NinjaPlayerData data) {
         for (Map.Entry<String, Integer> req : def.requirements().entrySet()) {
             String key = req.getKey();
@@ -127,13 +122,11 @@ public class NinjaFormula {
         return true;
     }
 
-    // ========== МЕДИТАЦИЯ ==========
     public static float meditationRegenMultiplier() { return cfg().meditation.regenMultiplier; }
     public static float meditationFatigueDecayMultiplier() { return cfg().meditation.fatigueDecayMultiplier; }
     public static int meditationReserveXpPerSecond() { return cfg().meditation.reserveXpPerSecond; }
     public static int meditationControlXpPerSecond() { return cfg().meditation.controlXpPerSecond; }
 
-    // ========== XP ==========
     public static int xpToNextLevel(int level) {
         return cfg().progression.xpBase
             + level * cfg().progression.xpPerLevel
@@ -144,47 +137,43 @@ public class NinjaFormula {
         return cfg().progression.spBaseCost + (level / 10) * cfg().progression.spExtraCostEvery10;
     }
 
-    // ========== BODY ==========
     public static int maxHealth(int hpLevel) {
-        return 20 + hpLevel * 20; // 0→20 ... 7→160 (x8)
+        return 20 + hpLevel * 20;
     }
 
     public static float speedMultiplier(int speedLevel, boolean chakraMode) {
-        float base = 1.0f + speedLevel * 0.125f; // 0→1.0 ... 7→1.875
+        float base = 1.0f + speedLevel * 0.125f;
         if (chakraMode) base *= 2.0f;
         return Math.min(base, chakraMode ? 4.0f : 2.0f);
     }
 
-    // Прыжок в длину: x3 (новичок) → x10 (максимум) в чакра-режиме
+    public static float jumpMultiplier(int jumpLevel, boolean chakraMode) {
+        float base = 1.0f + jumpLevel * 0.125f;
+        if (chakraMode) base *= 2.0f;
+        return Math.min(base, chakraMode ? 4.0f : 2.0f);
+    }
+
     public static float jumpHorizontalMultiplier(int jumpLevel, boolean chakraMode) {
-        if (!chakraMode) {
-            // Обычный режим: x1.0 → x1.875
-            return 1.0f + jumpLevel * 0.125f;
-        }
-        // Чакра-режим: x3.0 (jumpLevel=0) → x10.0 (jumpLevel=7)
+        if (!chakraMode) return 1.0f + jumpLevel * 0.125f;
         return 3.0f + jumpLevel * 1.0f;
     }
 
-    // Прыжок в высоту: x1.5 (новичок) → x3.0 (максимум) в чакра-режиме
     public static float jumpVerticalMultiplier(int jumpLevel, boolean chakraMode) {
-        if (!chakraMode) {
-            return 1.0f; // обычная высота
-        }
-        // Чакра-режим: x1.5 (jumpLevel=0) → x3.0 (jumpLevel=7)
+        if (!chakraMode) return 1.0f;
         return 1.5f + jumpLevel * 0.214f;
     }
-    // Трата чакры в режиме: 2/сек (control=0) → 0.2/сек (control=100)
+
+    public static int bodySpCost() {
+        return cfg().progression.spBaseCost * 2;
+    }
+
     public static float chakraModeDrainPerSecond(NinjaPlayerData data) {
         float controlReduction = data.getStatLevel(StatType.CONTROL) / 100f * 0.9f;
         return 2.0f * (1.0f - controlReduction);
     }
 
-    // Множитель регена в чакра-режиме (1/5), но НЕ во время медитации
     public static float chakraModeRegenMultiplier() {
         return 0.2f;
-    }
-    public static int bodySpCost() {
-        return cfg().progression.spBaseCost * 2;
     }
 
     public static boolean addStatXp(NinjaPlayerData data, StatType stat, int amount) {
@@ -241,7 +230,6 @@ public class NinjaFormula {
         return leveled;
     }
 
-    // ========== XP С АНТИ-АБУЗОМ ==========
     public static boolean grantStatXp(NinjaPlayerData data, StatType stat, int amount) {
         if (!data.tryConsumeXpBudget("stat_" + stat.getId(), amount, cfg().progression.maxXpPerMinute)) return false;
         return addStatXp(data, stat, amount);
@@ -263,7 +251,6 @@ public class NinjaFormula {
         return true;
     }
 
-    // ========== КЛАНЫ ==========
     private static float getClanReserveBonus(ClanType clanType) {
         ClanDefinition clan = ClanRegistry.get(clanType.getId());
         if (clan == null) return 0f;

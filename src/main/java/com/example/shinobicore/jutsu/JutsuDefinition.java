@@ -11,6 +11,7 @@ public record JutsuDefinition(
     String category,
     ElementType nature,
     String type,
+    String behaviorClass,
     JsonObject params,
     float baseCost,
     float baseDamage,

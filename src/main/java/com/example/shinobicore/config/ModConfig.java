@@ -24,6 +24,14 @@ public class ModConfig {
         public float regenExhaustedMultiplier = 0.2f;
     }
 
+    public Parkour parkour = new Parkour();
+
+    public static class Parkour {
+        public float doubleJumpFatigue = 0.5f;
+        public float wallJumpFatigue = 0.5f;
+        public float vaultFatigue = 0.3f;
+    }
+    
     public static class Fatigue {
         public float decayPerSecond = 2.0f;
         public float softThreshold = 50f;

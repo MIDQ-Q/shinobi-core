@@ -15,7 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Entity.class)
 public abstract class ChakraWaterTouchMixin {
 
-    // В чакра-режиме игрок НЕ считается "в воде" -> включается наземная физика (бег, прыжки)
     @Inject(method = "isTouchingWater", at = @At("HEAD"), cancellable = true)
     private void shinobicore_noWaterPhysics(CallbackInfoReturnable<Boolean> cir) {
         Entity self = (Entity) (Object) this;
