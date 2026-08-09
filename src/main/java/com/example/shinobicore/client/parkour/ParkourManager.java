@@ -15,17 +15,16 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.network.PacketByteBuf;
-import com.example.shinobicore.client.parkour.actions.DodgeAction;
+
 import java.util.ArrayList;
 import java.util.List;
-import com.example.shinobicore.client.parkour.actions.CrawlAction;
 
 public class ParkourManager {
     private static final List<ParkourAction> actions = new ArrayList<>();
     private static final ParkourContext ctx = new ParkourContext();
     private static int logTimer = 0;
     private static ChargedJumpAction chargedJumpAction;
-
+    private static boolean lastLowPose = false;
     public static void register() {
         actions.add(new SlideAction());
         actions.add(new WallRunAction());
@@ -36,18 +35,6 @@ public class ParkourManager {
         ShinobiCore.LOGGER.info("ParkourManager: registered {} actions", actions.size());
     }
 
-    public static boolean isDodging() {
-        for (ParkourAction action : actions) {
-            if (action instanceof DodgeAction dodge) return dodge.isActive();
-        }
-        return false;
-    }
-    public static boolean isCrawling() {
-        for (ParkourAction action : actions) {
-            if (action instanceof CrawlAction crawl) return crawl.isActive();
-        }
-        return false;
-    }
     public static void tick(MinecraftClient client) {
         ClientPlayerEntity player = client.player;
         if (player == null) return;
@@ -55,9 +42,16 @@ public class ParkourManager {
         ctx.tickCooldowns();
         boolean doLog = (logTimer == 0);
 
-        // Tick charged jump (всегда, независимо от других действий)
         chargedJumpAction.tick(player, ctx);
-
+        // Синхронизация низкой позы с сервером
+        boolean needsLow = isSliding() || isCrawling() || isRolling()
+            || com.example.shinobicore.client.parkour.util.PoseHelper.cannotStand(player);
+        if (needsLow != lastLowPose) {
+            lastLowPose = needsLow;
+            PacketByteBuf poseBuf = new PacketByteBuf(Unpooled.buffer());
+            poseBuf.writeBoolean(needsLow);
+            ClientPlayNetworking.send(ModPackets.POSE_SYNC_ID, poseBuf);
+        }
         for (ParkourAction action : actions) {
             if (action instanceof SlideAction slide) {
                 slide.updateInput(player);
@@ -74,13 +68,6 @@ public class ParkourManager {
                     wallRun.activate(player, ctx);
                     if (doLog) ShinobiCore.LOGGER.info("[parkour] wall run activated");
                 }
-            } else if (action instanceof CrawlAction crawl) {
-                if (crawl.isActive()) {
-                    crawl.tick(player, ctx);
-                } else if (crawl.canActivate(player, ctx)) {
-                    crawl.activate(player, ctx);
-                    if (doLog) ShinobiCore.LOGGER.info("[parkour] crawl activated");
-                }
             } else if (action instanceof EdgeGrabAction edgeGrab) {
                 if (edgeGrab.isActive()) {
                     edgeGrab.tick(player, ctx);
@@ -94,6 +81,13 @@ public class ParkourManager {
                 } else if (roll.canActivate(player, ctx)) {
                     roll.activate(player, ctx);
                     if (doLog) ShinobiCore.LOGGER.info("[parkour] roll activated");
+                }
+            } else if (action instanceof CrawlAction crawl) {
+                if (crawl.isActive()) {
+                    crawl.tick(player, ctx);
+                } else if (crawl.canActivate(player, ctx)) {
+                    crawl.activate(player, ctx);
+                    if (doLog) ShinobiCore.LOGGER.info("[parkour] crawl activated");
                 }
             }
         }
@@ -125,6 +119,13 @@ public class ParkourManager {
     public static boolean isRolling() {
         for (ParkourAction action : actions) {
             if (action instanceof RollAction roll) return roll.isActive();
+        }
+        return false;
+    }
+
+    public static boolean isCrawling() {
+        for (ParkourAction action : actions) {
+            if (action instanceof CrawlAction crawl) return crawl.isActive();
         }
         return false;
     }

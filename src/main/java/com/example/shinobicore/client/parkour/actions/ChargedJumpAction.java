@@ -1,12 +1,14 @@
 package com.example.shinobicore.client.parkour.actions;
 
 import com.example.shinobicore.client.ChakraHudRenderer;
+import com.example.shinobicore.client.ChakraPhysicsClient;
 import com.example.shinobicore.client.ClientNinjaState;
 import com.example.shinobicore.client.parkour.ParkourManager;
 import com.example.shinobicore.client.parkour.util.ParkourSounds;
 import com.example.shinobicore.stat.NinjaFormula;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.math.Vec3d;
+import com.example.shinobicore.client.ChakraPhysicsClient;
 
 public class ChargedJumpAction implements ParkourAction {
     public static final String ID = "charged_jump";
@@ -38,7 +40,7 @@ public class ChargedJumpAction implements ParkourAction {
             return;
         }
 
-        boolean onGround = player.isOnGround();
+        boolean onGround = player.isOnGround() || ChakraPhysicsClient.standingOnWater;
         boolean jumping = player.input.jumping;
 
         if (onGround && jumping && !jumpPressed) {

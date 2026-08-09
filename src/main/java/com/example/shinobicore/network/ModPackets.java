@@ -9,7 +9,8 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-
+import com.example.shinobicore.pose.LowPoseTracker;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 public class ModPackets {
     public static final Identifier CHAKRA_SYNC_ID = new Identifier("shinobicore", "chakra_sync");
     public static final Identifier MEDITATE_ID = new Identifier("shinobicore", "meditate");
@@ -24,7 +25,7 @@ public class ModPackets {
     public static final Identifier CHAKRA_MODE_ID = new Identifier("shinobicore", "chakra_mode");
     public static final Identifier PARKOUR_ACTION_ID = new Identifier("shinobicore", "parkour_action");
     public static final Identifier DODGE_ID = new Identifier("shinobicore", "dodge");
-
+    public static final Identifier POSE_SYNC_ID = new Identifier("shinobicore", "pose_sync");
     public static void register() {
         ServerPlayNetworking.registerGlobalReceiver(MEDITATE_ID, (server, player, handler, buf, responseSender) -> {
             boolean start = buf.readBoolean();
@@ -57,6 +58,14 @@ public class ModPackets {
                 data.setFatigue(data.getFatigue() + ModConfig.instance.parkour.dodgeFatigue);
             });
         });
+
+        ServerPlayNetworking.registerGlobalReceiver(POSE_SYNC_ID, (server, player, handler, buf, responseSender) -> {
+            boolean low = buf.readBoolean();
+            server.execute(() -> LowPoseTracker.set(player.getUuid(), low));
+        });
+
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
+            LowPoseTracker.set(handler.player.getUuid(), false));
 
         ServerPlayNetworking.registerGlobalReceiver(SET_SLOT_ID, (server, player, handler, buf, responseSender) -> {
             int set = buf.readInt(); int slot = buf.readInt(); String id = buf.readString();

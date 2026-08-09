@@ -22,6 +22,18 @@ public class ProgressionScreen extends Screen {
         }
     }
 
+    // === Палитра свитка ===
+    private static final int PARCHMENT = 0xFFD8C098;      // пергамент
+    private static final int PARCHMENT_EDGE = 0xFFC4A87C; // тёмные края
+    private static final int WOOD = 0xFF5A3A1E;           // дерево валиков
+    private static final int WOOD_DARK = 0xFF3E2812;
+    private static final int WOOD_LIGHT = 0xFF7A5430;
+    private static final int INK = 0xFF2E1F10;            // чернила
+    private static final int INK_LIGHT = 0xFF6A563C;
+    private static final int SEAL_RED = 0xFFA3221E;       // печать (неактив)
+    private static final int SEAL_RED_ACTIVE = 0xFFD0342C;// печать (актив)
+    private static final int ACCENT = 0xFFB4470F;         // оранжевый акцент
+
     private int tab = 0;
     private int loadoutSet = 0;
     private int assignSlot = -1;
@@ -36,38 +48,39 @@ public class ProgressionScreen extends Screen {
         renderBackground(context);
         super.render(context, mouseX, mouseY, delta);
 
-        int w = 280, h = 240;
+        int w = 300, h = 260;
         int x0 = (width - w) / 2, y0 = (height - h) / 2;
 
-        context.fill(x0, y0, x0 + w, y0 + h, 0xCC000000);
+        drawScrollFrame(context, x0, y0, w, h);
 
+        // === Шапка ===
         String clanText = ClientNinjaState.clanId.equals("none") ? "No Clan" : ClientNinjaState.clanId;
         String affText = ClientNinjaState.affinityId != null ? ClientNinjaState.affinityId : "none";
-        context.drawCenteredTextWithShadow(textRenderer,
-            clanText + " | " + affText + " | SP: " + ClientNinjaState.skillPoints,
-            x0 + w / 2, y0 + 6, 0xFFFFFF);
+        drawCentered(context, clanText + "  |  " + affText + "  |  SP: " + ClientNinjaState.skillPoints,
+            x0 + w / 2, y0 + 8, INK);
 
-        int tabW = w / 4 - 5;
-        drawTab(context, x0 + 4, y0 + 18, tabW, 0, "Stats");
-        drawTab(context, x0 + 8 + tabW, y0 + 18, tabW, 1, "Natures");
-        drawTab(context, x0 + 12 + tabW * 2, y0 + 18, tabW, 2, "Body");
-        drawTab(context, x0 + 16 + tabW * 3, y0 + 18, tabW, 3, "Jutsu");
+        // === Вкладки-печати ===
+        int tabW = 66, tabH = 14, tabY = y0 + 22;
+        drawSealTab(context, x0 + 8, tabY, tabW, tabH, 0, "Stats");
+        drawSealTab(context, x0 + 8 + (tabW + 6), tabY, tabW, tabH, 1, "Natures");
+        drawSealTab(context, x0 + 8 + (tabW + 6) * 2, tabY, tabW, tabH, 2, "Body");
+        drawSealTab(context, x0 + 8 + (tabW + 6) * 3, tabY, tabW, tabH, 3, "Jutsu");
 
-        int y = y0 + 34;
+        int y = y0 + 44;
 
         if (tab < 3) {
             for (Row row : buildRows()) {
-                int nameColor = row.locked() ? 0x555555 : 0xAAAAAA;
+                int nameColor = row.locked() ? INK_LIGHT : INK;
                 String displayName = row.locked() ? "* " + row.name() : row.name();
-                context.drawTextWithShadow(textRenderer, Text.literal(displayName), x0 + 8, y + 2, nameColor);
-                context.drawTextWithShadow(textRenderer, Text.literal("Lv " + row.level()), x0 + 90, y + 2, row.locked() ? 0x555555 : 0xFFFFFF);
+                context.drawText(textRenderer, Text.literal(displayName), x0 + 10, y + 2, nameColor, false);
+                context.drawText(textRenderer, Text.literal("Lv " + row.level()), x0 + 100, y + 2, row.locked() ? INK_LIGHT : INK, false);
                 if (row.xp() >= 0) {
-                    context.drawTextWithShadow(textRenderer, Text.literal(row.xp() + "/" + row.need()), x0 + 130, y + 2, 0x888888);
+                    context.drawText(textRenderer, Text.literal(row.xp() + "/" + row.need()), x0 + 140, y + 2, INK_LIGHT, false);
                 }
                 if (!row.locked()) {
                     boolean afford = ClientNinjaState.skillPoints >= row.cost();
-                    context.drawTextWithShadow(textRenderer, Text.literal("[+" + row.cost() + "]"),
-                        x0 + w - 40, y + 2, afford ? 0x55FF55 : 0x555555);
+                    context.drawText(textRenderer, Text.literal("[+" + row.cost() + "]"),
+                        x0 + w - 44, y + 2, afford ? ACCENT : INK_LIGHT, false);
                 }
                 y += 14;
             }
@@ -75,43 +88,88 @@ public class ProgressionScreen extends Screen {
             renderLoadouts(context, x0, y0, w, y);
         }
 
-        context.drawCenteredTextWithShadow(textRenderer, Text.literal("K - close"), x0 + w / 2, y0 + h - 12, 0x666666);
+        drawCentered(context, "K - close", x0 + w / 2, y0 + h - 14, INK_LIGHT);
+    }
+
+    // === Рамка свитка: пергамент + деревянные валики ===
+    private void drawScrollFrame(DrawContext context, int x0, int y0, int w, int h) {
+        // Верхний валик
+        context.fill(x0 - 8, y0 - 10, x0 + w + 8, y0, WOOD);
+        context.fill(x0 - 8, y0 - 10, x0 + w + 8, y0 - 8, WOOD_LIGHT);
+        context.fill(x0 - 8, y0 - 2, x0 + w + 8, y0, WOOD_DARK);
+        // Нижний валик
+        context.fill(x0 - 8, y0 + h, x0 + w + 8, y0 + h + 10, WOOD);
+        context.fill(x0 - 8, y0 + h, x0 + w + 8, y0 + h + 2, WOOD_LIGHT);
+        context.fill(x0 - 8, y0 + h + 8, x0 + w + 8, y0 + h + 10, WOOD_DARK);
+        // Ручки валиков
+        context.fill(x0 - 12, y0 - 12, x0 - 8, y0 + 2, WOOD_DARK);
+        context.fill(x0 + w + 8, y0 - 12, x0 + w + 12, y0 + 2, WOOD_DARK);
+        context.fill(x0 - 12, y0 + h - 2, x0 - 8, y0 + h + 12, WOOD_DARK);
+        context.fill(x0 + w + 8, y0 + h - 2, x0 + w + 12, y0 + h + 12, WOOD_DARK);
+        // Пергамент
+        context.fill(x0, y0, x0 + w, y0 + h, PARCHMENT);
+        // Боковое затенение
+        context.fill(x0, y0, x0 + 4, y0 + h, PARCHMENT_EDGE);
+        context.fill(x0 + w - 4, y0, x0 + w, y0 + h, PARCHMENT_EDGE);
+        // Тонкие линии чернил
+        context.fill(x0 + 6, y0 + 4, x0 + w - 6, y0 + 5, INK_LIGHT);
+        context.fill(x0 + 6, y0 + h - 5, x0 + w - 6, y0 + h - 4, INK_LIGHT);
+    }
+
+    // === Вкладка-печать (ханко) ===
+    private void drawSealTab(DrawContext context, int x, int y, int w, int h, int id, String label) {
+        boolean active = tab == id;
+        context.fill(x, y, x + w, y + h, active ? SEAL_RED_ACTIVE : SEAL_RED);
+        context.fill(x, y, x + w, y + 1, 0xFFE08078);
+        context.fill(x, y + h - 1, x + w, y + h, 0xFF6E120E);
+        if (active) {
+            context.fill(x - 1, y - 1, x + w + 1, y, 0xFF1A1A1A);
+            context.fill(x - 1, y + h, x + w + 1, y + h + 1, 0xFF1A1A1A);
+            context.fill(x - 1, y, x, y + h, 0xFF1A1A1A);
+            context.fill(x + w, y, x + w + 1, y + h, 0xFF1A1A1A);
+        }
+        drawCentered(context, label, x + w / 2, y + 3, 0xFFFFFFFF);
+    }
+
+    private void drawSetButton(DrawContext context, int x, int y, int w, int h, int set, String label) {
+        boolean active = loadoutSet == set;
+        context.fill(x, y, x + w, y + h, active ? ACCENT : PARCHMENT_EDGE);
+        context.fill(x, y, x + w, y + 1, 0xFFE8D8B8);
+        context.fill(x, y + h - 1, x + w, y + h, 0xFF8A6A40);
+        drawCentered(context, label, x + w / 2, y + 2, active ? 0xFFFFFFFF : INK);
     }
 
     private void renderLoadouts(DrawContext context, int x0, int y0, int w, int y) {
-        context.fill(x0 + 8, y, x0 + 68, y + 12, loadoutSet == 0 ? 0xFF3366AA : 0xFF222222);
-        context.drawCenteredTextWithShadow(textRenderer, Text.literal("Set A"), x0 + 38, y + 2, 0xFFFFFF);
-        context.fill(x0 + 76, y, x0 + 136, y + 12, loadoutSet == 1 ? 0xFF3366AA : 0xFF222222);
-        context.drawCenteredTextWithShadow(textRenderer, Text.literal("Set B"), x0 + 106, y + 2, 0xFFFFFF);
+        drawSetButton(context, x0 + 10, y, 60, 12, 0, "Set A");
+        drawSetButton(context, x0 + 78, y, 60, 12, 1, "Set B");
         y += 18;
 
         if (assignSlot == -1) {
-            context.drawTextWithShadow(textRenderer, Text.literal("Click a slot to assign:"), x0 + 8, y, 0xAAAAAA);
+            context.drawText(textRenderer, Text.literal("Click a slot to assign:"), x0 + 10, y, INK, false);
             y += 12;
             for (int i = 0; i < 5; i++) {
                 String id = ClientNinjaState.loadout(loadoutSet)[i];
                 String name = id == null ? "empty" : ClientNinjaState.name(id);
-                context.drawTextWithShadow(textRenderer, Text.literal((i + 1) + ": " + name), x0 + 8, y + 2, 0xFFFFFF);
+                context.drawText(textRenderer, Text.literal((i + 1) + ": " + name), x0 + 10, y + 2, INK, false);
                 y += 14;
             }
         } else {
-            context.drawTextWithShadow(textRenderer, Text.literal("Assign to slot " + (assignSlot + 1) + " (Esc to cancel):"), x0 + 8, y, 0xFFFF55);
+            context.drawText(textRenderer, Text.literal("Assign to slot " + (assignSlot + 1) + " (Esc cancel):"), x0 + 10, y, ACCENT, false);
             y += 12;
             List<String> learned = new ArrayList<>(ClientNinjaState.learned);
             java.util.Collections.sort(learned);
             int shown = 0;
             for (int i = listOffset; i < learned.size() && shown < 8; i++, shown++) {
-                String id = learned.get(i);
-                context.drawTextWithShadow(textRenderer, Text.literal("- " + ClientNinjaState.name(id)), x0 + 8, y + 2, 0x55FF55);
+                context.drawText(textRenderer, Text.literal("- " + ClientNinjaState.name(learned.get(i))), x0 + 10, y + 2, INK, false);
                 y += 14;
             }
-            context.drawTextWithShadow(textRenderer, Text.literal("[X] clear slot"), x0 + 8, y + 2, 0xFF5555);
+            context.drawText(textRenderer, Text.literal("[X] clear slot"), x0 + 10, y + 2, SEAL_RED_ACTIVE, false);
         }
     }
 
-    private void drawTab(DrawContext context, int x, int y, int w, int id, String label) {
-        context.fill(x, y, x + w, y + 12, (tab == id) ? 0xFF3366AA : 0xFF222222);
-        context.drawCenteredTextWithShadow(textRenderer, Text.literal(label), x + w / 2, y + 2, 0xFFFFFF);
+    private void drawCentered(DrawContext context, String text, int cx, int y, int color) {
+        int w = textRenderer.getWidth(text);
+        context.drawText(textRenderer, text, cx - w / 2, y, color, false);
     }
 
     private List<Row> buildRows() {
@@ -141,25 +199,27 @@ public class ProgressionScreen extends Screen {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        int w = 280, h = 240;
+        int w = 300, h = 260;
         int x0 = (width - w) / 2, y0 = (height - h) / 2;
 
-        int tabW = w / 4 - 5;
-        if (inRect(mouseX, mouseY, x0 + 4, y0 + 18, tabW, 12)) { tab = 0; assignSlot = -1; return true; }
-        if (inRect(mouseX, mouseY, x0 + 8 + tabW, y0 + 18, tabW, 12)) { tab = 1; assignSlot = -1; return true; }
-        if (inRect(mouseX, mouseY, x0 + 12 + tabW * 2, y0 + 18, tabW, 12)) { tab = 2; assignSlot = -1; return true; }
-        if (inRect(mouseX, mouseY, x0 + 16 + tabW * 3, y0 + 18, tabW, 12)) { tab = 3; assignSlot = -1; return true; }
+        // Вкладки-печати
+        int tabW = 66, tabH = 14, tabY = y0 + 22;
+        for (int i = 0; i < 4; i++) {
+            if (inRect(mouseX, mouseY, x0 + 8 + (tabW + 6) * i, tabY, tabW, tabH)) {
+                tab = i; assignSlot = -1; return true;
+            }
+        }
 
         if (tab == 3) {
-            int y = y0 + 34;
-            if (inRect(mouseX, mouseY, x0 + 8, y, 60, 12)) { loadoutSet = 0; return true; }
-            if (inRect(mouseX, mouseY, x0 + 76, y, 60, 12)) { loadoutSet = 1; return true; }
+            int y = y0 + 44;
+            if (inRect(mouseX, mouseY, x0 + 10, y, 60, 12)) { loadoutSet = 0; return true; }
+            if (inRect(mouseX, mouseY, x0 + 78, y, 60, 12)) { loadoutSet = 1; return true; }
             y += 18;
 
             if (assignSlot == -1) {
                 y += 12;
                 for (int i = 0; i < 5; i++) {
-                    if (inRect(mouseX, mouseY, x0 + 8, y, w - 16, 12)) { assignSlot = i; listOffset = 0; return true; }
+                    if (inRect(mouseX, mouseY, x0 + 10, y, w - 20, 12)) { assignSlot = i; listOffset = 0; return true; }
                     y += 14;
                 }
             } else {
@@ -168,14 +228,14 @@ public class ProgressionScreen extends Screen {
                 java.util.Collections.sort(learned);
                 int shown = 0;
                 for (int i = listOffset; i < learned.size() && shown < 8; i++, shown++) {
-                    if (inRect(mouseX, mouseY, x0 + 8, y, w - 16, 12)) {
+                    if (inRect(mouseX, mouseY, x0 + 10, y, w - 20, 12)) {
                         sendSetSlot(loadoutSet, assignSlot, learned.get(i));
                         assignSlot = -1;
                         return true;
                     }
                     y += 14;
                 }
-                if (inRect(mouseX, mouseY, x0 + 8, y, w - 16, 12)) {
+                if (inRect(mouseX, mouseY, x0 + 10, y, w - 20, 12)) {
                     sendSetSlot(loadoutSet, assignSlot, "");
                     assignSlot = -1;
                     return true;
@@ -184,7 +244,8 @@ public class ProgressionScreen extends Screen {
             return true;
         }
 
-        int y = y0 + 34;
+        // Прокачка (табы 0-2)
+        int y = y0 + 44;
         for (Row row : buildRows()) {
             if (!row.locked() && inRect(mouseX, mouseY, x0 + w - 44, y, 40, 12)) {
                 sendSpend(row.type(), row.id());

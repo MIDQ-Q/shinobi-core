@@ -1,6 +1,7 @@
 package com.example.shinobicore.mixin;
 
 import com.example.shinobicore.client.parkour.ParkourManager;
+import com.example.shinobicore.client.parkour.util.PoseHelper;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
@@ -16,9 +17,11 @@ public abstract class SlideTravelMixin {
     @Inject(method = "travel", at = @At("HEAD"), cancellable = true)
     private void shinobicore_slideTravel(Vec3d movementInput, CallbackInfo ci) {
         if ((Object) this instanceof ClientPlayerEntity player && ParkourManager.isSliding()) {
+            PoseHelper.forceLowPose(player);
+
             Vec3d v = player.getVelocity();
             double friction = player.isOnGround() ? 0.985 : 0.99;
-            player.setVelocity(v.x * friction, v.y - 0.08, v.z * friction); // инерция + гравитация
+            player.setVelocity(v.x * friction, v.y - 0.08, v.z * friction);
             player.move(MovementType.SELF, player.getVelocity());
             ci.cancel();
         }

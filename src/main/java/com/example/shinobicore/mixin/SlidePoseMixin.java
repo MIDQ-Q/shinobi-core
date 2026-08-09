@@ -1,33 +1,51 @@
 package com.example.shinobicore.mixin;
 
 import com.example.shinobicore.client.parkour.ParkourManager;
+import com.example.shinobicore.client.parkour.util.PoseHelper;
+import com.example.shinobicore.pose.LowPoseTracker;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(PlayerEntity.class)
 public abstract class SlidePoseMixin {
 
-    @Inject(method = "updatePose", at = @At("HEAD"), cancellable = true)
-    private void shinobicore_slidePose(CallbackInfo ci) {
-        PlayerEntity self = (PlayerEntity) (Object) this;
-        if (!(self instanceof ClientPlayerEntity)) return;
-
-        if (ParkourManager.isSliding() || hasBlockAtChest(self)) {
-            self.setPose(EntityPose.SWIMMING);
-            ci.cancel();
+    @Redirect(
+        method = "updatePose",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;setPose(Lnet/minecraft/entity/EntityPose;)V")
+    )
+    private void shinobicore_overridePose(PlayerEntity self, EntityPose vanillaPose) {
+        // === СЕРВЕРНАЯ ЧАСТЬ: читаем флаг из трекера ===
+        if (self instanceof ServerPlayerEntity sp) {
+            if (LowPoseTracker.isLow(sp.getUuid())) {
+                if (self.getPose() != EntityPose.SWIMMING) {
+                    self.setPose(EntityPose.SWIMMING);
+                    self.calculateDimensions();
+                }
+            } else {
+                self.setPose(vanillaPose);
+            }
+            return;
         }
-    }
 
-    private static boolean hasBlockAtChest(PlayerEntity self) {
-        World w = self.getWorld();
-        BlockPos chest = BlockPos.ofFloored(self.getX(), self.getY() + 1.0, self.getZ());
-        return w.getBlockState(chest).isSolidBlock(w, chest);
+        // === КЛИЕНТСКАЯ ЧАСТЬ ===
+        if (self instanceof ClientPlayerEntity cp) {
+            boolean needsLow = ParkourManager.isSliding()
+                || ParkourManager.isCrawling()
+                || ParkourManager.isRolling()
+                || PoseHelper.cannotStand(cp);
+
+            if (needsLow) {
+                PoseHelper.forceLowPose(cp);
+            } else {
+                self.setPose(vanillaPose);
+            }
+        } else {
+            self.setPose(vanillaPose);
+        }
     }
 }

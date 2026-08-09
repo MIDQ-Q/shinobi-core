@@ -1,8 +1,9 @@
 package com.example.shinobicore.client.parkour.actions;
 
 import com.example.shinobicore.client.KeyBindings;
+import com.example.shinobicore.client.parkour.ParkourManager;
+import com.example.shinobicore.client.parkour.util.PoseHelper;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.EntityPose;
 import net.minecraft.util.math.Vec3d;
 
 public class CrawlAction implements ParkourAction {
@@ -16,28 +17,29 @@ public class CrawlAction implements ParkourAction {
     @Override
     public boolean canActivate(ClientPlayerEntity player, ParkourContext ctx) {
         if (!player.isOnGround()) return false;
-        if (!KeyBindings.CRAWL.isPressed()) return false;  // N зажата
-        return true;  // Работает в любом режиме (без чакра-режима)
+        if (ParkourManager.isSliding()) return false;
+        return KeyBindings.CRAWL.isPressed() || PoseHelper.cannotStand(player);
     }
 
     @Override
     public void activate(ClientPlayerEntity player, ParkourContext ctx) {
         active = true;
-        player.setPose(EntityPose.SWIMMING);
+        PoseHelper.forceLowPose(player);
         ctx.resetActive(ID);
     }
 
     @Override
     public void tick(ClientPlayerEntity player, ParkourContext ctx) {
         if (!active) return;
-        
-        player.setPose(EntityPose.SWIMMING);
-        
-        if (!KeyBindings.CRAWL.isPressed() || !player.isOnGround()) {
+
+        boolean wantCrawl = KeyBindings.CRAWL.isPressed();
+        boolean forced = PoseHelper.cannotStand(player);
+
+        if (!player.isOnGround() || (!wantCrawl && !forced)) {
             deactivate(player, ctx);
             return;
         }
-        
+
         Vec3d v = player.getVelocity();
         player.setVelocity(v.x * 0.5, v.y, v.z * 0.5);
     }
@@ -45,7 +47,7 @@ public class CrawlAction implements ParkourAction {
     @Override
     public void deactivate(ClientPlayerEntity player, ParkourContext ctx) {
         active = false;
-        player.setPose(EntityPose.STANDING);
+        PoseHelper.releasePose(player);
         ctx.setCooldown(ID, getCooldownTicks());
         ctx.clearActive(ID);
     }
@@ -53,7 +55,7 @@ public class CrawlAction implements ParkourAction {
     public boolean isActive() { return active; }
 
     @Override
-    public int getCooldownTicks() { return 10; }
+    public int getCooldownTicks() { return 5; }
 
     @Override
     public float getFatigueCost() { return 0f; }

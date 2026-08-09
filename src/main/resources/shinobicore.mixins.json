@@ -8,7 +8,9 @@
     "ChakraWaterTouchMixin",
     "SlideTravelMixin",
     "SlidePoseMixin",
-    "ChargedJumpMixin"
+    "RollPoseMixin",
+    "ChargedJumpMixin",
+    "HideVanillaStatusMixin"
   ],
   "injectors": {
     "defaultRequire": 1
