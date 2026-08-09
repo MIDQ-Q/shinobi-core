@@ -15,7 +15,10 @@ public class KeyBindings {
     public static KeyBinding CYCLE_B;
     public static KeyBinding PROGRESSION;
     public static KeyBinding CHAKRA_MODE;
-
+    public static KeyBinding DODGE_LEFT;
+    public static KeyBinding DODGE_RIGHT;
+    public static KeyBinding CRAWL;
+    
     public static void register() {
         MEDITATE = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "key.shinobicore.meditate", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_M, CATEGORY));
@@ -31,5 +34,11 @@ public class KeyBindings {
             "key.shinobicore.progression", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_K, CATEGORY));
         CHAKRA_MODE = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "key.shinobicore.chakra_mode", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_L, CATEGORY));
+        DODGE_LEFT = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+            "key.shinobicore.dodge_left", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_Z, CATEGORY));
+        DODGE_RIGHT = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+            "key.shinobicore.dodge_right", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_C, CATEGORY));
+        CRAWL = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+            "key.shinobicore.crawl", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_N, CATEGORY));
     }
 }

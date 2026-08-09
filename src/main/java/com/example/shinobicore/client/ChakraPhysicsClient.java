@@ -47,8 +47,8 @@ public class ChakraPhysicsClient {
             return;
         }
 
-        // === ДВОЙНОЙ ПРЫЖОК ===
-        if (canParkour && jumpEdge && !player.isOnGround() && airJumpsUsed < 1 && wallJumpCooldown == 0) {
+        // === ДВОЙНОЙ ПРЫЖОК (не во время roll) ===
+        if (canParkour && jumpEdge && !player.isOnGround() && airJumpsUsed < 1 && !ParkourManager.isRolling()) {
             player.addVelocity(0, 0.42, 0);
             player.velocityModified = true;
             airJumpsUsed = 1;
@@ -90,7 +90,7 @@ public class ChakraPhysicsClient {
                     if (doLog) ShinobiCore.LOGGER.info("[chakra-water] y={} surfaceY={}", fmt(player.getY()), fmt(surfaceY));
                 }
                 player.fallDistance = 0f;
-            } else if (!player.isOnGround() && !ParkourManager.isWallRunning()) {
+                } else if (!player.isOnGround() && !ParkourManager.isWallRunning() && !ParkourManager.isEdgeGrabbing()) {
                 // === WALL SLIDE ===
                 Vec3d wallNormal = WallDetector.getWallNormal(player);
                 boolean stickingNow = wallNormal != null;

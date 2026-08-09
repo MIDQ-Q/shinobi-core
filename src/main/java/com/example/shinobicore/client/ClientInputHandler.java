@@ -5,7 +5,11 @@ import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.util.math.Vec3d;
 
 public class ClientInputHandler {
     private static boolean wasMeditating = false;
@@ -35,6 +39,15 @@ public class ClientInputHandler {
             buf.writeBoolean(ClientNinjaState.chakraMode);
             ClientPlayNetworking.send(ModPackets.CHAKRA_MODE_ID, buf);
         }
+        // Dodge влево (Z)
+        if (KeyBindings.DODGE_LEFT.wasPressed()) {
+            performDodge(-1);
+        }
+        
+        // Dodge вправо (C)
+        if (KeyBindings.DODGE_RIGHT.wasPressed()) {
+            performDodge(1);
+        }
 
         if (KeyBindings.CAST_A.wasPressed()) cast(client, 0);
         if (KeyBindings.CAST_B.wasPressed()) cast(client, 1);
@@ -56,5 +69,42 @@ public class ClientInputHandler {
         buf.writeInt(set);
         buf.writeInt(i);
         ClientPlayNetworking.send(ModPackets.SELECT_SLOT_ID, buf);
+    }
+    private static void performDodge(int direction) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.player == null) return;
+        
+        ClientPlayerEntity player = client.player;
+        
+        // Проверки
+        if (!ClientNinjaState.chakraMode) return;
+        if (ChakraHudRenderer.currentChakra <= 0) return;
+        if (ChakraHudRenderer.exhausted) return;
+        
+        // Вычисляем направление (перпендикулярно взгляду)
+        Vec3d look = player.getRotationVector();
+        Vec3d right = new Vec3d(-look.z, 0, look.x).normalize();
+        Vec3d dodgeDir = right.multiply(direction);
+        
+        // Импульс вбок
+        player.addVelocity(dodgeDir.x * 1.2, 0.2, dodgeDir.z * 1.2);
+        player.velocityModified = true;
+        
+        // Неуязвимость (i-frames)
+        player.timeUntilRegen = 6;
+        
+        // Звук
+        com.example.shinobicore.client.parkour.util.ParkourSounds.playRoll();
+        
+        // Отправляем пакет для усталости
+        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+        buf.writeInt(direction);
+        ClientPlayNetworking.send(ModPackets.DODGE_ID, buf);
+    }
+    private static void sendDodgePacket(int direction) {
+        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+        buf.writeString("dodge");
+        buf.writeInt(direction);
+        ClientPlayNetworking.send(ModPackets.DODGE_ID, buf);
     }
 }

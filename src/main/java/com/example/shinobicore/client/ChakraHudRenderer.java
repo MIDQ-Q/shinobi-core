@@ -1,5 +1,9 @@
 package com.example.shinobicore.client;
 
+import com.example.shinobicore.client.parkour.ParkourManager;
+import com.example.shinobicore.client.parkour.actions.ChargedJumpAction;
+import com.example.shinobicore.client.parkour.ParkourManager;
+import com.example.shinobicore.client.parkour.actions.ChargedJumpAction;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
@@ -64,6 +68,30 @@ public class ChakraHudRenderer {
         context.drawTextWithShadow(client.textRenderer, Text.literal(String.format("%.0f/%.0f", hp, maxHp)),
             x + 8, lineY, 0xFF5555);
         lineY += 12;
+
+        // === CHARGED JUMP PROGRESS BAR ===
+        ChargedJumpAction chargedJump = ParkourManager.getChargedJumpAction();
+        if (chargedJump != null && chargedJump.isCharging()) {
+            float charge = chargedJump.getChargeRatio();
+            int barWidth = 100;
+            int barHeight = 6;
+            int barX = (client.getWindow().getScaledWidth() - barWidth) / 2;
+            int barY = client.getWindow().getScaledHeight() - 80;
+
+            // Фон
+            context.fill(barX - 1, barY - 1, barX + barWidth + 1, barY + barHeight + 1, 0xCC000000);
+
+            // Прогресс
+            int chargeFilled = (int) (barWidth * charge);
+            int color = 0xFFFF00;  // жёлтый
+            if (charge >= 0.8f) color = 0xFF5555;  // красный при полном заряде
+            context.fill(barX, barY, barX + chargeFilled, barY + barHeight, color);
+
+            // Текст
+            String chargeText = String.format("Charge: %.0f%%", charge * 100);
+            context.drawCenteredTextWithShadow(client.textRenderer, chargeText,
+                barX + barWidth / 2, barY - 10, 0xFFFFFF);
+        }
 
         if (ClientNinjaState.chakraMode) {
             int alpha = (int) (128 + 127 * Math.sin(System.currentTimeMillis() / 200.0));

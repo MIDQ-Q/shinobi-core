@@ -23,6 +23,7 @@ public class ModPackets {
     public static final Identifier BODY_SYNC_ID = new Identifier("shinobicore", "body_sync");
     public static final Identifier CHAKRA_MODE_ID = new Identifier("shinobicore", "chakra_mode");
     public static final Identifier PARKOUR_ACTION_ID = new Identifier("shinobicore", "parkour_action");
+    public static final Identifier DODGE_ID = new Identifier("shinobicore", "dodge");
 
     public static void register() {
         ServerPlayNetworking.registerGlobalReceiver(MEDITATE_ID, (server, player, handler, buf, responseSender) -> {
@@ -43,6 +44,17 @@ public class ModPackets {
                 String id = data.getLoadoutSlot(set == 0 ? 0 : 1, s);
                 if (id != null) JutsuCaster.cast(player, id);
                 else player.sendMessage(Text.literal("§cSlot " + (s + 1) + " is empty!"), false);
+            });
+        });
+
+        ServerPlayNetworking.registerGlobalReceiver(DODGE_ID, (server, player, handler, buf, responseSender) -> {
+            int direction = buf.readInt(); // -1 = влево, 1 = вправо
+            server.execute(() -> {
+                NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
+                if (data.getCurrentChakra() <= 0 || data.isExhausted()) return;
+                
+                // Усталость за dodge
+                data.setFatigue(data.getFatigue() + ModConfig.instance.parkour.dodgeFatigue);
             });
         });
 
@@ -81,15 +93,20 @@ public class ModPackets {
                 if (data.getCurrentChakra() <= 0 || data.isExhausted()) return;
                 
                 float f = 0;
-                switch (actionId) {
-                    case "slide": f = ModConfig.instance.parkour.slideFatigue; break;
-                    case "double_jump": f = ModConfig.instance.parkour.doubleJumpFatigue; break;
-                    case "wall_jump": f = ModConfig.instance.parkour.wallJumpFatigue; break;
-                    case "vault": f = ModConfig.instance.parkour.vaultFatigue; break;
-                    case "wall_run": f = ModConfig.instance.parkour.wallRunFatiguePerTick; break;  // УЖЕ ЕСТЬ
-                    case "edge_grab": f = ModConfig.instance.parkour.edgeGrabFatigue; break;
-                    case "roll": f = ModConfig.instance.parkour.rollFatigue; break;
-                    case "charged_jump": f = ModConfig.instance.parkour.chargedJumpFatiguePerCharge; break;
+                
+                // Специальный случай для charged_jump (с параметром fatigue)
+                if (actionId.equals("charged_jump")) {
+                    f = buf.readFloat();
+                } else {
+                    switch (actionId) {
+                        case "slide": f = ModConfig.instance.parkour.slideFatigue; break;
+                        case "double_jump": f = ModConfig.instance.parkour.doubleJumpFatigue; break;
+                        case "wall_jump": f = ModConfig.instance.parkour.wallJumpFatigue; break;
+                        case "vault": f = ModConfig.instance.parkour.vaultFatigue; break;
+                        case "wall_run": f = ModConfig.instance.parkour.wallRunFatiguePerTick; break;
+                        case "edge_grab": f = ModConfig.instance.parkour.edgeGrabFatigue; break;
+                        case "roll": f = ModConfig.instance.parkour.rollFatigue; break;
+                    }
                 }
                 if (f > 0) data.setFatigue(data.getFatigue() + f);
             });

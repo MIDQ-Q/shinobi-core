@@ -46,6 +46,8 @@ public class ModConfig {
         
         // Charged Jump (для шага E)
         public float chargedJumpFatiguePerCharge = 2.0f;
+
+        public float dodgeFatigue = 2.0f;
     }
     
     public static class Fatigue {

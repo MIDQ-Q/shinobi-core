@@ -7,7 +7,8 @@
     "FallDamageMixin",
     "ChakraWaterTouchMixin",
     "SlideTravelMixin",
-    "SlidePoseMixin"
+    "SlidePoseMixin",
+    "ChargedJumpMixin"
   ],
   "injectors": {
     "defaultRequire": 1
