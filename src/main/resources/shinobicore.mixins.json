@@ -5,7 +5,9 @@
   "mixins": [
     "ServerPlayerEntityMixin",
     "FallDamageMixin",
-    "ChakraWaterTouchMixin"
+    "ChakraWaterTouchMixin",
+    "SlideTravelMixin",
+    "SlidePoseMixin"
   ],
   "injectors": {
     "defaultRequire": 1

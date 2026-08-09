@@ -1,5 +1,6 @@
 package com.example.shinobicore.client;
 
+import com.example.shinobicore.client.parkour.ParkourManager;
 import com.example.shinobicore.entity.ModEntities;
 import com.example.shinobicore.entity.NinjaProjectileRenderer;
 import com.example.shinobicore.network.ChakraSyncPacket;
@@ -10,7 +11,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-
+import com.example.shinobicore.client.parkour.ParkourManager;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -23,6 +24,7 @@ public class ShinobiCoreClient implements ClientModInitializer {
         KeyBindings.register();
         ClientInputHandler.register();
         ChakraPhysicsClient.register();
+        ParkourManager.register();
 
         // === РЕГИСТРАЦИЯ РЕНДЕРЕРОВ (было потеряно!) ===
         EntityRendererRegistry.register(ModEntities.NINJA_PROJECTILE, NinjaProjectileRenderer::new);

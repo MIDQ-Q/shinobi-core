@@ -57,6 +57,26 @@ client→server: meditate, select_slot, cast_slot, spend_sp, chakra_mode.
 - Кла́новые costMultiplier/fatigueMultiplier ещё не в формулах.
 - Гендзюцу, эффекты, клоны, аттюнмент-миниигра, додзюцу, стены v2.
 
+## Как добавить технику (архитектура для будущих шагов)
+
+### 90% техник = только JSON (без кода)
+Создать `src/main/resources/data/shinobicore/jutsu/my_jutsu.json`:
+```json
+{
+  "id": "shinobicore:my_jutsu",
+  "name": "My Jutsu",
+  "category": "elemental_ninjutsu",
+  "nature": "fire",
+  "type": "projectile",
+  "params": { "speed": 1.5, "radius": 2.0, "particle": "flame" },
+  "baseCost": 25,
+  "baseDamage": 7,
+  "strain": 5,
+  "requiredUsesForFullProficiency": 40,
+  "requirements": { "control": 10, "nature_fire": 15, "ninjutsu": 8 }
+}
+
+
 ## CHANGELOG
 - 2026-08-07: шаги 1–6 завершены, чакра-режим работает (вода/стены/бег/прыжки).
 - 2026-08-08: Шаг 7 (фундамент) завершён: два лоаута (A: R/G, B: T/H), назначение слотов из меню K (вкладка Jutsu), паркур (double jump/wall jump/vault, без траты чакры, малая усталость), сервер без физики движения, event-синхронизация статов, reflection-behaviors (behaviorClass в JSON), каталог техник на клиенте.

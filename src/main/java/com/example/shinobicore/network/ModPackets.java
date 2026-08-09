@@ -75,14 +75,22 @@ public class ModPackets {
         });
 
         ServerPlayNetworking.registerGlobalReceiver(PARKOUR_ACTION_ID, (server, player, handler, buf, responseSender) -> {
-            int type = buf.readInt();
+            String actionId = buf.readString();
             server.execute(() -> {
                 NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
-                if (data.getCurrentChakra() <= 0 || data.isExhausted()) return; // валидация
+                if (data.getCurrentChakra() <= 0 || data.isExhausted()) return;
+                
                 float f = 0;
-                if (type == 0) f = ModConfig.instance.parkour.doubleJumpFatigue;
-                else if (type == 1) f = ModConfig.instance.parkour.wallJumpFatigue;
-                else if (type == 2) f = ModConfig.instance.parkour.vaultFatigue;
+                switch (actionId) {
+                    case "slide": f = ModConfig.instance.parkour.slideFatigue; break;
+                    case "double_jump": f = ModConfig.instance.parkour.doubleJumpFatigue; break;
+                    case "wall_jump": f = ModConfig.instance.parkour.wallJumpFatigue; break;
+                    case "vault": f = ModConfig.instance.parkour.vaultFatigue; break;
+                    case "wall_run": f = ModConfig.instance.parkour.wallRunFatiguePerTick; break;  // УЖЕ ЕСТЬ
+                    case "edge_grab": f = ModConfig.instance.parkour.edgeGrabFatigue; break;
+                    case "roll": f = ModConfig.instance.parkour.rollFatigue; break;
+                    case "charged_jump": f = ModConfig.instance.parkour.chargedJumpFatiguePerCharge; break;
+                }
                 if (f > 0) data.setFatigue(data.getFatigue() + f);
             });
         });

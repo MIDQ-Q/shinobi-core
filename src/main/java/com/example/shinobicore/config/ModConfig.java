@@ -30,6 +30,22 @@ public class ModConfig {
         public float doubleJumpFatigue = 0.5f;
         public float wallJumpFatigue = 0.5f;
         public float vaultFatigue = 0.3f;
+        
+        // Slide
+        public float slideFatigue = 0.3f;
+        
+        // Wall Run (для шага C)
+        public float wallRunFatiguePerTick = 0.02f;
+        public int wallRunMaxTicks = 40;
+        
+        // Edge Grab (для шага D)
+        public float edgeGrabFatigue = 0.5f;
+        
+        // Roll (для шага F)
+        public float rollFatigue = 1.0f;
+        
+        // Charged Jump (для шага E)
+        public float chargedJumpFatiguePerCharge = 2.0f;
     }
     
     public static class Fatigue {
