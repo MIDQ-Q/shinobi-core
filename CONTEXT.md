@@ -80,3 +80,34 @@ client→server: meditate, select_slot, cast_slot, spend_sp, chakra_mode.
 ## CHANGELOG
 - 2026-08-07: шаги 1–6 завершены, чакра-режим работает (вода/стены/бег/прыжки).
 - 2026-08-08: Шаг 7 (фундамент) завершён: два лоаута (A: R/G, B: T/H), назначение слотов из меню K (вкладка Jutsu), паркур (double jump/wall jump/vault, без траты чакры, малая усталость), сервер без физики движения, event-синхронизация статов, reflection-behaviors (behaviorClass в JSON), каталог техник на клиенте.
+## Текущее состояние (после Шага F + HUD)
+
+### Паркур (client/parkour/)
+- **Slide** (Shift+разбег): хитбокс SWIMMING, буст +0.35, трение 0.985
+- **Wall Slide + Wall Jump** (в чакра-режиме): рейкаст стен, Space для отскока (0.3 по нормали + 0.35 вверх)
+- **Auto-vault**: W + край стены = авто-подъём на крышу
+- **Wall Run** (W у стены, чакра-режим): бег вдоль стены, касательный вектор, max 40 тиков
+- **Edge Grab** (чакра-режим): авто-захват края при падении, Space = подъём
+- **Charged Jump** (чакра-режим): удержание Space, множитель 1.0-3.0, прогресс-бар
+- **Roll** (Shift в воздухе): +0.3 импульс, i-frames 9 тиков, наклон камеры
+- **Dodge** (Z/C): отскок вбок 1.2 + i-frames 6 тиков
+- **Crawl** (N или авто под блоком): поза SWIMMING, x0.5 скорость
+- **Прыжки на воде**: `standingOnWater` флаг + mixin `jump` отменяется только на земле/воде
+- **Синхронизация позы**: пакет `pose_sync` + серверный `LowPoseTracker`
+
+### HUD (client/ChakraHudRenderer.java)
+- Верх-лево: CH (синяя, пульс при <25%), FT (жёлтая), O2 (под водой), AR (если броня) + лоауты A/B
+- Над хотбаром: HP слева (красная), голод справа (оранжевая) — вплотную к опыту
+- Ванильная панель скрыта через mixin `HideVanillaStatusMixin`
+- Charged Jump бар в низ-центре
+
+### Меню прокачки (ProgressionScreen.java)
+- Стиль свитка: пергамент + деревянные валики + печати-ханко
+- Вкладки: Stats / Natures / Body / Jutsu
+- Поддерживает: прокачку статов, стихий, тела, назначение слотов техник
+
+### Архитектура добавления техник
+- 90% техник = только JSON (src/main/resources/data/shinobicore/jutsu/...)
+- Кастомная логика = 1 класс `implements JutsuBehavior` + `behaviorClass` в JSON
+- НЕ правим при добавлении техники: ShinobiCore, BehaviorRegistry, NinjaTickHandler, ModPackets
+- 2026-08-10: Завершены Шаги A-F (полный пакет паркура: slide, wall jump, wall run, edge grab, charged jump, roll, dodge, crawl) + новый HUD в стиле Naruto + меню-свиток. Все механики синхронизированы с сервером.

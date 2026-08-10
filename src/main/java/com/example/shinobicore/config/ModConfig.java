@@ -57,6 +57,18 @@ public class ModConfig {
         public float costPenaltyMax = 1.0f;
     }
 
+    public static class Taijutsu {
+        public float baseDamage = 2.0f;
+        public float damagePerLevel = 0.3f;
+        public float chakraModeDamageMult = 1.5f;
+        public float chakraModeSpeedMult = 1.3f;
+        public int strongFistUnlockLevel = 50;
+        public double range = 3.0;
+        public double coneAngle = 120.0;
+    }
+
+    public Taijutsu taijutsu = new Taijutsu();
+
     public static class Meditation {
         public float regenMultiplier = 4.0f;
         public float fatigueDecayMultiplier = 2.0f;

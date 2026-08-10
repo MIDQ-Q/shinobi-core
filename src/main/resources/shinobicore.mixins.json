@@ -10,7 +10,9 @@
     "SlidePoseMixin",
     "RollPoseMixin",
     "ChargedJumpMixin",
-    "HideVanillaStatusMixin"
+    "HideVanillaStatusMixin",
+    "PlayerAttackMixin",
+    "PlayerRenderAnimationMixin"
   ],
   "injectors": {
     "defaultRequire": 1

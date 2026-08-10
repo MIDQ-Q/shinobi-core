@@ -1,9 +1,14 @@
 package com.example.shinobicore.client;
 
+import com.example.shinobicore.ShinobiCore;
+import com.example.shinobicore.client.combat.TaijutsuClientHandler;
+import com.example.shinobicore.client.combat.TaijutsuKickHandler;
 import com.example.shinobicore.client.parkour.ParkourManager;
 import com.example.shinobicore.client.parkour.actions.ChargedJumpAction;
+import com.example.shinobicore.combat.TaijutsuStyle;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.ColorHelper;
 
@@ -17,7 +22,6 @@ public class ChakraHudRenderer {
     public static float fatigue = 0f;
     public static boolean exhausted = false;
 
-    // Компактные размеры (вплотную)
     private static final int HEIGHT = 7;
     private static final int SPACING = 1;
     private static final float TEXT_SCALE = 0.65f;
@@ -40,7 +44,7 @@ public class ChakraHudRenderer {
         int sw = client.getWindow().getScaledWidth();
         int sh = client.getWindow().getScaledHeight();
 
-        // === ВЕРХ-ЛЕВО: чакра и прочее (компактно, вплотную) ===
+        // === ВЕРХ-ЛЕВО: чакра и прочее ===
         List<BarSpec> bars = new ArrayList<>();
         float chakraRatio = maxChakra > 0 ? currentChakra / maxChakra : 0;
         bars.add(new BarSpec(chakraRatio, CHAKRA_LIGHT, CHAKRA_DARK, chakraRatio < 0.25f && !exhausted,
@@ -62,7 +66,8 @@ public class ChakraHudRenderer {
 
         if (ClientNinjaState.chakraMode) {
             int alpha = (int) (150 + 105 * Math.sin(System.currentTimeMillis() / 200.0));
-            context.drawTextWithShadow(client.textRenderer, Text.literal("CHAKRA MODE"), 10, y, ColorHelper.Argb.getArgb(alpha, 255, 136, 0));
+            context.drawTextWithShadow(client.textRenderer, Text.literal("CHAKRA MODE"), 10, y,
+                ColorHelper.Argb.getArgb(alpha, 255, 136, 0));
             y += 10;
         }
         if (exhausted) {
@@ -72,15 +77,45 @@ public class ChakraHudRenderer {
 
         y += 3;
 
-        // === ВЕРХ-ЛЕВО (ниже): ЛОАУТЫ ===
+        // === ЛОАУТЫ ===
         y = drawLoadoutLine(context, client, 0, "A", 10, y);
         y = drawLoadoutLine(context, client, 1, "B", 10, y);
 
-        // === НАД ХОТБАРОМ (ближе к опыту): HP слева, ГОЛОД справа ===
+        // === КОМБО-СЧЁТЧИК ===
+        int comboStep = TaijutsuClientHandler.getComboStep();
+        ShinobiCore.LOGGER.debug("[HUD] Combo step: {}", comboStep);
+        if (comboStep > 0) {
+            String comboText = "COMBO x" + comboStep;
+            context.drawTextWithShadow(client.textRenderer, Text.literal(comboText), 10, y + 10, 0xFFFF8800);
+            y += 12;
+        }
+
+        // === СТИЛЬ ТАЙ-ДЗЮЦУ ===
+        TaijutsuStyle currentStyle = TaijutsuClientHandler.getCurrentStyle();
+        String styleName = currentStyle == TaijutsuStyle.STRONG_FIST ? "[Strong Fist]" : "[Standard]";
+        int styleColor = currentStyle == TaijutsuStyle.STRONG_FIST ? 0xFF44FF44 : 0xFFAAAAAA;
+        ShinobiCore.LOGGER.debug("[HUD] Style: {}", currentStyle.getId());
+        context.drawTextWithShadow(client.textRenderer, Text.literal(styleName), 10, y + 10, styleColor);
+        y += 12;
+
+        // === КУЛДАУН УДАРА НОГОЙ ===
+        boolean kickOnCooldown = TaijutsuKickHandler.isOnCooldown();
+        long kickRemaining = TaijutsuKickHandler.getCooldownRemainingMs();
+        ShinobiCore.LOGGER.debug("[HUD] Kick cooldown: {}ms, onCooldown={}", kickRemaining, kickOnCooldown);
+        if (kickOnCooldown) {
+            float cd = TaijutsuKickHandler.getCooldownRatio();
+            int cdW = 60, cdH = 4;
+            context.drawTextWithShadow(client.textRenderer, Text.literal("KICK [V]"), 10, y + 8, 0xFF44AAFF);
+            context.fill(10, y + 18, 10 + cdW, y + 18 + cdH, 0xCC222222);
+            context.fill(10, y + 18, 10 + (int) (cdW * (1 - cd)), y + 18 + cdH, 0xFF44AAFF);
+            y += 26;
+        }
+
+        // === НАД ХОТБАРОМ: HP слева, ГОЛОД справа ===
         int hbLeft = sw / 2 - 91;
         int hbRight = sw / 2 + 91;
         int barW = 91;
-        int yHot = sh - 39; // вплотную над полоской опыта
+        int yHot = sh - 39;
 
         float hp = client.player.getHealth();
         float maxHp = client.player.getMaxHealth();
@@ -91,7 +126,7 @@ public class ChakraHudRenderer {
         drawBar(context, client, hbRight - barW, yHot, barW, HEIGHT, food / 20f, FOOD_LIGHT, FOOD_DARK, food <= 6,
             "FD", (int) food + "/20");
 
-        // === CHARGED JUMP BAR (низ-центр) ===
+        // === CHARGED JUMP BAR ===
         ChargedJumpAction chargedJump = ParkourManager.getChargedJumpAction();
         if (chargedJump != null && chargedJump.isCharging()) {
             float charge = chargedJump.getChargeRatio();

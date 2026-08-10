@@ -1,5 +1,7 @@
 package com.example.shinobicore.client;
 
+import com.example.shinobicore.client.combat.TaijutsuClientHandler;
+
 import com.example.shinobicore.client.parkour.ParkourManager;
 import com.example.shinobicore.entity.ModEntities;
 import com.example.shinobicore.entity.NinjaProjectileRenderer;
@@ -17,6 +19,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.example.shinobicore.client.combat.TaijutsuAnimations;
+import com.example.shinobicore.client.combat.TaijutsuClientHandler;
 public class ShinobiCoreClient implements ClientModInitializer {
 
     @Override
@@ -25,7 +29,7 @@ public class ShinobiCoreClient implements ClientModInitializer {
         ClientInputHandler.register();
         ChakraPhysicsClient.register();
         ParkourManager.register();
-
+        TaijutsuClientHandler.register();
         // === РЕГИСТРАЦИЯ РЕНДЕРЕРОВ (было потеряно!) ===
         EntityRendererRegistry.register(ModEntities.NINJA_PROJECTILE, NinjaProjectileRenderer::new);
 

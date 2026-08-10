@@ -4,6 +4,7 @@ import com.example.shinobicore.client.ChakraHudRenderer;
 import com.example.shinobicore.client.parkour.util.ParkourSounds;
 import com.example.shinobicore.client.parkour.util.PoseHelper;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.EntityPose;
 import net.minecraft.util.math.Vec3d;
 
 public class SlideAction implements ParkourAction {
@@ -45,7 +46,9 @@ public class SlideAction implements ParkourAction {
         player.addVelocity(dir.x * INITIAL_BOOST, 0, dir.z * INITIAL_BOOST);
         player.velocityModified = true;
         player.setSprinting(true);
-        PoseHelper.forceLowPose(player); // сразу маленький box
+        
+        PoseHelper.forceLowPose(player);
+        
         ctx.resetActive(ID);
         ParkourSounds.playSlide();
     }
@@ -68,7 +71,7 @@ public class SlideAction implements ParkourAction {
     @Override
     public void deactivate(ClientPlayerEntity player, ParkourContext ctx) {
         active = false;
-        PoseHelper.releasePose(player); // встанет только если можно
+        PoseHelper.releasePose(player);
         ctx.setCooldown(ID, getCooldownTicks());
         ctx.clearActive(ID);
     }
