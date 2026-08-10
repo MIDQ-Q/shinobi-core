@@ -3,6 +3,14 @@
   "name": "Water Release: Water Bullet Jutsu",
   "category": "elemental_ninjutsu",
   "nature": "water",
+  "type": "projectile",
+  "params": {
+    "speed": 2.0,
+    "radius": 1.5,
+    "particle": "water",
+    "lifetime": 70,
+    "gravity": true
+  },
   "baseCost": 25,
   "baseDamage": 5,
   "strain": 6,

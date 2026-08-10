@@ -43,11 +43,21 @@ public class ModPackets {
     public static final Identifier POSE_SYNC_ID = new Identifier("shinobicore", "pose_sync");
     public static final Identifier TAIJUTSU_ATTACK_ID = new Identifier("shinobicore", "taijutsu_attack");
     public static final Identifier TAIJUTSU_KICK_ID = new Identifier("shinobicore", "taijutsu_kick");
+    public static final Identifier TAIJUTSU_STYLE_ID = new Identifier("shinobicore", "taijutsu_style");
+    public static final Identifier RASENGAN_SYNC_ID = new Identifier("shinobicore", "rasengan_sync");
+    public static final Identifier RASENGAN_STRIKE_ID = new Identifier("shinobicore", "rasengan_strike");
 
     public static void register() {
         ServerPlayNetworking.registerGlobalReceiver(MEDITATE_ID, (server, player, handler, buf, responseSender) -> {
             boolean start = buf.readBoolean();
             server.execute(() -> ((NinjaDataHolder) player).shinobicore_getData().setMeditating(start));
+        });
+
+        // === РАСЕНГАН: удар (клиент → сервер) ===
+        ServerPlayNetworking.registerGlobalReceiver(RASENGAN_STRIKE_ID, (server, player, handler, buf, responseSender) -> {
+            server.execute(() -> {
+                ShinobiCore.handleRasenganStrike(player);
+            });
         });
 
         ServerPlayNetworking.registerGlobalReceiver(SELECT_SLOT_ID, (server, player, handler, buf, responseSender) -> {
@@ -90,29 +100,85 @@ public class ModPackets {
         });
 
         ServerPlayNetworking.registerGlobalReceiver(TAIJUTSU_ATTACK_ID, (server, player, handler, buf, responseSender) -> {
-            int comboStep = buf.readInt();
+            // === ИСПРАВЛЕНО: серверная валидация комбо (анти-чит) ===
+            int clientComboStep = buf.readInt();
             String styleId = buf.readString();
+
             server.execute(() -> {
                 if (player.getWorld().isClient()) return;
                 NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
                 if (data.isExhausted()) return;
+                if (data.getCurrentChakra() <= 0) return;
 
+                // === ВАЛИДАЦИЯ: проверяем что стиль валиден ===
                 TaijutsuStyle style = TaijutsuStyle.fromId(styleId);
+                
+                // === ВАЛИДАЦИЯ: проверяем что comboStep совпадает с серверным ===
+                int serverStep = data.getServerComboStep();
+                if (clientComboStep != serverStep) {
+                    ShinobiCore.LOGGER.warn("[ANTICHEAT] Player {} sent comboStep={}, expected={}",
+                            player.getName().getString(), clientComboStep, serverStep);
+                    return; // Отклоняем
+                }
+
+                // === ВАЛИДАЦИЯ: проверяем кулдаун между ударами ===
+                long now = System.currentTimeMillis();
+                long lastAttack = data.getLastAttackTimeMs();
+                int cooldownMs = TaijutsuFormulas.attackCooldownTicks(style, data.isChakraMode()) * 50;
+                
+                // Разрешаем небольшой допуск (50мс) для пинга
+                if (now - lastAttack < cooldownMs - 50) {
+                    ShinobiCore.LOGGER.warn("[ANTICHEAT] Player {} attacked too fast: {}ms since last (cooldown={}ms)",
+                            player.getName().getString(), now - lastAttack, cooldownMs);
+                    return; // Отклоняем
+                }
+
+                // === ВАЛИДАЦИЯ: сбрасываем комбо если прошло слишком много времени ===
+                long timeoutMs = TaijutsuCombo.COMBO_TIMEOUT_MS;
+                if (now - lastAttack > timeoutMs && serverStep > 0) {
+                    data.resetCombo();
+                    serverStep = 0;
+                }
+
+                // Всё ок — применяем урон
                 int taijutsuLevel = data.getStatLevel(StatType.TAIJUTSU);
                 boolean chakraMode = data.isChakraMode();
-
-                float damage = TaijutsuFormulas.computeDamage(taijutsuLevel, style, chakraMode, comboStep, data.isExhausted());
-                float knockback = TaijutsuCombo.getKnockback(comboStep);
-
+                float damage = TaijutsuFormulas.computeDamage(taijutsuLevel, style, chakraMode, serverStep, data.isExhausted());
+                float knockback = TaijutsuCombo.getKnockback(serverStep);
                 Vec3d look = player.getRotationVector();
                 java.util.List<LivingEntity> targets = MeleeHitDetection.findTargetsInCone(
-                    (ServerWorld) player.getWorld(), player, look);
+                        (ServerWorld) player.getWorld(), player, look);
                 MeleeHitDetection.applyDamage((ServerWorld) player.getWorld(), player, targets, damage, knockback);
-
                 data.setFatigue(data.getFatigue() + style.getFatiguePerHit());
+
+                // Обновляем серверное состояние
+                data.setLastAttackTimeMs(now);
+                data.advanceComboStep();
+                data.setCurrentStyleId(styleId);
             });
         });
 
+        ServerPlayNetworking.registerGlobalReceiver(TAIJUTSU_STYLE_ID, (server, player, handler, buf, responseSender) -> {
+            String newStyleId = buf.readString();
+            server.execute(() -> {
+                NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
+                TaijutsuStyle style = TaijutsuStyle.fromId(newStyleId);
+                
+                // Проверяем разблокировку Strong Fist
+                int taijutsuLevel = data.getStatLevel(StatType.TAIJUTSU);
+                if (style == TaijutsuStyle.STRONG_FIST && !TaijutsuFormulas.canUseStrongFist(taijutsuLevel)) {
+                    player.sendMessage(Text.literal("§cYou need Taijutsu level " + 
+                            TaijutsuFormulas.strongFistUnlockLevel() + " to use Strong Fist!"), false);
+                    return;
+                }
+                
+                data.setCurrentStyleId(newStyleId);
+                ShinobiCore.sendBodySync(player);
+                player.sendMessage(Text.literal("§aStyle changed to: " + style.getId()), false);
+            });
+        });
+
+        
         ServerPlayNetworking.registerGlobalReceiver(TAIJUTSU_KICK_ID, (server, player, handler, buf, responseSender) -> {
             String styleId = buf.readString();
             server.execute(() -> {
@@ -189,18 +255,24 @@ public class ModPackets {
         });
 
         ServerPlayNetworking.registerGlobalReceiver(PARKOUR_ACTION_ID, (server, player, handler, buf, responseSender) -> {
+            // === ИСПРАВЛЕНО: читаем ВСЕ данные ИЗ буфера СРАЗУ, ДО server.execute() ===
             String actionId = buf.readString();
+            float fatigueValue = 0;
+            if (actionId.equals("charged_jump")) {
+                fatigueValue = buf.readFloat();
+            }
+            // Копируем значение в final переменную для использования в server.execute()
+            final float finalFatigue = fatigueValue;
+            final String finalActionId = actionId;
+
             server.execute(() -> {
                 NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
                 if (data.getCurrentChakra() <= 0 || data.isExhausted()) return;
-                
                 float f = 0;
-                
-                // Специальный случай для charged_jump (с параметром fatigue)
-                if (actionId.equals("charged_jump")) {
-                    f = buf.readFloat();
+                if (finalActionId.equals("charged_jump")) {
+                    f = finalFatigue;
                 } else {
-                    switch (actionId) {
+                    switch (finalActionId) {
                         case "slide": f = ModConfig.instance.parkour.slideFatigue; break;
                         case "double_jump": f = ModConfig.instance.parkour.doubleJumpFatigue; break;
                         case "wall_jump": f = ModConfig.instance.parkour.wallJumpFatigue; break;

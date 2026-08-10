@@ -8,7 +8,6 @@ import com.example.shinobicore.client.parkour.util.ParkourSounds;
 import com.example.shinobicore.stat.NinjaFormula;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.math.Vec3d;
-import com.example.shinobicore.client.ChakraPhysicsClient;
 
 public class ChargedJumpAction implements ParkourAction {
     public static final String ID = "charged_jump";

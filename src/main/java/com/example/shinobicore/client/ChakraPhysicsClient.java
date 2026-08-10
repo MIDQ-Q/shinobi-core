@@ -62,7 +62,7 @@ public class ChakraPhysicsClient {
             player.addVelocity(0, 0.42, 0);
             player.velocityModified = true;
             airJumpsUsed = 1;
-            if (doLog) ShinobiCore.LOGGER.info("[parkour] double jump");
+            if (doLog) ShinobiCore.LOGGER.debug("[parkour] double jump");
         }
 
         // === WATER + WALL PHYSICS ===
@@ -112,7 +112,7 @@ public class ChakraPhysicsClient {
                     } else {
                         standingOnWater = false;
                     }
-                    if (doLog) ShinobiCore.LOGGER.info("[chakra-water] y={} surfaceY={}", fmt(player.getY()), fmt(surfaceY));
+                    if (doLog) ShinobiCore.LOGGER.debug("[chakra-water] y={} surfaceY={}", fmt(player.getY()), fmt(surfaceY));
                 }
                 player.fallDistance = 0f;
             } else if (!player.isOnGround() && !ParkourManager.isWallRunning()) {
@@ -130,14 +130,14 @@ public class ChakraPhysicsClient {
                     airJumpsUsed = 0;
                     wasStickingToWall = false;
                     ParkourSounds.playWallStick();
-                    if (doLog) ShinobiCore.LOGGER.info("[parkour] wall jump");
+                    if (doLog) ShinobiCore.LOGGER.debug("[parkour] wall jump");
                     logTimer = (logTimer + 1) % 20;
                     return;
                 }
 
                 if (stickingNow && !wasStickingToWall) {
                     ParkourSounds.playWallStick();
-                    if (doLog) ShinobiCore.LOGGER.info("[chakra-wall] stuck to wall");
+                    if (doLog) ShinobiCore.LOGGER.debug("[chakra-wall] stuck to wall");
                 }
                 wasStickingToWall = stickingNow;
 
@@ -152,7 +152,7 @@ public class ChakraPhysicsClient {
                         player.setOnGround(true);
                         wasStickingToWall = false;
                         ParkourSounds.playEdgeClimb();
-                        if (doLog) ShinobiCore.LOGGER.info("[parkour] ledge climb");
+                        if (doLog) ShinobiCore.LOGGER.debug("[parkour] ledge climb");
                         logTimer = (logTimer + 1) % 20;
                         return;
                     }

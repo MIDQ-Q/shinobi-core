@@ -4,7 +4,12 @@
   "category": "elemental_ninjutsu",
   "nature": "earth",
   "type": "wall",
-  "params": {},
+  "params": {
+    "width": 5,
+    "height": 3,
+    "lifetime": 200,
+    "block": "earth"
+  },
   "baseCost": 35,
   "baseDamage": 0,
   "strain": 10,

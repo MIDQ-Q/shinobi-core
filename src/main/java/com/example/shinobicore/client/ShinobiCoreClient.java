@@ -1,7 +1,9 @@
 package com.example.shinobicore.client;
 
+import com.example.shinobicore.client.RasenganClientState;
+import com.example.shinobicore.client.RasenganClientVisual;
 import com.example.shinobicore.client.combat.TaijutsuClientHandler;
-
+import com.example.shinobicore.client.combat.TaijutsuSounds;
 import com.example.shinobicore.client.parkour.ParkourManager;
 import com.example.shinobicore.entity.ModEntities;
 import com.example.shinobicore.entity.NinjaProjectileRenderer;
@@ -10,15 +12,25 @@ import com.example.shinobicore.network.ModPackets;
 import com.example.shinobicore.stat.ElementType;
 import com.example.shinobicore.stat.StatType;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.minecraft.registry.Registries;
+import com.example.shinobicore.client.combat.TaijutsuSounds;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import com.example.shinobicore.client.parkour.ParkourManager;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
+import com.example.shinobicore.client.combat.TaijutsuSounds;
+import com.example.shinobicore.client.CinematicCamera;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import com.example.shinobicore.ShinobiCore;
 import com.example.shinobicore.client.combat.TaijutsuAnimations;
 import com.example.shinobicore.client.combat.TaijutsuClientHandler;
 public class ShinobiCoreClient implements ClientModInitializer {
@@ -30,8 +42,21 @@ public class ShinobiCoreClient implements ClientModInitializer {
         ChakraPhysicsClient.register();
         ParkourManager.register();
         TaijutsuClientHandler.register();
+        RasenganClientVisual.register();
         // === РЕГИСТРАЦИЯ РЕНДЕРЕРОВ (было потеряно!) ===
         EntityRendererRegistry.register(ModEntities.NINJA_PROJECTILE, NinjaProjectileRenderer::new);
+        
+        // === РЕГИСТРАЦИЯ ЗВУКОВ ===
+        Registry.register(Registries.SOUND_EVENT, TaijutsuSounds.PUNCH_LIGHT.getId(), TaijutsuSounds.PUNCH_LIGHT);
+        Registry.register(Registries.SOUND_EVENT, TaijutsuSounds.PUNCH_HEAVY.getId(), TaijutsuSounds.PUNCH_HEAVY);
+        Registry.register(Registries.SOUND_EVENT, TaijutsuSounds.KICK.getId(), TaijutsuSounds.KICK);
+        Registry.register(Registries.SOUND_EVENT, TaijutsuSounds.WHOOSH.getId(), TaijutsuSounds.WHOOSH);
+        TaijutsuSounds.setCustomSoundsRegistered(true);
+        ShinobiCore.LOGGER.info("Registered taijutsu sounds");
+
+        // === РЕГИСТРАЦИЯ КИНЕМАТОГРАФИЧНОЙ КАМЕРЫ ===
+        ClientTickEvents.END_CLIENT_TICK.register(CinematicCamera::tick);
+        ShinobiCore.LOGGER.info("Registered cinematic camera");
 
         ClientPlayNetworking.registerGlobalReceiver(ModPackets.CHAKRA_SYNC_ID, (client, handler, buf, responseSender) -> {
             ChakraSyncPacket packet = ChakraSyncPacket.read(buf);
@@ -66,6 +91,17 @@ public class ShinobiCoreClient implements ClientModInitializer {
                 for (int i = 0; i < 5; i++) { ClientNinjaState.loadoutA[i] = la[i]; ClientNinjaState.loadoutB[i] = lb[i]; }
                 ClientNinjaState.learned.clear();
                 ClientNinjaState.learned.addAll(learned);
+            });
+        });
+
+        ClientPlayNetworking.registerGlobalReceiver(ModPackets.RASENGAN_SYNC_ID, (client, handler, buf, responseSender) -> {
+            boolean charging = buf.readBoolean();
+            float progress = buf.readFloat();
+            boolean ready = buf.readBoolean();
+            client.execute(() -> {
+                RasenganClientState.charging = charging;
+                RasenganClientState.chargeProgress = progress;
+                RasenganClientState.ready = ready;
             });
         });
 

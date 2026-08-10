@@ -53,14 +53,14 @@ public class ClientNinjaState {
                 activeA = (activeA + 1) % 5;
                 if (loadoutA[activeA] != null) break;
             } while (activeA != start);
-            ShinobiCore.LOGGER.info("[JUTSU] Cycled slot A to: {} ({})", activeA, activeJutsuId(0));
+            ShinobiCore.LOGGER.debug("[JUTSU] Cycled slot A to: {} ({})", activeA, activeJutsuId(0));
         } else {
             int start = activeB;
             do {
                 activeB = (activeB + 1) % 5;
                 if (loadoutB[activeB] != null) break;
             } while (activeB != start);
-            ShinobiCore.LOGGER.info("[JUTSU] Cycled slot B to: {} ({})", activeB, activeJutsuId(1));
+            ShinobiCore.LOGGER.debug("[JUTSU] Cycled slot B to: {} ({})", activeB, activeJutsuId(1));
         }
     }
 
@@ -68,33 +68,33 @@ public class ClientNinjaState {
         String jutsuId = activeJutsuId(set);
         int slotIndex = active(set);
         
-        ShinobiCore.LOGGER.info("[CAST-CLIENT] === CAST JUTSU ===");
-        ShinobiCore.LOGGER.info("[CAST-CLIENT] Set: {} ({}), Slot index: {}", 
+        ShinobiCore.LOGGER.debug("[CAST-CLIENT] === CAST JUTSU ===");
+        ShinobiCore.LOGGER.debug("[CAST-CLIENT] Set: {} ({}), Slot index: {}", 
             set, set == 0 ? "A" : "B", slotIndex);
-        ShinobiCore.LOGGER.info("[CAST-CLIENT] Jutsu ID: {}", jutsuId);
-        ShinobiCore.LOGGER.info("[CAST-CLIENT] Loadout A: [{}, {}, {}, {}, {}]", 
+        ShinobiCore.LOGGER.debug("[CAST-CLIENT] Jutsu ID: {}", jutsuId);
+        ShinobiCore.LOGGER.debug("[CAST-CLIENT] Loadout A: [{}, {}, {}, {}, {}]", 
             loadoutA[0], loadoutA[1], loadoutA[2], loadoutA[3], loadoutA[4]);
-        ShinobiCore.LOGGER.info("[CAST-CLIENT] Loadout B: [{}, {}, {}, {}, {}]", 
+        ShinobiCore.LOGGER.debug("[CAST-CLIENT] Loadout B: [{}, {}, {}, {}, {}]", 
             loadoutB[0], loadoutB[1], loadoutB[2], loadoutB[3], loadoutB[4]);
-        ShinobiCore.LOGGER.info("[CAST-CLIENT] Active A: {}, Active B: {}", activeA, activeB);
+        ShinobiCore.LOGGER.debug("[CAST-CLIENT] Active A: {}, Active B: {}", activeA, activeB);
         
         if (jutsuId == null) {
-            ShinobiCore.LOGGER.info("[CAST-CLIENT] ✗ No jutsu in slot, aborting");
+            ShinobiCore.LOGGER.debug("[CAST-CLIENT] ✗ No jutsu in slot, aborting");
             return;
         }
         
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null) {
-            ShinobiCore.LOGGER.info("[CAST-CLIENT] ✗ Player is null, aborting");
+            ShinobiCore.LOGGER.debug("[CAST-CLIENT] ✗ Player is null, aborting");
             return;
         }
         if (client.getNetworkHandler() == null) {
-            ShinobiCore.LOGGER.info("[CAST-CLIENT] ✗ NetworkHandler is null, aborting");
+            ShinobiCore.LOGGER.debug("[CAST-CLIENT] ✗ NetworkHandler is null, aborting");
             return;
         }
         
-        ShinobiCore.LOGGER.info("[CAST-CLIENT] ✓ Sending packet: cast_slot");
-        ShinobiCore.LOGGER.info("[CAST-CLIENT]   Packet data: set={}, slot={}", set, slotIndex);
+        ShinobiCore.LOGGER.debug("[CAST-CLIENT] ✓ Sending packet: cast_slot");
+        ShinobiCore.LOGGER.debug("[CAST-CLIENT]   Packet data: set={}, slot={}", set, slotIndex);
         
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeInt(set);
@@ -103,6 +103,6 @@ public class ClientNinjaState {
         client.getNetworkHandler().sendPacket(new CustomPayloadC2SPacket(
             new Identifier("shinobicore", "cast_slot"), buf));
         
-        ShinobiCore.LOGGER.info("[CAST-CLIENT] ✓ Packet sent successfully");
+        ShinobiCore.LOGGER.debug("[CAST-CLIENT] ✓ Packet sent successfully");
     }
 }

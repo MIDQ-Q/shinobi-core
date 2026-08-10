@@ -5,8 +5,11 @@
   "nature": "lightning",
   "type": "melee",
   "params": {
-    "range": 2.5,
-    "width": 1.5
+    "range": 3.0,
+    "coneAngle": 120.0,
+    "knockback": 0.5,
+    "particle": "lightning",
+    "particleCount": 30
   },
   "baseCost": 25,
   "baseDamage": 7,

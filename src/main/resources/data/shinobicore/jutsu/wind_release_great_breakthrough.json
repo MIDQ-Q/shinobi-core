@@ -1,0 +1,22 @@
+{
+  "id": "shinobicore:wind_release_great_breakthrough",
+  "name": "Wind Release: Great Breakthrough",
+  "category": "elemental_ninjutsu",
+  "nature": "wind",
+  "type": "aoe",
+  "params": {
+    "radius": 6.0,
+    "particle": "wind",
+    "particleCount": 40,
+    "knockback": 2.0
+  },
+  "baseCost": 25,
+  "baseDamage": 3,
+  "strain": 7,
+  "requiredUsesForFullProficiency": 40,
+  "requirements": {
+    "control": 20,
+    "nature_wind": 25,
+    "ninjutsu": 15
+  }
+}

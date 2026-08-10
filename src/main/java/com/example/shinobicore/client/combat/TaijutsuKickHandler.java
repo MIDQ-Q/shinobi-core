@@ -15,10 +15,10 @@ public class TaijutsuKickHandler {
     public static final long KICK_COOLDOWN_MS = 500;
 
     public static boolean tryKick(ClientPlayerEntity player) {
-        ShinobiCore.LOGGER.info("[KICK] tryKick called");
+        ShinobiCore.LOGGER.debug("[KICK] tryKick called");
         
         if (!player.getMainHandStack().isEmpty()) {
-            ShinobiCore.LOGGER.info("[KICK] Hand not empty, aborting");
+            ShinobiCore.LOGGER.debug("[KICK] Hand not empty, aborting");
             return false;
         }
 
@@ -26,7 +26,7 @@ public class TaijutsuKickHandler {
         long remaining = kickCooldownEnd - now;
         
         if (now < kickCooldownEnd) {
-            ShinobiCore.LOGGER.info("[KICK] On cooldown, {}ms remaining", remaining);
+            ShinobiCore.LOGGER.debug("[KICK] On cooldown, {}ms remaining", remaining);
             return false;
         }
 
@@ -34,24 +34,26 @@ public class TaijutsuKickHandler {
         boolean chakraMode = ClientNinjaState.chakraMode;
         int taijutsuLevel = ClientNinjaState.statLevels.getOrDefault("taijutsu", 0);
 
-        ShinobiCore.LOGGER.info("[KICK] Performing kick: style={}, chakra={}, level={}",
+        ShinobiCore.LOGGER.debug("[KICK] Performing kick: style={}, chakra={}, level={}",
             style.getId(), chakraMode, taijutsuLevel);
 
-        ShinobiCore.LOGGER.info("[KICK] Sending packet to server");
+        ShinobiCore.LOGGER.debug("[KICK] Sending packet to server");
         sendKickPacket(style);
 
-        ShinobiCore.LOGGER.info("[KICK] Playing animation");
+        ShinobiCore.LOGGER.debug("[KICK] Playing animation");
         TaijutsuAnimations.playKickAnimation(player, style);
         
-        ShinobiCore.LOGGER.info("[KICK] Playing particles");
+        ShinobiCore.LOGGER.debug("[KICK] Playing particles");
         TaijutsuParticleEffects.playKickParticles(player, style);
 
-        ShinobiCore.LOGGER.info("[KICK] Swinging hand");
+        ShinobiCore.LOGGER.debug("[KICK] Swinging hand");
         player.swingHand(Hand.MAIN_HAND);
-
+        // === ЗВУК УДАРА НОГОЙ ===
+        TaijutsuSounds.playKickSound();
+        TaijutsuSounds.playWhoosh();
         kickCooldownEnd = now + KICK_COOLDOWN_MS;
-        ShinobiCore.LOGGER.info("[KICK] Cooldown set until {}", kickCooldownEnd);
-        ShinobiCore.LOGGER.info("[KICK] SUCCESS");
+        ShinobiCore.LOGGER.debug("[KICK] Cooldown set until {}", kickCooldownEnd);
+        ShinobiCore.LOGGER.debug("[KICK] SUCCESS");
         return true;
     }
 

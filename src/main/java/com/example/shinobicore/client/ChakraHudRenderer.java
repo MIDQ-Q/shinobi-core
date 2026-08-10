@@ -11,7 +11,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.ColorHelper;
-
+import com.example.shinobicore.client.RasenganClientState;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +74,22 @@ public class ChakraHudRenderer {
             context.drawTextWithShadow(client.textRenderer, Text.literal("EXHAUSTED"), 10, y, 0xFF3333);
             y += 10;
         }
-
+        // === РАСЕНГАН: индикатор зарядки ===
+        if (RasenganClientState.charging) {
+            float progress = RasenganClientState.chargeProgress;
+            int barW = 60, barH = 4;
+            context.fill(10, y + 8, 10 + barW, y + 8 + barH, 0xCC222222);
+            context.fill(10, y + 8, 10 + (int)(barW * progress), y + 8 + barH, 0xFF44AAFF);
+            context.drawTextWithShadow(client.textRenderer, Text.literal("RASENGAN " + (int)(progress * 100) + "%"),
+                    10, y + 14, 0xFF44AAFF);
+            y += 24;
+        }
+        if (RasenganClientState.ready) {
+            int alpha = (int)(150 + 105 * Math.sin(System.currentTimeMillis() / 100.0));
+            context.drawTextWithShadow(client.textRenderer, Text.literal("✦ RASENGAN READY — LMB!"),
+                    10, y + 8, ColorHelper.Argb.getArgb(alpha, 68, 170, 255));
+            y += 18;
+        }
         y += 3;
 
         // === ЛОАУТЫ ===

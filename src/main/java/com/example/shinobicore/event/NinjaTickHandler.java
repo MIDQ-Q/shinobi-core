@@ -2,6 +2,7 @@ package com.example.shinobicore.event;
 
 import com.example.shinobicore.ShinobiCore;
 import com.example.shinobicore.config.ModConfig;
+import com.example.shinobicore.jutsu.WallRemovalTask;
 import com.example.shinobicore.stat.NinjaDataHolder;
 import com.example.shinobicore.stat.NinjaFormula;
 import com.example.shinobicore.stat.NinjaPlayerData;
@@ -13,8 +14,9 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-
+import com.example.shinobicore.jutsu.WallRemovalTask;
 import java.util.UUID;
+import com.example.shinobicore.jutsu.JutsuLogger;
 
 public class NinjaTickHandler {
 
@@ -40,6 +42,10 @@ public class NinjaTickHandler {
         tickCounter++;
         if (tickCounter < 20) return;
         tickCounter = 0;
+        // Тикаем задачи удаления стен
+        for (var world : server.getWorlds()) {
+            WallRemovalTask.tick(world);
+        }
 
         for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
             NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
@@ -52,6 +58,23 @@ public class NinjaTickHandler {
             if (data.getCurrentChakra() < maxChakra) {
                 float regen = NinjaFormula.regenPerSecond(data);
                 if (data.isMeditating()) regen *= NinjaFormula.meditationRegenMultiplier();
+            // === РАСЕНГАН: тиканье зарядки ===
+            if (data.isRasenganCharging()) {
+                data.setRasenganChargeTicks(data.getRasenganChargeTicks() + 1);
+
+                // Проверяем завершение зарядки
+                if (data.getRasenganChargeTicks() >= data.getRasenganChargeTarget()) {
+                    data.setRasenganCharging(false);
+                    data.setRasenganReady(true);
+                    player.sendMessage(Text.literal("§b✦ Rasengan ready! Press LMB to strike!"), false);
+                    ShinobiCore.sendRasenganSync(player);
+                }
+
+                // Отправляем прогресс клиенту каждые 5 тиков
+                if (data.getRasenganChargeTicks() % 5 == 0) {
+                    ShinobiCore.sendRasenganSync(player);
+                }
+            }
                 else if (data.isChakraMode()) regen *= NinjaFormula.chakraModeRegenMultiplier();
                 data.setCurrentChakra(Math.min(data.getCurrentChakra() + regen, maxChakra));
             }

@@ -8,20 +8,18 @@ import com.example.shinobicore.jutsu.JutsuDefinition;
 import java.util.Map;
 
 public class NinjaFormula {
-
     private static ModConfig cfg() { return ModConfig.instance; }
 
     public static float maxChakra(NinjaPlayerData data) {
         return cfg().chakra.baseChakra
-            + (data.getReserveLevel() - 1) * cfg().chakra.chakraPerReserveLevel
-            + getClanReserveBonus(data.getClan());
+                + (data.getReserveLevel() - 1) * cfg().chakra.chakraPerReserveLevel
+                + getClanReserveBonus(data.getClanId());
     }
 
     public static float regenPerSecond(NinjaPlayerData data) {
         float regen = cfg().chakra.baseRegen
-            + data.getReserveLevel() * cfg().chakra.regenPerReserveLevel
-            + data.getStatLevel(StatType.CONTROL) * cfg().chakra.regenPerControlLevel;
-
+                + data.getReserveLevel() * cfg().chakra.regenPerReserveLevel
+                + data.getStatLevel(StatType.CONTROL) * cfg().chakra.regenPerControlLevel;
         if (data.getFatigue() > cfg().fatigue.hardThreshold)
             regen *= cfg().chakra.regenHardFatigueMultiplier;
         if (data.isExhausted())
@@ -37,7 +35,6 @@ public class NinjaFormula {
         Map<String, Float> weights = cfg().combat.categoryWeights.get(def.category());
         if (weights == null)
             weights = cfg().combat.categoryWeights.get("elemental_ninjutsu");
-
         float score = 0f;
         for (Map.Entry<String, Float> e : weights.entrySet()) {
             score += statValue(e.getKey(), def, data) * e.getValue();
@@ -69,7 +66,6 @@ public class NinjaFormula {
     public static float calculateCost(JutsuDefinition def, NinjaPlayerData data) {
         float cost = def.baseCost();
         float m = mastery(def, data) / 100f;
-
         float controlRed = data.getStatLevel(StatType.CONTROL) / 100f * cfg().combat.costControlReductionMax;
         float natureRed = 0f;
         if (def.hasNature()) {
@@ -79,9 +75,17 @@ public class NinjaFormula {
             }
         }
         float masteryRed = m * cfg().combat.costMasteryReductionMax;
-
         float totalRed = Math.min(0.8f, controlRed + natureRed + masteryRed);
         cost *= (1f - totalRed);
+
+        // === НОВОЕ: costMultiplier клана ===
+        ClanDefinition clan = ClanRegistry.get(data.getClanId());
+        if (clan != null && def.hasNature()) {
+            Float mult = clan.costMultiplier().get(def.nature().getId());
+            if (mult != null) {
+                cost *= mult;
+            }
+        }
 
         float soft = cfg().fatigue.softThreshold;
         if (data.getFatigue() > soft) {
@@ -104,7 +108,6 @@ public class NinjaFormula {
         for (Map.Entry<String, Integer> req : def.requirements().entrySet()) {
             String key = req.getKey();
             int required = req.getValue();
-
             if (key.equals("control")) {
                 if (data.getStatLevel(StatType.CONTROL) < required) return false;
             } else if (key.equals("ninjutsu")) {
@@ -129,8 +132,8 @@ public class NinjaFormula {
 
     public static int xpToNextLevel(int level) {
         return cfg().progression.xpBase
-            + level * cfg().progression.xpPerLevel
-            + level * level * cfg().progression.xpSquared;
+                + level * cfg().progression.xpPerLevel
+                + level * level * cfg().progression.xpSquared;
     }
 
     public static int spCostForLevel(int level) {
@@ -251,8 +254,9 @@ public class NinjaFormula {
         return true;
     }
 
-    private static float getClanReserveBonus(ClanType clanType) {
-        ClanDefinition clan = ClanRegistry.get(clanType.getId());
+    private static float getClanReserveBonus(String clanId) {
+        if (clanId == null || clanId.equals("none")) return 0f;
+        ClanDefinition clan = ClanRegistry.get(clanId);
         if (clan == null) return 0f;
         return clan.reserveBonus();
     }

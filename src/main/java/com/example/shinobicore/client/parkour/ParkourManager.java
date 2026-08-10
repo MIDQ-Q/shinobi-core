@@ -36,7 +36,7 @@ public class ParkourManager {
         actions.add(new CrawlAction());
         actions.add(new DodgeAction());  // ← ДОДЖ
         chargedJumpAction = new ChargedJumpAction();
-        ShinobiCore.LOGGER.info("ParkourManager: registered {} actions", actions.size());
+        ShinobiCore.LOGGER.debug("ParkourManager: registered {} actions", actions.size());
     }
 
     public static void tick(MinecraftClient client) {
@@ -66,42 +66,42 @@ public class ParkourManager {
                     slide.tick(player, ctx);
                 } else if (slide.canActivate(player, ctx)) {
                     slide.activate(player, ctx);
-                    if (doLog) ShinobiCore.LOGGER.info("[parkour] slide activated");
+                    if (doLog) ShinobiCore.LOGGER.debug("[parkour] slide activated");
                 }
             } else if (action instanceof WallRunAction wallRun) {
                 if (wallRun.isActive()) {
                     wallRun.tick(player, ctx);
                 } else if (wallRun.canActivate(player, ctx)) {
                     wallRun.activate(player, ctx);
-                    if (doLog) ShinobiCore.LOGGER.info("[parkour] wall run activated");
+                    if (doLog) ShinobiCore.LOGGER.debug("[parkour] wall run activated");
                 }
             } else if (action instanceof EdgeGrabAction edgeGrab) {
                 if (edgeGrab.isActive()) {
                     edgeGrab.tick(player, ctx);
                 } else if (edgeGrab.canActivate(player, ctx)) {
                     edgeGrab.activate(player, ctx);
-                    if (doLog) ShinobiCore.LOGGER.info("[parkour] edge grab activated");
+                    if (doLog) ShinobiCore.LOGGER.debug("[parkour] edge grab activated");
                 }
             } else if (action instanceof RollAction roll) {
                 if (roll.isActive()) {
                     roll.tick(player, ctx);
                 } else if (roll.canActivate(player, ctx)) {
                     roll.activate(player, ctx);
-                    if (doLog) ShinobiCore.LOGGER.info("[parkour] roll activated");
+                    if (doLog) ShinobiCore.LOGGER.debug("[parkour] roll activated");
                 }
             } else if (action instanceof CrawlAction crawl) {
                 if (crawl.isActive()) {
                     crawl.tick(player, ctx);
                 } else if (crawl.canActivate(player, ctx)) {
                     crawl.activate(player, ctx);
-                    if (doLog) ShinobiCore.LOGGER.info("[parkour] crawl activated");
+                    if (doLog) ShinobiCore.LOGGER.debug("[parkour] crawl activated");
                 }
             } else if (action instanceof DodgeAction dodge) {
                 if (dodge.isActive()) {
                     dodge.tick(player, ctx);
                 } else if (dodge.canActivate(player, ctx)) {
                     dodge.activate(player, ctx);
-                    if (doLog) ShinobiCore.LOGGER.info("[parkour] dodge activated");
+                    if (doLog) ShinobiCore.LOGGER.debug("[parkour] dodge activated");
                     
                     // Отправляем пакет на сервер
                     PacketByteBuf dodgeBuf = new PacketByteBuf(Unpooled.buffer());

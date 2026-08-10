@@ -19,37 +19,44 @@ public class NinjaPlayerData {
     private float fatigue = 0f;
     private boolean exhausted = false;
     private boolean meditating = false;
-
     private final EnumMap<StatType, Integer> statLevels = new EnumMap<>(StatType.class);
     private final EnumMap<StatType, Integer> statXp = new EnumMap<>(StatType.class);
     private final EnumMap<ElementType, Integer> natureLevels = new EnumMap<>(ElementType.class);
     private final EnumMap<ElementType, Integer> natureXp = new EnumMap<>(ElementType.class);
     private final EnumMap<ElementType, Boolean> natureUnlocked = new EnumMap<>(ElementType.class);
-
     private ElementType affinity = null;
-    private ClanType clan = ClanType.NONE;
+    // === РАСЕНГАН: состояние зарядки ===
+    private boolean rasenganCharging = false;
+    private int rasenganChargeTicks = 0;
+    private int rasenganChargeTarget = 300; // 15 сек по умолчанию
+    private boolean rasenganReady = false;
+    private String clanId = "none";
     private boolean clanChosen = false;
-    private int skillPoints = 0;
 
+    private final Map<String, Integer> appliedClanStatBonuses = new HashMap<>();
+    private final Map<String, Integer> appliedClanNatureBonuses = new HashMap<>();
+
+    private int skillPoints = 0;
     private int hpLevel = 0;
     private int speedLevel = 0;
     private int jumpLevel = 0;
     private boolean chakraMode = false;
 
-    // ДВА лоаута по 5 слотов
+    // === НОВОЕ: серверное состояние тай-дзюцу ===
+    private int serverComboStep = 0;
+    private long lastAttackTimeMs = 0;
+    private String currentStyleId = "standard";
+
     private final String[] loadoutA = new String[5];
     private final String[] loadoutB = new String[5];
     private int activeSlotA = 0;
     private int activeSlotB = 0;
-
     private final Set<String> learnedJutsus = new HashSet<>();
     private final Map<String, Integer> jutsuUsage = new HashMap<>();
 
-    // Анти-абуз (не сохраняется)
     private final Map<String, Integer> xpBudget = new HashMap<>();
     private long xpWindowStart = System.currentTimeMillis();
 
-    // Для event-синхронизации (не сохраняется)
     private boolean statsDirty = true;
     private boolean wasOnGround = true;
 
@@ -65,7 +72,7 @@ public class NinjaPlayerData {
     public float getFatigue() { return fatigue; }
     public boolean isExhausted() { return exhausted; }
     public boolean isMeditating() { return meditating; }
-    public ClanType getClan() { return clan; }
+    public String getClanId() { return clanId; }
     public ElementType getAffinity() { return affinity; }
     public boolean isClanChosen() { return clanChosen; }
     public int getSkillPoints() { return skillPoints; }
@@ -73,18 +80,35 @@ public class NinjaPlayerData {
     public int getSpeedLevel() { return speedLevel; }
     public int getJumpLevel() { return jumpLevel; }
     public boolean isChakraMode() { return chakraMode; }
+        // === РАСЕНГАН: геттеры/сеттеры ===
+    public boolean isRasenganCharging() { return rasenganCharging; }
+    public void setRasenganCharging(boolean v) { this.rasenganCharging = v; }
+    public int getRasenganChargeTicks() { return rasenganChargeTicks; }
+    public void setRasenganChargeTicks(int v) { this.rasenganChargeTicks = v; }
+    public int getRasenganChargeTarget() { return rasenganChargeTarget; }
+    public void setRasenganChargeTarget(int v) { this.rasenganChargeTarget = v; }
+    public boolean isRasenganReady() { return rasenganReady; }
+    public void setRasenganReady(boolean v) { this.rasenganReady = v; }
+
+    public float getRasenganChargeProgress() {
+        if (rasenganChargeTarget <= 0) return 1.0f;
+        return Math.min(1.0f, (float) rasenganChargeTicks / rasenganChargeTarget);
+    }
     public boolean wasOnGround() { return wasOnGround; }
     public Set<String> getLearnedJutsus() { return learnedJutsus; }
-
     public int getStatLevel(StatType s) { return statLevels.getOrDefault(s, 0); }
     public int getStatXp(StatType s) { return statXp.getOrDefault(s, 0); }
     public int getNatureLevel(ElementType e) { return natureLevels.getOrDefault(e, 0); }
     public int getNatureXp(ElementType e) { return natureXp.getOrDefault(e, 0); }
     public boolean isNatureUnlocked(ElementType e) { return natureUnlocked.getOrDefault(e, false); }
     public int getJutsuUsage(String id) { return jutsuUsage.getOrDefault(id, 0); }
-
     public String getLoadoutSlot(int set, int i) { return (set == 0 ? loadoutA : loadoutB)[i]; }
     public int getActiveSlot(int set) { return set == 0 ? activeSlotA : activeSlotB; }
+
+    // === НОВОЕ: геттеры для тай-дзюцу ===
+    public int getServerComboStep() { return serverComboStep; }
+    public long getLastAttackTimeMs() { return lastAttackTimeMs; }
+    public String getCurrentStyleId() { return currentStyleId; }
 
     // === Сеттеры ===
     public void setCurrentChakra(float v) { this.currentChakra = Math.max(0, Math.min(v, NinjaFormula.maxChakra(this))); }
@@ -92,7 +116,20 @@ public class NinjaPlayerData {
     public void setReserveXp(int v) { reserveXp = Math.max(0, v); statsDirty = true; }
     public void setFatigue(float v) { this.fatigue = Math.max(0, Math.min(v, 100f)); this.exhausted = this.fatigue >= 100f; }
     public void setMeditating(boolean v) { this.meditating = v; }
-    public void setClan(ClanType c) { this.clan = c; statsDirty = true; }
+
+    public void setClanId(String id) {
+        String newId = id != null ? id : "none";
+        String oldId = this.clanId;
+        if (oldId != null && !oldId.equals("none")) {
+            removeClanBonuses();
+        }
+        this.clanId = newId;
+        if (!newId.equals("none")) {
+            applyClanBonuses(newId);
+        }
+        statsDirty = true;
+    }
+
     public void setAffinity(ElementType e) { this.affinity = e; statsDirty = true; }
     public void setClanChosen(boolean v) { this.clanChosen = v; }
     public void addSkillPoints(int n) { this.skillPoints = Math.max(0, this.skillPoints + n); statsDirty = true; }
@@ -101,21 +138,85 @@ public class NinjaPlayerData {
     public void setJumpLevel(int v) { jumpLevel = Math.max(0, Math.min(v, 7)); statsDirty = true; }
     public void setChakraMode(boolean v) { this.chakraMode = v; }
     public void setWasOnGround(boolean v) { this.wasOnGround = v; }
-
     public void setStatLevel(StatType s, int v) { statLevels.put(s, Math.max(0, Math.min(v, MAX_LEVEL))); statsDirty = true; }
     public void setStatXp(StatType s, int v) { statXp.put(s, Math.max(0, v)); statsDirty = true; }
     public void setNatureLevel(ElementType e, int v) { natureLevels.put(e, Math.max(0, Math.min(v, MAX_LEVEL))); statsDirty = true; }
     public void setNatureXp(ElementType e, int v) { natureXp.put(e, Math.max(0, v)); statsDirty = true; }
     public void setNatureUnlocked(ElementType e, boolean v) { natureUnlocked.put(e, v); statsDirty = true; }
-
     public void addJutsuUsage(String id, int n) { jutsuUsage.put(id, getJutsuUsage(id) + n); statsDirty = true; }
-
     public void learnJutsu(String id) { learnedJutsus.add(id); statsDirty = true; }
-
     public void setLoadoutSlot(int set, int i, String id) { (set == 0 ? loadoutA : loadoutB)[i] = id; }
     public void setActiveSlot(int set, int s) { if (set == 0) activeSlotA = Math.max(0, Math.min(4, s)); else activeSlotB = Math.max(0, Math.min(4, s)); }
-
     public boolean consumeStatsDirty() { boolean d = statsDirty; statsDirty = false; return d; }
+
+    // === НОВОЕ: сеттеры для тай-дзюцу ===
+    public void setServerComboStep(int step) { this.serverComboStep = step; }
+    public void advanceComboStep() {
+        this.serverComboStep = (this.serverComboStep + 1) % com.example.shinobicore.combat.TaijutsuCombo.MAX_STEPS;
+    }
+    public void resetCombo() { this.serverComboStep = 0; }
+    public void setLastAttackTimeMs(long time) { this.lastAttackTimeMs = time; }
+    public void setCurrentStyleId(String id) { this.currentStyleId = id != null ? id : "standard"; }
+
+    // === Бонусы клана ===
+    private void applyClanBonuses(String clanId) {
+        com.example.shinobicore.clan.ClanDefinition clan = com.example.shinobicore.clan.ClanRegistry.get(clanId);
+        if (clan == null) return;
+
+        for (Map.Entry<String, Integer> entry : clan.statBonuses().entrySet()) {
+            String key = entry.getKey();
+            int bonus = entry.getValue();
+            for (StatType s : StatType.values()) {
+                if (s.getId().equals(key)) {
+                    int current = statLevels.getOrDefault(s, 0);
+                    statLevels.put(s, current + bonus);
+                    appliedClanStatBonuses.put(key, bonus);
+                    break;
+                }
+            }
+        }
+
+        for (Map.Entry<String, Integer> entry : clan.natureBonuses().entrySet()) {
+            String key = entry.getKey();
+            int bonus = entry.getValue();
+            for (ElementType e : ElementType.values()) {
+                if (e.getId().equals(key)) {
+                    int current = natureLevels.getOrDefault(e, 0);
+                    natureLevels.put(e, current + bonus);
+                    natureUnlocked.put(e, true);
+                    appliedClanNatureBonuses.put(key, bonus);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void removeClanBonuses() {
+        for (Map.Entry<String, Integer> entry : appliedClanStatBonuses.entrySet()) {
+            String key = entry.getKey();
+            int bonus = entry.getValue();
+            for (StatType s : StatType.values()) {
+                if (s.getId().equals(key)) {
+                    int current = statLevels.getOrDefault(s, 0);
+                    statLevels.put(s, Math.max(0, current - bonus));
+                    break;
+                }
+            }
+        }
+        for (Map.Entry<String, Integer> entry : appliedClanNatureBonuses.entrySet()) {
+            String key = entry.getKey();
+            int bonus = entry.getValue();
+            for (ElementType e : ElementType.values()) {
+                if (e.getId().equals(key)) {
+                    int current = natureLevels.getOrDefault(e, 0);
+                    natureLevels.put(e, Math.max(0, current - bonus));
+                    break;
+                }
+            }
+        }
+        appliedClanStatBonuses.clear();
+        appliedClanNatureBonuses.clear();
+    }
 
     // === Анти-абуз ===
     public boolean tryConsumeXpBudget(String key, int amount, int cap) {
@@ -136,15 +237,21 @@ public class NinjaPlayerData {
         nbt.putFloat("Fatigue", fatigue);
         nbt.putBoolean("Exhausted", exhausted);
         nbt.putBoolean("Meditating", meditating);
-        nbt.putString("Clan", clan.getId());
+        nbt.putString("Clan", clanId);
         nbt.putBoolean("ClanChosen", clanChosen);
         nbt.putInt("SkillPoints", skillPoints);
         nbt.putInt("HpLevel", hpLevel);
         nbt.putInt("SpeedLevel", speedLevel);
         nbt.putInt("JumpLevel", jumpLevel);
         nbt.putBoolean("ChakraMode", chakraMode);
+        nbt.putBoolean("RasenganCharging", rasenganCharging);
+        nbt.putInt("RasenganChargeTicks", rasenganChargeTicks);
+        nbt.putInt("RasenganChargeTarget", rasenganChargeTarget);
+        nbt.putBoolean("RasenganReady", rasenganReady);
+        // === НОВОЕ: сохраняем стиль ===
+        nbt.putString("Style", currentStyleId);
+        
         if (affinity != null) nbt.putString("Affinity", affinity.getId());
-
         NbtCompound stats = new NbtCompound();
         for (StatType s : StatType.values()) {
             NbtCompound c = new NbtCompound();
@@ -152,7 +259,6 @@ public class NinjaPlayerData {
             stats.put(s.getId(), c);
         }
         nbt.put("Stats", stats);
-
         NbtCompound natures = new NbtCompound();
         for (ElementType e : ElementType.values()) {
             NbtCompound c = new NbtCompound();
@@ -160,15 +266,12 @@ public class NinjaPlayerData {
             natures.put(e.getId(), c);
         }
         nbt.put("Natures", natures);
-
         NbtList learned = new NbtList();
         for (String id : learnedJutsus) learned.add(NbtString.of(id));
         nbt.put("LearnedJutsus", learned);
-
         NbtCompound usage = new NbtCompound();
         for (Map.Entry<String, Integer> en : jutsuUsage.entrySet()) usage.putInt(en.getKey(), en.getValue());
         nbt.put("JutsuUsage", usage);
-
         nbt.put("LoadoutA", writeLoadout(loadoutA));
         nbt.put("LoadoutB", writeLoadout(loadoutB));
         nbt.putInt("ActiveSlotA", activeSlotA);
@@ -197,14 +300,25 @@ public class NinjaPlayerData {
         fatigue = nbt.getFloat("Fatigue");
         exhausted = nbt.getBoolean("Exhausted");
         meditating = nbt.getBoolean("Meditating");
-        String clanId = nbt.getString("Clan");
-        for (ClanType c : ClanType.values()) if (c.getId().equals(clanId)) { clan = c; break; }
+
+        String clanIdRead = nbt.getString("Clan");
+        this.clanId = clanIdRead.isEmpty() ? "none" : clanIdRead;
+
         clanChosen = nbt.getBoolean("ClanChosen");
         skillPoints = nbt.getInt("SkillPoints");
         hpLevel = nbt.getInt("HpLevel");
         speedLevel = nbt.getInt("SpeedLevel");
         jumpLevel = nbt.getInt("JumpLevel");
         chakraMode = nbt.getBoolean("ChakraMode");
+        rasenganCharging = nbt.getBoolean("RasenganCharging");
+        rasenganChargeTicks = nbt.getInt("RasenganChargeTicks");
+        rasenganChargeTarget = nbt.getInt("RasenganChargeTarget");
+        rasenganReady = nbt.getBoolean("RasenganReady");
+        // === НОВОЕ: читаем стиль ===
+        if (nbt.contains("Style")) {
+            currentStyleId = nbt.getString("Style");
+        }
+        
         if (nbt.contains("Affinity")) {
             String a = nbt.getString("Affinity");
             for (ElementType e : ElementType.values()) if (e.getId().equals(a)) { affinity = e; break; }
@@ -232,9 +346,13 @@ public class NinjaPlayerData {
             for (String k : u.getKeys()) jutsuUsage.put(k, u.getInt(k));
         }
         if (nbt.contains("LoadoutA")) readLoadout(nbt.getList("LoadoutA", 8), loadoutA);
-        else if (nbt.contains("Loadout")) readLoadout(nbt.getList("Loadout", 8), loadoutA); // миграция со старой версии
+        else if (nbt.contains("Loadout")) readLoadout(nbt.getList("Loadout", 8), loadoutA);
         if (nbt.contains("LoadoutB")) readLoadout(nbt.getList("LoadoutB", 8), loadoutB);
         activeSlotA = nbt.getInt("ActiveSlotA");
         activeSlotB = nbt.getInt("ActiveSlotB");
+
+        if (!clanId.equals("none")) {
+            applyClanBonuses(clanId);
+        }
     }
 }

@@ -9,6 +9,7 @@ import com.example.shinobicore.event.NinjaTickHandler;
 import com.example.shinobicore.jutsu.AoeBehavior;
 import com.example.shinobicore.jutsu.BehaviorRegistry;
 import com.example.shinobicore.jutsu.DashBehavior;
+import com.example.shinobicore.jutsu.JutsuLogger;
 import com.example.shinobicore.jutsu.JutsuRegistry;
 import com.example.shinobicore.jutsu.MeleeBehavior;
 import com.example.shinobicore.jutsu.ProjectileBehavior;
@@ -16,7 +17,6 @@ import com.example.shinobicore.jutsu.UtilityBehavior;
 import com.example.shinobicore.jutsu.WallBehavior;
 import com.example.shinobicore.network.ChakraSyncPacket;
 import com.example.shinobicore.network.ModPackets;
-import com.example.shinobicore.stat.ClanType;
 import com.example.shinobicore.stat.ElementType;
 import com.example.shinobicore.stat.NinjaDataHolder;
 import com.example.shinobicore.stat.NinjaFormula;
@@ -47,6 +47,7 @@ public class ShinobiCore implements ModInitializer {
     public void onInitialize() {
         LOGGER.info("Shinobi Core загружается...");
         ModConfig.load();
+        JutsuLogger.init();
         ModEntities.register();
 
         BehaviorRegistry.register("projectile", new ProjectileBehavior());
@@ -67,9 +68,11 @@ public class ShinobiCore implements ModInitializer {
             if (!data.isClanChosen()) {
                 ClanDefinition randomClan = ClanRegistry.getRandom();
                 if (randomClan != null) {
-                    data.setClan(ClanType.valueOf(randomClan.id().toUpperCase()));
+                    // === ИЗМЕНЕНО: сохраняем строку ===
+                    data.setClanId(randomClan.id());
                     data.setAffinity(randomClan.affinity());
                     data.setClanChosen(true);
+
                     if (randomClan.extraAffinityCount() > 0) {
                         ElementType[] elements = ElementType.values();
                         ElementType second = elements[RANDOM.nextInt(elements.length)];
@@ -78,6 +81,7 @@ public class ShinobiCore implements ModInitializer {
                             data.setNatureUnlocked(second, true);
                         }
                     }
+
                     LOGGER.info("Auto-assigned clan {} to {}", randomClan.id(), player.getName().getString());
                 }
             }
@@ -154,17 +158,172 @@ public class ShinobiCore implements ModInitializer {
         buf.writeInt(data.getSpeedLevel());
         buf.writeInt(data.getJumpLevel());
         buf.writeBoolean(data.isChakraMode());
-        buf.writeString(data.getClan().getId());
+        
+        // === ИЗМЕНЕНО: отправляем строку ===
+        buf.writeString(data.getClanId());
         buf.writeString(data.getAffinity() != null ? data.getAffinity().getId() : "");
+        
         ServerPlayNetworking.send(player, ModPackets.BODY_SYNC_ID, buf);
     }
 
+        public static void sendRasenganSync(ServerPlayerEntity player) {
+        NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
+        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+        buf.writeBoolean(data.isRasenganCharging());
+        buf.writeFloat(data.getRasenganChargeProgress());
+        buf.writeBoolean(data.isRasenganReady());
+        ServerPlayNetworking.send(player, ModPackets.RASENGAN_SYNC_ID, buf);
+    }
+
+    public static void handleRasenganStrike(ServerPlayerEntity player) {
+        NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
+        if (!data.isRasenganReady()) return;
+
+        data.setRasenganReady(false);
+        data.setRasenganCharging(false);
+
+        // Параметры из JSON
+        float dashDistance = 6.0f;
+        float hitRadius = 2.5f;
+        float knockback = 3.5f;
+        float damage = 16.0f;
+
+        // Читаем из JutsuDefinition если есть
+        var def = com.example.shinobicore.jutsu.JutsuRegistry.get("shinobicore:rasengan");
+        if (def != null) {
+            damage = def.baseDamage() * com.example.shinobicore.stat.NinjaFormula.damageMultiplier(data, def);
+            if (def.params().has("dashDistance")) dashDistance = def.params().get("dashDistance").getAsFloat();
+            if (def.params().has("hitRadius")) hitRadius = def.params().get("hitRadius").getAsFloat();
+            if (def.params().has("knockback")) knockback = def.params().get("knockback").getAsFloat();
+        }
+
+        net.minecraft.util.math.Vec3d look = player.getRotationVector();
+        net.minecraft.util.math.Vec3d startPos = player.getPos();
+        net.minecraft.util.math.Vec3d endPos = startPos.add(look.multiply(dashDistance));
+
+        // Рывок вперёд
+        player.addVelocity(look.x * dashDistance * 0.6, 0.15, look.z * dashDistance * 0.6);
+        player.velocityModified = true;
+
+        // Урон по пути
+        if (player.getWorld() instanceof net.minecraft.server.world.ServerWorld serverWorld) {
+            java.util.List<net.minecraft.entity.LivingEntity> targets =
+                    findRasenganTargets(serverWorld, player, startPos, endPos, hitRadius);
+
+            for (net.minecraft.entity.LivingEntity target : targets) {
+                target.damage(player.getDamageSources().magic(), damage);
+
+                // Мощный отброс (Расенган подбрасывает)
+                net.minecraft.util.math.Vec3d kb = target.getPos().subtract(player.getPos()).normalize();
+                target.addVelocity(kb.x * knockback, knockback * 0.4, kb.z * knockback);
+                target.velocityModified = true;
+            }
+
+            // Визуал: взрыв частиц при ударе
+            if (!targets.isEmpty()) {
+                net.minecraft.util.math.Vec3d hitPos = targets.get(0).getPos();
+                spawnRasenganImpact(serverWorld, hitPos);
+            }
+
+            // Визуал: след вдоль пути
+            spawnRasenganTrail(serverWorld, startPos, endPos, 80);
+        }
+
+        sendRasenganSync(player);
+        com.example.shinobicore.jutsu.JutsuLogger.logBehavior("rasengan",
+                String.format("STRIKE: player=%s, damage=%.2f, knockback=%.2f",
+                        player.getName().getString(), damage, knockback));
+    }
+
+    private static java.util.List<net.minecraft.entity.LivingEntity> findRasenganTargets(
+            net.minecraft.server.world.ServerWorld world, ServerPlayerEntity attacker,
+            net.minecraft.util.math.Vec3d start, net.minecraft.util.math.Vec3d end, float radius) {
+        java.util.List<net.minecraft.entity.LivingEntity> targets = new java.util.ArrayList<>();
+        net.minecraft.util.math.Vec3d dir = end.subtract(start).normalize();
+        float length = (float) start.distanceTo(end);
+
+        for (float d = 0; d <= length; d += 0.5f) {
+            net.minecraft.util.math.Vec3d checkPos = start.add(dir.multiply(d));
+            for (net.minecraft.entity.Entity entity : world.getOtherEntities(attacker,
+                    attacker.getBoundingBox().expand(radius + 1.0).offset(checkPos.subtract(attacker.getPos())))) {
+                if (entity instanceof net.minecraft.entity.LivingEntity living
+                        && !living.equals(attacker) && living.isAlive()) {
+                    if (living.getPos().distanceTo(checkPos) <= radius + 0.5) {
+                        if (!targets.contains(living)) {
+                            targets.add(living);
+                        }
+                    }
+                }
+            }
+        }
+        return targets;
+    }
+
+    private static void spawnRasenganTrail(net.minecraft.server.world.ServerWorld world,
+                                            net.minecraft.util.math.Vec3d start,
+                                            net.minecraft.util.math.Vec3d end, int count) {
+        net.minecraft.util.math.Vec3d dir = end.subtract(start).normalize();
+        float length = (float) start.distanceTo(end);
+
+        for (int i = 0; i < count; i++) {
+            float progress = (float) i / count;
+            net.minecraft.util.math.Vec3d center = start.add(dir.multiply(progress * length));
+
+            // Вращающиеся спирали
+            float angle = progress * (float)(Math.PI * 6);
+            float spiralRadius = 0.4f + (float)Math.sin(progress * Math.PI) * 0.4f;
+
+            double x = center.x + Math.cos(angle) * spiralRadius;
+            double y = center.y + 1.0 + Math.sin(angle * 2) * spiralRadius * 0.3;
+            double z = center.z + Math.sin(angle) * spiralRadius;
+
+            world.spawnParticles(net.minecraft.particle.ParticleTypes.ENCHANT, x, y, z,
+                    2, 0.08, 0.08, 0.08, 0.08);
+
+            if (i % 3 == 0) {
+                world.spawnParticles(net.minecraft.particle.ParticleTypes.CRIT, x, y, z,
+                        1, 0.15, 0.15, 0.15, 0.12);
+            }
+        }
+    }
+
+    private static void spawnRasenganImpact(net.minecraft.server.world.ServerWorld world,
+                                             net.minecraft.util.math.Vec3d pos) {
+        // Кольцо частиц
+        for (int i = 0; i < 40; i++) {
+            double angle = (i / 40.0) * Math.PI * 2;
+            double r = 1.0 + Math.random() * 2.0;
+
+            world.spawnParticles(net.minecraft.particle.ParticleTypes.ENCHANT,
+                    pos.x + Math.cos(angle) * r,
+                    pos.y + 0.5 + Math.random() * 1.5,
+                    pos.z + Math.sin(angle) * r,
+                    3, 0.2, 0.3, 0.2, 0.1);
+        }
+
+        // Взрывная волна
+        for (int i = 0; i < 30; i++) {
+            world.spawnParticles(net.minecraft.particle.ParticleTypes.CRIT,
+                    pos.x + (Math.random() - 0.5) * 4.0,
+                    pos.y + Math.random() * 2.5,
+                    pos.z + (Math.random() - 0.5) * 4.0,
+                    2, 0.3, 0.3, 0.3, 0.2);
+        }
+
+        // Облако
+        for (int i = 0; i < 15; i++) {
+            world.spawnParticles(net.minecraft.particle.ParticleTypes.CLOUD,
+                    pos.x + (Math.random() - 0.5) * 2.0,
+                    pos.y + 1.0,
+                    pos.z + (Math.random() - 0.5) * 2.0,
+                    3, 0.3, 0.2, 0.3, 0.01);
+        }
+    }
+    
     public static void handleSpendSp(ServerPlayerEntity player, String type, String id) {
         NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
-
         int currentLevel;
         boolean isBody = type.equals("body");
-
         if (type.equals("stat")) {
             StatType s = statById(id); if (s == null) return;
             currentLevel = data.getStatLevel(s);
@@ -188,7 +347,6 @@ public class ShinobiCore implements ModInitializer {
         if (data.getSkillPoints() < cost) { player.sendMessage(Text.literal("§cNot enough SP! Need " + cost), false); return; }
 
         data.addSkillPoints(-cost);
-
         if (type.equals("stat")) data.setStatLevel(statById(id), currentLevel + 1);
         else if (type.equals("nature")) { ElementType e = elementById(id); data.setNatureLevel(e, currentLevel + 1); data.setNatureUnlocked(e, true); }
         else if (type.equals("reserve")) data.setReserveLevel(currentLevel + 1);

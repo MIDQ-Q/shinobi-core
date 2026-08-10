@@ -21,7 +21,7 @@ public class TaijutsuAnimations {
             this.comboStep = comboStep;
             this.style = style;
             this.startTime = System.currentTimeMillis();
-            ShinobiCore.LOGGER.info("[ANIM] Created animation state: step={}, style={}", comboStep, style.getId());
+            ShinobiCore.LOGGER.debug("[ANIM] Created animation state: step={}, style={}", comboStep, style.getId());
         }
 
         public float getProgress() {
@@ -50,16 +50,16 @@ public class TaijutsuAnimations {
     }
 
     public static void playAttackAnimation(AbstractClientPlayerEntity player, int comboStep, TaijutsuStyle style) {
-        ShinobiCore.LOGGER.info("[ANIM] playAttackAnimation called: player={}, step={}, style={}",
+        ShinobiCore.LOGGER.debug("[ANIM] playAttackAnimation called: player={}, step={}, style={}",
             player.getName().getString(), comboStep, style.getId());
         activeAnimations.put(player.getUuid(), new AttackAnimationState(comboStep, style));
-        ShinobiCore.LOGGER.info("[ANIM] Animation added to map. Map size: {}", activeAnimations.size());
+        ShinobiCore.LOGGER.debug("[ANIM] Animation added to map. Map size: {}", activeAnimations.size());
     }
 
     public static AttackAnimationState getAnimationState(AbstractClientPlayerEntity player) {
         AttackAnimationState state = activeAnimations.get(player.getUuid());
         if (state != null && state.isFinished()) {
-            ShinobiCore.LOGGER.info("[ANIM] Animation finished, removing from map");
+            ShinobiCore.LOGGER.debug("[ANIM] Animation finished, removing from map");
             activeAnimations.remove(player.getUuid());
             return null;
         }
@@ -71,10 +71,8 @@ public class TaijutsuAnimations {
         if (state == null) {
             return 0f;
         }
-
         float progress = state.getProgress();
         int step = state.comboStep;
-
         float maxAngle;
         switch (step) {
             case 0: maxAngle = -85f;  break;
@@ -83,17 +81,24 @@ public class TaijutsuAnimations {
             case 3: maxAngle = -130f; break;
             default: maxAngle = -85f;
         }
-
         if (state.style == TaijutsuStyle.STRONG_FIST) {
             maxAngle *= 1.15f;
         }
 
+        // === УЛУЧШЕННАЯ КРИВАЯ: ease-in-out с overshoot ===
         float curve;
-        if (progress < 0.4f) {
-            curve = (float) Math.sin((progress / 0.4f) * (Math.PI / 2));
+        if (progress < 0.3f) {
+            // Замах (0 -> 0.3) — ease-in (ускорение)
+            float t = progress / 0.3f;
+            curve = (float) Math.sin(t * (Math.PI / 2));
+        } else if (progress < 0.5f) {
+            // Удар (0.3 -> 0.5) — overshoot (небольшой перебор)
+            float t = (progress - 0.3f) / 0.2f;
+            curve = 1.0f + 0.15f * (float) Math.sin(t * Math.PI);
         } else {
-            float t = (progress - 0.4f) / 0.6f;
-            curve = (float) Math.cos(t * (Math.PI / 2));
+            // Возврат (0.5 -> 1.0) — ease-out (замедление)
+            float t = (progress - 0.5f) / 0.5f;
+            curve = 1.0f - (float) Math.sin(t * (Math.PI / 2));
         }
 
         float result = curve * maxAngle;
@@ -127,7 +132,7 @@ public class TaijutsuAnimations {
     }
 
     public static void playKickAnimation(AbstractClientPlayerEntity player, TaijutsuStyle style) {
-        ShinobiCore.LOGGER.info("[ANIM] Playing kick animation, style={}", style.getId());
+        ShinobiCore.LOGGER.debug("[ANIM] Playing kick animation, style={}", style.getId());
         activeKicks.put(player.getUuid(), new KickAnimationState(style));
     }
 
@@ -147,19 +152,26 @@ public class TaijutsuAnimations {
     public static float getLegRotation(AbstractClientPlayerEntity player) {
         KickAnimationState state = getKickState(player);
         if (state == null) return 0f;
-
         float progress = state.getProgress();
         float maxAngle = -110f;
         if (state.style == TaijutsuStyle.STRONG_FIST) maxAngle *= 1.2f;
 
-        // Плавная кривая
+        // === УЛУЧШЕННАЯ КРИВАЯ ДЛЯ УДАРА НОГОЙ ===
         float curve;
-        if (progress < 0.4f) {
-            curve = (float) Math.sin((progress / 0.4f) * (Math.PI / 2));
+        if (progress < 0.25f) {
+            // Замах (0 -> 0.25) — быстрый ease-in
+            float t = progress / 0.25f;
+            curve = (float) Math.sin(t * (Math.PI / 2));
+        } else if (progress < 0.45f) {
+            // Удар (0.25 -> 0.45) — overshoot
+            float t = (progress - 0.25f) / 0.2f;
+            curve = 1.0f + 0.2f * (float) Math.sin(t * Math.PI);
         } else {
-            float t = (progress - 0.4f) / 0.6f;
-            curve = (float) Math.cos(t * (Math.PI / 2));
+            // Возврат (0.45 -> 1.0) — плавный ease-out
+            float t = (progress - 0.45f) / 0.55f;
+            curve = 1.0f - (float) Math.sin(t * (Math.PI / 2));
         }
+
         return curve * maxAngle;
     }
 }

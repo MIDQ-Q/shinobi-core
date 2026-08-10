@@ -1,0 +1,36 @@
+{
+  "punch_light": {
+    "sounds": [
+      "minecraft:mob/player/attack/weak1",
+      "minecraft:mob/player/attack/weak2",
+      "minecraft:mob/player/attack/weak3",
+      "minecraft:mob/player/attack/weak4"
+    ]
+  },
+  "punch_heavy": {
+    "sounds": [
+      "minecraft:mob/player/attack/strong1",
+      "minecraft:mob/player/attack/strong2",
+      "minecraft:mob/player/attack/strong3",
+      "minecraft:mob/player/attack/strong4"
+    ]
+  },
+  "kick": {
+    "sounds": [
+      "minecraft:mob/player/attack/critical1",
+      "minecraft:mob/player/attack/critical2",
+      "minecraft:mob/player/attack/critical3"
+    ]
+  },
+  "whoosh": {
+    "sounds": [
+      "minecraft:mob/player/attack/sweep1",
+      "minecraft:mob/player/attack/sweep2",
+      "minecraft:mob/player/attack/sweep3",
+      "minecraft:mob/player/attack/sweep4",
+      "minecraft:mob/player/attack/sweep5",
+      "minecraft:mob/player/attack/sweep6",
+      "minecraft:mob/player/attack/sweep7"
+    ]
+  }
+}

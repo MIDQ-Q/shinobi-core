@@ -5,7 +5,9 @@
   "nature": "wind",
   "type": "dash",
   "params": {
-    "distance": 6.0
+    "distance": 6.0,
+    "knockback": 0.8,
+    "hitRadius": 1.5
   },
   "baseCost": 20,
   "baseDamage": 3,

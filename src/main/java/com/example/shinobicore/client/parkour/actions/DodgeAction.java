@@ -53,7 +53,7 @@ public class DodgeAction implements ParkourAction {
         // Кулдаун
         long now = System.currentTimeMillis();
         if (now - lastDodgeTime < COOLDOWN_MS) {
-            ShinobiCore.LOGGER.info("[DODGE] Cooldown: {}ms remaining", COOLDOWN_MS - (now - lastDodgeTime));
+            ShinobiCore.LOGGER.debug("[DODGE] Cooldown: {}ms remaining", COOLDOWN_MS - (now - lastDodgeTime));
             return false;
         }
         
@@ -64,13 +64,13 @@ public class DodgeAction implements ParkourAction {
         // Определяем направление
         if (leftJustPressed && !rightJustPressed) {
             pendingDirection = -1;
-            ShinobiCore.LOGGER.info("[DODGE] NEW PRESS: LEFT");
+            ShinobiCore.LOGGER.debug("[DODGE] NEW PRESS: LEFT");
         } else if (rightJustPressed && !leftJustPressed) {
             pendingDirection = 1;
-            ShinobiCore.LOGGER.info("[DODGE] NEW PRESS: RIGHT");
+            ShinobiCore.LOGGER.debug("[DODGE] NEW PRESS: RIGHT");
         } else {
             pendingDirection = -1; // Обе нажаты → влево
-            ShinobiCore.LOGGER.info("[DODGE] NEW PRESS: BOTH → LEFT");
+            ShinobiCore.LOGGER.debug("[DODGE] NEW PRESS: BOTH → LEFT");
         }
         
         return true;
@@ -91,7 +91,7 @@ public class DodgeAction implements ParkourAction {
         player.velocityModified = true;
         player.timeUntilRegen = INVULNERABILITY_TICKS;
         
-        ShinobiCore.LOGGER.info("[DODGE] Activated: direction={} ({})", 
+        ShinobiCore.LOGGER.debug("[DODGE] Activated: direction={} ({})", 
             direction, direction < 0 ? "LEFT" : "RIGHT");
         
         ctx.resetActive(ID);

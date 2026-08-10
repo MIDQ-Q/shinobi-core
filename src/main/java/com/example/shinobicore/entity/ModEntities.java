@@ -11,13 +11,13 @@ import net.minecraft.util.Identifier;
 
 public class ModEntities {
     public static final EntityType<NinjaProjectileEntity> NINJA_PROJECTILE = Registry.register(
-        Registries.ENTITY_TYPE,
-        new Identifier(ShinobiCore.MOD_ID, "ninja_projectile"),
-        FabricEntityTypeBuilder.<NinjaProjectileEntity>create(SpawnGroup.MISC, NinjaProjectileEntity::new)
-            .dimensions(EntityDimensions.fixed(0.5f, 0.5f))
-            .trackRangeChunks(4)
-            .trackedUpdateRate(10)
-            .build()
+            Registries.ENTITY_TYPE,
+            new Identifier(ShinobiCore.MOD_ID, "ninja_projectile"),
+            FabricEntityTypeBuilder.<NinjaProjectileEntity>create(SpawnGroup.MISC, NinjaProjectileEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.5f, 0.5f))
+                    .trackRangeChunks(32)
+                    .trackedUpdateRate(4)
+                    .build()
     );
 
     public static void register() {
