@@ -1,3 +1,6 @@
+$utf8 = New-Object System.Text.UTF8Encoding($false)
+$file = "E:\Games\mod\src\main\java\com\example\shinobicore\client\KeyBindings.java"
+$code = @'
 package com.example.shinobicore.client;
 
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -22,7 +25,6 @@ public class KeyBindings {
     public static KeyBinding CRAWL;
     public static KeyBinding KICK;
     public static KeyBinding SWITCH_STYLE;
-    public static KeyBinding TOGGLE_SENSORY;
 
     public static void register() {
         MEDITATE = KeyBindingHelper.registerKeyBinding(new KeyBinding(
@@ -53,8 +55,8 @@ public class KeyBindings {
 
         SWITCH_STYLE = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "key.shinobicore.switch_style", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_B, COMBAT_CATEGORY));
-
-        TOGGLE_SENSORY = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-            "key.shinobicore.toggle_sensory", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_Y, CATEGORY));
     }
 }
+'@
+[System.IO.File]::WriteAllText($file, $code, $utf8)
+Write-Host "KeyBindings.java fixed" -ForegroundColor Green

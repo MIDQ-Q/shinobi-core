@@ -5,6 +5,7 @@ import com.example.shinobicore.client.ChakraHudRenderer;
 import com.example.shinobicore.client.ClientNinjaState;
 import com.example.shinobicore.client.RasenganClientState;
 import com.example.shinobicore.combat.TaijutsuCombo;
+import com.example.shinobicore.tree.TreePassives;
 import com.example.shinobicore.combat.TaijutsuFormulas;
 import com.example.shinobicore.combat.TaijutsuStyle;
 import com.example.shinobicore.network.ModPackets;
@@ -29,7 +30,8 @@ public class TaijutsuClientHandler {
     private static void onClientTick(MinecraftClient client) {
         if (client.player == null) return;
         long now = System.currentTimeMillis();
-        if (comboStep > 0 && now - lastAttackTime > TaijutsuCombo.COMBO_TIMEOUT_MS) {
+        long cdTimeout = (long)(TaijutsuCombo.COMBO_TIMEOUT_MS * (1 + TreePassives.collectClient().comboTimeoutBonus));
+        if (comboStep > 0 && now - lastAttackTime > cdTimeout) {
             comboStep = 0;
         }
     }
@@ -59,7 +61,8 @@ public class TaijutsuClientHandler {
             return false;
         }
 
-        if (now - lastAttackTime > TaijutsuCombo.COMBO_TIMEOUT_MS) {
+        long atkTimeout = (long)(TaijutsuCombo.COMBO_TIMEOUT_MS * (1 + TreePassives.collectClient().comboTimeoutBonus));
+        if (now - lastAttackTime > atkTimeout) {
             ShinobiCore.LOGGER.debug("[ATTACK] Combo timeout, resetting to 0");
             comboStep = 0;
         }

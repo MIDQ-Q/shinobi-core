@@ -41,7 +41,6 @@ public class NinjaPlayerData {
     private int speedLevel = 0;
     private int jumpLevel = 0;
     private boolean chakraMode = false;
-    private boolean sensoryEnabled = true;
 
     // === НОВОЕ: серверное состояние тай-дзюцу ===
     private int serverComboStep = 0;
@@ -60,7 +59,6 @@ public class NinjaPlayerData {
 
     private boolean statsDirty = true;
     private boolean wasOnGround = true;
-    private final Set<String> unlockedNodes = new HashSet<>();
 
     public NinjaPlayerData() {
         for (StatType s : StatType.values()) { statLevels.put(s, 0); statXp.put(s, 0); }
@@ -82,8 +80,6 @@ public class NinjaPlayerData {
     public int getSpeedLevel() { return speedLevel; }
     public int getJumpLevel() { return jumpLevel; }
     public boolean isChakraMode() { return chakraMode; }
-    public boolean isSensoryEnabled() { return sensoryEnabled; }
-    public void setSensoryEnabled(boolean v) { this.sensoryEnabled = v; statsDirty = true; }
         // === РАСЕНГАН: геттеры/сеттеры ===
     public boolean isRasenganCharging() { return rasenganCharging; }
     public void setRasenganCharging(boolean v) { this.rasenganCharging = v; }
@@ -113,9 +109,6 @@ public class NinjaPlayerData {
     public int getServerComboStep() { return serverComboStep; }
     public long getLastAttackTimeMs() { return lastAttackTimeMs; }
     public String getCurrentStyleId() { return currentStyleId; }
-    public Set<String> getUnlockedNodes() { return unlockedNodes; }
-    public boolean isNodeUnlocked(String nodeId) { return unlockedNodes.contains(nodeId); }
-    public void unlockNode(String nodeId) { unlockedNodes.add(nodeId); statsDirty = true; }
 
     // === Сеттеры ===
     public void setCurrentChakra(float v) { this.currentChakra = Math.max(0, Math.min(v, NinjaFormula.maxChakra(this))); }
@@ -251,7 +244,6 @@ public class NinjaPlayerData {
         nbt.putInt("SpeedLevel", speedLevel);
         nbt.putInt("JumpLevel", jumpLevel);
         nbt.putBoolean("ChakraMode", chakraMode);
-        nbt.putBoolean("SensoryEnabled", sensoryEnabled);
         nbt.putBoolean("RasenganCharging", rasenganCharging);
         nbt.putInt("RasenganChargeTicks", rasenganChargeTicks);
         nbt.putInt("RasenganChargeTarget", rasenganChargeTarget);
@@ -284,15 +276,6 @@ public class NinjaPlayerData {
         nbt.put("LoadoutB", writeLoadout(loadoutB));
         nbt.putInt("ActiveSlotA", activeSlotA);
         nbt.putInt("ActiveSlotB", activeSlotB);
-        NbtCompound csb = new NbtCompound();
-        for (Map.Entry<String, Integer> en : appliedClanStatBonuses.entrySet()) csb.putInt(en.getKey(), en.getValue());
-        nbt.put("ClanStatBonuses", csb);
-        NbtCompound cnb = new NbtCompound();
-        for (Map.Entry<String, Integer> en : appliedClanNatureBonuses.entrySet()) cnb.putInt(en.getKey(), en.getValue());
-        nbt.put("ClanNatureBonuses", cnb);
-        NbtList nodes = new NbtList();
-        for (String nodeId : unlockedNodes) nodes.add(NbtString.of(nodeId));
-        nbt.put("UnlockedNodes", nodes);
         return nbt;
     }
 
@@ -327,7 +310,6 @@ public class NinjaPlayerData {
         speedLevel = nbt.getInt("SpeedLevel");
         jumpLevel = nbt.getInt("JumpLevel");
         chakraMode = nbt.getBoolean("ChakraMode");
-        sensoryEnabled = !nbt.contains("SensoryEnabled") || nbt.getBoolean("SensoryEnabled");
         rasenganCharging = nbt.getBoolean("RasenganCharging");
         rasenganChargeTicks = nbt.getInt("RasenganChargeTicks");
         rasenganChargeTarget = nbt.getInt("RasenganChargeTarget");
@@ -368,20 +350,9 @@ public class NinjaPlayerData {
         if (nbt.contains("LoadoutB")) readLoadout(nbt.getList("LoadoutB", 8), loadoutB);
         activeSlotA = nbt.getInt("ActiveSlotA");
         activeSlotB = nbt.getInt("ActiveSlotB");
-        if (nbt.contains("UnlockedNodes")) {
-            NbtList nodeList = nbt.getList("UnlockedNodes", 8);
-            for (int i = 0; i < nodeList.size(); i++) unlockedNodes.add(nodeList.getString(i));
-        }
 
-        appliedClanStatBonuses.clear();
-        if (nbt.contains("ClanStatBonuses")) {
-            NbtCompound csb = nbt.getCompound("ClanStatBonuses");
-            for (String k : csb.getKeys()) appliedClanStatBonuses.put(k, csb.getInt(k));
-        }
-        appliedClanNatureBonuses.clear();
-        if (nbt.contains("ClanNatureBonuses")) {
-            NbtCompound cnb = nbt.getCompound("ClanNatureBonuses");
-            for (String k : cnb.getKeys()) appliedClanNatureBonuses.put(k, cnb.getInt(k));
+        if (!clanId.equals("none")) {
+            applyClanBonuses(clanId);
         }
     }
 }

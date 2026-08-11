@@ -1,113 +1,149 @@
-# SHINOBI CORE — контекст проекта
+﻿# SHINOBI CORE — Контекст проекта v2.0
 
 ## Паспорт
-- Naruto-мод для Minecraft 1.20.1, Fabric, одиночка + сервер.
-- Стек: Fabric Loader 0.16.9, Fabric API 0.92.3+1.20.1, Loom 1.9.2, Yarn mappings, Java 21.
-- Пакет: com.example.shinobicore. Точка входа: ShinobiCore (сервер/общая), ShinobiCoreClient (клиент).
-- Запуск: `.\gradlew.bat runClient`. Конфиг: `run/config/shinobicore/main.json` (в проде `.minecraft/config/...`).
-- Контент через JSON: `src/main/resources/data/shinobicore/jutsu/*.json` и `.../clans/*.json`.
+Naruto-мод для Minecraft 1.20.1, Fabric, одиночка + сервер.
+Стек: Fabric Loader 0.16.9, Fabric API 0.92.3+1.20.1, Loom 1.9.2, Yarn mappings, Java 21.
+Пакет: com.example.shinobicore. Точка входа: ShinobiCore (сервер), ShinobiCoreClient (клиент).
+Запуск: .\gradlew.bat runClient
+Конфиг: run/config/shinobicore/main.json
 
 ## Управление
-- M (удерж.) — медитация; R — каст активного слота; G — цикл слотов; 1-5 — слоты (не назначены);
-- K — меню прокачки; L — toggle чакра-режима; V — колесо дзюцу (задел, не используется).
+M (удерж.) — медитация; R — каст слота A; T — каст слота B;
+G — цикл слотов A; H — цикл слотов B;
+K — меню прокачки; L — чакра-режим; V — удар ногой;
+Z — додж влево; C — додж вправо; N — ползание;
+B — переключение стиля тай-дзюцу (Standard/Strong Fist)
 
-## Команды (/ninja ...)
-info; set chakra|fatigue|stat|nature|clan|affinity; give xp stat|nature|reserve; give sp;
-jutsu list|info; learn <id>; cast <id>; slot <1-5> <id>; clan choose|list; reloadconfig.
+## Команды /ninja
+info; set chakra|fatigue|stat|nature|clan|affinity;
+give xp stat|nature|reserve; give sp;
+jutsu list|info; learn <id>; cast <id>;
+slot a|b <1-5> <id>; clan choose|list; reloadconfig
 
 ## Сеть (пакеты)
-server→client: chakra_sync, loadout_sync, stats_sync, body_sync.
-client→server: meditate, select_slot, cast_slot, spend_sp, chakra_mode.
+server→client: chakra_sync, loadout_sync, stats_sync, body_sync, catalog_sync, rasengan_sync
+client→server: meditate, select_slot, cast_slot, spend_sp, chakra_mode, set_slot,
+taijutsu_attack, taijutsu_kick, taijutsu_style, parkour_action, dodge, pose_sync, rasengan_strike
 
-## Mixins (зарегистрированы в shinobicore.mixins.json)
-- ServerPlayerEntityMixin — хранение NinjaPlayerData в NBT игрока.
-- FallDamageMixin — в чакра-режиме: ≤40 блоков без урона, далее +1 HP за каждые 5 блоков.
-- ChakraWaterTouchMixin — isTouchingWater()=false в чакра-режиме (наземная физика на воде).
-- Мёртвые файлы (НЕ в json, можно удалить): ChakraWaterWalkMixin.java, ExampleMixin.java.
+## ЧТО ГОТОВО
 
-## Архитектура (ключевые классы)
-- stat/: NinjaPlayerData (все поля игрока + NBT + анти-абуз бюджет), NinjaFormula (ВСЕ формулы, читает ModConfig), StatType (7 статов), ElementType (5 стихий), ClanType.
-- config/ModConfig — свой JSON-конфиг (Gson, авто-допись новых полей при load+save). ВЕСЬ баланс в конфиге.
-- jutsu/: JutsuDefinition (record), JutsuRegistry (JSON), BehaviorRegistry (type→JutsuBehavior), JutsuCaster, behaviors: projectile/aoe/dash/melee/wall(заглушка)/utility(заглушка).
-- entity/: NinjaProjectileEntity + ModEntities + NinjaProjectileRenderer (рендерер обязателен, иначе NPE-краш!).
-- clan/: ClanDefinition, ClanRegistry (JSON).
-- event/NinjaTickHandler — сервер: реген/усталость/медитация/трата чакры/HP/атрибуты скорости/прыжок-буст/синхронизация (раз в сек).
-- client/ChakraPhysicsClient — КЛИЕНТСКАЯ физика чакра-режима (каждый тик): вода (snap к поверхности, onGround=true, принудительные jump()/setSprinting()), стены (horizontalCollision → vy +0.15/0/-0.15: W/Space вверх, Shift вниз, ничего — висит).
-- client/: ProgressionScreen (меню K, вкладки Stats/Natures/Body), ChakraHudRenderer (HUD), ClientNinjaState (клиент-копия данных), KeyBindings, ClientInputHandler, ShinobiCoreClient.
-- enchantment/ — файлы зачарования воды (НЕ используются, можно удалить).
+### Фаза 0: Очистка ✅
+- Удалены мёртвые файлы (ChakraWaterWalkMixin, ExampleMixin, enchantment/)
+- BOM-фиксы, compatibilityLevel JAVA_21, fabric.mod.json java >=21
+
+### Фаза 1: Клановая система ✅
+- Миграция ClanType enum → строковые ID (getClanId())
+- costMultiplier подключён к NinjaFormula.calculateCost()
+- fatigueMultiplier подключён к JutsuCaster.cast()
+- statBonuses/natureBonuses применяются при выборе клана (applyClanBonuses/removeClanBonuses)
+- 6 кланов JSON: uchiha, hyuga, uzumaki, nara, hatake, sarutobi
+
+### Фаза 2: Behaviors ✅
+- DashBehavior: урон по пути, отброс, waveWidth, trail-частицы, splash при приземлении
+- MeleeBehavior: конус вместо box, fullCircle (360°), ignite, statusEffect, knockback
+- AoeBehavior: частицы, knockback, stun, statusEffect (slowness/weakness/poison)
+- ProjectileBehavior: speed, radius, particle, lifetime, gravity, pierce, bounce, count, spread
+- WallBehavior: временная стена, диагональная постановка, только на земле, WallRemovalTask
+- UtilityBehavior: heal, chakra_heal, regen, speed, strength, resistance, clear
+
+### Фаза 3: Боевая система ✅
+- Анти-чит комбо: серверная валидация comboStep + таймингов
+- Переключатель стилей (B): Standard ↔ Strong Fist
+- TaijutsuStyle: STANDARD, STRONG_FIST
+- Звуки: заглушки через TaijutsuSounds (ванильные звуки)
+- Анимации: улучшенные (ease-in-out, overshoot)
+
+### Камера ✅
+- Over-the-shoulder (за правым плечом)
+- Плавное следование (lerp)
+- Минимальная тряска
+- FOV-эффекты отключены (не укачивает)
+
+### Расенган ✅
+- RasenganBehavior: зарядка в руке (baseChargeTicks=120, minChargeTicks=40)
+- Время зарядки зависит от control: control=0 → 6 сек, control=100 → 2 сек
+- Расенган готов → ЛКМ → рывок вперёд + урон + отброс
+- Визуал: SOUL_FIRE_FLAME + END_ROD + CRIT (синий+белый)
+- Пакеты: rasengan_sync (сервер→клиент), rasengan_strike (клиент→сервер)
+
+### Контент: 20+ техник ✅
+- Огонь: Flame Bullet, Phoenix Sage, Great Fireball, Dragon Flame
+- Вода: Water Bullet, Great Waterfall, Raging Waves
+- Ветер: Gale Palm, Passing Gale, Great Breakthrough
+- Молния: Shock, False Darkness
+- Земля: Earth Wall, Mud Wave
+- Тай-дзюцу: Leaf Whirlwind
+- Медицинские: Mystical Palm, Poison Extraction, Rope Escape
+- Расенган (кастомный behavior)
+
+### Визуал техник ✅
+- NinjaProjectileRenderer: 6 квадов для объёма (3 вертикальных + горизонт + 2 диагональных)
+- Текстура лавы (lava_still.png) для огненных шаров
+- Текстура воды (water_still.png) для водяных
+- White.png + tint для остальных стихий
+- 2-3 слоя: ядро + свечение + внешний (для больших)
+- trackRangeChunks=32
+
+### JutsuLogger ✅
+- Отдельный лог: config/shinobicore/jutsu_debug.log
+- logCast, logBehavior, logProjectile, logCollision, logError, logInfo
+
+### Паркур (из предыдущих сессий) ✅
+- 9 действий: slide, wall run, edge grab, charged jump, roll, dodge, crawl, wall jump, double jump
+- Синхронизация позы через пакет pose_sync + LowPoseTracker
+
+### HUD ✅
+- Кастомный в стиле Naruto
+- Полоски: чакра, усталость, кислород, броня
+- Лоауты A/B, комбо-счётчик, стиль тай-дзюцу, кулдаун удара ногой
+- Расенган-индикатор (зарядка/готовность)
+
+### Меню прокачки (K) ✅
+- Стиль свитка: пергамент + деревянные валики
+- Вкладки: Stats / Natures / Body / Jutsu
+
+## НЕ СДЕЛАНО (приоритеты пользователя)
+1. Аттюнмент (миниигра из меню K) — ПРИОРИТЕТ
+2. Древо прокачки техник за SP — ПРИОРИТЕТ
+3. Гендзюцу (фреймворк, резист, снятие, визуал)
+4. Тай-дзюцу прокаченное (блокирование, парирование, Gentle Fist)
+5. Сюрикен-дзюцу (метание, предметы)
+6. Кен-дзюцу (катаны, анимации, стили)
+7. Визуал: анимация каста (печати), свечение рук при касте
+8. Стена в чакра-режиме v2 (полноценная: ноги на стене, мир переворачивается)
+9. Баланс прыжков (сейчас перебор при макс прокачке)
+10. Перевод техник (lang)
+11. Звуки (пока ванильные, потом кастомные)
+12. Клоны (Kage Bunshin) — ПОТОМ
+13. Объём новых техник и кланов — ПОТОМ
+14. Додзюцу (Sharingan, Byakugan) — ПОТОМ
 
 ## ГЛАВНЫЕ ТЕХ-РЕШЕНИЯ (не наступать на грабли!)
-1. Движение игрока в одиночке считается НА КЛИЕНТЕ. Любую физику движения делать в ClientTickEvents (client), на сервере только баланс/урон/синхронизация. Серверные setVelocity для локального игрока перезатираются клиентом.
-2. Имена методов для Mixin брать из Yarn 1.20.1; при сомнениях указывать явный дескриптор, например `canWalkOnFluid(Lnet/minecraft/fluid/FluidState;)Z`. canWalkOnFluid поднимает игрока на ПОЛНУЮ высоту блока («полёт +1») — не использовать для воды.
-3. Не вызывать внутри @Inject метода тот же метод (рекурсия).
-4. Кастомным сущностям обязательно регистрировать EntityRendererRegistry на клиенте.
-5. JSON-файлы создавать в UTF-8 без BOM; проверять `dir` после создания.
-6. Gson-конфиг: load() затем save() — новые поля сами появляются в файле.
+- Движение игрока в одиночке считается НА КЛИЕНТЕ. Физику движения делать в ClientTickEvents.
+- Имена методов для Mixin брать из Yarn 1.20.1.
+- Не вызывать внутри @Inject метода тот же метод (рекурсия).
+- Кастомным сущностям обязательно регистрировать EntityRendererRegistry на клиенте.
+- JSON-файлы создавать в UTF-8 без BOM.
+- Gson-конфиг: load() затем save() — новые поля сами появляются.
+- PowerShell Set-Content -Encoding UTF8 пишет BOM! Использовать [System.IO.File]::WriteAllBytes или скрипт удаления BOM.
+- ProjectileEntity.tick() НЕ перемещает сущность в 1.20.1 — нужно ручное setPosition в tick().
+- ProjectileUtil.getEntityHitResult имеет другую сигнатуру в 1.20.1 — использовать ручной рейкаст через Box.raycast().
+- ModelPart не имеет поля swing в 1.20.1 — использовать pitch/yaw/roll.
+- Direction.fromHorizontalDegrees не существует в 1.20.1 — использовать Direction.fromRotation().
+- ParticleTypes.FALLING_DUST может требовать BlockState — использовать POOF для earth.
+- ClientPlayNetworking.send читает buf сразу — нельзя читать buf внутри server.execute().
 
-## ЧТО ГОТОВО (шаги 1–6)
-1. Конфиг main.json (все числа баланса), релоад командой.
-2. Формулы v2: mastery = 25% usage + 75% characterScore (веса категорий в конфиге); урон = base*(0.6+0.8*mastery); XP за каст (стихия+ниндзюцу) с анти-абузом (maxXpPerMinute=500, maxUsagePerMinute=10); SP +1 за level-up.
-3. Кланы: 6 JSON, авто-выдача при первом входе (флаг clanChosen, хранится в NBT), /ninja clan choose/list, бонусы через ClanRegistry (reserveBonus, costMultiplier и т.д. — часть ещё не подключена к формулам!).
-4. Меню K: вкладки Stats/Natures(замки для неоткрытых)/Body; Body = HP(20→160), Speed, Jump (по 7 уровней, только за SP, цена 2).
-5. Типы техник + свой снаряд (частицы, AOE, урон от mastery); 5 тестовых дзюцу. wall/utility — заглушки.
-6. Чакра-режим (L): трата 2/с → 0.2/с при control 100; реген x0.2 в режиме (в медитации — обычный); ходьба по воде (бег+прыжки работают); стены v1 (паук); спринт +50% и спринт-прыжок; прыжок в режиме: длина x3→x10, высота x1.5→x3; снижение урона от падения.
-
-## НЕ ДОДЕЛАНО / ОТЛОЖЕНО (см. ROADMAP)
-- wall/utility behaviors полноценные; dash без урона.
-- Кла́новые costMultiplier/fatigueMultiplier ещё не в формулах.
-- Гендзюцу, эффекты, клоны, аттюнмент-миниигра, додзюцу, стены v2.
-
-## Как добавить технику (архитектура для будущих шагов)
-
-### 90% техник = только JSON (без кода)
-Создать `src/main/resources/data/shinobicore/jutsu/my_jutsu.json`:
-```json
-{
-  "id": "shinobicore:my_jutsu",
-  "name": "My Jutsu",
-  "category": "elemental_ninjutsu",
-  "nature": "fire",
-  "type": "projectile",
-  "params": { "speed": 1.5, "radius": 2.0, "particle": "flame" },
-  "baseCost": 25,
-  "baseDamage": 7,
-  "strain": 5,
-  "requiredUsesForFullProficiency": 40,
-  "requirements": { "control": 10, "nature_fire": 15, "ninjutsu": 8 }
-}
-
+## Изменения формул
+- jumpHorizontalMultiplier: chakraMode = 2.0 + jumpLevel * 0.5 (макс 5.5x)
+- jumpVerticalMultiplier: chakraMode = 1.5 + jumpLevel * 0.15 (макс 2.55x)
+- Rasengan chargeTicks = max(minChargeTicks, baseChargeTicks - control * 0.8)
+- Mastery = 25% usage + 75% characterScore
 
 ## CHANGELOG
-- 2026-08-07: шаги 1–6 завершены, чакра-режим работает (вода/стены/бег/прыжки).
-- 2026-08-08: Шаг 7 (фундамент) завершён: два лоаута (A: R/G, B: T/H), назначение слотов из меню K (вкладка Jutsu), паркур (double jump/wall jump/vault, без траты чакры, малая усталость), сервер без физики движения, event-синхронизация статов, reflection-behaviors (behaviorClass в JSON), каталог техник на клиенте.
-## Текущее состояние (после Шага F + HUD)
-
-### Паркур (client/parkour/)
-- **Slide** (Shift+разбег): хитбокс SWIMMING, буст +0.35, трение 0.985
-- **Wall Slide + Wall Jump** (в чакра-режиме): рейкаст стен, Space для отскока (0.3 по нормали + 0.35 вверх)
-- **Auto-vault**: W + край стены = авто-подъём на крышу
-- **Wall Run** (W у стены, чакра-режим): бег вдоль стены, касательный вектор, max 40 тиков
-- **Edge Grab** (чакра-режим): авто-захват края при падении, Space = подъём
-- **Charged Jump** (чакра-режим): удержание Space, множитель 1.0-3.0, прогресс-бар
-- **Roll** (Shift в воздухе): +0.3 импульс, i-frames 9 тиков, наклон камеры
-- **Dodge** (Z/C): отскок вбок 1.2 + i-frames 6 тиков
-- **Crawl** (N или авто под блоком): поза SWIMMING, x0.5 скорость
-- **Прыжки на воде**: `standingOnWater` флаг + mixin `jump` отменяется только на земле/воде
-- **Синхронизация позы**: пакет `pose_sync` + серверный `LowPoseTracker`
-
-### HUD (client/ChakraHudRenderer.java)
-- Верх-лево: CH (синяя, пульс при <25%), FT (жёлтая), O2 (под водой), AR (если броня) + лоауты A/B
-- Над хотбаром: HP слева (красная), голод справа (оранжевая) — вплотную к опыту
-- Ванильная панель скрыта через mixin `HideVanillaStatusMixin`
-- Charged Jump бар в низ-центре
-
-### Меню прокачки (ProgressionScreen.java)
-- Стиль свитка: пергамент + деревянные валики + печати-ханко
-- Вкладки: Stats / Natures / Body / Jutsu
-- Поддерживает: прокачку статов, стихий, тела, назначение слотов техник
-
-### Архитектура добавления техник
-- 90% техник = только JSON (src/main/resources/data/shinobicore/jutsu/...)
-- Кастомная логика = 1 класс `implements JutsuBehavior` + `behaviorClass` в JSON
-- НЕ правим при добавлении техники: ShinobiCore, BehaviorRegistry, NinjaTickHandler, ModPackets
-- 2026-08-10: Завершены Шаги A-F (полный пакет паркура: slide, wall jump, wall run, edge grab, charged jump, roll, dodge, crawl) + новый HUD в стиле Naruto + меню-свиток. Все механики синхронизированы с сервером.
+- 2026-08-07: Шаги 1-6 (конфиг, формулы, кланы, меню, техники, чакра-режим)
+- 2026-08-08: Шаг 7 (лоауты, паркур, behaviors)
+- 2026-08-10: Шаги A-F (полный паркур + HUD + меню-свиток)
+- 2026-08-11: Фаза 0 (очистка), Фаза 1 (кланы), Фаза 2 (behaviors)
+- 2026-08-12: Фаза 3 (анти-чит, стили, анимации), Камера, Расенган
+- 2026-08-13: Волна 1 (UtilityBehavior), Волна 2 (Melee/AOE/Dash)
+- 2026-08-14: Визуал техник (текстура лавы, 6 квадов), JutsuLogger, 20+ техник

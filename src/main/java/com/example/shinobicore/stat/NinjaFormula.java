@@ -4,6 +4,7 @@ import com.example.shinobicore.clan.ClanDefinition;
 import com.example.shinobicore.clan.ClanRegistry;
 import com.example.shinobicore.config.ModConfig;
 import com.example.shinobicore.jutsu.JutsuDefinition;
+import com.example.shinobicore.tree.TreePassives;
 
 import java.util.Map;
 
@@ -158,12 +159,12 @@ public class NinjaFormula {
 
     public static float jumpHorizontalMultiplier(int jumpLevel, boolean chakraMode) {
         if (!chakraMode) return 1.0f + jumpLevel * 0.125f;
-        return 3.0f + jumpLevel * 1.0f;
+        return 2.0f + jumpLevel * 0.5f;
     }
 
     public static float jumpVerticalMultiplier(int jumpLevel, boolean chakraMode) {
         if (!chakraMode) return 1.0f;
-        return 1.5f + jumpLevel * 0.214f;
+        return 1.5f + jumpLevel * 0.15f;
     }
 
     public static int bodySpCost() {

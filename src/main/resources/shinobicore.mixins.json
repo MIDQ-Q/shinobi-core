@@ -14,7 +14,9 @@
     "PlayerAttackMixin",
     "PlayerRenderAnimationMixin",
     "SlideDimensionsMixin",
-    "CameraMixin"
+    "CameraMixin",
+    "PlayerCopyMixin",
+    "PlayerParryMixin"
   ],
   "injectors": {
     "defaultRequire": 1

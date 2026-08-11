@@ -74,6 +74,18 @@ public class ChakraHudRenderer {
             context.drawTextWithShadow(client.textRenderer, Text.literal("EXHAUSTED"), 10, y, 0xFF3333);
             y += 10;
         }
+        if (ClientNinjaState.unlockedNodes.contains("sen_glow")) {
+            context.drawTextWithShadow(client.textRenderer,
+                    Text.literal(ClientNinjaState.sensoryEnabled ? "SENSORY ON" : "SENSORY OFF"),
+                    10, y, ClientNinjaState.sensoryEnabled ? 0xFF66DDFF : 0xFF666666);
+            y += 10;
+        }
+        if (ClientNinjaState.dangerSense) {
+            int alpha = (int) (150 + 105 * Math.sin(System.currentTimeMillis() / 150.0));
+            context.drawTextWithShadow(client.textRenderer, Text.literal("!! DANGER !!"), 10, y,
+                    ColorHelper.Argb.getArgb(alpha, 255, 60, 60));
+            y += 10;
+        }
         // === РАСЕНГАН: индикатор зарядки ===
         if (RasenganClientState.charging) {
             float progress = RasenganClientState.chargeProgress;

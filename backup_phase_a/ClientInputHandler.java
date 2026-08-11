@@ -85,19 +85,6 @@ public class ClientInputHandler {
         }
 
         // === КАСТ ТЕХНИК (R) ===
-        // === SENSORY TOGGLE (Y) ===
-        if (KeyBindings.TOGGLE_SENSORY.wasPressed()) {
-            boolean newState = !ClientNinjaState.sensoryEnabled;
-            ClientNinjaState.sensoryEnabled = newState;
-            ShinobiCore.LOGGER.info("[SENSORY] Toggled: {}", newState);
-            if (client.getNetworkHandler() != null) {
-                PacketByteBuf senBuf = new PacketByteBuf(Unpooled.buffer());
-                senBuf.writeBoolean(newState);
-                ClientPlayNetworking.send(ModPackets.SENSORY_TOGGLE_ID, senBuf);
-            }
-            client.player.sendMessage(Text.literal(newState ? "В§aSensory: ON" : "В§7Sensory: OFF"), false);
-        }
-
         if (KeyBindings.CAST_A.wasPressed()) {
             ShinobiCore.LOGGER.info("[INPUT] CAST_A (R) pressed");
             ClientNinjaState.castActiveJutsu(0);
@@ -126,8 +113,6 @@ public class ClientInputHandler {
             ShinobiCore.LOGGER.info("[INPUT] PROGRESSION (K) pressed");
             client.setScreen(new ProgressionScreen());
         }
-
-        // === Р”Р Р•Р’Рћ РџР РћРљРђР§РљР (J) ===
 
         // === ПОЛЗАНИЕ (N) ===
         if (KeyBindings.CRAWL.wasPressed()) {

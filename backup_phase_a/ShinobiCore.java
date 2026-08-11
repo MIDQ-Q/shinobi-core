@@ -21,8 +21,6 @@ import com.example.shinobicore.stat.ElementType;
 import com.example.shinobicore.stat.NinjaDataHolder;
 import com.example.shinobicore.stat.NinjaFormula;
 import com.example.shinobicore.stat.NinjaPlayerData;
-import com.example.shinobicore.tree.SkillTreeNode;
-import com.example.shinobicore.tree.SkillTreeRegistry;
 import com.example.shinobicore.stat.StatType;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.ModInitializer;
@@ -73,13 +71,6 @@ public class ShinobiCore implements ModInitializer {
                     // === ИЗМЕНЕНО: сохраняем строку ===
                     data.setClanId(randomClan.id());
                     data.setAffinity(randomClan.affinity());
-                    // === Р¤РРљРЎ: СЂР°Р·Р±Р»РѕРєРёСЂРѕРІР°С‚СЊ affinity РєР°Рє nature ===
-                    if (randomClan.affinity() != null) {
-                        data.setNatureUnlocked(randomClan.affinity(), true);
-                        if (data.getNatureLevel(randomClan.affinity()) < 5) {
-                            data.setNatureLevel(randomClan.affinity(), 5);
-                        }
-                    }
                     // === ФИКС: разблокировать affinity как nature ===
                     if (randomClan.affinity() != null) {
                         data.setNatureUnlocked(randomClan.affinity(), true);
@@ -107,20 +98,17 @@ public class ShinobiCore implements ModInitializer {
             sendLoadoutSync(player);
             sendStatsSync(player);
             sendBodySync(player);
-                sendTreeSync(player);
         });
 
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             JutsuRegistry.reload(server.getResourceManager());
             ClanRegistry.reload(server.getResourceManager());
-            SkillTreeRegistry.reload(server.getResourceManager());
         });
 
         ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, resourceManager, success) -> {
             if (success) {
                 JutsuRegistry.reload(server.getResourceManager());
                 ClanRegistry.reload(server.getResourceManager());
-            SkillTreeRegistry.reload(server.getResourceManager());
                 for (ServerPlayerEntity p : server.getPlayerManager().getPlayerList()) sendCatalogSync(p);
             }
         });
@@ -167,7 +155,6 @@ public class ShinobiCore implements ModInitializer {
         for (StatType s : StatType.values()) { buf.writeInt(data.getStatLevel(s)); buf.writeInt(data.getStatXp(s)); }
         for (ElementType e : ElementType.values()) { buf.writeInt(data.getNatureLevel(e)); buf.writeInt(data.getNatureXp(e)); }
         for (ElementType e : ElementType.values()) buf.writeBoolean(data.isNatureUnlocked(e));
-        buf.writeBoolean(data.isSensoryEnabled());
         ServerPlayNetworking.send(player, ModPackets.STATS_SYNC_ID, buf);
     }
 
@@ -382,69 +369,8 @@ public class ShinobiCore implements ModInitializer {
 
         sendStatsSync(player);
         sendBodySync(player);
-                sendTreeSync(player);
         sendChakraSync(player);
         player.sendMessage(Text.literal("§aLevel up!"), false);
-    }
-
-    public static void sendTreeSync(ServerPlayerEntity player) {
-        NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
-        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        buf.writeInt(data.getUnlockedNodes().size());
-        for (String nodeId : data.getUnlockedNodes()) buf.writeString(nodeId);
-        ServerPlayNetworking.send(player, ModPackets.TREE_SYNC_ID, buf);
-    }
-
-    public static void handleUnlockNode(ServerPlayerEntity player, String nodeId) {
-        NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
-        SkillTreeNode node = SkillTreeRegistry.get(nodeId);
-        if (node == null) {
-            player.sendMessage(Text.literal("В§cUnknown node: " + nodeId), false);
-            return;
-        }
-        if (data.isNodeUnlocked(nodeId)) {
-            player.sendMessage(Text.literal("В§cAlready unlocked!"), false);
-            return;
-        }
-        if (!SkillTreeRegistry.isVisibleServer(node, data)) {
-            player.sendMessage(Text.literal("В§cThis node is not available to you!"), false);
-            return;
-        }
-        for (String req : node.requires()) {
-            if (!data.isNodeUnlocked(req)) {
-                player.sendMessage(Text.literal("В§cRequires: " + req), false);
-                return;
-            }
-        }
-        if (data.getSkillPoints() < node.spCost()) {
-            player.sendMessage(Text.literal("В§cNot enough SP! Need " + node.spCost()), false);
-            return;
-        }
-        if (!node.branch().equals("general") && !node.branch().equals("taijutsu")
-            && !node.branch().equals("medical")) {
-            ElementType nature = null;
-            for (ElementType e : ElementType.values()) {
-                if (e.getId().equals(node.branch())) { nature = e; break; }
-            }
-            if (nature != null && !data.isNatureUnlocked(nature)) {
-                player.sendMessage(Text.literal("В§cUnlock this nature first!"), false);
-                return;
-            }
-        }
-
-        data.addSkillPoints(-node.spCost());
-        data.unlockNode(nodeId);
-
-        if ("jutsu".equals(node.type()) && node.jutsuId() != null) {
-            if (!data.getLearnedJutsus().contains(node.jutsuId())) {
-                data.learnJutsu(node.jutsuId());
-            }
-        }
-
-        sendStatsSync(player);
-        sendLoadoutSync(player);
-        sendTreeSync(player);
-        player.sendMessage(Text.literal("В§aUnlocked: " + nodeId), false);
     }
 
     private static StatType statById(String id) {

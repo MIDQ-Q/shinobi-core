@@ -34,11 +34,8 @@ public class ClientNinjaState {
     public static int speedLevel = 0;
     public static int jumpLevel = 0;
     public static boolean chakraMode = false;
-    public static boolean dangerSense = false;
-    public static boolean sensoryEnabled = true;
     public static String clanId = "none";
     public static String affinityId = null;
-    public static final Set<String> unlockedNodes = new HashSet<>();
 
     public static String[] loadout(int set) { return set == 0 ? loadoutA : loadoutB; }
     public static int active(int set) { return set == 0 ? activeA : activeB; }

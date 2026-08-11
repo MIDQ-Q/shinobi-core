@@ -1,6 +1,7 @@
 package com.example.shinobicore.jutsu;
 
 import com.example.shinobicore.stat.NinjaPlayerData;
+import com.example.shinobicore.tree.TreePassives;
 import com.google.gson.JsonObject;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -31,6 +32,9 @@ public class AoeBehavior implements JutsuBehavior {
         // Оглушение (slowness 255 + mining_fatigue 255 + nausea)
         boolean stun = params.has("stun") && params.get("stun").getAsBoolean();
         int stunDuration = params.has("stunDuration") ? params.get("stunDuration").getAsInt() : 20;
+        if (stun) {
+            stunDuration = (int)(stunDuration * (1 + TreePassives.collectServer(data).kekkeiStun));
+        }
 
         if (!(player.getWorld() instanceof ServerWorld serverWorld)) return;
 

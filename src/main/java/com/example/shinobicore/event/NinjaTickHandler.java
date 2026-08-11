@@ -7,6 +7,11 @@ import com.example.shinobicore.stat.NinjaDataHolder;
 import com.example.shinobicore.stat.NinjaFormula;
 import com.example.shinobicore.stat.NinjaPlayerData;
 import com.example.shinobicore.stat.StatType;
+import com.example.shinobicore.tree.TreePassives;
+import com.example.shinobicore.network.ModPackets;
+import io.netty.buffer.Unpooled;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -127,6 +132,24 @@ public class NinjaTickHandler {
                 }
             }
 
+            TreePassives.Bonuses pbs = TreePassives.collectServer(data);
+            if (pbs.sensory && data.isSensoryEnabled()) {
+                for (net.minecraft.entity.LivingEntity le : player.getWorld().getEntitiesByClass(
+                        net.minecraft.entity.LivingEntity.class,
+                        player.getBoundingBox().expand(pbs.sensoryRadius),
+                        e -> e != player && e.isAlive())) {
+                    le.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 60, 0, false, false));
+                }
+            }
+            if (pbs.dangerSense) {
+                boolean danger = !player.getWorld().getEntitiesByClass(
+                        net.minecraft.entity.mob.MobEntity.class,
+                        player.getBoundingBox().expand(12),
+                        m -> m.getTarget() == player).isEmpty();
+                PacketByteBuf dbuf = new PacketByteBuf(Unpooled.buffer());
+                dbuf.writeBoolean(danger);
+                ServerPlayNetworking.send(player, ModPackets.DANGER_SYNC_ID, dbuf);
+            }
             ShinobiCore.sendChakraSync(player);
             if (data.consumeStatsDirty()) {
                 ShinobiCore.sendStatsSync(player);

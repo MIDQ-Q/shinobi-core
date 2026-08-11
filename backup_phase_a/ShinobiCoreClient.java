@@ -112,7 +112,6 @@ public class ShinobiCoreClient implements ClientModInitializer {
             Map<String, Integer> nl = new HashMap<>(); Map<String, Integer> nx = new HashMap<>(); Map<String, Boolean> nu = new HashMap<>();
             for (ElementType e : ElementType.values()) { nl.put(e.getId(), buf.readInt()); nx.put(e.getId(), buf.readInt()); }
             for (ElementType e : ElementType.values()) nu.put(e.getId(), buf.readBoolean());
-        boolean sen = buf.readBoolean();
             client.execute(() -> {
                 ClientNinjaState.skillPoints = sp;
                 ClientNinjaState.reserveLevel = resLvl;
@@ -122,7 +121,6 @@ public class ShinobiCoreClient implements ClientModInitializer {
                 ClientNinjaState.natureLevels.clear(); ClientNinjaState.natureLevels.putAll(nl);
                 ClientNinjaState.natureXp.clear(); ClientNinjaState.natureXp.putAll(nx);
                 ClientNinjaState.natureUnlocked.clear(); ClientNinjaState.natureUnlocked.putAll(nu);
-                ClientNinjaState.sensoryEnabled = sen;
             });
         });
 
@@ -137,21 +135,6 @@ public class ShinobiCoreClient implements ClientModInitializer {
                 ClientNinjaState.clanId = clan.isEmpty() ? "none" : clan;
                 ClientNinjaState.affinityId = affinity.isEmpty() ? null : affinity;
             });
-        });
-
-        ClientPlayNetworking.registerGlobalReceiver(ModPackets.TREE_SYNC_ID, (client, handler, buf, responseSender) -> {
-            int count = buf.readInt();
-            Set<String> nodes = new HashSet<>();
-            for (int i = 0; i < count; i++) nodes.add(buf.readString());
-            client.execute(() -> {
-                ClientNinjaState.unlockedNodes.clear();
-                ClientNinjaState.unlockedNodes.addAll(nodes);
-            });
-        });
-
-        ClientPlayNetworking.registerGlobalReceiver(ModPackets.DANGER_SYNC_ID, (client, handler, buf, responseSender) -> {
-            boolean danger = buf.readBoolean();
-            client.execute(() -> ClientNinjaState.dangerSense = danger);
         });
 
         HudRenderCallback.EVENT.register(ChakraHudRenderer::render);

@@ -7,7 +7,6 @@ import com.example.shinobicore.combat.TaijutsuFormulas;
 import com.example.shinobicore.combat.TaijutsuStyle;
 import com.example.shinobicore.config.ModConfig;
 import com.example.shinobicore.jutsu.JutsuCaster;
-import com.example.shinobicore.stat.ElementType;
 import com.example.shinobicore.stat.NinjaDataHolder;
 import com.example.shinobicore.stat.NinjaPlayerData;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -26,8 +25,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Vec3d;
 import com.example.shinobicore.pose.LowPoseTracker;
 import com.example.shinobicore.stat.StatType;
-import com.example.shinobicore.stat.NinjaFormula;
-import com.example.shinobicore.tree.TreePassives;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 public class ModPackets {
     public static final Identifier CHAKRA_SYNC_ID = new Identifier("shinobicore", "chakra_sync");
@@ -50,11 +47,6 @@ public class ModPackets {
     public static final Identifier RASENGAN_SYNC_ID = new Identifier("shinobicore", "rasengan_sync");
     public static final Identifier RASENGAN_STRIKE_ID = new Identifier("shinobicore", "rasengan_strike");
     public static final Identifier ATTUNEMENT_ID = new Identifier("shinobicore", "attunement");
-    public static final Identifier TREE_SYNC_ID = new Identifier("shinobicore", "tree_sync");
-    public static final Identifier UNLOCK_NODE_ID = new Identifier("shinobicore", "unlock_node");
-    public static final Identifier CONTROL_TRAIN_ID = new Identifier("shinobicore", "control_train");
-    public static final Identifier DANGER_SYNC_ID = new Identifier("shinobicore", "danger_sync");
-    public static final Identifier SENSORY_TOGGLE_ID = new Identifier("shinobicore", "sensory_toggle");
     
     public static void register() {
         ServerPlayNetworking.registerGlobalReceiver(MEDITATE_ID, (server, player, handler, buf, responseSender) -> {
@@ -67,60 +59,6 @@ public class ModPackets {
             server.execute(() -> {
                 ShinobiCore.handleRasenganStrike(player);
             });
-        });
-
-        // === РђРўРўР®РќРњР•РќРў (РєР»РёРµРЅС‚ -> СЃРµСЂРІРµСЂ) ===
-        ServerPlayNetworking.registerGlobalReceiver(ATTUNEMENT_ID, (server, player, handler, buf, responseSender) -> {
-            String elementId = buf.readString();
-            boolean success = buf.readBoolean();
-            server.execute(() -> {
-                NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
-                ElementType element = null;
-                for (ElementType e : ElementType.values()) {
-                    if (e.getId().equals(elementId)) { element = e; break; }
-                }
-                if (element == null) return;
-
-                if (success) {
-                    int unlockedCount = 0;
-                    for (ElementType e2 : ElementType.values()) {
-                        if (data.isNatureUnlocked(e2)) unlockedCount++;
-                    }
-                    int cost = 10 + unlockedCount * 5;
-                    if (data.getSkillPoints() < cost) {
-                        player.sendMessage(Text.literal("В§cNot enough SP! Need " + cost), false);
-                        return;
-                    }
-                    data.addSkillPoints(-cost);
-                    data.setNatureUnlocked(element, true);
-                    if (data.getNatureLevel(element) < 1) {
-                        data.setNatureLevel(element, 1);
-                    }
-                    ShinobiCore.sendStatsSync(player);
-                    player.sendMessage(Text.literal("В§aAttuned to " + elementId + "! (-" + cost + " SP)"), false);
-                } else {
-                    player.sendMessage(Text.literal("В§cAttunement failed."), false);
-                }
-            });
-        });
-
-        // === Р”Р Р•Р’Рћ: СЂР°Р·Р±Р»РѕРєРёСЂРѕРІРєР° СѓР·Р»Р° (РєР»РёРµРЅС‚ -> СЃРµСЂРІРµСЂ) ===
-        ServerPlayNetworking.registerGlobalReceiver(CONTROL_TRAIN_ID, (server, player, handler, buf, responseSender) -> {
-            boolean success = buf.readBoolean();
-            float accuracy = buf.readFloat();
-            server.execute(() -> {
-                NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
-                int xp = success ? Math.round(15 + accuracy * 25) : 3;
-                NinjaFormula.grantStatXp(data, StatType.CONTROL, xp);
-                ShinobiCore.sendStatsSync(player);
-                player.sendMessage(Text.literal(success
-                    ? String.format("В§aControl training: +%d XP (%.0f%%)", xp, accuracy * 100)
-                    : "В§7Training: +" + xp + " XP"), false);
-            });
-        });
-        ServerPlayNetworking.registerGlobalReceiver(UNLOCK_NODE_ID, (server, player, handler, buf, responseSender) -> {
-            String nodeId = buf.readString();
-            server.execute(() -> ShinobiCore.handleUnlockNode(player, nodeId));
         });
 
         ServerPlayNetworking.registerGlobalReceiver(SELECT_SLOT_ID, (server, player, handler, buf, responseSender) -> {
@@ -197,7 +135,7 @@ public class ModPackets {
                 }
 
                 // === ВАЛИДАЦИЯ: сбрасываем комбо если прошло слишком много времени ===
-                long timeoutMs = (long)(TaijutsuCombo.COMBO_TIMEOUT_MS * (1 + TreePassives.collectServer(data).comboTimeoutBonus));
+                long timeoutMs = TaijutsuCombo.COMBO_TIMEOUT_MS;
                 if (now - lastAttack > timeoutMs && serverStep > 0) {
                     data.resetCombo();
                     serverStep = 0;
@@ -267,15 +205,6 @@ public class ModPackets {
             });
         });
 
-        ServerPlayNetworking.registerGlobalReceiver(SENSORY_TOGGLE_ID, (server, player, handler, buf, responseSender) -> {
-            boolean enabled = buf.readBoolean();
-            server.execute(() -> {
-                NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
-                data.setSensoryEnabled(enabled);
-                ShinobiCore.sendStatsSync(player);
-            });
-        });
-        
         ServerPlayNetworking.registerGlobalReceiver(DODGE_ID, (server, player, handler, buf, responseSender) -> {
             int direction = buf.readInt(); // -1 = влево, 1 = вправо
             server.execute(() -> {

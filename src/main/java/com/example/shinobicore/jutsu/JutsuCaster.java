@@ -8,11 +8,14 @@ import com.example.shinobicore.stat.NinjaFormula;
 import com.example.shinobicore.stat.NinjaPlayerData;
 import com.example.shinobicore.stat.StatType;
 import net.minecraft.server.network.ServerPlayerEntity;
+import com.example.shinobicore.tree.TreePassives;
+import com.example.shinobicore.stat.ElementType;
 import net.minecraft.text.Text;
 
 public class JutsuCaster {
     public static boolean cast(ServerPlayerEntity player, String jutsuId) {
         NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
+        TreePassives.Bonuses pbs = TreePassives.collectServer(data);
         if (!data.getLearnedJutsus().contains(jutsuId)) {
             player.sendMessage(Text.literal("§cYou haven't learned this jutsu!"), false);
             return false;
@@ -42,7 +45,7 @@ public class JutsuCaster {
         data.setCurrentChakra(data.getCurrentChakra() - cost);
 
         // Усталость с учётом клана
-        float strain = def.strain();
+        float strain = def.strain() * (1f - pbs.fatigueReduction);
         ClanDefinition clan = ClanRegistry.get(data.getClanId());
         if (clan != null) {
             strain *= clan.fatigueMultiplier();
@@ -63,6 +66,19 @@ public class JutsuCaster {
 
         // Урон
         float damage = def.baseDamage() * NinjaFormula.damageMultiplier(data, def);
+        if (def.hasNature()) {
+            String nid = def.nature().getId();
+            float elemBonus = 0f;
+            if (nid.equals("fire")) {
+                elemBonus += pbs.kekkeiFire;
+                if (pbs.fireWindSynergy > 0 && data.isNatureUnlocked(ElementType.WIND)) elemBonus += pbs.fireWindSynergy;
+            } else if (nid.equals("earth")) {
+                elemBonus += pbs.kekkeiEarth;
+            } else if (nid.equals("lightning")) {
+                elemBonus += pbs.kekkeiLightning;
+            }
+            if (elemBonus > 0) damage *= (1f + elemBonus);
+        }
 
         // === ЛОГИРОВАНИЕ ===
         JutsuLogger.logCast(player, def, data, damage, cost);
