@@ -38,13 +38,16 @@ public abstract class KatanaDeflectMixin {
         }
         
         if (!tapActive && !holdActive) return;
-        if (now - data.getLastDeflectReflectMs() < 200) return;
+        // cooldown moved below (shield ignores it)
         
         if (projectile == null) return;
         if (projectile instanceof ServerPlayerEntity) return;
         
         // === РљР›Р®Р§Р•Р’РћР•: Seigan + Hold = 360В° Р·Р°С‰РёС‚Р° (РїРѕР»РЅРѕСЃС‚СЊСЋ РїСЂРѕРїСѓСЃРєР°РµРј РїСЂРѕРІРµСЂРєСѓ С„СЂРѕРЅС‚Р°) ===
         boolean isSeiganShield = holdActive && stance == KenjutsuStance.SEIGAN;
+        if (!isSeiganShield && now - data.getLastDeflectReflectMs() < 200) return;
+        if (!isSeiganShield && now - data.getLastDeflectReflectMs() < 200) return;
+        if (!isSeiganShield && now - data.getLastDeflectReflectMs() < 200) return;
         
         if (!isSeiganShield) {
             // РўРѕР»СЊРєРѕ РґР»СЏ Aggressive tap РёР»Рё Seigan tap РїСЂРѕРІРµСЂСЏРµРј С„СЂРѕРЅС‚ 180В°

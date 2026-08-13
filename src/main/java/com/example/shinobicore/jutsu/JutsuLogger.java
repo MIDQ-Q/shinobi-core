@@ -24,6 +24,7 @@ public class JutsuLogger {
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
     private static Path logPath;
     private static boolean enabled = true;
+    private static java.io.BufferedWriter bufferedWriter;
 
     /**
      * Инициализация логгера. Вызывать ОДИН РАЗ в ShinobiCore.onInitialize().

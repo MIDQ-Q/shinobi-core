@@ -31,4 +31,12 @@ public class TaijutsuFormulas {
     public static boolean canUseStrongFist(int taijutsuLevel) {
         return taijutsuLevel >= strongFistUnlockLevel();
     }
+
+    // === PHASE7_SPEED_SCALING ===
+    public static int attackCooldownTicks(TaijutsuStyle style, boolean chakraMode, int taijutsuLevel) {
+        float baseCooldown = 12.0f;
+        float speedMult = style.getSpeedMult() * (chakraMode ? ModConfig.instance.taijutsu.chakraModeSpeedMult : 1.0f);
+        float levelMult = 1.0f + taijutsuLevel * 0.003f;
+        return Math.max(3, (int) (baseCooldown / (speedMult * levelMult)));
+    }
 }

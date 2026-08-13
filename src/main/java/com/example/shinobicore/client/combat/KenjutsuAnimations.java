@@ -12,9 +12,10 @@ public class KenjutsuAnimations {
         public SlashState(int step) { this.step = step; this.start = System.currentTimeMillis(); }
         public float getProgress() { return Math.min(1f, (System.currentTimeMillis() - start) / duration(step)); }
         public boolean isFinished() { return System.currentTimeMillis() - start >= duration(step); }
-        private float duration(int s) { return switch (s) { case 0, 1 -> 260f; case 2 -> 340f; default -> 520f; }; }
+        private float duration(int s) { return switch (s) { case 0, 1 -> 260f; case 2 -> 340f; case 4 -> 350f; default -> 520f; }; }
     }
     public static void playSlash(AbstractClientPlayerEntity p, int step) { SLASHES.put(p.getUuid(), new SlashState(step)); }
+    public static void playIaiSlash(AbstractClientPlayerEntity p) { SLASHES.put(p.getUuid(), new SlashState(4)); }
     public static void playDeflect(AbstractClientPlayerEntity p) { DEFLECTS.put(p.getUuid(), System.currentTimeMillis() + 300); }
     public static boolean isDeflecting(AbstractClientPlayerEntity p) {
         Long t = DEFLECTS.get(p.getUuid());
@@ -37,13 +38,18 @@ public class KenjutsuAnimations {
         SlashState s = get(p); if (s == null) return;
         float c = curve(s.getProgress());
         switch (s.step) {
-            case 0 -> { rArm.yaw = -1.9f + c * 3.2f; rArm.pitch = -0.85f; rArm.roll = 0.2f; body.yaw += c * 0.6f - 0.3f; lArm.yaw = 0.4f; lArm.pitch = -0.6f; }
-            case 1 -> { rArm.yaw = 1.9f - c * 3.2f; rArm.pitch = -0.85f; rArm.roll = -0.2f; body.yaw -= c * 0.6f - 0.3f; lArm.yaw = -0.4f; lArm.pitch = -0.6f; }
-            case 2 -> { rArm.pitch = 2.3f - c * 4.0f; rArm.yaw = -0.2f; body.pitch += c * 0.35f; lArm.pitch = -0.9f; lArm.yaw = 0.5f; }
-            default -> { body.yaw += s.getProgress() * 6.283f; rArm.pitch = -1.5f; rArm.roll = 0.6f; lArm.pitch = -1.5f; lArm.yaw = -0.6f; head.pitch -= 0.1f; }
+            case 0 -> { rArm.yaw = -1.9f + c * 3.2f; rArm.pitch = -0.85f; rArm.roll = 0.2f; body.yaw += c * 0.6f - 0.3f; body.pitch += c * 0.12f; lArm.yaw = 0.4f; lArm.pitch = -0.6f; }
+            case 1 -> { rArm.yaw = 1.9f - c * 3.2f; rArm.pitch = -0.85f; rArm.roll = -0.2f; body.yaw -= c * 0.6f - 0.3f; body.pitch += c * 0.12f; lArm.yaw = -0.4f; lArm.pitch = -0.6f; }
+            case 2 -> { rArm.pitch = 2.3f - c * 4.0f; rArm.yaw = -0.2f; body.pitch += c * 0.35f; body.roll += c * 0.05f; lArm.pitch = -0.9f; lArm.yaw = 0.5f; }
+            default -> { body.yaw += (float) Math.sin(s.getProgress() * Math.PI) * 1.2f; rArm.pitch = -1.5f; rArm.roll = 0.6f; lArm.pitch = -1.5f; lArm.yaw = -0.6f; head.pitch -= 0.1f; }
         }
     }
     public static void applyDeflect(AbstractClientPlayerEntity p, ModelPart rArm, ModelPart lArm) {
         rArm.pitch = -1.4f; rArm.yaw = -0.3f; lArm.pitch = -1.0f; lArm.yaw = 0.4f;
+    }
+
+    public static void cleanup(UUID id) {
+        SLASHES.remove(id);
+        DEFLECTS.remove(id);
     }
 }

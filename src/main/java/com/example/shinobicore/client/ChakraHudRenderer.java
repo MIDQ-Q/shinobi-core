@@ -33,8 +33,13 @@ public class ChakraHudRenderer {
     private static final int AIR_LIGHT = 0xFF66D9E8;   private static final int AIR_DARK = 0xFF2A97B0;
     private static final int ARMOR_LIGHT = 0xFFB0B0B0; private static final int ARMOR_DARK = 0xFF707070;
     private static final int BORDER = 0xFF000000;
+    // === PHASE7_COMBO_DROP ===
+    private static int lastComboStep = 0;
+    private static long comboDropTime = 0;
+    private static final long COMBO_DROP_DISPLAY_MS = 1500;
     private static final int BG = 0xCC222222;
 
+    private static final List<BarSpec> barsCache = new ArrayList<>(8);
     private record BarSpec(float ratio, int light, int dark, boolean pulse, String label, String value) {}
 
     public static void render(DrawContext context, float tickDelta) {
@@ -45,7 +50,8 @@ public class ChakraHudRenderer {
         int sh = client.getWindow().getScaledHeight();
 
         // === ВЕРХ-ЛЕВО: чакра и прочее ===
-        List<BarSpec> bars = new ArrayList<>();
+        barsCache.clear();
+        List<BarSpec> bars = barsCache;
         float chakraRatio = maxChakra > 0 ? currentChakra / maxChakra : 0;
         bars.add(new BarSpec(chakraRatio, CHAKRA_LIGHT, CHAKRA_DARK, chakraRatio < 0.25f && !exhausted,
             "CH", (int) currentChakra + "/" + (int) maxChakra));
@@ -110,6 +116,11 @@ public class ChakraHudRenderer {
 
         // === КОМБО-СЧЁТЧИК ===
         int comboStep = TaijutsuClientHandler.getComboStep();
+     // === PHASE7_COMBO_DROP ===
+     if (lastComboStep > 0 && comboStep == 0) {
+         comboDropTime = System.currentTimeMillis();
+     }
+     lastComboStep = comboStep;
         ShinobiCore.LOGGER.debug("[HUD] Combo step: {}", comboStep);
         if (comboStep > 0) {
             String comboText = "COMBO x" + comboStep;

@@ -30,6 +30,7 @@ public class ThrowingWeaponItem extends Item {
             if (!user.getAbilities().creativeMode) stack.decrement(1);
             user.getItemCooldownManager().set(this, cooldown);
         }
+        if (world.isClient && user instanceof net.minecraft.client.network.ClientPlayerEntity cp) { com.example.shinobicore.client.combat.ThrowAnimations.playThrow(cp); } // PHASE_A_THROW_HOOK
         return TypedActionResult.success(stack, world.isClient());
     }
     private Vec3d rotate(Vec3d v, double deg) {

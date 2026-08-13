@@ -174,4 +174,9 @@ public class TaijutsuAnimations {
 
         return curve * maxAngle;
     }
+
+    public static void cleanup(UUID id) {
+        activeAnimations.remove(id);
+        activeKicks.remove(id);
+    }
 }

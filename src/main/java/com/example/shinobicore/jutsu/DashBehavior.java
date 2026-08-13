@@ -93,7 +93,26 @@ public class DashBehavior implements JutsuBehavior {
             spawnSplashAtEnd(serverWorld, endPos, splashRadius, splashDamage, player);
         }
 
-        JutsuLogger.logBehavior("dash", String.format(
+             // === PHASE6_DASH_AFTERIMAGE ===
+     // Ghost afterimages along the dash path
+     Vec3d dir2 = endPos.subtract(startPos).normalize();
+     float len2 = (float) startPos.distanceTo(endPos);
+     int ghostCount = (int)(len2 * 3); // 3 ghosts per block
+     for (int g = 0; g < ghostCount; g++) {
+         float progress = (float) g / ghostCount;
+         Vec3d ghostPos = startPos.add(dir2.multiply(progress * len2));
+         // Sweep attack particles as "afterimage"
+         serverWorld.spawnParticles(ParticleTypes.SWEEP_ATTACK,
+             ghostPos.x + (Math.random() - 0.5) * 0.4,
+             ghostPos.y + 0.8 + (Math.random() - 0.5) * 0.6,
+             ghostPos.z + (Math.random() - 0.5) * 0.4,
+             1, 0, 0.02, 0, 0);
+     }
+     // Landing burst
+     serverWorld.spawnParticles(ParticleTypes.CLOUD,
+         endPos.x, endPos.y + 0.3, endPos.z,
+         12, 0.5, 0.3, 0.5, 0.06);
+     JutsuLogger.logBehavior("dash", String.format(
                 "player=%s, targets=%d, distance=%.1f, knockback=%.2f, waveWidth=%.1f, trail=%b, splash=%b",
                 player.getName().getString(), targets.size(), distance, knockback,
                 waveWidth, trailParticle != null, splashOnLand));

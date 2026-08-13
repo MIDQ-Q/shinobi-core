@@ -28,8 +28,9 @@ public class KenjutsuClientHandler {
         buf.writeInt(comboStep);
         buf.writeString(stance);
         ClientPlayNetworking.send(ModPackets.KATANA_ATTACK_ID, buf);
-        KenjutsuAnimations.playSlash(player, comboStep);
+        if (stance.equals("iai")) KenjutsuAnimations.playIaiSlash(player); else KenjutsuAnimations.playSlash(player, comboStep); // PHASE_A_IAI_HOOK
         playSlashParticles(player, comboStep);
+        SwordTrailRenderer.playSlashTrail(player, comboStep); // PHASE_K1_TRAIL_HOOKED
         TaijutsuSounds.playWhoosh();
         if (comboStep == 3) {
             TaijutsuSounds.playKickSound();

@@ -69,7 +69,7 @@ public class TaijutsuClientHandler {
 
         boolean chakraMode = ClientNinjaState.chakraMode;
         int taijutsuLevel = ClientNinjaState.statLevels.getOrDefault("taijutsu", 0);
-        int cooldown = TaijutsuFormulas.attackCooldownTicks(currentStyle, chakraMode);
+        int cooldown = TaijutsuFormulas.attackCooldownTicks(currentStyle, chakraMode, taijutsuLevel); // PHASE7_CLIENT
 
         ShinobiCore.LOGGER.debug("[ATTACK] Sending packet: step={}, style={}", comboStep, currentStyle.getId());
         sendAttackPacket(comboStep, currentStyle);

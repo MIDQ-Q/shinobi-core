@@ -22,6 +22,7 @@ public class ClientInputHandler {
         if (client.player == null) return;
         if (KeyBindings.CHAKRA_MODE.wasPressed()) {
             ClientNinjaState.chakraMode = !ClientNinjaState.chakraMode;
+            if (ClientNinjaState.chakraMode) com.example.shinobicore.client.combat.ChakraBurstAnimations.playBurst(client.player); // PHASE_A_BURST_HOOK
             if (client.getNetworkHandler() != null) {
                 PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
                 buf.writeBoolean(ClientNinjaState.chakraMode);

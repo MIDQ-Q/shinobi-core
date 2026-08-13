@@ -30,6 +30,8 @@ public class NinjaPlayerData {
     private int rasenganChargeTicks = 0;
     private int rasenganChargeTarget = 300; // 15 сек по умолчанию
     private boolean rasenganReady = false;
+    private int rasenganReadyTicks = 0;
+    private boolean lastDangerState = false;
     private String clanId = "none";
     private boolean clanChosen = false;
 
@@ -99,6 +101,10 @@ public class NinjaPlayerData {
     public void setRasenganChargeTarget(int v) { this.rasenganChargeTarget = v; }
     public boolean isRasenganReady() { return rasenganReady; }
     public void setRasenganReady(boolean v) { this.rasenganReady = v; }
+    public int getRasenganReadyTicks() { return rasenganReadyTicks; }
+    public void setRasenganReadyTicks(int v) { this.rasenganReadyTicks = v; }
+    public boolean getLastDangerState() { return lastDangerState; }
+    public void setLastDangerState(boolean v) { this.lastDangerState = v; }
 
     public float getRasenganChargeProgress() {
         if (rasenganChargeTarget <= 0) return 1.0f;

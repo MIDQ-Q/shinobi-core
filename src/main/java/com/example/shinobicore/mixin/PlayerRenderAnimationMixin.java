@@ -7,6 +7,9 @@ import com.example.shinobicore.client.combat.KenjutsuAnimations;
 import com.example.shinobicore.client.IdlePoseSystem;
 import com.example.shinobicore.client.combat.TaijutsuAnimations.AttackAnimationState;
 import com.example.shinobicore.client.parkour.ParkourManager;
+import com.example.shinobicore.jutsu.JutsuRegistry;
+import com.example.shinobicore.jutsu.JutsuDefinition;
+import com.example.shinobicore.client.combat.HitStopManager;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
@@ -32,6 +35,10 @@ public abstract class PlayerRenderAnimationMixin {
                                               float animationProgress, float headYaw, float headPitch,
                                               CallbackInfo ci) {
         if (!(entity instanceof AbstractClientPlayerEntity player)) return;
+        // === HIT-STOP: freeze animation on hit ===
+        if (HitStopManager.isFrozen(entity.getId())) {
+            return;
+        }
 
         boolean chakraMode = ClientNinjaState.chakraMode && ChakraHudRenderer.currentChakra > 0;
         boolean sprinting = player.isSprinting();
@@ -39,6 +46,21 @@ public abstract class PlayerRenderAnimationMixin {
         boolean rolling = ParkourManager.isRolling();
 
         // === НАРУТО-РАН в чакра-режиме ===
+                // === WATER RUNNING === // BATCH3_WATER
+        if (chakraMode && com.example.shinobicore.client.ChakraPhysicsClient.standingOnWater && sprinting) {
+            applyWaterRun(limbAngle, limbDistance);
+            return;
+        }
+        // === WALL RUNNING === // BATCH3_WALL
+        if (com.example.shinobicore.client.parkour.ParkourManager.isWallRunning()) {
+            applyWallRun(limbAngle, limbDistance);
+            return;
+        }
+        // === SLIDING === // BATCH3_SLIDE
+        if (sliding) {
+            applySlidePose();
+            return;
+        }
         if (chakraMode && sprinting && !sliding && !rolling) {
             applyNarutoRun(limbAngle, limbDistance);
             return; // Не применяем обычную анимацию
@@ -57,10 +79,12 @@ public abstract class PlayerRenderAnimationMixin {
 
         // === АНИМАЦИЯ УДАРА НОГОЙ ===
         // === РџР•Р§РђРўР РџР Р РљРђРЎРўР• ===
-        if (com.example.shinobicore.client.CastingClientState.isCasting(player)) {
-            rightArm.pitch = -1.25f; rightArm.yaw = -0.45f;
-            leftArm.pitch = -1.25f; leftArm.yaw = 0.45f;
-            head.pitch += 0.1f;
+        // PHASE_E_GENJUTSU_POSE
+     var castState = com.example.shinobicore.client.CastingClientState.get(player); // BATCH3_HANDSEAL
+        if (castState != null) {
+            com.example.shinobicore.client.combat.HandSealPoses.apply(castState.nature, rightArm, leftArm, body, head);
+            // BATCH3: nature-specific
+            // BATCH3: hand seals
         }
         // === KENJUTSU: SLASH / DEFLECT ===
         if (KenjutsuAnimations.isDeflecting(player) || ClientNinjaState.deflectHeld) {
@@ -68,6 +92,13 @@ public abstract class PlayerRenderAnimationMixin {
         }
         if (KenjutsuAnimations.isAttacking(player)) {
             KenjutsuAnimations.applySlash(player, rightArm, leftArm, body, head);
+        }
+        // === PHASE_A_APPLY: throw / landing / chakra burst ===
+        com.example.shinobicore.client.combat.ThrowAnimations.apply(player, rightArm, leftArm, body, head);
+        com.example.shinobicore.client.LandingAnimations.apply(player, body, rightLeg, leftLeg, rightArm, leftArm, head);
+        com.example.shinobicore.client.combat.ChakraBurstAnimations.apply(player, rightArm, leftArm, body, head);
+        if (com.example.shinobicore.client.combat.ThrowAnimations.isThrowing(player)) {
+            com.example.shinobicore.client.combat.ThrowAnimations.apply(player, rightArm, leftArm, body, head);
         }
         if (TaijutsuAnimations.isKicking(player)) {
             applyKickAnimation(player);
@@ -215,5 +246,52 @@ public abstract class PlayerRenderAnimationMixin {
         body.pitch += bodyRadians;
         rightArm.pitch -= kickRadians * 0.3f;
         leftArm.pitch += kickRadians * 0.4f;
+    }
+
+    // === BATCH 3: Water Run / Wall Run / Slide Poses ===
+    private void applyWaterRun(float limbAngle, float limbDistance) {
+        float bob = MathHelper.sin(limbAngle * 2.0f) * 0.1f * limbDistance;
+        rightArm.pitch = -0.3f + bob;
+        rightArm.yaw = -0.9f;
+        rightArm.roll = 0.3f;
+        leftArm.pitch = -0.3f + bob;
+        leftArm.yaw = 0.9f;
+        leftArm.roll = -0.3f;
+        body.pitch = 0.25f;
+        head.pitch -= 0.15f;
+        float legSwing = MathHelper.cos(limbAngle) * limbDistance * 1.3f;
+        rightLeg.pitch = legSwing;
+        rightLeg.yaw = -0.15f;
+        leftLeg.pitch = -legSwing;
+        leftLeg.yaw = 0.15f;
+    }
+
+    private void applyWallRun(float limbAngle, float limbDistance) {
+        body.roll = 0.3f;
+        body.pitch = 0.2f;
+        rightArm.pitch = -1.5f;
+        rightArm.yaw = -0.8f;
+        rightArm.roll = 0.5f;
+        leftArm.pitch = 0.5f;
+        leftArm.yaw = 0.5f;
+        head.yaw += 0.2f;
+        head.pitch -= 0.1f;
+        float legSwing = MathHelper.cos(limbAngle) * limbDistance * 1.2f;
+        rightLeg.pitch = legSwing;
+        leftLeg.pitch = -legSwing;
+    }
+
+    private void applySlidePose() {
+        rightLeg.pitch = -1.0f;
+        rightLeg.yaw = 0.1f;
+        leftLeg.pitch = -0.7f;
+        leftLeg.yaw = -0.1f;
+        body.pitch = -0.4f;
+        body.roll = 0.05f;
+        rightArm.pitch = 0.6f;
+        rightArm.yaw = -0.3f;
+        leftArm.pitch = 0.6f;
+        leftArm.yaw = 0.3f;
+        head.pitch -= 0.2f;
     }
 }

@@ -33,4 +33,26 @@
       "minecraft:mob/player/attack/sweep7"
     ]
   }
+,
+"genjutsu_cast": {
+    "subtitle": "Genjutsu cast",
+    "sounds": [
+        {"name": "minecraft:entity/enderman/stare", "volume": 0.5, "pitch": 0.6},
+        {"name": "minecraft:entity/illusioner/cast_spell", "volume": 0.7, "pitch": 0.8}
+    ]
+},
+"genjutsu_ambient": {
+    "subtitle": "Genjutsu whispers",
+    "sounds": [
+        {"name": "minecraft:ambient/cave/cave8", "volume": 0.15, "pitch": 0.4},
+        {"name": "minecraft:entity/wandering_trader/disappeared", "volume": 0.2, "pitch": 0.5}
+    ]
+},
+"genjutsu_resist": {
+    "subtitle": "Genjutsu resisted",
+    "sounds": [
+        {"name": "minecraft:entity/enderman/teleport", "volume": 0.4, "pitch": 1.5}
+    ]
 }
+}
+// PHASE_E_GEN_SOUNDS_REGISTERED

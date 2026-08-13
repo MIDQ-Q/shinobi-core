@@ -17,7 +17,10 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
+// import not needed - using static method reference
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.registry.Registries;
 import com.example.shinobicore.client.combat.TaijutsuSounds;
 import net.minecraft.registry.Registries;
@@ -29,11 +32,14 @@ import java.util.Map;
 import java.util.Set;
 import com.example.shinobicore.client.combat.TaijutsuSounds;
 import com.example.shinobicore.client.CinematicCamera;
+import com.example.shinobicore.client.HandSignsClientState;
+import com.example.shinobicore.client.HandSignsHudRenderer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import com.example.shinobicore.ShinobiCore;
 import com.example.shinobicore.client.combat.TaijutsuAnimations;
+import com.example.shinobicore.client.combat.HitStopManager;
 import com.example.shinobicore.client.combat.TaijutsuClientHandler;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 public class ShinobiCoreClient implements ClientModInitializer {
@@ -46,9 +52,13 @@ public class ShinobiCoreClient implements ClientModInitializer {
         ParkourManager.register();
         TaijutsuClientHandler.register();
         RasenganClientVisual.register();
+        com.example.shinobicore.client.ChakraAuraVisual.register(); // BATCH3_AURA
+        com.example.shinobicore.client.LandingAnimations.register(); // PHASE_A_REG
         // === РЕГИСТРАЦИЯ РЕНДЕРЕРОВ (было потеряно!) ===
         EntityRendererRegistry.register(ModEntities.NINJA_PROJECTILE, NinjaProjectileRenderer::new);
         EntityRendererRegistry.register(ModEntities.SHURIKEN, ShurikenRenderer::new);
+        // PHASE_K3_KATANA_RENDERER_REGISTERED
+        BuiltinItemRendererRegistry.INSTANCE.register(com.example.shinobicore.item.ModItems.KATANA, com.example.shinobicore.client.render.KatanaBuiltinRenderer::render);
         
         // === РЕГИСТРАЦИЯ ЗВУКОВ ===
         Registry.register(Registries.SOUND_EVENT, TaijutsuSounds.PUNCH_LIGHT.getId(), TaijutsuSounds.PUNCH_LIGHT);
@@ -169,6 +179,34 @@ public class ShinobiCoreClient implements ClientModInitializer {
             });
         });
         CastingClientVisual.register();
+        com.example.shinobicore.client.combat.SwordTrailRenderer.register(); // PHASE_K1_TRAIL_REGISTERED
+        ChakraAuraRenderer.register(); // PHASE_E_AURA_REGISTERED
+        ChakraAuraRenderer.register();
+                ClientPlayNetworking.registerGlobalReceiver(ModPackets.HIT_STOP_ID, (client, handler, buf, responseSender) -> {
+            int entityId = buf.readInt();
+            int durationMs = buf.readInt();
+            client.execute(() -> HitStopManager.freeze(entityId, durationMs));
+        });
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
+            IdlePoseSystem.cleanupAll();
+            com.example.shinobicore.client.combat.TaijutsuAnimations.cleanup(client.player.getUuid());
+            com.example.shinobicore.client.combat.KenjutsuAnimations.cleanup(client.player.getUuid());
+            CastingClientState.clear();
+            HitStopManager.clear();
+            HandSignsClientState.clear();
+        });
+                // === PHASE5 HAND SIGNS ===
+        ClientPlayNetworking.registerGlobalReceiver(ModPackets.CAST_START_ID, (client, handler, buf, responseSender) -> {
+            int entityId = buf.readInt();
+            String jutsuId = buf.readString();
+            int durationTicks = buf.readInt();
+            client.execute(() -> HandSignsClientState.startCasting(entityId, jutsuId, durationTicks));
+        });
+        ClientPlayNetworking.registerGlobalReceiver(ModPackets.CAST_INTERRUPT_ID, (client, handler, buf, responseSender) -> {
+            int entityId = buf.readInt();
+            client.execute(() -> HandSignsClientState.interruptCasting(entityId));
+        });
         HudRenderCallback.EVENT.register(ChakraHudRenderer::render);
+        HudRenderCallback.EVENT.register(HandSignsHudRenderer::render);
     }
 }

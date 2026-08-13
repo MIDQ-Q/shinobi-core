@@ -34,6 +34,10 @@ public class ShurikenEntity extends Entity {
     }
     @Override protected void initDataTracker() {}
     @Override public void tick() {
+        // PHASE_K3_THROW_SOUND: Play whoosh sound on first tick
+        if (age == 0) {
+            this.playSound(SoundEvents.ENTITY_ARROW_SHOOT, 0.5f, 1.8f);
+        }
         super.tick();
         age++;
         if (stuck) { if (age > 400) discard(); return; }
@@ -84,6 +88,12 @@ public class ShurikenEntity extends Entity {
             return;
         }
         this.setPosition(this.getX() + vel.x, this.getY() + vel.y, this.getZ() + vel.z);
+     // Trail particles behind the shuriken
+     if (this.getWorld() instanceof ServerWorld trailWorld && age % 2 == 0) {
+         trailWorld.spawnParticles(ParticleTypes.CRIT,
+             this.getX() - vel.x * 0.5, this.getY() - vel.y * 0.5, this.getZ() - vel.z * 0.5,
+             1, 0.02, 0.02, 0.02, 0.01);
+     }
     }
     public void reflect(ServerPlayerEntity newOwner) {
         this.ownerId = newOwner.getUuid();
@@ -98,6 +108,7 @@ public class ShurikenEntity extends Entity {
         return null;
     }
     public int getAge() { return age; }
+    public float getDamage() { return damage; }
     public boolean isStuck() { return stuck; }
     @Override protected void readCustomDataFromNbt(NbtCompound nbt) {
         damage = nbt.getFloat("Damage");

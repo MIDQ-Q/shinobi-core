@@ -19,6 +19,7 @@ public class TreePassives {
         public float kekkeiLightning = 0f;
         public float kekkeiRegen = 0f;
         public float kekkeiStun = 0f;
+        public float genjutsuResist = 0f;
     }
 
     public static Bonuses collectServer(NinjaPlayerData data) {
@@ -48,7 +49,9 @@ public class TreePassives {
             case "kg_shadow" -> b.kekkeiStun += 0.5f;
             case "kg_storm" -> b.kekkeiLightning += 0.25f;
             case "kg_lava" -> { b.kekkeiFire += 0.10f; b.kekkeiEarth += 0.10f; }
+            case "gen_resist" -> b.genjutsuResist += 0.10f;
             default -> {}
         }
     }
 }
+// PHASE_B_GEN_PASSIVE_DONE

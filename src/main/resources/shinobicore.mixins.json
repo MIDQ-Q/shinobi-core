@@ -17,7 +17,8 @@
     "CameraMixin",
     "KatanaDeflectMixin",
     "PlayerCopyMixin",
-    "PlayerParryMixin"
+    "PlayerParryMixin",
+        "InterruptCastMixin"
   ],
   "injectors": {
     "defaultRequire": 1

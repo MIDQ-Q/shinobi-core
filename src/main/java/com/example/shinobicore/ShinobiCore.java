@@ -16,6 +16,8 @@ import com.example.shinobicore.jutsu.MeleeBehavior;
 import com.example.shinobicore.jutsu.ProjectileBehavior;
 import com.example.shinobicore.jutsu.UtilityBehavior;
 import com.example.shinobicore.jutsu.WallBehavior;
+import com.example.shinobicore.jutsu.GenjutsuBehavior; // PHASE_E_GENJUTSU_BEHAVIOR_REGISTERED
+import com.example.shinobicore.jutsu.GenjutsuBehavior;
 import com.example.shinobicore.network.ChakraSyncPacket;
 import com.example.shinobicore.network.ModPackets;
 import com.example.shinobicore.stat.ElementType;
@@ -60,9 +62,17 @@ public class ShinobiCore implements ModInitializer {
         BehaviorRegistry.register("melee", new MeleeBehavior());
         BehaviorRegistry.register("wall", new WallBehavior());
         BehaviorRegistry.register("utility", new UtilityBehavior());
+        BehaviorRegistry.register("genjutsu", new GenjutsuBehavior());
+        BehaviorRegistry.register("genjutsu", new GenjutsuBehavior()); // PHASE_B_GENJUTSU_REGISTERED
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> NinjaCommand.register(dispatcher));
         ServerTickEvents.END_SERVER_TICK.register(NinjaTickHandler::onServerTick);
+        // === PHASE5_CAST_TICK ===
+        ServerTickEvents.END_SERVER_TICK.register(server -> {
+            for (ServerPlayerEntity p : server.getPlayerManager().getPlayerList()) {
+                com.example.shinobicore.combat.CastingServerState.tickPlayer(p);
+            }
+        });
         ModPackets.register();
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
@@ -75,6 +85,7 @@ public class ShinobiCore implements ModInitializer {
                     // === ИЗМЕНЕНО: сохраняем строку ===
                     data.setClanId(randomClan.id());
                     data.setAffinity(randomClan.affinity());
+                // === AFFINITY DEDUP FIX ===
                     // === Р¤РРљРЎ: СЂР°Р·Р±Р»РѕРєРёСЂРѕРІР°С‚СЊ affinity РєР°Рє nature ===
                     if (randomClan.affinity() != null) {
                         data.setNatureUnlocked(randomClan.affinity(), true);
@@ -83,12 +94,7 @@ public class ShinobiCore implements ModInitializer {
                         }
                     }
                     // === ФИКС: разблокировать affinity как nature ===
-                    if (randomClan.affinity() != null) {
-                        data.setNatureUnlocked(randomClan.affinity(), true);
-                        if (data.getNatureLevel(randomClan.affinity()) < 5) {
-                        data.setNatureLevel(randomClan.affinity(), 5);
-                        }
-                    }
+                    
                     data.setClanChosen(true);
 
                     if (randomClan.extraAffinityCount() > 0) {
@@ -467,5 +473,49 @@ public class ShinobiCore implements ModInitializer {
     private static ElementType elementById(String id) {
         for (ElementType e : ElementType.values()) if (e.getId().equals(id)) return e;
         return null;
+    }
+
+    public static void broadcastHitStop(ServerPlayerEntity attacker, net.minecraft.entity.LivingEntity target,
+                                         int attackerMs, int targetMs) {
+        // Send to attacker
+        PacketByteBuf atkBuf = new PacketByteBuf(Unpooled.buffer());
+        atkBuf.writeInt(attacker.getId());
+        atkBuf.writeInt(attackerMs);
+        ServerPlayNetworking.send(attacker, ModPackets.HIT_STOP_ID, atkBuf);
+        // Send target freeze to attacker (so attacker sees target freeze)
+        if (target != null) {
+            PacketByteBuf tgtBuf = new PacketByteBuf(Unpooled.buffer());
+            tgtBuf.writeInt(target.getId());
+            tgtBuf.writeInt(targetMs);
+            ServerPlayNetworking.send(attacker, ModPackets.HIT_STOP_ID, tgtBuf);
+        }
+        // Send to target (if player)
+        if (target instanceof ServerPlayerEntity targetPlayer) {
+            PacketByteBuf selfBuf = new PacketByteBuf(Unpooled.buffer());
+            selfBuf.writeInt(targetPlayer.getId());
+            selfBuf.writeInt(targetMs);
+            ServerPlayNetworking.send(targetPlayer, ModPackets.HIT_STOP_ID, selfBuf);
+        }
+    }
+
+    // === PHASE5 CAST BROADCAST ===
+    public static void broadcastCastStart(ServerPlayerEntity player, String jutsuId, int durationTicks) {
+        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+        buf.writeInt(player.getId());
+        buf.writeString(jutsuId);
+        buf.writeInt(durationTicks);
+        for (ServerPlayerEntity p : net.fabricmc.fabric.api.networking.v1.PlayerLookup.tracking(player)) {
+            ServerPlayNetworking.send(p, ModPackets.CAST_START_ID, buf);
+        }
+        ServerPlayNetworking.send(player, ModPackets.CAST_START_ID, buf);
+    }
+
+    public static void broadcastCastInterrupt(ServerPlayerEntity player) {
+        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+        buf.writeInt(player.getId());
+        for (ServerPlayerEntity p : net.fabricmc.fabric.api.networking.v1.PlayerLookup.tracking(player)) {
+            ServerPlayNetworking.send(p, ModPackets.CAST_INTERRUPT_ID, buf);
+        }
+        ServerPlayNetworking.send(player, ModPackets.CAST_INTERRUPT_ID, buf);
     }
 }

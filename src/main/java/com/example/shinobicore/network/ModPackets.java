@@ -63,6 +63,9 @@ public class ModPackets {
     public static final Identifier CONTROL_TRAIN_ID = new Identifier("shinobicore", "control_train");
     public static final Identifier DANGER_SYNC_ID = new Identifier("shinobicore", "danger_sync");
     public static final Identifier SENSORY_TOGGLE_ID = new Identifier("shinobicore", "sensory_toggle");
+    public static final Identifier CAST_START_ID = new Identifier("shinobicore", "cast_start");
+    public static final Identifier CAST_INTERRUPT_ID = new Identifier("shinobicore", "cast_interrupt");
+    public static final Identifier HIT_STOP_ID = new Identifier("shinobicore", "hit_stop");
     
     public static void register() {
         ServerPlayNetworking.registerGlobalReceiver(MEDITATE_ID, (server, player, handler, buf, responseSender) -> {
@@ -161,7 +164,7 @@ public class ModPackets {
                 
                 if (id != null) {
                     ShinobiCore.LOGGER.info("[CAST-SERVER] ✓ Calling JutsuCaster.cast(player, {})", id);
-                    boolean success = JutsuCaster.cast(player, id);
+                    boolean success = JutsuCaster.beginCast(player, id); // === PHASE5_USE_BEGINCAST ===
                     ShinobiCore.LOGGER.info("[CAST-SERVER] JutsuCaster.cast returned: {}", success);
                 } else {
                     ShinobiCore.LOGGER.info("[CAST-SERVER] ✗ Slot {} is empty!", s + 1);
@@ -194,8 +197,10 @@ public class ModPackets {
 
                 // === ВАЛИДАЦИЯ: проверяем кулдаун между ударами ===
                 long now = System.currentTimeMillis();
-                long lastAttack = data.getLastAttackTimeMs();
-                int cooldownMs = TaijutsuFormulas.attackCooldownTicks(style, data.isChakraMode()) * 50;
+                                        long lastAttack = data.getLastAttackTimeMs();
+            int taijutsuLevel = data.getStatLevel(StatType.TAIJUTSU);
+
+                int cooldownMs = TaijutsuFormulas.attackCooldownTicks(style, data.isChakraMode(), taijutsuLevel) * 50; // PHASE7_ANTICHEAT
                 
                 // Разрешаем небольшой допуск (50мс) для пинга
                 if (now - lastAttack < cooldownMs - 50) {
@@ -212,7 +217,6 @@ public class ModPackets {
                 }
 
                 // Всё ок — применяем урон
-                int taijutsuLevel = data.getStatLevel(StatType.TAIJUTSU);
                 boolean chakraMode = data.isChakraMode();
                 float damage = TaijutsuFormulas.computeDamage(taijutsuLevel, style, chakraMode, serverStep, data.isExhausted());
                 float knockback = TaijutsuCombo.getKnockback(serverStep);
@@ -220,6 +224,10 @@ public class ModPackets {
                 java.util.List<LivingEntity> targets = MeleeHitDetection.findTargetsInCone(
                         (ServerWorld) player.getWorld(), player, look);
                 MeleeHitDetection.applyDamage((ServerWorld) player.getWorld(), player, targets, damage, knockback);
+                // === HITSTOP_TAIJUTSU ===
+                for (LivingEntity t : targets) {
+                    ShinobiCore.broadcastHitStop(player, t, 80, 160);
+                }
                 data.setFatigue(data.getFatigue() + style.getFatiguePerHit());
 
                 // Обновляем серверное состояние
@@ -258,7 +266,7 @@ public class ModPackets {
                 if (data.isExhausted()) return;
 
                 TaijutsuStyle style = TaijutsuStyle.fromId(styleId);
-                int taijutsuLevel = data.getStatLevel(StatType.TAIJUTSU);
+            int taijutsuLevel = data.getStatLevel(StatType.TAIJUTSU);
                 boolean chakraMode = data.isChakraMode();
 
                 // Удар ногой = x1.5 урона обычного удара
@@ -270,6 +278,10 @@ public class ModPackets {
                 java.util.List<LivingEntity> targets = MeleeHitDetection.findTargetsInCone(
                     (ServerWorld) player.getWorld(), player, look);
                 MeleeHitDetection.applyDamage((ServerWorld) player.getWorld(), player, targets, damage, knockback);
+                // === HITSTOP_TAIJUTSU ===
+                for (LivingEntity t : targets) {
+                    ShinobiCore.broadcastHitStop(player, t, 80, 160);
+                }
 
                 data.setFatigue(data.getFatigue() + style.getFatiguePerHit() * 1.5f);
             });
@@ -299,7 +311,14 @@ public class ModPackets {
                 if (now - data.getKatanaLastAttackMs() > 1500) { data.setKatanaComboStep(0); step = 0; }
                 int tai = data.getStatLevel(StatType.TAIJUTSU);
                 float damage = KenjutsuFormulas.computeDamage(tai, stance, data.isChakraMode(), step, data.isExhausted());
-                if (stance == KenjutsuStance.IAI && now - data.getKatanaLastAttackMs() > 2000) damage *= 2.2f;
+                if (stance == KenjutsuStance.IAI && now - data.getKatanaLastAttackMs() > 2000) {
+    damage *= 2.2f;
+    player.sendMessage(Text.literal("\u00a76IAI CRIT!"), false);
+    player.playSound(net.minecraft.sound.SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, 1.0f, 0.8f);
+    if (player.getWorld() instanceof ServerWorld sw3) {
+        sw3.spawnParticles(net.minecraft.particle.ParticleTypes.CRIT, player.getX(), player.getY() + 1, player.getZ(), 20, 0.5, 0.5, 0.5, 0.1);
+    }
+}
                 Vec3d look = player.getRotationVector();
                 java.util.List<LivingEntity> targets = step == 3
                         ? KenjutsuFormulas.findInRadius((ServerWorld) player.getWorld(), player, 3.5)
@@ -377,30 +396,6 @@ public class ModPackets {
                 ShinobiCore.sendBodySync(player);
             });
         });
-        // === АТТЮНМЕНТ (клиент → сервер) ===
-ServerPlayNetworking.registerGlobalReceiver(ATTUNEMENT_ID, (server, player, handler, buf, responseSender) -> {
-    String elementId = buf.readString();
-    boolean success = buf.readBoolean();
-    server.execute(() -> {
-        NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
-        ElementType element = null;
-        for (ElementType e : ElementType.values()) {
-            if (e.getId().equals(elementId)) { element = e; break; }
-        }
-        if (element == null) return;
-
-        if (success) {
-            data.setNatureUnlocked(element, true);
-            if (data.getNatureLevel(element) < 1) {
-                data.setNatureLevel(element, 1);
-            }
-            ShinobiCore.sendStatsSync(player);
-            player.sendMessage(Text.literal("§aAttuned to " + elementId + "!"), false);
-        } else {
-            player.sendMessage(Text.literal("§cAttunement failed."), false);
-        }
-    });
-});
         ServerPlayNetworking.registerGlobalReceiver(PARKOUR_ACTION_ID, (server, player, handler, buf, responseSender) -> {
             // === ИСПРАВЛЕНО: читаем ВСЕ данные ИЗ буфера СРАЗУ, ДО server.execute() ===
             String actionId = buf.readString();
@@ -432,5 +427,9 @@ ServerPlayNetworking.registerGlobalReceiver(ATTUNEMENT_ID, (server, player, hand
                 if (f > 0) data.setFatigue(data.getFatigue() + f);
             });
         });
+
+        // === HIT-STOP (server -> client): freeze-frame on hit ===
+        // This is S2C only, no server receiver needed.
+        // Server sends it via ShinobiCore.broadcastHitStop()
     }
 }

@@ -9,6 +9,7 @@
     "taijutsu":  {"angle": 309, "color": "#66FF66", "label": "Taijutsu"},
     "medical":   {"angle": 0,   "color": "#FF88CC", "label": "Medical"},
     "sensory":   {"angle": 0,   "color": "#66DDFF", "label": "Sensory"},
+"genjutsu":  {"angle": 0,   "color": "#CC66FF", "label": "Genjutsu"},
     "space":     {"angle": 0,   "color": "#CC99FF", "label": "Space-Time"},
     "uchiha":    {"angle": 26,  "color": "#FF2222", "label": "Uchiha Secret", "clan": "uchiha"},
     "sarutobi":  {"angle": 77,  "color": "#FFAA44", "label": "Monkey King", "clan": "sarutobi"},
@@ -86,6 +87,15 @@
     {"id":"forb_edo","branch":"forbidden","distance":2,"type":"passive","effect":"edo_tensei","value":1,"spCost":25,"requires":["forb_8gates"],"icon":"!","name":"Edo Tensei","description":"Forbidden resurrection","visibilityCondition":{"type":"stat_level","key":"taijutsu","value":50}},
     {"id":"shuriken_accuracy","branch":"shuriken","distance":1,"type":"passive","effect":"aim_cone","value":5,"spCost":4,"requires":[],"icon":"x","name":"Eagle Eye","description":"+5 deg shuriken aim assist"},
     {"id":"shuriken_mark","branch":"shuriken","distance":2,"type":"passive","effect":"mark_duration","value":5,"spCost":5,"requires":["shuriken_accuracy"],"icon":"x","name":"Cursed Mark","description":"Mark lasts 15s instead of 10s"},
-    {"id":"shuriken_double","branch":"shuriken","distance":3,"type":"passive","effect":"double_throw","value":1,"spCost":7,"requires":["shuriken_mark"],"icon":"x","name":"Shadow Shuriken","description":"Throw a second shuriken"}
-  ]
+    {"id":"shuriken_double","branch":"shuriken","distance":3,"type":"passive","effect":"double_throw","value":1,"spCost":7,"requires":["shuriken_mark"],"icon":"x","name":"Shadow Shuriken","description":"Throw a second shuriken"},
+{"id":"gen_basic","branch":"genjutsu","distance":1,"type":"jutsu","jutsuId":"shinobicore:genjutsu_fear","spCost":3,"requires":[],"icon":"G","name":"Fear Genjutsu","description":"Slows and nauseates target"},
+{"id":"gen_mid","branch":"genjutsu","distance":2,"type":"jutsu","jutsuId":"shinobicore:genjutsu_blindness","spCost":5,"requires":["gen_basic"],"icon":"G","name":"Darkness Genjutsu","description":"Blinds and weakens target"},
+{"id":"gen_advanced","branch":"genjutsu","distance":3,"type":"jutsu","jutsuId":"shinobicore:genjutsu_nightmare","spCost":8,"requires":["gen_mid"],"icon":"G","name":"Nightmare Genjutsu","description":"All debuffs, long duration"},
+{"id":"gen_resist","branch":"genjutsu","distance":4,"type":"passive","effect":"genjutsu_resist","value":0.10,"spCost":6,"requires":["gen_advanced"],"icon":"G","name":"Mental Fortress","description":"-10% genjutsu resist chance for targets"}
+  ,
+{"id":"gen_fear","branch":"genjutsu","distance":1,"type":"jutsu","jutsuId":"shinobicore:genjutsu_fear","spCost":3,"requires":[],"icon":"?","name":"Genjutsu: Fear","description":"Slowness + Nausea + Mining Fatigue"},
+{"id":"gen_blind","branch":"genjutsu","distance":2,"type":"jutsu","jutsuId":"shinobicore:genjutsu_blindness","spCost":4,"requires":["gen_fear"],"icon":"?","name":"Genjutsu: Darkness","description":"Blindness + Weakness + Slowness"},
+{"id":"gen_nightmare","branch":"genjutsu","distance":3,"type":"jutsu","jutsuId":"shinobicore:genjutsu_nightmare","spCost":6,"requires":["gen_blind"],"icon":"?","name":"Genjutsu: Nightmare","description":"All debuffs combined"},
+{"id":"gen_paralysis","branch":"genjutsu","distance":3,"angleOffset":12,"type":"jutsu","jutsuId":"shinobicore:genjutsu_paralysis","spCost":7,"requires":["gen_blind"],"icon":"?","name":"Genjutsu: Paralysis","description":"Complete freeze","visibilityCondition":{"type":"stat_level","key":"genjutsu","value":25}}
+]
 }

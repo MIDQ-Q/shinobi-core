@@ -27,4 +27,8 @@ public class CastingClientState {
             default -> 0xFF88AAFF;
         };
     }
+
+    public static void clear() {
+        CASTS.clear();
+    }
 }

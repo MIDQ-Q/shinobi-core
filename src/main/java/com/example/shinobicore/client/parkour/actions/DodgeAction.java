@@ -7,6 +7,8 @@ import com.example.shinobicore.client.KeyBindings;
 import com.example.shinobicore.client.parkour.util.ParkourSounds;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.particle.ParticleTypes;
 
 public class DodgeAction implements ParkourAction {
     public static final String ID = "dodge";

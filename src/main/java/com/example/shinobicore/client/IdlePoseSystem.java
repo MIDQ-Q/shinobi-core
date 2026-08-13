@@ -131,4 +131,12 @@ public class IdlePoseSystem {
             st.fidgetStart = now;
         }
     }
+
+    public static void cleanup(UUID id) {
+        STATES.remove(id);
+    }
+
+    public static void cleanupAll() {
+        STATES.clear();
+    }
 }
