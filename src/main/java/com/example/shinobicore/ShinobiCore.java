@@ -5,6 +5,7 @@ import com.example.shinobicore.clan.ClanRegistry;
 import com.example.shinobicore.command.NinjaCommand;
 import com.example.shinobicore.config.ModConfig;
 import com.example.shinobicore.entity.ModEntities;
+import com.example.shinobicore.item.ModItems;
 import com.example.shinobicore.event.NinjaTickHandler;
 import com.example.shinobicore.jutsu.AoeBehavior;
 import com.example.shinobicore.jutsu.BehaviorRegistry;
@@ -51,6 +52,7 @@ public class ShinobiCore implements ModInitializer {
         ModConfig.load();
         JutsuLogger.init();
         ModEntities.register();
+        ModItems.register();
 
         BehaviorRegistry.register("projectile", new ProjectileBehavior());
         BehaviorRegistry.register("aoe", new AoeBehavior());
@@ -186,7 +188,17 @@ public class ShinobiCore implements ModInitializer {
         ServerPlayNetworking.send(player, ModPackets.BODY_SYNC_ID, buf);
     }
 
-        public static void sendRasenganSync(ServerPlayerEntity player) {
+        public static void broadcastCastFx(ServerPlayerEntity player, String natureId) {
+        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+        buf.writeInt(player.getId());
+        buf.writeString(natureId);
+        for (ServerPlayerEntity p : net.fabricmc.fabric.api.networking.v1.PlayerLookup.tracking(player)) {
+            ServerPlayNetworking.send(p, ModPackets.CAST_FX_ID, buf);
+        }
+        ServerPlayNetworking.send(player, ModPackets.CAST_FX_ID, buf);
+    }
+
+    public static void sendRasenganSync(ServerPlayerEntity player) {
         NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeBoolean(data.isRasenganCharging());

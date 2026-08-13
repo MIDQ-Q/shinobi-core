@@ -29,7 +29,7 @@ public class SkillTreeScreen extends Screen {
 
     private static final String[] BASE_ORDER = {
         "taijutsu", "earth", "water", "general", "medical", "fire", "wind", "lightning",
-        "sensory", "space", "kekkei"
+        "sensory", "space", "shuriken", "kekkei"
     };
 
     private double viewX, viewY;

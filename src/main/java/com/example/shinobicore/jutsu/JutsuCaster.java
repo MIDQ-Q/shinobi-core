@@ -6,6 +6,7 @@ import com.example.shinobicore.config.ModConfig;
 import com.example.shinobicore.stat.NinjaDataHolder;
 import com.example.shinobicore.stat.NinjaFormula;
 import com.example.shinobicore.stat.NinjaPlayerData;
+import com.example.shinobicore.ShinobiCore;
 import com.example.shinobicore.stat.StatType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import com.example.shinobicore.tree.TreePassives;
@@ -84,6 +85,7 @@ public class JutsuCaster {
         JutsuLogger.logCast(player, def, data, damage, cost);
 
         // Вызываем behavior
+        ShinobiCore.broadcastCastFx(player, def.hasNature() ? def.nature().getId() : "none");
         JutsuBehavior behavior = BehaviorRegistry.getFor(def);
         behavior.cast(player, def, data, def.params(), damage);
 

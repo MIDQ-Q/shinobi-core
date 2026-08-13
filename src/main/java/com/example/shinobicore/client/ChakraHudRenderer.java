@@ -124,6 +124,12 @@ public class ChakraHudRenderer {
         ShinobiCore.LOGGER.debug("[HUD] Style: {}", currentStyle.getId());
         context.drawTextWithShadow(client.textRenderer, Text.literal(styleName), 10, y + 10, styleColor);
         y += 12;
+        if (client.player.getMainHandStack().getItem() instanceof com.example.shinobicore.item.KatanaItem) {
+            String st = ClientNinjaState.kenjutsuStance;
+            int stColor = st.equals("seigan") ? 0xFF66AAFF : st.equals("iai") ? 0xFFFFAA00 : 0xFFFF5555;
+            context.drawTextWithShadow(client.textRenderer, Text.literal("[" + st.toUpperCase() + "]"), 10, y + 10, stColor);
+            y += 12;
+        }
 
         // === КУЛДАУН УДАРА НОГОЙ ===
         boolean kickOnCooldown = TaijutsuKickHandler.isOnCooldown();

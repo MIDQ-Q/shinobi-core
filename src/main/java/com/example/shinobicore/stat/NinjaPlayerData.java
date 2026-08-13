@@ -47,6 +47,12 @@ public class NinjaPlayerData {
     private int serverComboStep = 0;
     private long lastAttackTimeMs = 0;
     private String currentStyleId = "standard";
+    private int katanaComboStep = 0;
+    private long katanaLastAttackMs = 0;
+    private String katanaStanceId = "aggressive";
+    private long katanaDeflectUntil = 0;
+    private boolean katanaDeflectHeld = false;
+    private long lastDeflectReflectMs = 0;
 
     private final String[] loadoutA = new String[5];
     private final String[] loadoutB = new String[5];
@@ -164,6 +170,18 @@ public class NinjaPlayerData {
     public void resetCombo() { this.serverComboStep = 0; }
     public void setLastAttackTimeMs(long time) { this.lastAttackTimeMs = time; }
     public void setCurrentStyleId(String id) { this.currentStyleId = id != null ? id : "standard"; }
+    public int getKatanaComboStep() { return katanaComboStep; }
+    public void setKatanaComboStep(int v) { this.katanaComboStep = v; }
+    public long getKatanaLastAttackMs() { return katanaLastAttackMs; }
+    public void setKatanaLastAttackMs(long v) { this.katanaLastAttackMs = v; }
+    public String getKatanaStanceId() { return katanaStanceId; }
+    public void setKatanaStanceId(String v) { this.katanaStanceId = v != null ? v : "aggressive"; }
+    public long getKatanaDeflectUntil() { return katanaDeflectUntil; }
+    public void setKatanaDeflectUntil(long v) { this.katanaDeflectUntil = v; }
+    public boolean isKatanaDeflectHeld() { return katanaDeflectHeld; }
+    public void setKatanaDeflectHeld(boolean v) { this.katanaDeflectHeld = v; }
+    public long getLastDeflectReflectMs() { return lastDeflectReflectMs; }
+    public void setLastDeflectReflectMs(long v) { this.lastDeflectReflectMs = v; }
 
     // === Бонусы клана ===
     private void applyClanBonuses(String clanId) {
@@ -258,6 +276,7 @@ public class NinjaPlayerData {
         nbt.putBoolean("RasenganReady", rasenganReady);
         // === НОВОЕ: сохраняем стиль ===
         nbt.putString("Style", currentStyleId);
+        nbt.putString("KatanaStance", katanaStanceId);
         
         if (affinity != null) nbt.putString("Affinity", affinity.getId());
         NbtCompound stats = new NbtCompound();
@@ -337,6 +356,7 @@ public class NinjaPlayerData {
             currentStyleId = nbt.getString("Style");
         }
         
+        if (nbt.contains("KatanaStance")) katanaStanceId = nbt.getString("KatanaStance");
         if (nbt.contains("Affinity")) {
             String a = nbt.getString("Affinity");
             for (ElementType e : ElementType.values()) if (e.getId().equals(a)) { affinity = e; break; }

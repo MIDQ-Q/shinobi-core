@@ -1,6 +1,7 @@
 package com.example.shinobicore.jutsu;
 
 import com.example.shinobicore.stat.NinjaPlayerData;
+import com.example.shinobicore.combat.MarkTracker;
 import com.example.shinobicore.tree.TreePassives;
 import com.google.gson.JsonObject;
 import net.minecraft.entity.Entity;
@@ -48,7 +49,7 @@ public class AoeBehavior implements JutsuBehavior {
             if (entity instanceof LivingEntity living && !living.equals(player)) {
                 // Урон (может быть 0 для волн без урона)
                 if (damage > 0) {
-                    living.damage(player.getDamageSources().magic(), damage);
+                    living.damage(player.getDamageSources().magic(), MarkTracker.boost(living, damage));
                 }
 
                 // Отброс от центра

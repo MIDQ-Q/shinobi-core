@@ -16,6 +16,7 @@
     "hatake":    {"angle": 231, "color": "#EEEEFF", "label": "White Fang", "clan": "hatake"},
     "nara":      {"angle": 283, "color": "#8866AA", "label": "Shadow Arts", "clan": "nara"},
     "hyuga":     {"angle": 334, "color": "#CCCCEE", "label": "Gentle Fist", "clan": "hyuga"},
+    "shuriken":  {"angle": 0,   "color": "#BBBBBB", "label": "Shurikenjutsu"},
     "kekkei":    {"angle": 0,   "color": "#FF66CC", "label": "Kekkei Genkai", "hidden": true},
     "forbidden": {"angle": 180, "color": "#AA44FF", "label": "Forbidden Arts", "hidden": true}
   },
@@ -82,6 +83,9 @@
     {"id":"kg_lava","branch":"kekkei","distance":1,"type":"passive","effect":"kekkei_lava","value":0.1,"spCost":15,"requires":[],"icon":"@","name":"Lava Release","description":"+10% fire and earth damage","clanRequired":"sarutobi","visibilityCondition":{"type":"two_natures_50","value":50}},
 
     {"id":"forb_8gates","branch":"forbidden","distance":1,"type":"passive","effect":"8gates_unlock","value":1,"spCost":20,"requires":[],"icon":"!","name":"Eight Gates","description":"Unlock 8 Gates","visibilityCondition":{"type":"stat_level","key":"taijutsu","value":50}},
-    {"id":"forb_edo","branch":"forbidden","distance":2,"type":"passive","effect":"edo_tensei","value":1,"spCost":25,"requires":["forb_8gates"],"icon":"!","name":"Edo Tensei","description":"Forbidden resurrection","visibilityCondition":{"type":"stat_level","key":"taijutsu","value":50}}
+    {"id":"forb_edo","branch":"forbidden","distance":2,"type":"passive","effect":"edo_tensei","value":1,"spCost":25,"requires":["forb_8gates"],"icon":"!","name":"Edo Tensei","description":"Forbidden resurrection","visibilityCondition":{"type":"stat_level","key":"taijutsu","value":50}},
+    {"id":"shuriken_accuracy","branch":"shuriken","distance":1,"type":"passive","effect":"aim_cone","value":5,"spCost":4,"requires":[],"icon":"x","name":"Eagle Eye","description":"+5 deg shuriken aim assist"},
+    {"id":"shuriken_mark","branch":"shuriken","distance":2,"type":"passive","effect":"mark_duration","value":5,"spCost":5,"requires":["shuriken_accuracy"],"icon":"x","name":"Cursed Mark","description":"Mark lasts 15s instead of 10s"},
+    {"id":"shuriken_double","branch":"shuriken","distance":3,"type":"passive","effect":"double_throw","value":1,"spCost":7,"requires":["shuriken_mark"],"icon":"x","name":"Shadow Shuriken","description":"Throw a second shuriken"}
   ]
 }

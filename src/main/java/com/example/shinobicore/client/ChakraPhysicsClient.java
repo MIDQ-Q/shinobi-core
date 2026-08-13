@@ -17,6 +17,7 @@ public class ChakraPhysicsClient {
     private static boolean prevJumping = false;
     private static int airJumpsUsed = 0;
     private static boolean wasStickingToWall = false;
+    public static boolean stickingToWall = false;
     private static int wallJumpCooldown = 0;
     private static boolean wasOnGroundOrWater = true;
 
@@ -140,6 +141,7 @@ public class ChakraPhysicsClient {
                     if (doLog) ShinobiCore.LOGGER.debug("[chakra-wall] stuck to wall");
                 }
                 wasStickingToWall = stickingNow;
+            stickingToWall = stickingNow;
 
                 if (stickingNow) {
                     Vec3d v = player.getVelocity();

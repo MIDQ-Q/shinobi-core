@@ -1,6 +1,7 @@
 package com.example.shinobicore.jutsu;
 
 import com.example.shinobicore.stat.NinjaPlayerData;
+import com.example.shinobicore.combat.MarkTracker;
 import com.google.gson.JsonObject;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
@@ -52,7 +53,7 @@ public class MeleeBehavior implements JutsuBehavior {
 
         for (LivingEntity target : targets) {
             // Урон
-            target.damage(player.getDamageSources().magic(), damage);
+            target.damage(player.getDamageSources().magic(), MarkTracker.boost(target, damage));
 
             // Отброс
             Vec3d kb = target.getPos().subtract(player.getPos()).normalize().multiply(knockback);

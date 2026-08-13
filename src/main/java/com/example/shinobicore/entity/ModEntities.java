@@ -20,6 +20,16 @@ public class ModEntities {
                     .build()
     );
 
+    public static final EntityType<ShurikenEntity> SHURIKEN = Registry.register(
+            Registries.ENTITY_TYPE,
+            new Identifier(ShinobiCore.MOD_ID, "shuriken"),
+            FabricEntityTypeBuilder.<ShurikenEntity>create(SpawnGroup.MISC, ShurikenEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.25f, 0.25f))
+                    .trackRangeChunks(16)
+                    .trackedUpdateRate(1)
+                    .build()
+    );
+
     public static void register() {
         ShinobiCore.LOGGER.info("Registered entities");
     }

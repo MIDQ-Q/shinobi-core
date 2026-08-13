@@ -15,6 +15,7 @@
     "PlayerRenderAnimationMixin",
     "SlideDimensionsMixin",
     "CameraMixin",
+    "KatanaDeflectMixin",
     "PlayerCopyMixin",
     "PlayerParryMixin"
   ],

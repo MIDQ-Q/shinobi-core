@@ -17,6 +17,12 @@ public abstract class PlayerAttackMixin {
         PlayerEntity self = (PlayerEntity) (Object) this;
         if (!(self instanceof ClientPlayerEntity player)) return;
         
+        if (player.getMainHandStack().getItem() instanceof com.example.shinobicore.item.KatanaItem) {
+            if (com.example.shinobicore.client.combat.KenjutsuClientHandler.tryAttack(player)) {
+                ci.cancel();
+                return;
+            }
+        }
         if (player.getMainHandStack().isEmpty()) {
             if (TaijutsuClientHandler.tryAttack(player)) {
                 ci.cancel();

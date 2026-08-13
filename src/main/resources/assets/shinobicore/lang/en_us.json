@@ -1,0 +1,11 @@
+{
+  "item.shinobicore.shuriken": "Shuriken",
+  "item.shinobicore.kunai": "Kunai",
+  "item.shinobicore.katana": "Katana",
+  "key.shinobicore.skill_tree": "Skill Tree",
+  "key.shinobicore.toggle_sensory": "Toggle Sensory",
+  "key.shinobicore.switch_stance": "Switch Katana Stance (F)",
+  "key.shinobicore.katana_deflect": "Katana Deflect (X)",
+  "key.categories.shinobicore": "Shinobi Core",
+  "key.categories.shinobicore.combat": "Shinobi Core: Combat"
+}

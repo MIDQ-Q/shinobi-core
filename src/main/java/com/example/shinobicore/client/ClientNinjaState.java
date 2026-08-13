@@ -36,6 +36,9 @@ public class ClientNinjaState {
     public static boolean chakraMode = false;
     public static boolean dangerSense = false;
     public static boolean sensoryEnabled = true;
+    public static boolean meditating = false;
+    public static String kenjutsuStance = "aggressive";
+    public static boolean deflectHeld = false;
     public static String clanId = "none";
     public static String affinityId = null;
     public static final Set<String> unlockedNodes = new HashSet<>();

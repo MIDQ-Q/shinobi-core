@@ -1,6 +1,7 @@
 package com.example.shinobicore.entity;
 
 import com.example.shinobicore.ShinobiCore;
+import com.example.shinobicore.combat.MarkTracker;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -11,6 +12,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
@@ -33,6 +35,11 @@ public class NinjaProjectileEntity extends Entity {
     public float getRadius() { return this.dataTracker.get(RADIUS); }
     public String getParticleType() { return this.dataTracker.get(PARTICLE_TYPE); }
     private UUID ownerId;
+    public Entity getOwner() {
+        if (ownerId == null) return null;
+        if (this.getWorld() instanceof ServerWorld sw) return sw.getPlayerByUuid(ownerId);
+        return null;
+    }
     private int age = 0;
     private int pierceRemaining = 0;
     private int bounceRemaining = 0;
@@ -62,6 +69,13 @@ public class NinjaProjectileEntity extends Entity {
     public void setPierceCount(int count) {
         this.dataTracker.set(PIERCE_COUNT, count);
         this.pierceRemaining = count;
+    }
+
+    public void reflect(ServerPlayerEntity newOwner) {
+        this.ownerId = newOwner.getUuid();
+        Vec3d v = this.getVelocity();
+        this.setVelocity(v.multiply(-1.3));
+        this.velocityDirty = true;
     }
 
     public void setBounceCount(int count) {
@@ -148,7 +162,7 @@ public class NinjaProjectileEntity extends Entity {
         // Попадание по сущности
         if (hitEntity != null) {
             float damage = this.dataTracker.get(DAMAGE);
-            hitEntity.damage(this.getDamageSources().magic(), damage);
+            hitEntity.damage(this.getDamageSources().magic(), MarkTracker.boost(hitEntity, damage));
             ShinobiCore.LOGGER.info("[PROJECTILE] Hit entity: {}, damage={}", hitEntity.getName().getString(), damage);
 
             if (pierceRemaining > 0) {

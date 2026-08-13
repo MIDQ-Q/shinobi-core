@@ -1,0 +1,441 @@
+=== KeyBindings.java (E:\Games\mod\src\main\java\com\example\shinobicore\client\KeyBindings.java) ===
+Total lines: 56
+--- FULL DUMP ---
+0001: package com.example.shinobicore.client;
+0002: import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+0003: import net.minecraft.client.option.KeyBinding;
+0004: import net.minecraft.client.util.InputUtil;
+0005: import org.lwjgl.glfw.GLFW;
+0006: public class KeyBindings {
+0007:     public static final String CATEGORY = "key.categories.shinobicore";
+0008:     public static final String COMBAT_CATEGORY = "key.categories.shinobicore.combat";
+0009:     public static KeyBinding MEDITATE;
+0010:     public static KeyBinding CAST_A;
+0011:     public static KeyBinding CAST_B;
+0012:     public static KeyBinding CYCLE_A;
+0013:     public static KeyBinding CYCLE_B;
+0014:     public static KeyBinding PROGRESSION;
+0015:     public static KeyBinding CHAKRA_MODE;
+0016:     public static KeyBinding DODGE_LEFT;
+0017:     public static KeyBinding DODGE_RIGHT;
+0018:     public static KeyBinding CRAWL;
+0019:     public static KeyBinding KICK;
+0020:     public static KeyBinding SWITCH_STYLE;
+0021:     public static KeyBinding SWITCH_STANCE;
+0022:     public static KeyBinding KATANA_DEFLECT;
+0023:     public static KeyBinding TOGGLE_SENSORY;
+0024:     public static void register() {
+0025:         MEDITATE = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+0026:             "key.shinobicore.meditate", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_M, CATEGORY));
+0027:         PROGRESSION = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+0028:             "key.shinobicore.progression", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_K, CATEGORY));
+0029:         CHAKRA_MODE = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+0030:             "key.shinobicore.chakra_mode", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_L, CATEGORY));
+0031:         CAST_A = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+0032:             "key.shinobicore.cast", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, CATEGORY));
+0033:         CAST_B = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+0034:             "key.shinobicore.cast_b", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_T, CATEGORY));
+0035:         CYCLE_A = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+0036:             "key.shinobicore.cycle_slot", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_G, CATEGORY));
+0037:         CYCLE_B = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+0038:             "key.shinobicore.cycle_b", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_H, CATEGORY));
+0039:         DODGE_LEFT = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+0040:             "key.shinobicore.dodge_left", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_Z, CATEGORY));
+0041:         DODGE_RIGHT = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+0042:             "key.shinobicore.dodge_right", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_C, CATEGORY));
+0043:         CRAWL = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+0044:             "key.shinobicore.crawl", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_N, CATEGORY));
+0045:         KICK = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+0046:             "key.shinobicore.kick", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_V, COMBAT_CATEGORY));
+0047:         SWITCH_STYLE = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+0048:             "key.shinobicore.switch_style", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_B, COMBAT_CATEGORY));
+0049:         SWITCH_STANCE = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+0050:             "key.shinobicore.switch_stance", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F, COMBAT_CATEGORY));
+0051:         KATANA_DEFLECT = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+0052:             "key.shinobicore.katana_deflect", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_X, COMBAT_CATEGORY));
+0053:         TOGGLE_SENSORY = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+0054:             "key.shinobicore.toggle_sensory", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_Y, CATEGORY));
+0055:     }
+0056: }
+--- END ---
+
+=== ClientInputHandler.java (E:\Games\mod\src\main\java\com\example\shinobicore\client\ClientInputHandler.java) ===
+Total lines: 152
+--- FULL DUMP ---
+0001: package com.example.shinobicore.client;
+0002: 
+0003: import com.example.shinobicore.ShinobiCore;
+0004: import com.example.shinobicore.client.combat.TaijutsuKickHandler;
+0005: import com.example.shinobicore.client.combat.TaijutsuClientHandler;
+0006: import com.example.shinobicore.combat.TaijutsuStyle;
+0007: import com.example.shinobicore.combat.TaijutsuFormulas;
+0008: import com.example.shinobicore.network.ModPackets;
+0009: import io.netty.buffer.Unpooled;
+0010: import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+0011: import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+0012: import net.minecraft.client.MinecraftClient;
+0013: import net.minecraft.network.PacketByteBuf;
+0014: import net.minecraft.text.Text;
+0015: 
+0016: public class ClientInputHandler {
+0017:     private static boolean prevMeditatePressed = false;
+0018: 
+0019:     public static void register() {
+0020:         ClientTickEvents.END_CLIENT_TICK.register(ClientInputHandler::onClientTick);
+0021:     }
+0022: 
+0023:     private static void onClientTick(MinecraftClient client) {
+0024:         if (client.player == null) return;
+0025: 
+0026:         // === ЧАКРА-МОД (L) ===
+0027:         if (KeyBindings.CHAKRA_MODE.wasPressed()) {
+0028:             ClientNinjaState.chakraMode = !ClientNinjaState.chakraMode;
+0029:             ShinobiCore.LOGGER.info("[CHAKRA] Mode toggled: {}", ClientNinjaState.chakraMode);
+0030:             if (client.getNetworkHandler() != null) {
+0031:                 PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+0032:                 buf.writeBoolean(ClientNinjaState.chakraMode);
+0033:                 ClientPlayNetworking.send(ModPackets.CHAKRA_MODE_ID, buf);
+0034:                 ShinobiCore.LOGGER.info("[CHAKRA] Packet sent to server: chakraMode={}", ClientNinjaState.chakraMode);
+0035:             }
+0036:         }
+0037: 
+0038:         // === МЕДИТАЦИЯ (M) ===
+0039:         boolean meditatePressed = KeyBindings.MEDITATE.isPressed();
+0040:         if (meditatePressed && !prevMeditatePressed) {
+0041:             ShinobiCore.LOGGER.info("[MEDITATION] M pressed — start meditating");
+0042:             sendMeditatePacket(client, true);
+0043:         } else if (!meditatePressed && prevMeditatePressed) {
+0044:             ShinobiCore.LOGGER.info("[MEDITATION] M released — stop meditating");
+0045:             sendMeditatePacket(client, false);
+0046:         }
+0047:         prevMeditatePressed = meditatePressed;
+0048: 
+0049:         // === УДАР НОГОЙ (V) ===
+0050:         if (KeyBindings.KICK.wasPressed()) {
+0051:             boolean handEmpty = client.player.getMainHandStack().isEmpty();
+0052:             ShinobiCore.LOGGER.info("[INPUT] KICK (V) pressed, handEmpty={}", handEmpty);
+0053:             if (handEmpty) {
+0054:                 TaijutsuKickHandler.tryKick(client.player);
+0055:             } else if (client.player.getMainHandStack().getItem() instanceof com.example.shinobicore.item.KatanaItem) {
+0056:                 com.example.shinobicore.client.combat.KenjutsuClientHandler.tryDeflect(client.player);
+0057:             }
+0058:         }
+0059: 
+0060:         // === НОВОЕ: ПЕРЕКЛЮЧЕНИЕ СТИЛЯ (B) ===
+0061:         if (KeyBindings.SWITCH_STYLE.wasPressed()) {
+0062:             if (client.player.getMainHandStack().getItem() instanceof com.example.shinobicore.item.KatanaItem) {
+0063:                 com.example.shinobicore.client.combat.KenjutsuClientHandler.cycleStance(client.player);
+0064:                 return;
+0065:             }
+0066:             TaijutsuStyle currentStyle = TaijutsuClientHandler.getCurrentStyle();
+0067:             TaijutsuStyle newStyle;
+0068:             
+0069:             if (currentStyle == TaijutsuStyle.STANDARD) {
+0070:                 // Пытаемся переключиться на Strong Fist
+0071:                 int taijutsuLevel = ClientNinjaState.statLevels.getOrDefault("taijutsu", 0);
+0072:                 if (!TaijutsuFormulas.canUseStrongFist(taijutsuLevel)) {
+0073:                     client.player.sendMessage(Text.literal("§cYou need Taijutsu level " + 
+0074:                             TaijutsuFormulas.strongFistUnlockLevel() + " to use Strong Fist!"), false);
+0075:                     return;
+0076:                 }
+0077:                 newStyle = TaijutsuStyle.STRONG_FIST;
+0078:             } else {
+0079:                 newStyle = TaijutsuStyle.STANDARD;
+0080:             }
+0081:             
+0082:             TaijutsuClientHandler.setStyle(newStyle);
+0083:             client.player.sendMessage(Text.literal("§aStyle: " + newStyle.getId()), false);
+0084:             
+0085:             // Отправляем пакет на сервер
+0086:             if (client.getNetworkHandler() != null) {
+0087:                 PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+0088:                 buf.writeString(newStyle.getId());
+0089:                 ClientPlayNetworking.send(ModPackets.TAIJUTSU_STYLE_ID, buf);
+0090:             }
+0091:         }
+0092: 
+0093:         // === КАСТ ТЕХНИК (R) ===
+0094:         // === SENSORY TOGGLE (Y) ===
+0095:         if (KeyBindings.TOGGLE_SENSORY.wasPressed()) {
+0096:             boolean newState = !ClientNinjaState.sensoryEnabled;
+0097:             ClientNinjaState.sensoryEnabled = newState;
+0098:             ShinobiCore.LOGGER.info("[SENSORY] Toggled: {}", newState);
+0099:             if (client.getNetworkHandler() != null) {
+0100:                 PacketByteBuf senBuf = new PacketByteBuf(Unpooled.buffer());
+0101:                 senBuf.writeBoolean(newState);
+0102:                 ClientPlayNetworking.send(ModPackets.SENSORY_TOGGLE_ID, senBuf);
+0103:             }
+0104:             client.player.sendMessage(Text.literal(newState ? "В§aSensory: ON" : "В§7Sensory: OFF"), false);
+0105:         }
+0106: 
+0107:         if (KeyBindings.CAST_A.wasPressed()) {
+0108:             ShinobiCore.LOGGER.info("[INPUT] CAST_A (R) pressed");
+0109:             ClientNinjaState.castActiveJutsu(0);
+0110:         }
+0111: 
+0112:         // === КАСТ ТЕХНИК B (T) ===
+0113:         if (KeyBindings.CAST_B.wasPressed()) {
+0114:             ShinobiCore.LOGGER.info("[INPUT] CAST_B (T) pressed");
+0115:             ClientNinjaState.castActiveJutsu(1);
+0116:         }
+0117: 
+0118:         // === ПЕРЕКЛЮЧЕНИЕ СЛОТА A (G) ===
+0119:         if (KeyBindings.CYCLE_A.wasPressed()) {
+0120:             ShinobiCore.LOGGER.info("[INPUT] CYCLE_A (G) pressed");
+0121:             ClientNinjaState.cycleLoadout(0);
+0122:         }
+0123: 
+0124:         // === ПЕРЕКЛЮЧЕНИЕ СЛОТА B (H) ===
+0125:         if (KeyBindings.CYCLE_B.wasPressed()) {
+0126:             ShinobiCore.LOGGER.info("[INPUT] CYCLE_B (H) pressed");
+0127:             ClientNinjaState.cycleLoadout(1);
+0128:         }
+0129: 
+0130:         // === МЕНЮ ПРОКАЧКИ (K) ===
+0131:         if (KeyBindings.PROGRESSION.wasPressed()) {
+0132:             ShinobiCore.LOGGER.info("[INPUT] PROGRESSION (K) pressed");
+0133:             client.setScreen(new ProgressionScreen());
+0134:         }
+0135: 
+0136:         // === Р”Р Р•Р’Рћ РџР РћРљРђР§РљР (J) ===
+0137: 
+0138:         // === ПОЛЗАНИЕ (N) ===
+0139:         if (KeyBindings.CRAWL.wasPressed()) {
+0140:             ShinobiCore.LOGGER.info("[INPUT] CRAWL (N) pressed");
+0141:         }
+0142:     }
+0143: 
+0144:     private static void sendMeditatePacket(MinecraftClient client, boolean start) {
+0145:         if (client.getNetworkHandler() != null) {
+0146:             PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+0147:             buf.writeBoolean(start);
+0148:             ClientPlayNetworking.send(ModPackets.MEDITATE_ID, buf);
+0149:             ShinobiCore.LOGGER.info("[MEDITATION] Packet sent: meditating={}", start);
+0150:         }
+0151:     }
+0152: }
+--- END ---
+
+=== KenjutsuClientHandler.java (E:\Games\mod\src\main\java\com\example\shinobicore\client\combat\KenjutsuClientHandler.java) ===
+Total lines: 88
+--- FULL DUMP ---
+0001: package com.example.shinobicore.client.combat;
+0002: import com.example.shinobicore.client.CinematicCamera;
+0003: import com.example.shinobicore.client.ClientNinjaState;
+0004: import com.example.shinobicore.item.KatanaItem;
+0005: import com.example.shinobicore.network.ModPackets;
+0006: import io.netty.buffer.Unpooled;
+0007: import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+0008: import net.minecraft.client.MinecraftClient;
+0009: import net.minecraft.client.network.ClientPlayerEntity;
+0010: import net.minecraft.network.PacketByteBuf;
+0011: import net.minecraft.particle.ParticleTypes;
+0012: import net.minecraft.sound.SoundEvents;
+0013: import net.minecraft.text.Text;
+0014: import net.minecraft.util.Hand;
+0015: import net.minecraft.util.math.Vec3d;
+0016: public class KenjutsuClientHandler {
+0017:     private static int comboStep = 0;
+0018:     private static long lastAttack = 0;
+0019:     private static long cooldownEnd = 0;
+0020:     private static long deflectCd = 0;
+0021:     private static final String[] ORDER = {"aggressive", "seigan", "iai"};
+0022:     public static boolean tryAttack(ClientPlayerEntity player) {
+0023:         if (!(player.getMainHandStack().getItem() instanceof KatanaItem)) return false;
+0024:         long now = System.currentTimeMillis();
+0025:         if (now < cooldownEnd) return false;
+0026:         if (now - lastAttack > 1500) comboStep = 0;
+0027:         String stance = ClientNinjaState.kenjutsuStance;
+0028:         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+0029:         buf.writeInt(comboStep);
+0030:         buf.writeString(stance);
+0031:         ClientPlayNetworking.send(ModPackets.KATANA_ATTACK_ID, buf);
+0032:         KenjutsuAnimations.playSlash(player, comboStep);
+0033:         playSlashParticles(player, comboStep);
+0034:         TaijutsuSounds.playWhoosh();
+0035:         if (comboStep == 3) {
+0036:             TaijutsuSounds.playKickSound();
+0037:             CinematicCamera.addShake(0.12f);
+0038:         }
+0039:         player.swingHand(Hand.MAIN_HAND);
+0040:         long cd = stance.equals("aggressive") ? 350 : stance.equals("seigan") ? 450 : 500;
+0041:         cooldownEnd = now + cd;
+0042:         lastAttack = now;
+0043:         comboStep = (comboStep + 1) % 4;
+0044:         return true;
+0045:     }
+0046:     public static void tryDeflect(ClientPlayerEntity player) {
+0047:         long now = System.currentTimeMillis();
+0048:         if (now < deflectCd) return;
+0049:         if (!ClientNinjaState.kenjutsuStance.equals("seigan")) {
+0050:             player.sendMessage(Text.literal("В§cDeflect requires Seigan stance!"), false);
+0051:             return;
+0052:         }
+0053:         ClientPlayNetworking.send(ModPackets.KATANA_DEFLECT_ID, new PacketByteBuf(Unpooled.buffer()));
+0054:         KenjutsuAnimations.playDeflect(player);
+0055:         player.playSound(SoundEvents.ITEM_SHIELD_BLOCK, 0.4f, 1.5f);
+0056:         deflectCd = now + 1000;
+0057:     }
+0058:     public static void cycleStance(ClientPlayerEntity player) {
+0059:         String cur = ClientNinjaState.kenjutsuStance;
+0060:         String next = ORDER[(java.util.Arrays.asList(ORDER).indexOf(cur) + 1) % ORDER.length];
+0061:         ClientNinjaState.kenjutsuStance = next;
+0062:         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+0063:         buf.writeString(next);
+0064:         ClientPlayNetworking.send(ModPackets.KATANA_STANCE_ID, buf);
+0065:         player.sendMessage(Text.literal("В§aStance: " + next), false);
+0066:     }
+0067:     private static void playSlashParticles(ClientPlayerEntity player, int step) {
+0068:         MinecraftClient client = MinecraftClient.getInstance();
+0069:         Vec3d look = player.getRotationVector();
+0070:         Vec3d right = new Vec3d(-look.z, 0, look.x).normalize();
+0071:         Vec3d pos = player.getPos().add(0, 1.2, 0);
+0072:         int count = step == 3 ? 24 : 12;
+0073:         for (int i = 0; i < count; i++) {
+0074:             float t = (i / (float) count) * 2f - 1f;
+0075:             Vec3d dir = look.add(right.multiply(step % 2 == 0 ? t : -t)).normalize();
+0076:             client.world.addParticle(step == 3 ? ParticleTypes.ENCHANT : ParticleTypes.SWEEP_ATTACK,
+0077:                     pos.x + dir.x * 1.5, pos.y + dir.y * 1.5 + t * 0.3, pos.z + dir.z * 1.5,
+0078:                     dir.x * 0.1, dir.y * 0.1, dir.z * 0.1);
+0079:         }
+0080:         if (step == 3) {
+0081:             for (int i = 0; i < 12; i++) {
+0082:                 double a = (i / 12.0) * Math.PI * 2;
+0083:                 client.world.addParticle(ParticleTypes.CRIT,
+0084:                         pos.x + Math.cos(a) * 1.8, pos.y, pos.z + Math.sin(a) * 1.8, 0, 0.1, 0);
+0085:             }
+0086:         }
+0087:     }
+0088: }
+--- END ---
+
+=== ClientNinjaState.java (E:\Games\mod\src\main\java\com\example\shinobicore\client\ClientNinjaState.java) ===
+Total lines: 113
+--- FULL DUMP ---
+0001: package com.example.shinobicore.client;
+0002: 
+0003: import com.example.shinobicore.ShinobiCore;
+0004: import io.netty.buffer.Unpooled;
+0005: import net.minecraft.client.MinecraftClient;
+0006: import net.minecraft.network.PacketByteBuf;
+0007: import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
+0008: import net.minecraft.util.Identifier;
+0009: 
+0010: import java.util.HashMap;
+0011: import java.util.HashSet;
+0012: import java.util.Map;
+0013: import java.util.Set;
+0014: 
+0015: public class ClientNinjaState {
+0016:     public static final String[] loadoutA = new String[5];
+0017:     public static final String[] loadoutB = new String[5];
+0018:     public static int activeA = 0;
+0019:     public static int activeB = 0;
+0020: 
+0021:     public static final Map<String, String> catalog = new HashMap<>();
+0022:     public static final Set<String> learned = new HashSet<>();
+0023: 
+0024:     public static int skillPoints = 0;
+0025:     public static int reserveLevel = 1;
+0026:     public static int reserveXp = 0;
+0027:     public static final Map<String, Integer> statLevels = new HashMap<>();
+0028:     public static final Map<String, Integer> statXp = new HashMap<>();
+0029:     public static final Map<String, Integer> natureLevels = new HashMap<>();
+0030:     public static final Map<String, Integer> natureXp = new HashMap<>();
+0031:     public static final Map<String, Boolean> natureUnlocked = new HashMap<>();
+0032: 
+0033:     public static int hpLevel = 0;
+0034:     public static int speedLevel = 0;
+0035:     public static int jumpLevel = 0;
+0036:     public static boolean chakraMode = false;
+0037:     public static boolean dangerSense = false;
+0038:     public static boolean sensoryEnabled = true;
+0039:     public static boolean meditating = false;
+0040:     public static String kenjutsuStance = "aggressive";
+0041:     public static String clanId = "none";
+0042:     public static String affinityId = null;
+0043:     public static final Set<String> unlockedNodes = new HashSet<>();
+0044: 
+0045:     public static String[] loadout(int set) { return set == 0 ? loadoutA : loadoutB; }
+0046:     public static int active(int set) { return set == 0 ? activeA : activeB; }
+0047:     public static String activeJutsuId(int set) { return loadout(set)[active(set)]; }
+0048: 
+0049:     public static String name(String id) {
+0050:         if (id == null) return "";
+0051:         return catalog.getOrDefault(id, id);
+0052:     }
+0053: 
+0054:     public static void cycleLoadout(int set) {
+0055:         if (set == 0) {
+0056:             int start = activeA;
+0057:             do {
+0058:                 activeA = (activeA + 1) % 5;
+0059:                 if (loadoutA[activeA] != null) break;
+0060:             } while (activeA != start);
+0061:             ShinobiCore.LOGGER.debug("[JUTSU] Cycled slot A to: {} ({})", activeA, activeJutsuId(0));
+0062:         } else {
+0063:             int start = activeB;
+0064:             do {
+0065:                 activeB = (activeB + 1) % 5;
+0066:                 if (loadoutB[activeB] != null) break;
+0067:             } while (activeB != start);
+0068:             ShinobiCore.LOGGER.debug("[JUTSU] Cycled slot B to: {} ({})", activeB, activeJutsuId(1));
+0069:         }
+0070:     }
+0071: 
+0072:     public static void castActiveJutsu(int set) {
+0073:         String jutsuId = activeJutsuId(set);
+0074:         int slotIndex = active(set);
+0075:         
+0076:         ShinobiCore.LOGGER.debug("[CAST-CLIENT] === CAST JUTSU ===");
+0077:         ShinobiCore.LOGGER.debug("[CAST-CLIENT] Set: {} ({}), Slot index: {}", 
+0078:             set, set == 0 ? "A" : "B", slotIndex);
+0079:         ShinobiCore.LOGGER.debug("[CAST-CLIENT] Jutsu ID: {}", jutsuId);
+0080:         ShinobiCore.LOGGER.debug("[CAST-CLIENT] Loadout A: [{}, {}, {}, {}, {}]", 
+0081:             loadoutA[0], loadoutA[1], loadoutA[2], loadoutA[3], loadoutA[4]);
+0082:         ShinobiCore.LOGGER.debug("[CAST-CLIENT] Loadout B: [{}, {}, {}, {}, {}]", 
+0083:             loadoutB[0], loadoutB[1], loadoutB[2], loadoutB[3], loadoutB[4]);
+0084:         ShinobiCore.LOGGER.debug("[CAST-CLIENT] Active A: {}, Active B: {}", activeA, activeB);
+0085:         
+0086:         if (jutsuId == null) {
+0087:             ShinobiCore.LOGGER.debug("[CAST-CLIENT] ✗ No jutsu in slot, aborting");
+0088:             return;
+0089:         }
+0090:         
+0091:         MinecraftClient client = MinecraftClient.getInstance();
+0092:         if (client.player == null) {
+0093:             ShinobiCore.LOGGER.debug("[CAST-CLIENT] ✗ Player is null, aborting");
+0094:             return;
+0095:         }
+0096:         if (client.getNetworkHandler() == null) {
+0097:             ShinobiCore.LOGGER.debug("[CAST-CLIENT] ✗ NetworkHandler is null, aborting");
+0098:             return;
+0099:         }
+0100:         
+0101:         ShinobiCore.LOGGER.debug("[CAST-CLIENT] ✓ Sending packet: cast_slot");
+0102:         ShinobiCore.LOGGER.debug("[CAST-CLIENT]   Packet data: set={}, slot={}", set, slotIndex);
+0103:         
+0104:         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+0105:         buf.writeInt(set);
+0106:         buf.writeInt(slotIndex);
+0107:         
+0108:         client.getNetworkHandler().sendPacket(new CustomPayloadC2SPacket(
+0109:             new Identifier("shinobicore", "cast_slot"), buf));
+0110:         
+0111:         ShinobiCore.LOGGER.debug("[CAST-CLIENT] ✓ Packet sent successfully");
+0112:     }
+0113: }
+--- END ---
+
+=== ModPackets.java: katana-related parts ===
+0056:     public static final Identifier KATANA_ATTACK_ID = new Identifier("shinobicore", "katana_attack");
+0057:     public static final Identifier KATANA_STANCE_ID = new Identifier("shinobicore", "katana_stance");
+0058:     public static final Identifier KATANA_DEFLECT_ID = new Identifier("shinobicore", "katana_deflect");
+0287:         ServerPlayNetworking.registerGlobalReceiver(KATANA_ATTACK_ID, (server, player, handler, buf, responseSender) -> {
+0315:                 data.setKatanaStanceId(stanceParam);
+0318:         ServerPlayNetworking.registerGlobalReceiver(KATANA_STANCE_ID, (server, player, handler, buf, responseSender) -> {
+0320:             server.execute(() -> ((NinjaDataHolder) player).shinobicore_getData().setKatanaStanceId(stanceId));
+0322:         ServerPlayNetworking.registerGlobalReceiver(KATANA_DEFLECT_ID, (server, player, handler, buf, responseSender) -> {
+0325:                 if (KenjutsuStance.fromId(data.getKatanaStanceId()).canDeflect()) {
+0326:                     data.setKatanaDeflectUntil(System.currentTimeMillis() + 300);
+

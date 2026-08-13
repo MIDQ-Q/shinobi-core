@@ -98,6 +98,10 @@ public class CinematicCamera {
         return currentDistanceReduction;
     }
 
+    public static void addShake(float intensity) {
+        shakeIntensity = Math.max(shakeIntensity, intensity);
+    }
+
     public static Vec3d getShakeOffset() {
         if (shakeIntensity < 0.001f) return Vec3d.ZERO;
         double x = (Math.random() - 0.5) * shakeIntensity * 0.05;

@@ -3,10 +3,12 @@ package com.example.shinobicore.client;
 import com.example.shinobicore.client.RasenganClientState;
 import com.example.shinobicore.client.RasenganClientVisual;
 import com.example.shinobicore.client.combat.TaijutsuClientHandler;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
 import com.example.shinobicore.client.combat.TaijutsuSounds;
 import com.example.shinobicore.client.parkour.ParkourManager;
 import com.example.shinobicore.entity.ModEntities;
 import com.example.shinobicore.entity.NinjaProjectileRenderer;
+import com.example.shinobicore.entity.ShurikenRenderer;
 import com.example.shinobicore.network.ChakraSyncPacket;
 import com.example.shinobicore.network.ModPackets;
 import com.example.shinobicore.stat.ElementType;
@@ -33,6 +35,7 @@ import net.minecraft.registry.Registry;
 import com.example.shinobicore.ShinobiCore;
 import com.example.shinobicore.client.combat.TaijutsuAnimations;
 import com.example.shinobicore.client.combat.TaijutsuClientHandler;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
 public class ShinobiCoreClient implements ClientModInitializer {
 
     @Override
@@ -45,6 +48,7 @@ public class ShinobiCoreClient implements ClientModInitializer {
         RasenganClientVisual.register();
         // === РЕГИСТРАЦИЯ РЕНДЕРЕРОВ (было потеряно!) ===
         EntityRendererRegistry.register(ModEntities.NINJA_PROJECTILE, NinjaProjectileRenderer::new);
+        EntityRendererRegistry.register(ModEntities.SHURIKEN, ShurikenRenderer::new);
         
         // === РЕГИСТРАЦИЯ ЗВУКОВ ===
         Registry.register(Registries.SOUND_EVENT, TaijutsuSounds.PUNCH_LIGHT.getId(), TaijutsuSounds.PUNCH_LIGHT);
@@ -65,6 +69,7 @@ public class ShinobiCoreClient implements ClientModInitializer {
                 ChakraHudRenderer.maxChakra = packet.maxChakra();
                 ChakraHudRenderer.fatigue = packet.fatigue();
                 ChakraHudRenderer.exhausted = packet.exhausted();
+                ClientNinjaState.meditating = packet.meditating();
             });
         });
 
@@ -154,6 +159,16 @@ public class ShinobiCoreClient implements ClientModInitializer {
             client.execute(() -> ClientNinjaState.dangerSense = danger);
         });
 
+        ClientPlayNetworking.registerGlobalReceiver(ModPackets.CAST_FX_ID, (client, handler, buf, responseSender) -> {
+            int entityId = buf.readInt();
+            String nature = buf.readString();
+            client.execute(() -> {
+                if (client.world != null && client.world.getEntityById(entityId) instanceof AbstractClientPlayerEntity p) {
+                    CastingClientState.startCast(p.getUuid(), nature);
+                }
+            });
+        });
+        CastingClientVisual.register();
         HudRenderCallback.EVENT.register(ChakraHudRenderer::render);
     }
 }

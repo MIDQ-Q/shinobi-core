@@ -5,6 +5,8 @@ import com.example.shinobicore.combat.MeleeHitDetection;
 import com.example.shinobicore.combat.TaijutsuCombo;
 import com.example.shinobicore.combat.TaijutsuFormulas;
 import com.example.shinobicore.combat.TaijutsuStyle;
+import com.example.shinobicore.combat.KenjutsuFormulas;
+import com.example.shinobicore.combat.KenjutsuStance;
 import com.example.shinobicore.config.ModConfig;
 import com.example.shinobicore.jutsu.JutsuCaster;
 import com.example.shinobicore.stat.ElementType;
@@ -18,6 +20,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import com.example.shinobicore.combat.TaijutsuStyle;
+import com.example.shinobicore.combat.KenjutsuFormulas;
+import com.example.shinobicore.combat.KenjutsuStance;
 import com.example.shinobicore.combat.TaijutsuFormulas;
 import com.example.shinobicore.combat.TaijutsuCombo;
 import com.example.shinobicore.combat.MeleeHitDetection;
@@ -49,6 +53,10 @@ public class ModPackets {
     public static final Identifier TAIJUTSU_STYLE_ID = new Identifier("shinobicore", "taijutsu_style");
     public static final Identifier RASENGAN_SYNC_ID = new Identifier("shinobicore", "rasengan_sync");
     public static final Identifier RASENGAN_STRIKE_ID = new Identifier("shinobicore", "rasengan_strike");
+    public static final Identifier KATANA_ATTACK_ID = new Identifier("shinobicore", "katana_attack");
+    public static final Identifier KATANA_STANCE_ID = new Identifier("shinobicore", "katana_stance");
+    public static final Identifier KATANA_DEFLECT_ID = new Identifier("shinobicore", "katana_deflect");
+    public static final Identifier CAST_FX_ID = new Identifier("shinobicore", "cast_fx");
     public static final Identifier ATTUNEMENT_ID = new Identifier("shinobicore", "attunement");
     public static final Identifier TREE_SYNC_ID = new Identifier("shinobicore", "tree_sync");
     public static final Identifier UNLOCK_NODE_ID = new Identifier("shinobicore", "unlock_node");
@@ -276,6 +284,50 @@ public class ModPackets {
             });
         });
         
+        ServerPlayNetworking.registerGlobalReceiver(KATANA_ATTACK_ID, (server, player, handler, buf, responseSender) -> {
+            final int stepParam = buf.readInt();
+            final String stanceParam = buf.readString();
+            server.execute(() -> {
+                NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
+                if (data.isExhausted()) return;
+                KenjutsuStance stance = KenjutsuStance.fromId(stanceParam);
+                long now = System.currentTimeMillis();
+                int step = stepParam;
+                if (data.isKatanaDeflectHeld()) return;
+                if (step != data.getKatanaComboStep()) return;
+                if (now - data.getKatanaLastAttackMs() < KenjutsuFormulas.cooldownMs(stance) - 50) return;
+                if (now - data.getKatanaLastAttackMs() > 1500) { data.setKatanaComboStep(0); step = 0; }
+                int tai = data.getStatLevel(StatType.TAIJUTSU);
+                float damage = KenjutsuFormulas.computeDamage(tai, stance, data.isChakraMode(), step, data.isExhausted());
+                if (stance == KenjutsuStance.IAI && now - data.getKatanaLastAttackMs() > 2000) damage *= 2.2f;
+                Vec3d look = player.getRotationVector();
+                java.util.List<LivingEntity> targets = step == 3
+                        ? KenjutsuFormulas.findInRadius((ServerWorld) player.getWorld(), player, 3.5)
+                        : KenjutsuFormulas.findTargetsInCone((ServerWorld) player.getWorld(), player, look, 3.75, 100);
+                for (LivingEntity t : targets) {
+                    t.damage(player.getDamageSources().playerAttack(player), damage);
+                    Vec3d kb = t.getPos().subtract(player.getPos()).normalize().multiply(KenjutsuFormulas.getKnockback(step));
+                    t.addVelocity(kb.x, 0.2, kb.z);
+                    t.velocityModified = true;
+                }
+                data.setFatigue(data.getFatigue() + 1.5f);
+                data.setKatanaLastAttackMs(now);
+                data.setKatanaComboStep((step + 1) % 4);
+                data.setKatanaStanceId(stanceParam);
+            });
+        });
+        ServerPlayNetworking.registerGlobalReceiver(KATANA_STANCE_ID, (server, player, handler, buf, responseSender) -> {
+            String stanceId = buf.readString();
+            server.execute(() -> ((NinjaDataHolder) player).shinobicore_getData().setKatanaStanceId(stanceId));
+        });
+        ServerPlayNetworking.registerGlobalReceiver(KATANA_DEFLECT_ID, (server, player, handler, buf, responseSender) -> {
+            server.execute(() -> {
+                NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
+                if (KenjutsuStance.fromId(data.getKatanaStanceId()).canDeflect()) {
+                    data.setKatanaDeflectUntil(System.currentTimeMillis() + 300);
+                }
+            });
+        });
         ServerPlayNetworking.registerGlobalReceiver(DODGE_ID, (server, player, handler, buf, responseSender) -> {
             int direction = buf.readInt(); // -1 = влево, 1 = вправо
             server.execute(() -> {

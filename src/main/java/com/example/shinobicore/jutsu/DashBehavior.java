@@ -1,6 +1,7 @@
 package com.example.shinobicore.jutsu;
 
 import com.example.shinobicore.stat.NinjaPlayerData;
+import com.example.shinobicore.combat.MarkTracker;
 import com.google.gson.JsonObject;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -60,7 +61,7 @@ public class DashBehavior implements JutsuBehavior {
 
         for (LivingEntity target : targets) {
             if (damage > 0) {
-                target.damage(player.getDamageSources().magic(), damage);
+                target.damage(player.getDamageSources().magic(), MarkTracker.boost(target, damage));
             }
 
             Vec3d toTarget = target.getPos().subtract(startPos).normalize();

@@ -3,6 +3,8 @@ package com.example.shinobicore.mixin;
 import com.example.shinobicore.client.ChakraHudRenderer;
 import com.example.shinobicore.client.ClientNinjaState;
 import com.example.shinobicore.client.combat.TaijutsuAnimations;
+import com.example.shinobicore.client.combat.KenjutsuAnimations;
+import com.example.shinobicore.client.IdlePoseSystem;
 import com.example.shinobicore.client.combat.TaijutsuAnimations.AttackAnimationState;
 import com.example.shinobicore.client.parkour.ParkourManager;
 import net.minecraft.client.model.ModelPart;
@@ -54,8 +56,25 @@ public abstract class PlayerRenderAnimationMixin {
         }
 
         // === АНИМАЦИЯ УДАРА НОГОЙ ===
+        // === РџР•Р§РђРўР РџР Р РљРђРЎРўР• ===
+        if (com.example.shinobicore.client.CastingClientState.isCasting(player)) {
+            rightArm.pitch = -1.25f; rightArm.yaw = -0.45f;
+            leftArm.pitch = -1.25f; leftArm.yaw = 0.45f;
+            head.pitch += 0.1f;
+        }
+        // === KENJUTSU: SLASH / DEFLECT ===
+        if (KenjutsuAnimations.isDeflecting(player) || ClientNinjaState.deflectHeld) {
+            KenjutsuAnimations.applyDeflect(player, rightArm, leftArm);
+        }
+        if (KenjutsuAnimations.isAttacking(player)) {
+            KenjutsuAnimations.applySlash(player, rightArm, leftArm, body, head);
+        }
         if (TaijutsuAnimations.isKicking(player)) {
             applyKickAnimation(player);
+        }
+        // === IDLE POSE SYSTEM ===
+        if (!TaijutsuAnimations.isAttacking(player) && !TaijutsuAnimations.isKicking(player)) {
+            IdlePoseSystem.apply(player, (BipedEntityModel<?>) (Object) this, limbDistance, animationProgress);
         }
     }
 
