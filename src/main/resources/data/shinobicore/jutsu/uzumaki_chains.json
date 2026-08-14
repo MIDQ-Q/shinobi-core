@@ -1,0 +1,11 @@
+{
+  "id": "shinobicore:uzumaki_chains",
+  "name": "Adamantine Chains",
+  "category": "shape_ninjutsu",
+  "type": "custom",
+  "behaviorClass": "com.example.shinobicore.jutsu.custom.RootBehavior",
+  "params": {"range": 10, "radius": 6, "duration": 100, "fromTarget": false},
+  "baseCost": 55, "baseDamage": 4, "strain": 14,
+  "requiredUsesForFullProficiency": 70,
+  "requirements": {"control": 35, "ninjutsu": 30}
+}

@@ -1,0 +1,1 @@
+{"id":"shinobicore:gen_shunshin_plus","name":"Body Flicker (Improved)","category":"shape_ninjutsu","type":"dash","params":{"distance":20,"knockback":0.5,"hitRadius":1,"particle":"smoke","particleCount":30},"baseCost":28,"baseDamage":4,"strain":7,"requiredUsesForFullProficiency":40,"requirements":{"control":22,"ninjutsu":20}}

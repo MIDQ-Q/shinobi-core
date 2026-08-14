@@ -70,7 +70,13 @@ public class ClientNinjaState {
         }
     }
 
+    private static long lastCastMsA = 0;
+    private static long lastCastMsB = 0;
+
     public static void castActiveJutsu(int set) {
+        long nowMs = System.currentTimeMillis();
+        if (set == 0) { if (nowMs - lastCastMsA < 400) return; lastCastMsA = nowMs; }
+        else { if (nowMs - lastCastMsB < 400) return; lastCastMsB = nowMs; }
         String jutsuId = activeJutsuId(set);
         int slotIndex = active(set);
         

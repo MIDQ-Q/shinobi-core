@@ -1,0 +1,1 @@
+{"id":"shinobicore:shu_homing","name":"Shuriken: Homing Kunai","category":"shape_ninjutsu","type":"projectile","params":{"speed":1.8,"radius":1,"particle":"crit","lifetime":80,"homing":true},"baseCost":24,"baseDamage":6,"strain":6,"requiredUsesForFullProficiency":40,"requirements":{"control":22,"perception":25}}

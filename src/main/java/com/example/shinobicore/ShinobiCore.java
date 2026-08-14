@@ -63,7 +63,6 @@ public class ShinobiCore implements ModInitializer {
         BehaviorRegistry.register("wall", new WallBehavior());
         BehaviorRegistry.register("utility", new UtilityBehavior());
         BehaviorRegistry.register("genjutsu", new GenjutsuBehavior());
-        BehaviorRegistry.register("genjutsu", new GenjutsuBehavior()); // PHASE_B_GENJUTSU_REGISTERED
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> NinjaCommand.register(dispatcher));
         ServerTickEvents.END_SERVER_TICK.register(NinjaTickHandler::onServerTick);

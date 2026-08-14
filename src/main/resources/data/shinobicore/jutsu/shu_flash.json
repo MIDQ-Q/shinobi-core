@@ -1,0 +1,1 @@
+{"id":"shinobicore:shu_flash","name":"Tool: Flash Bomb","category":"shape_ninjutsu","type":"aoe","params":{"radius":6,"particle":"flash","particleCount":80,"statusEffect":"blindness","statusDuration":60},"baseCost":20,"baseDamage":0,"strain":5,"requiredUsesForFullProficiency":30,"requirements":{"control":18,"perception":16}}

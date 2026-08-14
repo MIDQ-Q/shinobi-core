@@ -49,7 +49,7 @@ public class ChakraHudRenderer {
         int sw = client.getWindow().getScaledWidth();
         int sh = client.getWindow().getScaledHeight();
 
-        // === ВЕРХ-ЛЕВО: чакра и прочее ===
+        // === ╨Т╨Х╨а╨е-╨Ы╨Х╨Т╨Ю: ╤З╨░╨║╤А╨░ ╨╕ ╨┐╤А╨╛╤З╨╡╨╡ ===
         barsCache.clear();
         List<BarSpec> bars = barsCache;
         float chakraRatio = maxChakra > 0 ? currentChakra / maxChakra : 0;
@@ -92,7 +92,7 @@ public class ChakraHudRenderer {
                     ColorHelper.Argb.getArgb(alpha, 255, 60, 60));
             y += 10;
         }
-        // === РАСЕНГАН: индикатор зарядки ===
+        // === ╨а╨Р╨б╨Х╨Э╨У╨Р╨Э: ╨╕╨╜╨┤╨╕╨║╨░╤В╨╛╤А ╨╖╨░╤А╤П╨┤╨║╨╕ ===
         if (RasenganClientState.charging) {
             float progress = RasenganClientState.chargeProgress;
             int barW = 60, barH = 4;
@@ -104,17 +104,17 @@ public class ChakraHudRenderer {
         }
         if (RasenganClientState.ready) {
             int alpha = (int)(150 + 105 * Math.sin(System.currentTimeMillis() / 100.0));
-            context.drawTextWithShadow(client.textRenderer, Text.literal("✦ RASENGAN READY — LMB!"),
+            context.drawTextWithShadow(client.textRenderer, Text.literal("тЬж RASENGAN READY тАФ LMB!"),
                     10, y + 8, ColorHelper.Argb.getArgb(alpha, 68, 170, 255));
             y += 18;
         }
         y += 3;
 
-        // === ЛОАУТЫ ===
+        // === ╨Ы╨Ю╨Р╨г╨в╨л ===
         y = drawLoadoutLine(context, client, 0, "A", 10, y);
         y = drawLoadoutLine(context, client, 1, "B", 10, y);
 
-        // === КОМБО-СЧЁТЧИК ===
+        // === ╨Ъ╨Ю╨Ь╨С╨Ю-╨б╨з╨Б╨в╨з╨Ш╨Ъ ===
         int comboStep = TaijutsuClientHandler.getComboStep();
      // === PHASE7_COMBO_DROP ===
      if (lastComboStep > 0 && comboStep == 0) {
@@ -128,7 +128,7 @@ public class ChakraHudRenderer {
             y += 12;
         }
 
-        // === СТИЛЬ ТАЙ-ДЗЮЦУ ===
+        // === ╨б╨в╨Ш╨Ы╨м ╨в╨Р╨Щ-╨Ф╨Ч╨о╨ж╨г ===
         TaijutsuStyle currentStyle = TaijutsuClientHandler.getCurrentStyle();
         String styleName = currentStyle == TaijutsuStyle.STRONG_FIST ? "[Strong Fist]" : "[Standard]";
         int styleColor = currentStyle == TaijutsuStyle.STRONG_FIST ? 0xFF44FF44 : 0xFFAAAAAA;
@@ -142,7 +142,7 @@ public class ChakraHudRenderer {
             y += 12;
         }
 
-        // === КУЛДАУН УДАРА НОГОЙ ===
+        // === ╨Ъ╨г╨Ы╨Ф╨Р╨г╨Э ╨г╨Ф╨Р╨а╨Р ╨Э╨Ю╨У╨Ю╨Щ ===
         boolean kickOnCooldown = TaijutsuKickHandler.isOnCooldown();
         long kickRemaining = TaijutsuKickHandler.getCooldownRemainingMs();
         ShinobiCore.LOGGER.debug("[HUD] Kick cooldown: {}ms, onCooldown={}", kickRemaining, kickOnCooldown);
@@ -155,7 +155,7 @@ public class ChakraHudRenderer {
             y += 26;
         }
 
-        // === НАД ХОТБАРОМ: HP слева, ГОЛОД справа ===
+        // === ╨Э╨Р╨Ф ╨е╨Ю╨в╨С╨Р╨а╨Ю╨Ь: HP ╤Б╨╗╨╡╨▓╨░, ╨У╨Ю╨Ы╨Ю╨Ф ╤Б╨┐╤А╨░╨▓╨░ ===
         int hbLeft = sw / 2 - 91;
         int hbRight = sw / 2 + 91;
         int barW = 91;

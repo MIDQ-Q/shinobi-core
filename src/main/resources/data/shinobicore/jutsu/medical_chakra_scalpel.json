@@ -1,0 +1,11 @@
+{
+  "id": "shinobicore:medical_chakra_scalpel",
+  "name": "Medical: Chakra Scalpel",
+  "category": "medical",
+  "type": "custom",
+  "behaviorClass": "com.example.shinobicore.jutsu.custom.ChainMeleeBehavior",
+  "params": {"range": 2.5, "hits": 4, "coneAngle": 100},
+  "baseCost": 25, "baseDamage": 14, "strain": 7,
+  "requiredUsesForFullProficiency": 45,
+  "requirements": {"control": 25, "medical": 30}
+}

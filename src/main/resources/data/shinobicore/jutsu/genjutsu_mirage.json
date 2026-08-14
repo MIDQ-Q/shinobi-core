@@ -1,0 +1,11 @@
+{
+  "id": "shinobicore:genjutsu_mirage",
+  "name": "Genjutsu: Mirage",
+  "category": "genjutsu",
+  "type": "custom",
+  "behaviorClass": "com.example.shinobicore.jutsu.custom.GenjutsuBehavior",
+  "params": {"range": 20, "slownessDuration": 60, "nauseaDuration": 200, "blindnessDuration": 100, "weaknessDuration": 0},
+  "baseCost": 28, "baseDamage": 0, "strain": 8,
+  "requiredUsesForFullProficiency": 40,
+  "requirements": {"control": 20, "genjutsu": 25, "perception": 15}
+}

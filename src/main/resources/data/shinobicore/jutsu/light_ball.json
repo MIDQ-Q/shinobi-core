@@ -1,0 +1,1 @@
+{"id":"shinobicore:light_ball","name":"Lightning Release: Lightning Ball","category":"elemental_ninjutsu","nature":"lightning","type":"projectile","params":{"speed":0.8,"radius":6,"particle":"lightning","lifetime":120,"pierce":3},"baseCost":42,"baseDamage":14,"strain":11,"requiredUsesForFullProficiency":60,"requirements":{"control":26,"nature_lightning":34,"ninjutsu":24}}

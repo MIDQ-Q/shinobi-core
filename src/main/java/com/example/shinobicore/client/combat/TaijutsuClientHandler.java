@@ -16,7 +16,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Hand;
-import com.example.shinobicore.client.RasenganClientState;
 public class TaijutsuClientHandler {
     private static int comboStep = 0;
     private static long lastAttackTime = 0;

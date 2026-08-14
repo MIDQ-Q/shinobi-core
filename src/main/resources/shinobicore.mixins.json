@@ -15,10 +15,12 @@
     "PlayerRenderAnimationMixin",
     "SlideDimensionsMixin",
     "CameraMixin",
+    "CameraAccessor",
     "KatanaDeflectMixin",
     "PlayerCopyMixin",
     "PlayerParryMixin",
-        "InterruptCastMixin"
+    "InterruptCastMixin",
+    "MobEntityAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

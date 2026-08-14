@@ -1,0 +1,1 @@
+{"id":"shinobicore:sum_golem_contract","name":"Contract: Iron Fortress","category":"shape_ninjutsu","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.BuffSelfBehavior","params":{"effect":"resistance","amplifier":2,"duration":400},"baseCost":55,"baseDamage":0,"strain":14,"requiredUsesForFullProficiency":60,"requirements":{"control":28,"ninjutsu":30}}

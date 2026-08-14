@@ -46,8 +46,6 @@ public abstract class KatanaDeflectMixin {
         // === РљР›Р®Р§Р•Р’РћР•: Seigan + Hold = 360В° Р·Р°С‰РёС‚Р° (РїРѕР»РЅРѕСЃС‚СЊСЋ РїСЂРѕРїСѓСЃРєР°РµРј РїСЂРѕРІРµСЂРєСѓ С„СЂРѕРЅС‚Р°) ===
         boolean isSeiganShield = holdActive && stance == KenjutsuStance.SEIGAN;
         if (!isSeiganShield && now - data.getLastDeflectReflectMs() < 200) return;
-        if (!isSeiganShield && now - data.getLastDeflectReflectMs() < 200) return;
-        if (!isSeiganShield && now - data.getLastDeflectReflectMs() < 200) return;
         
         if (!isSeiganShield) {
             // РўРѕР»СЊРєРѕ РґР»СЏ Aggressive tap РёР»Рё Seigan tap РїСЂРѕРІРµСЂСЏРµРј С„СЂРѕРЅС‚ 180В°

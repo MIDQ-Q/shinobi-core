@@ -1,0 +1,1 @@
+{"id":"shinobicore:light_spear","name":"Lightning Release: False Darkness Spear","category":"elemental_ninjutsu","nature":"lightning","type":"projectile","params":{"speed":5.0,"radius":1,"particle":"lightning","lifetime":40,"pierce":4},"baseCost":36,"baseDamage":12,"strain":9,"requiredUsesForFullProficiency":50,"requirements":{"control":24,"nature_lightning":32,"ninjutsu":22}}

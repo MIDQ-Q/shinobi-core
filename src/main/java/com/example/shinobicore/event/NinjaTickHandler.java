@@ -127,7 +127,8 @@ public class NinjaTickHandler {
             }
                 // === PHASE_FIX2_TICK: sensory glow + danger sense + rasengan dissipate ===
     TreePassives.Bonuses b2 = TreePassives.collectServer(data);
-    if (b2.sensory && data.isSensoryEnabled()) {
+    int sensoryTick = (int)(player.getWorld().getTime() % 5);
+        if (b2.sensory && data.isSensoryEnabled() && sensoryTick == 0) {
         int radius = b2.sensoryRadius > 0 ? b2.sensoryRadius : 20;
         for (LivingEntity mob : player.getWorld().getEntitiesByClass(LivingEntity.class,
                 player.getBoundingBox().expand(radius), e -> !(e instanceof ServerPlayerEntity))) {

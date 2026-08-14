@@ -22,26 +22,17 @@ import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.registry.Registries;
-import com.example.shinobicore.client.combat.TaijutsuSounds;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import com.example.shinobicore.client.parkour.ParkourManager;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import com.example.shinobicore.client.combat.TaijutsuSounds;
 import com.example.shinobicore.client.CinematicCamera;
 import com.example.shinobicore.client.HandSignsClientState;
 import com.example.shinobicore.client.HandSignsHudRenderer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import com.example.shinobicore.ShinobiCore;
 import com.example.shinobicore.client.combat.TaijutsuAnimations;
 import com.example.shinobicore.client.combat.HitStopManager;
-import com.example.shinobicore.client.combat.TaijutsuClientHandler;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
 public class ShinobiCoreClient implements ClientModInitializer {
 
     @Override
@@ -52,7 +43,10 @@ public class ShinobiCoreClient implements ClientModInitializer {
         ParkourManager.register();
         TaijutsuClientHandler.register();
         RasenganClientVisual.register();
-        com.example.shinobicore.client.ChakraAuraVisual.register(); // BATCH3_AURA
+        com.example.shinobicore.client.ChakraAuraVisual.register();
+        HudRenderCallback.EVENT.register(ChakraHudRenderer::render);
+        com.example.shinobicore.client.TargetFrameHud.register();
+        com.example.shinobicore.client.RpgCameraKeybind.register(); // PHASE_H_CAMERA // BATCH3_AURA
         com.example.shinobicore.client.LandingAnimations.register(); // PHASE_A_REG
         // === РЕГИСТРАЦИЯ РЕНДЕРЕРОВ (было потеряно!) ===
         EntityRendererRegistry.register(ModEntities.NINJA_PROJECTILE, NinjaProjectileRenderer::new);
@@ -181,7 +175,6 @@ public class ShinobiCoreClient implements ClientModInitializer {
         CastingClientVisual.register();
         com.example.shinobicore.client.combat.SwordTrailRenderer.register(); // PHASE_K1_TRAIL_REGISTERED
         ChakraAuraRenderer.register(); // PHASE_E_AURA_REGISTERED
-        ChakraAuraRenderer.register();
                 ClientPlayNetworking.registerGlobalReceiver(ModPackets.HIT_STOP_ID, (client, handler, buf, responseSender) -> {
             int entityId = buf.readInt();
             int durationMs = buf.readInt();
@@ -206,7 +199,7 @@ public class ShinobiCoreClient implements ClientModInitializer {
             int entityId = buf.readInt();
             client.execute(() -> HandSignsClientState.interruptCasting(entityId));
         });
-        HudRenderCallback.EVENT.register(ChakraHudRenderer::render);
+        // HUD registration now inside ChakraHudRenderer.register() (self-guarded)
         HudRenderCallback.EVENT.register(HandSignsHudRenderer::render);
     }
 }

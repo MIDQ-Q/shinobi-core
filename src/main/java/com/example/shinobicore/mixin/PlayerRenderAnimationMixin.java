@@ -46,7 +46,19 @@ public abstract class PlayerRenderAnimationMixin {
         boolean rolling = ParkourManager.isRolling();
 
         // === НАРУТО-РАН в чакра-режиме ===
-                // === WATER RUNNING === // BATCH3_WATER
+                // === РќРђР РЈРўРћ-Р РђРќ DEBUG ===
+        boolean narutoRunCondition = chakraMode && sprinting && !sliding && !rolling;
+        boolean standingOnWater = com.example.shinobicore.client.ChakraPhysicsClient.standingOnWater;
+        boolean wallRunning = com.example.shinobicore.client.parkour.ParkourManager.isWallRunning();
+        
+        if (player.isSprinting() && chakraMode) {
+            com.example.shinobicore.ShinobiCore.LOGGER.info("[NARUTO-RUN DEBUG] chakraMode={}, sprinting={}, sliding={}, rolling={}, standingOnWater={}, wallRunning={}", 
+                chakraMode, sprinting, sliding, rolling, standingOnWater, wallRunning);
+            com.example.shinobicore.ShinobiCore.LOGGER.info("[NARUTO-RUN DEBUG] narutoRunCondition={}, currentChakra={}", 
+                narutoRunCondition, ChakraHudRenderer.currentChakra);
+        }
+        
+        // === WATER RUNNING === // BATCH3_WATER
         if (chakraMode && com.example.shinobicore.client.ChakraPhysicsClient.standingOnWater && sprinting) {
             applyWaterRun(limbAngle, limbDistance);
             return;
@@ -99,6 +111,11 @@ public abstract class PlayerRenderAnimationMixin {
         com.example.shinobicore.client.combat.ChakraBurstAnimations.apply(player, rightArm, leftArm, body, head);
         if (com.example.shinobicore.client.combat.ThrowAnimations.isThrowing(player)) {
             com.example.shinobicore.client.combat.ThrowAnimations.apply(player, rightArm, leftArm, body, head);
+        }
+        // === PHASE E: TAIJUTSU VARIANTS ===
+        if (com.example.shinobicore.client.combat.TaichiComboVariants.isActive(player)) {
+            com.example.shinobicore.client.combat.TaichiComboVariants.apply(player, rightArm, leftArm, rightLeg, leftLeg, body, head);
+            return;
         }
         if (TaijutsuAnimations.isKicking(player)) {
             applyKickAnimation(player);

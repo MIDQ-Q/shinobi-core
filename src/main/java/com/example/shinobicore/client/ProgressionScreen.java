@@ -1,6 +1,7 @@
 package com.example.shinobicore.client;
 
 import com.example.shinobicore.client.attunement.AttunementScreen;
+import com.example.shinobicore.client.JutsuAssignmentScreen;
 import com.example.shinobicore.network.ModPackets;
 import com.example.shinobicore.stat.ElementType;
 import com.example.shinobicore.stat.NinjaFormula;
@@ -247,7 +248,7 @@ public class ProgressionScreen extends Screen {
                 y += 12;
                 for (int i = 0; i < 5; i++) {
                     if (inRect(mouseX, mouseY, x0 + 10, y, w - 20, 12)) {
-                        assignSlot = i; listOffset = 0; return true;
+                        client.setScreen(new JutsuAssignmentScreen(this, loadoutSet, i)); return true;
                     }
                     y += 14;
                 }
