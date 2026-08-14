@@ -41,7 +41,7 @@ public class ChakraAuraVisual {
                 (Math.random() - 0.5) * 0.01);
         }
 
-        if (tickCounter % 3 == 0) {
+        if (tickCounter % 6 == 0) {
             double angle = Math.random() * Math.PI * 2;
             double r = 0.3 + Math.random() * 0.3;
             client.world.addParticle(ParticleTypes.SOUL_FIRE_FLAME,
@@ -51,7 +51,7 @@ public class ChakraAuraVisual {
                 0, 0.05, 0);
         }
 
-        if (tickCounter % 5 == 0 && Math.random() < 0.5 * pulse) {
+        if (tickCounter % 8 == 0 && Math.random() < 0.3 * pulse) {
             client.world.addParticle(ParticleTypes.ENCHANT,
                 pos.x + (Math.random() - 0.5) * 0.8,
                 pos.y + 0.5 + Math.random() * 1.2,

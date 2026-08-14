@@ -47,16 +47,9 @@ public abstract class PlayerRenderAnimationMixin {
 
         // === НАРУТО-РАН в чакра-режиме ===
                 // === РќРђР РЈРўРћ-Р РђРќ DEBUG ===
-        boolean narutoRunCondition = chakraMode && sprinting && !sliding && !rolling;
-        boolean standingOnWater = com.example.shinobicore.client.ChakraPhysicsClient.standingOnWater;
-        boolean wallRunning = com.example.shinobicore.client.parkour.ParkourManager.isWallRunning();
         
         if (player.isSprinting() && chakraMode) {
-            com.example.shinobicore.ShinobiCore.LOGGER.info("[NARUTO-RUN DEBUG] chakraMode={}, sprinting={}, sliding={}, rolling={}, standingOnWater={}, wallRunning={}", 
-                chakraMode, sprinting, sliding, rolling, standingOnWater, wallRunning);
-            com.example.shinobicore.ShinobiCore.LOGGER.info("[NARUTO-RUN DEBUG] narutoRunCondition={}, currentChakra={}", 
-                narutoRunCondition, ChakraHudRenderer.currentChakra);
-        }
+}
         
         // === WATER RUNNING === // BATCH3_WATER
         if (chakraMode && com.example.shinobicore.client.ChakraPhysicsClient.standingOnWater && sprinting) {

@@ -1,4 +1,5 @@
-﻿{
+{
+  "model": "fireball",
   "id": "shinobicore:fire_release_great_fireball",
   "name": "Fire Release: Great Fireball Jutsu",
   "category": "elemental_ninjutsu",
@@ -7,7 +8,7 @@
   "params": {
     "speed": 1.5,
     "radius": 8.0,
-    "particle": "flame",
+    "particle": "fireball",
     "lifetime": 100,
     "gravity": false
   },

@@ -1,3 +1,10 @@
+﻿$ErrorActionPreference = "Stop"
+$utf8 = New-Object System.Text.UTF8Encoding($false)
+$base = "E:\Games\mod\src\main\java\com\example\shinobicore\entity"
+
+# ВНИМАНИЕ: Внутри here-строки @' ... '@ НЕЛЬЗЯ использовать одиночные кавычки (')!
+# Используем только двойные (") для строк в Java.
+$rendererCode = @'
 package com.example.shinobicore.entity;
 
 import net.minecraft.client.render.OverlayTexture;
@@ -151,3 +158,11 @@ public class NinjaProjectileRenderer extends EntityRenderer<NinjaProjectileEntit
         return WHITE_TEXTURE;
     }
 }
+'@
+
+# Записываем файл
+[System.IO.File]::WriteAllText("$base\NinjaProjectileRenderer.java", $rendererCode, $utf8)
+Write-Host "=====================================================================" -ForegroundColor Green
+Write-Host "[OK] NinjaProjectileRenderer.java обновлен! Теперь это настоящая 3D-сфера." -ForegroundColor Green
+Write-Host "=====================================================================" -ForegroundColor Green
+Write-Host "Run .\gradlew.bat runClient to see the new 3D projectiles in-game."

@@ -1,1 +1,2 @@
-{"id":"shinobicore:kenjutsu_wind_slash","name":"Kenjutsu: Wind Slash","category":"taijutsu","nature":"wind","type":"projectile","params":{"speed":2.6,"radius":2.5,"particle":"wind","lifetime":60,"knockback":1.2,"pierce":1},"baseCost":24,"baseDamage":16,"strain":7,"requiredUsesForFullProficiency":40,"requirements":{"taijutsu":28,"nature_wind":15}}
+{
+  "model": "shuriken","id":"shinobicore:kenjutsu_wind_slash","name":"Kenjutsu: Wind Slash","category":"taijutsu","nature":"wind","type":"projectile","params":{"speed":2.6,"radius":2.5,"particle":"wind","lifetime":60,"knockback":1.2,"pierce":1},"baseCost":24,"baseDamage":16,"strain":7,"requiredUsesForFullProficiency":40,"requirements":{"taijutsu":28,"nature_wind":15}}

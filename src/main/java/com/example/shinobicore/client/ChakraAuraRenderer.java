@@ -24,7 +24,7 @@ public class ChakraAuraRenderer {
         if (client.world == null) return;
         tickCounter++;
         // Spawn particles every 2 ticks for performance
-        if (tickCounter % 2 != 0) return;
+        if (tickCounter % 4 != 0) return;
 
         for (AbstractClientPlayerEntity p : client.world.getPlayers()) {
             boolean isLocal = (p == client.player);
@@ -72,7 +72,7 @@ public class ChakraAuraRenderer {
         }
 
         // === FLAME-LIKE: rising wisps from shoulders ===
-        if (isLocal && tickCounter % 4 == 0) {
+        if (isLocal && tickCounter % 8 == 0) {
             Vec3d look = p.getRotationVector();
             Vec3d right = new Vec3d(-look.z, 0, look.x).normalize();
             // Left shoulder

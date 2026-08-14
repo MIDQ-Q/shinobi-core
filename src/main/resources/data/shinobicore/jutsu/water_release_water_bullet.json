@@ -1,4 +1,5 @@
-﻿{
+{
+  "model": "sphere",
   "id": "shinobicore:water_release_water_bullet",
   "name": "Water Release: Water Bullet Jutsu",
   "category": "elemental_ninjutsu",

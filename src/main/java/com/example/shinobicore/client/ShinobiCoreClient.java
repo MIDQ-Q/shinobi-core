@@ -43,6 +43,7 @@ public class ShinobiCoreClient implements ClientModInitializer {
         ParkourManager.register();
         TaijutsuClientHandler.register();
         RasenganClientVisual.register();
+        RasenshurikenClientVisual.register();
         com.example.shinobicore.client.ChakraAuraVisual.register();
         HudRenderCallback.EVENT.register(ChakraHudRenderer::render);
         com.example.shinobicore.client.TargetFrameHud.register();
@@ -135,6 +136,17 @@ public class ShinobiCoreClient implements ClientModInitializer {
             });
         });
 
+        ClientPlayNetworking.registerGlobalReceiver(new net.minecraft.util.Identifier("shinobicore", "rs_sync"), (client, handler, buf, responseSender) -> {
+                boolean charging = buf.readBoolean();
+                float progress = buf.readFloat();
+                boolean ready = buf.readBoolean();
+                client.execute(() -> {
+                    RasenshurikenClientState.charging = charging;
+                    RasenshurikenClientState.progress = progress;
+                    RasenshurikenClientState.ready = ready;
+            });
+        });
+        
         ClientPlayNetworking.registerGlobalReceiver(ModPackets.BODY_SYNC_ID, (client, handler, buf, responseSender) -> {
             int hp = buf.readInt(); int speed = buf.readInt(); int jump = buf.readInt();
             boolean chakra = buf.readBoolean(); String clan = buf.readString(); String affinity = buf.readString();
