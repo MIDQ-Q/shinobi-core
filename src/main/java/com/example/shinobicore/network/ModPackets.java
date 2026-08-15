@@ -58,6 +58,7 @@ public class ModPackets {
     public static final Identifier CAST_START_ID = new Identifier("shinobicore", "cast_start");
     public static final Identifier CAST_INTERRUPT_ID = new Identifier("shinobicore", "cast_interrupt");
     public static final Identifier HIT_STOP_ID = new Identifier("shinobicore", "hit_stop");
+    public static final Identifier IAI_DASH_ID = new Identifier("shinobicore", "iai_dash");
     
     public static void register() {
         ServerPlayNetworking.registerGlobalReceiver(MEDITATE_ID, (server, player, handler, buf, responseSender) -> {
@@ -339,6 +340,38 @@ public class ModPackets {
                 }
             });
         });
+        // === PHASE2: IAI DASH ===
+        ServerPlayNetworking.registerGlobalReceiver(IAI_DASH_ID, (server, player, handler, buf, responseSender) -> {
+            server.execute(() -> {
+                NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
+                if (data.isExhausted()) return;
+                KenjutsuStance stance = KenjutsuStance.fromId(data.getKatanaStanceId());
+                if (stance != KenjutsuStance.IAI) return;
+                long now = System.currentTimeMillis();
+                if (now - data.getKatanaLastAttackMs() < 2000) return; // cooldown
+                // Dash forward
+                Vec3d look = player.getRotationVector();
+                player.addVelocity(look.x * 1.8, 0.1, look.z * 1.8);
+                player.velocityModified = true;
+                // Damage in narrow cone
+                int tai = data.getStatLevel(StatType.TAIJUTSU);
+                float damage = KenjutsuFormulas.baseDamage(tai) * 3.0f;
+                if (data.isChakraMode()) damage *= stance.getChakraDamageMult();
+                java.util.List<LivingEntity> targets = KenjutsuFormulas.findTargetsInCone(
+                        (ServerWorld) player.getWorld(), player, look, 5.0, 40);
+                for (LivingEntity t : targets) {
+                    t.damage(player.getDamageSources().playerAttack(player), damage);
+                    Vec3d kb = look.normalize().multiply(1.5);
+                    t.addVelocity(kb.x, 0.3, kb.z);
+                    t.velocityModified = true;
+                }
+                data.setFatigue(data.getFatigue() + 5.0f);
+                if (data.isChakraMode()) data.setCurrentChakra(Math.max(0, data.getCurrentChakra() - 5.0f));
+                data.setKatanaLastAttackMs(now);
+                ShinobiCore.sendChakraSync(player);
+            });
+        });
+
         ServerPlayNetworking.registerGlobalReceiver(DODGE_ID, (server, player, handler, buf, responseSender) -> {
             int direction = buf.readInt(); // -1 = влево, 1 = вправо
             server.execute(() -> {

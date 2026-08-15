@@ -1,0 +1,155 @@
+﻿
+> Configure project :
+Fabric Loom: 1.9.2
+
+> Task :compileJava FAILED
+gradlew.bat : E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:6: error: package org.junit.jupiter.api does not exist
+E:\Games\mod\run_tests.ps1:30 знак:16
++ $buildOutput = & "$root\gradlew.bat" build 2>&1
++                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (E:\Games\mod\sr... does not exist:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+import org.junit.jupiter.api.BeforeAll;
+                            ^
+E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:7: error: package org.junit.jupiter.api does not exist
+import org.junit.jupiter.api.Test;
+                            ^
+E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:8: error: package org.junit.jupiter.api does not exist
+import static org.junit.jupiter.api.Assertions.*;
+                                   ^
+E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:12: error: cannot find symbol
+    @BeforeAll
+     ^
+  symbol:   class BeforeAll
+  location: class FormulaTest
+E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:17: error: cannot find symbol
+    @Test
+     ^
+  symbol:   class Test
+  location: class FormulaTest
+E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:24: error: cannot find symbol
+    @Test
+     ^
+  symbol:   class Test
+  location: class FormulaTest
+E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:31: error: cannot find symbol
+    @Test
+     ^
+  symbol:   class Test
+  location: class FormulaTest
+E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:40: error: cannot find symbol
+    @Test
+     ^
+  symbol:   class Test
+  location: class FormulaTest
+E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:46: error: cannot find symbol
+    @Test
+     ^
+  symbol:   class Test
+  location: class FormulaTest
+E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:53: error: cannot find symbol
+    @Test
+     ^
+  symbol:   class Test
+  location: class FormulaTest
+E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:61: error: cannot find symbol
+    @Test
+     ^
+  symbol:   class Test
+  location: class FormulaTest
+E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:69: error: cannot find symbol
+    @Test
+     ^
+  symbol:   class Test
+  location: class FormulaTest
+E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:75: error: cannot find symbol
+    @Test
+     ^
+  symbol:   class Test
+  location: class FormulaTest
+E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:81: error: cannot find symbol
+    @Test
+     ^
+  symbol:   class Test
+  location: class FormulaTest
+14 errors
+
+[Incubating] Problems report is available at: file:///E:/Games/mod/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:6: error: package org.junit.jupiter.api does not exist
+  import org.junit.jupiter.api.BeforeAll;
+                              ^
+  E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:7: error: package org.junit.jupiter.api does not exist
+  import org.junit.jupiter.api.Test;
+                              ^
+  E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:8: error: package org.junit.jupiter.api does not exist
+  import static org.junit.jupiter.api.Assertions.*;
+                                     ^E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:12: error: cannot find symbol
+      @BeforeAll
+       ^
+    symbol:   class BeforeAll
+    location: class FormulaTest
+  E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:17: error: cannot find symbol
+      @Test
+       ^
+    symbol:   class Test
+    location: class FormulaTest
+  E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:24: error: cannot find symbol
+      @Test
+       ^
+    symbol:   class Test
+    location: class FormulaTest
+  E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:31: error: cannot find symbol
+      @Test
+       ^
+    symbol:   class Test
+    location: class FormulaTest
+  E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:40: error: cannot find symbol
+      @Test
+       ^
+    symbol:   class Test
+    location: class FormulaTest
+  E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:46: error: cannot find symbol
+      @Test
+       ^
+    symbol:   class Test
+    location: class FormulaTest
+  E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:53: error: cannot find symbol
+      @Test
+       ^
+    symbol:   class Test
+    location: class FormulaTest
+  E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:61: error: cannot find symbol
+      @Test
+       ^
+    symbol:   class Test
+    location: class FormulaTest
+  E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:69: error: cannot find symbol
+      @Test
+       ^
+    symbol:   class Test
+    location: class FormulaTest
+  E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:75: error: cannot find symbol
+      @Test
+       ^
+    symbol:   class Test
+    location: class FormulaTest
+  E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:81: error: cannot find symbol
+      @Test
+       ^
+    symbol:   class Test
+    location: class FormulaTest
+  14 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 1s
+1 actionable task: 1 executed

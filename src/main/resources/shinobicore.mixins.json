@@ -1,7 +1,7 @@
 {
   "required": true,
   "package": "com.example.shinobicore.mixin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_17",
   "mixins": [
     "ServerPlayerEntityMixin",
     "FallDamageMixin",

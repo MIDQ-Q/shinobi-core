@@ -1,0 +1,9 @@
+{
+    "id": "sharingan",
+    "name": "Sharingan",
+    "clanId": "uchiha",
+    "grantedJutsu": ["shinobicore:amaterasu", "shinobicore:uchiha_amaterasu"],
+    "damageMultiplier": 1.15,
+    "costReduction": 0.10,
+    "description": "The copy wheel eye of the Uchiha clan."
+}

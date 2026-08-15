@@ -41,6 +41,7 @@ public class ClientNinjaState {
     public static boolean deflectHeld = false;
     public static String clanId = "none";
     public static String affinityId = null;
+    public static String activeDojutsu = null;
     public static final Set<String> unlockedNodes = new HashSet<>();
 
     public static String[] loadout(int set) { return set == 0 ? loadoutA : loadoutB; }

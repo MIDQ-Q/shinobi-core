@@ -1,6 +1,8 @@
 package com.example.shinobicore.client.combat;
 import com.example.shinobicore.client.CinematicCamera;
 import com.example.shinobicore.client.ClientNinjaState;
+import com.example.shinobicore.combat.KenjutsuFormulas;
+import com.example.shinobicore.combat.KenjutsuStance;
 import com.example.shinobicore.item.KatanaItem;
 import com.example.shinobicore.network.ModPackets;
 import io.netty.buffer.Unpooled;

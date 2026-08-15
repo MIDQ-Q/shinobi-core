@@ -82,6 +82,17 @@ public abstract class KatanaDeflectMixin {
         
         data.setLastDeflectReflectMs(now);
         player.playSound(SoundEvents.ITEM_SHIELD_BLOCK, 1.0f, 1.2f);
+
+        // === PHASE2: Chakra generation on successful parry ===
+        float chakraGain = stance.getParryChakraGain();
+        if (chakraGain > 0 && data.getCurrentChakra() < com.example.shinobicore.stat.NinjaFormula.maxChakra(data)) {
+            data.setCurrentChakra(Math.min(
+                data.getCurrentChakra() + chakraGain * 5.0f,
+                com.example.shinobicore.stat.NinjaFormula.maxChakra(data)));
+            com.example.shinobicore.ShinobiCore.sendChakraSync(player);
+        }
+        // Strain cost for parrying
+        data.setFatigue(data.getFatigue() + 2.0f * stance.getFatigueMult());
         if (player.getWorld() instanceof ServerWorld sw) {
             sw.spawnParticles(ParticleTypes.CRIT, player.getX(), player.getY() + 1, player.getZ(), 12, 0.4, 0.4, 0.4, 0.05);
         }

@@ -89,10 +89,14 @@ public class JutsuRegistry {
             }
         }
 
+        String requiresDojutsu = json.has("requiresDojutsu") && !json.get("requiresDojutsu").isJsonNull()
+            ? json.get("requiresDojutsu").getAsString() : null;
+        String requiresScroll = json.has("requiresScroll") && !json.get("requiresScroll").isJsonNull()
+            ? json.get("requiresScroll").getAsString() : null;
         return new JutsuDefinition(
             id, name, category, nature, type, behaviorClass, params,
             baseCost, baseDamage, strain,
-            requiredUses, requirements
+            requiredUses, requirements, requiresDojutsu, requiresScroll
         );
     }
 }

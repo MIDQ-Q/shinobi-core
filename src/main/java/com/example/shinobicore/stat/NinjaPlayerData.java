@@ -43,6 +43,7 @@ public class NinjaPlayerData {
     private int speedLevel = 0;
     private int jumpLevel = 0;
     private boolean chakraMode = false;
+    private String activeDojutsu = null;
     private boolean sensoryEnabled = true;
 
     // === НОВОЕ: серверное состояние тай-дзюцу ===
@@ -55,6 +56,9 @@ public class NinjaPlayerData {
     private long katanaDeflectUntil = 0;
     private boolean katanaDeflectHeld = false;
     private long lastDeflectReflectMs = 0;
+    // === PHASE3: Chakra-melee integration ===
+    private int chakraComboCounter = 0;
+    private long lastChakraHitMs = 0;
 
     private final String[] loadoutA = new String[5];
     private final String[] loadoutB = new String[5];
@@ -90,6 +94,8 @@ public class NinjaPlayerData {
     public int getSpeedLevel() { return speedLevel; }
     public int getJumpLevel() { return jumpLevel; }
     public boolean isChakraMode() { return chakraMode; }
+    public String getActiveDojutsu() { return activeDojutsu; }
+    public void setActiveDojutsu(String d) { this.activeDojutsu = d; statsDirty = true; }
     public boolean isSensoryEnabled() { return sensoryEnabled; }
     public void setSensoryEnabled(boolean v) { this.sensoryEnabled = v; statsDirty = true; }
         // === РАСЕНГАН: геттеры/сеттеры ===
@@ -173,6 +179,9 @@ public class NinjaPlayerData {
     public void advanceComboStep() {
         this.serverComboStep = (this.serverComboStep + 1) % com.example.shinobicore.combat.TaijutsuCombo.MAX_STEPS;
     }
+    public void advanceKatanaComboStep() {
+        this.katanaComboStep = (this.katanaComboStep + 1) % com.example.shinobicore.combat.KenjutsuFormulas.MAX_COMBO_STEPS;
+    }
     public void resetCombo() { this.serverComboStep = 0; }
     public void setLastAttackTimeMs(long time) { this.lastAttackTimeMs = time; }
     public void setCurrentStyleId(String id) { this.currentStyleId = id != null ? id : "standard"; }
@@ -188,6 +197,13 @@ public class NinjaPlayerData {
     public void setKatanaDeflectHeld(boolean v) { this.katanaDeflectHeld = v; }
     public long getLastDeflectReflectMs() { return lastDeflectReflectMs; }
     public void setLastDeflectReflectMs(long v) { this.lastDeflectReflectMs = v; }
+    // === PHASE3 ===
+    public int getChakraComboCounter() { return chakraComboCounter; }
+    public void setChakraComboCounter(int v) { this.chakraComboCounter = v; }
+    public void incrementChakraCombo() { this.chakraComboCounter++; }
+    public void resetChakraCombo() { this.chakraComboCounter = 0; }
+    public long getLastChakraHitMs() { return lastChakraHitMs; }
+    public void setLastChakraHitMs(long v) { this.lastChakraHitMs = v; }
 
     // === Бонусы клана ===
     private void applyClanBonuses(String clanId) {
@@ -275,6 +291,7 @@ public class NinjaPlayerData {
         nbt.putInt("SpeedLevel", speedLevel);
         nbt.putInt("JumpLevel", jumpLevel);
         nbt.putBoolean("ChakraMode", chakraMode);
+        if (activeDojutsu != null) nbt.putString("ActiveDojutsu", activeDojutsu);
         nbt.putBoolean("SensoryEnabled", sensoryEnabled);
         nbt.putBoolean("RasenganCharging", rasenganCharging);
         nbt.putInt("RasenganChargeTicks", rasenganChargeTicks);
@@ -283,6 +300,7 @@ public class NinjaPlayerData {
         // === НОВОЕ: сохраняем стиль ===
         nbt.putString("Style", currentStyleId);
         nbt.putString("KatanaStance", katanaStanceId);
+        nbt.putInt("ChakraComboCounter", chakraComboCounter);
         
         if (affinity != null) nbt.putString("Affinity", affinity.getId());
         NbtCompound stats = new NbtCompound();
@@ -352,6 +370,7 @@ public class NinjaPlayerData {
         speedLevel = nbt.getInt("SpeedLevel");
         jumpLevel = nbt.getInt("JumpLevel");
         chakraMode = nbt.getBoolean("ChakraMode");
+        if (nbt.contains("ActiveDojutsu")) activeDojutsu = nbt.getString("ActiveDojutsu");
         sensoryEnabled = !nbt.contains("SensoryEnabled") || nbt.getBoolean("SensoryEnabled");
         rasenganCharging = nbt.getBoolean("RasenganCharging");
         rasenganChargeTicks = nbt.getInt("RasenganChargeTicks");
@@ -363,6 +382,7 @@ public class NinjaPlayerData {
         }
         
         if (nbt.contains("KatanaStance")) katanaStanceId = nbt.getString("KatanaStance");
+        if (nbt.contains("ChakraComboCounter")) chakraComboCounter = nbt.getInt("ChakraComboCounter");
         if (nbt.contains("Affinity")) {
             String a = nbt.getString("Affinity");
             for (ElementType e : ElementType.values()) if (e.getId().equals(a)) { affinity = e; break; }

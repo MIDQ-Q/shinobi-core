@@ -1,171 +1,2073 @@
 {
-  "branches": {
-    "general":   {"angle": 0,   "color": "#AAAAAA", "label": "Ninja Way"},
-    "fire":      {"angle": 51,  "color": "#FF6622", "label": "Fire Release"},
-    "water":     {"angle": 103, "color": "#4488FF", "label": "Water Release"},
-    "wind":      {"angle": 154, "color": "#88DDAA", "label": "Wind Release"},
-    "lightning": {"angle": 206, "color": "#FFEE44", "label": "Lightning Release"},
-    "earth":     {"angle": 257, "color": "#BB8844", "label": "Earth Release"},
-    "taijutsu":  {"angle": 309, "color": "#66FF66", "label": "Taijutsu"},
-    "medical":   {"angle": 0,   "color": "#FF88CC", "label": "Medical"},
-    "sensory":   {"angle": 0,   "color": "#66DDFF", "label": "Sensory"},
-"genjutsu":  {"angle": 0,   "color": "#CC66FF", "label": "Genjutsu"},
-    "space":     {"angle": 0,   "color": "#CC99FF", "label": "Space-Time"},
-    "uchiha":    {"angle": 26,  "color": "#FF2222", "label": "Uchiha Secret", "clan": "uchiha"},
-    "sarutobi":  {"angle": 77,  "color": "#FFAA44", "label": "Monkey King", "clan": "sarutobi"},
-    "uzumaki":   {"angle": 129, "color": "#FF8844", "label": "Uzumaki Seal", "clan": "uzumaki"},
-    "hatake":    {"angle": 231, "color": "#EEEEFF", "label": "White Fang", "clan": "hatake"},
-    "nara":      {"angle": 283, "color": "#8866AA", "label": "Shadow Arts", "clan": "nara"},
-    "hyuga":     {"angle": 334, "color": "#CCCCEE", "label": "Gentle Fist", "clan": "hyuga"},
-    "shuriken":  {"angle": 0,   "color": "#BBBBBB", "label": "Shurikenjutsu"},
-"summon":   {"angle": 0,   "color": "#FFCC66", "label": "Summoning"},
-"sealing":  {"angle": 0,   "color": "#66CC99", "label": "Sealing"},
-"kenjutsu": {"angle": 0,   "color": "#FF9999", "label": "Kenjutsu"},
-    "kekkei":    {"angle": 0,   "color": "#FF66CC", "label": "Kekkei Genkai", "hidden": true},
-    "forbidden": {"angle": 180, "color": "#AA44FF", "label": "Forbidden Arts", "hidden": true}
-  },
-  "nodes": [
-    {"id":"gen_meditation","branch":"general","distance":1,"type":"passive","effect":"meditation_bonus","value":0.1,"spCost":2,"requires":[],"icon":"*","name":"Inner Peace","description":"+10% meditation regen"},
-    {"id":"gen_chakra_eff","branch":"general","distance":2,"type":"passive","effect":"cost_reduction","value":0.05,"spCost":3,"requires":["gen_meditation"],"icon":"*","name":"Chakra Efficiency","description":"-5% jutsu cost"},
-    {"id":"gen_iron_will","branch":"general","distance":3,"angleOffset":-12,"type":"passive","effect":"fatigue_reduction","value":0.15,"spCost":4,"requires":["gen_chakra_eff"],"icon":"*","name":"Iron Will","description":"-15% jutsu fatigue"},
-    {"id":"gen_leaf_focus","branch":"general","distance":4,"angleOffset":-12,"type":"passive","effect":"affinity_xp","value":0.25,"spCost":5,"requires":["gen_iron_will"],"icon":"*","name":"Leaf Focus","description":"+25% XP for affinity nature"},
-    {"id":"gen_body_boost","branch":"general","distance":3,"type":"passive","effect":"hp_bonus","value":4,"spCost":4,"requires":["gen_chakra_eff"],"icon":"*","name":"Body Reinforcement","description":"+4 max HP"},
-    {"id":"gen_chakra_surge","branch":"general","distance":4,"type":"passive","effect":"reserve_bonus","value":10,"spCost":5,"requires":["gen_body_boost"],"icon":"*","name":"Chakra Surge","description":"+10 reserve capacity"},
-    {"id":"rasengan","branch":"general","distance":5,"type":"jutsu","jutsuId":"shinobicore:rasengan","spCost":15,"requires":["gen_chakra_surge","wind_basic","water_basic"],"icon":"O","name":"Rasengan","description":"Spiraling sphere"},
+    "branches":  {
+                     "general":  {
+                                     "angle":  0,
+                                     "color":  "#AAAAAA",
+                                     "label":  "Ninja Way"
+                                 },
+                     "fire":  {
+                                  "angle":  51,
+                                  "color":  "#FF6622",
+                                  "label":  "Fire Release"
+                              },
+                     "water":  {
+                                   "angle":  103,
+                                   "color":  "#4488FF",
+                                   "label":  "Water Release"
+                               },
+                     "wind":  {
+                                  "angle":  154,
+                                  "color":  "#88DDAA",
+                                  "label":  "Wind Release"
+                              },
+                     "lightning":  {
+                                       "angle":  206,
+                                       "color":  "#FFEE44",
+                                       "label":  "Lightning Release"
+                                   },
+                     "earth":  {
+                                   "angle":  257,
+                                   "color":  "#BB8844",
+                                   "label":  "Earth Release"
+                               },
+                     "taijutsu":  {
+                                      "angle":  309,
+                                      "color":  "#66FF66",
+                                      "label":  "Taijutsu"
+                                  },
+                     "medical":  {
+                                     "angle":  0,
+                                     "color":  "#FF88CC",
+                                     "label":  "Medical"
+                                 },
+                     "sensory":  {
+                                     "angle":  0,
+                                     "color":  "#66DDFF",
+                                     "label":  "Sensory"
+                                 },
+                     "genjutsu":  {
+                                      "angle":  0,
+                                      "color":  "#CC66FF",
+                                      "label":  "Genjutsu"
+                                  },
+                     "space":  {
+                                   "angle":  0,
+                                   "color":  "#CC99FF",
+                                   "label":  "Space-Time"
+                               },
+                     "uchiha":  {
+                                    "angle":  26,
+                                    "color":  "#FF2222",
+                                    "label":  "Uchiha Secret",
+                                    "clan":  "uchiha"
+                                },
+                     "sarutobi":  {
+                                      "angle":  77,
+                                      "color":  "#FFAA44",
+                                      "label":  "Monkey King",
+                                      "clan":  "sarutobi"
+                                  },
+                     "uzumaki":  {
+                                     "angle":  129,
+                                     "color":  "#FF8844",
+                                     "label":  "Uzumaki Seal",
+                                     "clan":  "uzumaki"
+                                 },
+                     "hatake":  {
+                                    "angle":  231,
+                                    "color":  "#EEEEFF",
+                                    "label":  "White Fang",
+                                    "clan":  "hatake"
+                                },
+                     "nara":  {
+                                  "angle":  283,
+                                  "color":  "#8866AA",
+                                  "label":  "Shadow Arts",
+                                  "clan":  "nara"
+                              },
+                     "hyuga":  {
+                                   "angle":  334,
+                                   "color":  "#CCCCEE",
+                                   "label":  "Gentle Fist",
+                                   "clan":  "hyuga"
+                               },
+                     "shuriken":  {
+                                      "angle":  0,
+                                      "color":  "#BBBBBB",
+                                      "label":  "Shurikenjutsu"
+                                  },
+                     "summon":  {
+                                    "angle":  0,
+                                    "color":  "#FFCC66",
+                                    "label":  "Summoning"
+                                },
+                     "sealing":  {
+                                     "angle":  0,
+                                     "color":  "#66CC99",
+                                     "label":  "Sealing"
+                                 },
+                     "kenjutsu":  {
+                                      "angle":  0,
+                                      "color":  "#FF9999",
+                                      "label":  "Kenjutsu"
+                                  },
+                     "kekkei":  {
+                                    "angle":  0,
+                                    "color":  "#FF66CC",
+                                    "label":  "Kekkei Genkai",
+                                    "hidden":  true
+                                },
+                     "forbidden":  {
+                                       "angle":  180,
+                                       "color":  "#AA44FF",
+                                       "label":  "Forbidden Arts",
+                                       "hidden":  true
+                                   }
+                 },
+    "nodes":  [
+                  {
+                      "id":  "gen_meditation",
+                      "branch":  "general",
+                      "distance":  1,
+                      "type":  "passive",
+                      "effect":  "meditation_bonus",
+                      "value":  0.1,
+                      "spCost":  2,
+                      "requires":  [
 
-    {"id":"fire_basic","branch":"fire","distance":1,"type":"jutsu","jutsuId":"shinobicore:fire_release_flame_bullet","spCost":2,"requires":[],"icon":"F","name":"Flame Bullet","description":"Basic fire projectile"},
-    {"id":"fire_mid","branch":"fire","distance":2,"type":"jutsu","jutsuId":"shinobicore:fire_release_great_fireball","spCost":4,"requires":["fire_basic"],"icon":"F","name":"Great Fireball","description":"Powerful fire sphere"},
-    {"id":"fire_advanced","branch":"fire","distance":3,"type":"jutsu","jutsuId":"shinobicore:fire_release_dragon_flame","spCost":6,"requires":["fire_mid"],"icon":"F","name":"Dragon Flame","description":"Massive fire dragon"},
-    {"id":"fire_phoenix","branch":"fire","distance":3,"angleOffset":-12,"type":"jutsu","jutsuId":"shinobicore:fire_release_phoenix_sage","spCost":5,"requires":["fire_mid"],"icon":"F","name":"Phoenix Sage","description":"Scattered fire shots"},
-    {"id":"fire_synergy","branch":"fire","distance":4,"type":"passive","effect":"fire_wind_synergy","value":0.15,"spCost":6,"requires":["fire_mid"],"icon":"F","name":"Fire-Wind Synergy","description":"+15% fire damage if Wind unlocked","visibilityCondition":{"type":"nature_unlocked","key":"wind"}},
+                                   ],
+                      "icon":  "*",
+                      "name":  "Inner Peace",
+                      "description":  "+10% meditation regen"
+                  },
+                  {
+                      "id":  "gen_chakra_eff",
+                      "branch":  "general",
+                      "distance":  2,
+                      "type":  "passive",
+                      "effect":  "cost_reduction",
+                      "value":  0.05,
+                      "spCost":  3,
+                      "requires":  [
+                                       "gen_meditation"
+                                   ],
+                      "icon":  "*",
+                      "name":  "Chakra Efficiency",
+                      "description":  "-5% jutsu cost"
+                  },
+                  {
+                      "id":  "gen_iron_will",
+                      "branch":  "general",
+                      "distance":  3,
+                      "angleOffset":  -12,
+                      "type":  "passive",
+                      "effect":  "fatigue_reduction",
+                      "value":  0.15,
+                      "spCost":  4,
+                      "requires":  [
+                                       "gen_chakra_eff"
+                                   ],
+                      "icon":  "*",
+                      "name":  "Iron Will",
+                      "description":  "-15% jutsu fatigue"
+                  },
+                  {
+                      "id":  "gen_leaf_focus",
+                      "branch":  "general",
+                      "distance":  4,
+                      "angleOffset":  -12,
+                      "type":  "passive",
+                      "effect":  "affinity_xp",
+                      "value":  0.25,
+                      "spCost":  5,
+                      "requires":  [
+                                       "gen_iron_will"
+                                   ],
+                      "icon":  "*",
+                      "name":  "Leaf Focus",
+                      "description":  "+25% XP for affinity nature"
+                  },
+                  {
+                      "id":  "gen_body_boost",
+                      "branch":  "general",
+                      "distance":  3,
+                      "type":  "passive",
+                      "effect":  "hp_bonus",
+                      "value":  4,
+                      "spCost":  4,
+                      "requires":  [
+                                       "gen_chakra_eff"
+                                   ],
+                      "icon":  "*",
+                      "name":  "Body Reinforcement",
+                      "description":  "+4 max HP"
+                  },
+                  {
+                      "id":  "gen_chakra_surge",
+                      "branch":  "general",
+                      "distance":  4,
+                      "type":  "passive",
+                      "effect":  "reserve_bonus",
+                      "value":  10,
+                      "spCost":  5,
+                      "requires":  [
+                                       "gen_body_boost"
+                                   ],
+                      "icon":  "*",
+                      "name":  "Chakra Surge",
+                      "description":  "+10 reserve capacity"
+                  },
+                  {
+                      "id":  "rasengan",
+                      "branch":  "general",
+                      "distance":  5,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:rasengan",
+                      "spCost":  15,
+                      "requires":  [
+                                       "gen_chakra_surge",
+                                       "wind_basic",
+                                       "water_basic"
+                                   ],
+                      "icon":  "O",
+                      "name":  "Rasengan",
+                      "description":  "Spiraling sphere"
+                  },
+                  {
+                      "id":  "fire_basic",
+                      "branch":  "fire",
+                      "distance":  1,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:fire_release_flame_bullet",
+                      "spCost":  2,
+                      "requires":  [
 
-    {"id":"water_basic","branch":"water","distance":1,"type":"jutsu","jutsuId":"shinobicore:water_release_water_bullet","spCost":2,"requires":[],"icon":"W","name":"Water Bullet","description":"Basic water projectile"},
-    {"id":"water_raging","branch":"water","distance":2,"type":"jutsu","jutsuId":"shinobicore:water_release_raging_waves","spCost":4,"requires":["water_basic"],"icon":"W","name":"Raging Waves","description":"AOE water blast"},
-    {"id":"water_waterfall","branch":"water","distance":3,"type":"jutsu","jutsuId":"shinobicore:water_release_great_waterfall","spCost":6,"requires":["water_raging"],"icon":"W","name":"Great Waterfall","description":"Water dash attack"},
+                                   ],
+                      "icon":  "F",
+                      "name":  "Flame Bullet",
+                      "description":  "Basic fire projectile"
+                  },
+                  {
+                      "id":  "fire_mid",
+                      "branch":  "fire",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:fire_release_great_fireball",
+                      "spCost":  4,
+                      "requires":  [
+                                       "fire_basic"
+                                   ],
+                      "icon":  "F",
+                      "name":  "Great Fireball",
+                      "description":  "Powerful fire sphere"
+                  },
+                  {
+                      "id":  "fire_advanced",
+                      "branch":  "fire",
+                      "distance":  3,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:fire_release_dragon_flame",
+                      "spCost":  6,
+                      "requires":  [
+                                       "fire_mid"
+                                   ],
+                      "icon":  "F",
+                      "name":  "Dragon Flame",
+                      "description":  "Massive fire dragon"
+                  },
+                  {
+                      "id":  "fire_phoenix",
+                      "branch":  "fire",
+                      "distance":  3,
+                      "angleOffset":  -12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:fire_release_phoenix_sage",
+                      "spCost":  5,
+                      "requires":  [
+                                       "fire_mid"
+                                   ],
+                      "icon":  "F",
+                      "name":  "Phoenix Sage",
+                      "description":  "Scattered fire shots"
+                  },
+                  {
+                      "id":  "fire_synergy",
+                      "branch":  "fire",
+                      "distance":  4,
+                      "type":  "passive",
+                      "effect":  "fire_wind_synergy",
+                      "value":  0.15,
+                      "spCost":  6,
+                      "requires":  [
+                                       "fire_mid"
+                                   ],
+                      "icon":  "F",
+                      "name":  "Fire-Wind Synergy",
+                      "description":  "+15% fire damage if Wind unlocked",
+                      "visibilityCondition":  {
+                                                  "type":  "nature_unlocked",
+                                                  "key":  "wind"
+                                              }
+                  },
+                  {
+                      "id":  "water_basic",
+                      "branch":  "water",
+                      "distance":  1,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:water_release_water_bullet",
+                      "spCost":  2,
+                      "requires":  [
 
-    {"id":"wind_basic","branch":"wind","distance":1,"type":"jutsu","jutsuId":"shinobicore:wind_release_gale_palm","spCost":2,"requires":[],"icon":"~","name":"Gale Palm","description":"Wind dash"},
-    {"id":"wind_breakthrough","branch":"wind","distance":2,"type":"jutsu","jutsuId":"shinobicore:wind_release_great_breakthrough","spCost":4,"requires":["wind_basic"],"icon":"~","name":"Great Breakthrough","description":"AOE wind blast"},
-    {"id":"wind_passing","branch":"wind","distance":2,"angleOffset":10,"type":"jutsu","jutsuId":"shinobicore:wind_release_passing_gale","spCost":3,"requires":["wind_basic"],"icon":"~","name":"Passing Gale","description":"Speed buff"},
+                                   ],
+                      "icon":  "W",
+                      "name":  "Water Bullet",
+                      "description":  "Basic water projectile"
+                  },
+                  {
+                      "id":  "water_raging",
+                      "branch":  "water",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:water_release_raging_waves",
+                      "spCost":  4,
+                      "requires":  [
+                                       "water_basic"
+                                   ],
+                      "icon":  "W",
+                      "name":  "Raging Waves",
+                      "description":  "AOE water blast"
+                  },
+                  {
+                      "id":  "water_waterfall",
+                      "branch":  "water",
+                      "distance":  3,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:water_release_great_waterfall",
+                      "spCost":  6,
+                      "requires":  [
+                                       "water_raging"
+                                   ],
+                      "icon":  "W",
+                      "name":  "Great Waterfall",
+                      "description":  "Water dash attack"
+                  },
+                  {
+                      "id":  "wind_basic",
+                      "branch":  "wind",
+                      "distance":  1,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:wind_release_gale_palm",
+                      "spCost":  2,
+                      "requires":  [
 
-    {"id":"light_basic","branch":"lightning","distance":1,"type":"jutsu","jutsuId":"shinobicore:lightning_release_shock","spCost":3,"requires":[],"icon":"L","name":"Lightning Shock","description":"Melee lightning"},
-    {"id":"light_darkness","branch":"lightning","distance":2,"type":"jutsu","jutsuId":"shinobicore:lightning_release_false_darkness","spCost":5,"requires":["light_basic"],"icon":"L","name":"False Darkness","description":"Lightning beam AOE"},
+                                   ],
+                      "icon":  "~",
+                      "name":  "Gale Palm",
+                      "description":  "Wind dash"
+                  },
+                  {
+                      "id":  "wind_breakthrough",
+                      "branch":  "wind",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:wind_release_great_breakthrough",
+                      "spCost":  4,
+                      "requires":  [
+                                       "wind_basic"
+                                   ],
+                      "icon":  "~",
+                      "name":  "Great Breakthrough",
+                      "description":  "AOE wind blast"
+                  },
+                  {
+                      "id":  "wind_passing",
+                      "branch":  "wind",
+                      "distance":  2,
+                      "angleOffset":  10,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:wind_release_passing_gale",
+                      "spCost":  3,
+                      "requires":  [
+                                       "wind_basic"
+                                   ],
+                      "icon":  "~",
+                      "name":  "Passing Gale",
+                      "description":  "Speed buff"
+                  },
+                  {
+                      "id":  "light_basic",
+                      "branch":  "lightning",
+                      "distance":  1,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:lightning_release_shock",
+                      "spCost":  3,
+                      "requires":  [
 
-    {"id":"earth_wall","branch":"earth","distance":1,"type":"jutsu","jutsuId":"shinobicore:earth_release_earth_wall","spCost":3,"requires":[],"icon":"#","name":"Earth Wall","description":"Temporary wall"},
-    {"id":"earth_mud","branch":"earth","distance":2,"type":"jutsu","jutsuId":"shinobicore:earth_release_mud_wave","spCost":5,"requires":["earth_wall"],"icon":"#","name":"Mud Wave","description":"AOE slow wave"},
+                                   ],
+                      "icon":  "L",
+                      "name":  "Lightning Shock",
+                      "description":  "Melee lightning"
+                  },
+                  {
+                      "id":  "light_darkness",
+                      "branch":  "lightning",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:lightning_release_false_darkness",
+                      "spCost":  5,
+                      "requires":  [
+                                       "light_basic"
+                                   ],
+                      "icon":  "L",
+                      "name":  "False Darkness",
+                      "description":  "Lightning beam AOE"
+                  },
+                  {
+                      "id":  "earth_wall",
+                      "branch":  "earth",
+                      "distance":  1,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:earth_release_earth_wall",
+                      "spCost":  3,
+                      "requires":  [
 
-    {"id":"tai_whirlwind","branch":"taijutsu","distance":1,"type":"jutsu","jutsuId":"shinobicore:leaf_whirlwind","spCost":3,"requires":[],"icon":"T","name":"Leaf Whirlwind","description":"360 kick"},
-    {"id":"tai_combo_master","branch":"taijutsu","distance":2,"type":"passive","effect":"combo_damage","value":0.15,"spCost":4,"requires":["tai_whirlwind"],"icon":"T","name":"Combo Master","description":"+15% combo damage"},
-    {"id":"tai_combo_plus","branch":"taijutsu","distance":3,"type":"passive","effect":"combo_timeout","value":0.5,"spCost":4,"requires":["tai_combo_master"],"icon":"T","name":"Combo Master+","description":"Combo window +50%"},
-    {"id":"tai_counter","branch":"taijutsu","distance":4,"type":"passive","effect":"auto_parry","value":0.15,"spCost":6,"requires":["tai_combo_plus"],"icon":"T","name":"Counter Stance","description":"15% chance to auto-parry hits"},
+                                   ],
+                      "icon":  "#",
+                      "name":  "Earth Wall",
+                      "description":  "Temporary wall"
+                  },
+                  {
+                      "id":  "earth_mud",
+                      "branch":  "earth",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:earth_release_mud_wave",
+                      "spCost":  5,
+                      "requires":  [
+                                       "earth_wall"
+                                   ],
+                      "icon":  "#",
+                      "name":  "Mud Wave",
+                      "description":  "AOE slow wave"
+                  },
+                  {
+                      "id":  "tai_whirlwind",
+                      "branch":  "taijutsu",
+                      "distance":  1,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:leaf_whirlwind",
+                      "spCost":  3,
+                      "requires":  [
 
-    {"id":"med_palm","branch":"medical","distance":1,"type":"jutsu","jutsuId":"shinobicore:mystical_palm_jutsu","spCost":3,"requires":["gen_meditation"],"icon":"+","name":"Mystical Palm","description":"Heal self"},
-    {"id":"med_poison","branch":"medical","distance":2,"type":"jutsu","jutsuId":"shinobicore:poison_extraction","spCost":2,"requires":["med_palm"],"icon":"+","name":"Poison Extraction","description":"Clear debuffs"},
+                                   ],
+                      "icon":  "T",
+                      "name":  "Leaf Whirlwind",
+                      "description":  "360 kick"
+                  },
+                  {
+                      "id":  "tai_combo_master",
+                      "branch":  "taijutsu",
+                      "distance":  2,
+                      "type":  "passive",
+                      "effect":  "combo_damage",
+                      "value":  0.15,
+                      "spCost":  4,
+                      "requires":  [
+                                       "tai_whirlwind"
+                                   ],
+                      "icon":  "T",
+                      "name":  "Combo Master",
+                      "description":  "+15% combo damage"
+                  },
+                  {
+                      "id":  "tai_combo_plus",
+                      "branch":  "taijutsu",
+                      "distance":  3,
+                      "type":  "passive",
+                      "effect":  "combo_timeout",
+                      "value":  0.5,
+                      "spCost":  4,
+                      "requires":  [
+                                       "tai_combo_master"
+                                   ],
+                      "icon":  "T",
+                      "name":  "Combo Master+",
+                      "description":  "Combo window +50%"
+                  },
+                  {
+                      "id":  "tai_counter",
+                      "branch":  "taijutsu",
+                      "distance":  4,
+                      "type":  "passive",
+                      "effect":  "auto_parry",
+                      "value":  0.15,
+                      "spCost":  6,
+                      "requires":  [
+                                       "tai_combo_plus"
+                                   ],
+                      "icon":  "T",
+                      "name":  "Counter Stance",
+                      "description":  "15% chance to auto-parry hits"
+                  },
+                  {
+                      "id":  "med_palm",
+                      "branch":  "medical",
+                      "distance":  1,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:mystical_palm_jutsu",
+                      "spCost":  3,
+                      "requires":  [
+                                       "gen_meditation"
+                                   ],
+                      "icon":  "+",
+                      "name":  "Mystical Palm",
+                      "description":  "Heal self"
+                  },
+                  {
+                      "id":  "med_poison",
+                      "branch":  "medical",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:poison_extraction",
+                      "spCost":  2,
+                      "requires":  [
+                                       "med_palm"
+                                   ],
+                      "icon":  "+",
+                      "name":  "Poison Extraction",
+                      "description":  "Clear debuffs"
+                  },
+                  {
+                      "id":  "sen_glow",
+                      "branch":  "sensory",
+                      "distance":  1,
+                      "type":  "passive",
+                      "effect":  "sensory",
+                      "value":  20,
+                      "spCost":  5,
+                      "requires":  [
 
-    {"id":"sen_glow","branch":"sensory","distance":1,"type":"passive","effect":"sensory","value":20,"spCost":5,"requires":[],"icon":"?","name":"Sensory Technique","description":"See enemies through walls (20 blocks)","visibilityCondition":{"type":"stat_level","key":"perception","value":20}},
-    {"id":"sen_danger","branch":"sensory","distance":2,"type":"passive","effect":"danger_sense","value":1,"spCost":4,"requires":["sen_glow"],"icon":"?","name":"Danger Sense","description":"Warning when an enemy targets you","visibilityCondition":{"type":"stat_level","key":"perception","value":20}},
+                                   ],
+                      "icon":  "?",
+                      "name":  "Sensory Technique",
+                      "description":  "See enemies through walls (20 blocks)",
+                      "visibilityCondition":  {
+                                                  "type":  "stat_level",
+                                                  "key":  "perception",
+                                                  "value":  20
+                                              }
+                  },
+                  {
+                      "id":  "sen_danger",
+                      "branch":  "sensory",
+                      "distance":  2,
+                      "type":  "passive",
+                      "effect":  "danger_sense",
+                      "value":  1,
+                      "spCost":  4,
+                      "requires":  [
+                                       "sen_glow"
+                                   ],
+                      "icon":  "?",
+                      "name":  "Danger Sense",
+                      "description":  "Warning when an enemy targets you",
+                      "visibilityCondition":  {
+                                                  "type":  "stat_level",
+                                                  "key":  "perception",
+                                                  "value":  20
+                                              }
+                  },
+                  {
+                      "id":  "space_shunshin",
+                      "branch":  "space",
+                      "distance":  1,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:shunshin_no_jutsu",
+                      "spCost":  6,
+                      "requires":  [
 
-    {"id":"space_shunshin","branch":"space","distance":1,"type":"jutsu","jutsuId":"shinobicore:shunshin_no_jutsu","spCost":6,"requires":[],"icon":">","name":"Shunshin no Jutsu","description":"High-speed dash technique","visibilityCondition":{"type":"stat_level","key":"space_time","value":15}},
+                                   ],
+                      "icon":  "\u003e",
+                      "name":  "Shunshin no Jutsu",
+                      "description":  "High-speed dash technique",
+                      "visibilityCondition":  {
+                                                  "type":  "stat_level",
+                                                  "key":  "space_time",
+                                                  "value":  15
+                                              }
+                  },
+                  {
+                      "id":  "uchi_amaterasu",
+                      "branch":  "uchiha",
+                      "distance":  1,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:fire_release_great_fireball",
+                      "spCost":  8,
+                      "requires":  [
 
-    {"id":"uchi_amaterasu","branch":"uchiha","distance":1,"type":"jutsu","jutsuId":"shinobicore:fire_release_great_fireball","spCost":8,"requires":[],"icon":"@","name":"Amaterasu","description":"Black flames","clanRequired":"uchiha"},
-    {"id":"uchi_susano","branch":"uchiha","distance":2,"type":"passive","effect":"damage_reduction","value":0.2,"spCost":10,"requires":["uchi_amaterasu"],"icon":"@","name":"Susano'o","description":"-20% damage taken","clanRequired":"uchiha"},
-    {"id":"saru_monkey","branch":"sarutobi","distance":1,"type":"passive","effect":"taijutsu_bonus","value":0.15,"spCost":8,"requires":[],"icon":"M","name":"Monkey King Staff","description":"+15% taijutsu","clanRequired":"sarutobi"},
-    {"id":"saru_fire_prof","branch":"sarutobi","distance":2,"type":"passive","effect":"fire_mastery","value":0.2,"spCost":10,"requires":["saru_monkey"],"icon":"M","name":"Fire Professor","description":"+20% fire damage","clanRequired":"sarutobi"},
-    {"id":"uzu_chains","branch":"uzumaki","distance":1,"type":"passive","effect":"chakra_regen","value":0.2,"spCost":8,"requires":[],"icon":"S","name":"Adamantine Chains","description":"+20% chakra regen","clanRequired":"uzumaki"},
-    {"id":"uzu_seal","branch":"uzumaki","distance":2,"type":"passive","effect":"max_chakra","value":50,"spCost":10,"requires":["uzu_chains"],"icon":"S","name":"Sealing Arts","description":"+50 max chakra","clanRequired":"uzumaki"},
-    {"id":"hatake_chidori","branch":"hatake","distance":1,"type":"jutsu","jutsuId":"shinobicore:lightning_release_false_darkness","spCost":8,"requires":[],"icon":">","name":"Chidori","description":"Lightning blade","clanRequired":"hatake"},
-    {"id":"hatake_copy","branch":"hatake","distance":2,"type":"passive","effect":"learn_bonus","value":1,"spCost":10,"requires":["hatake_chidori"],"icon":">","name":"Copy Ninja","description":"Learn jutsu faster","clanRequired":"hatake"},
-    {"id":"nara_shadow","branch":"nara","distance":1,"type":"passive","effect":"stun_duration","value":0.5,"spCost":8,"requires":[],"icon":"~","name":"Shadow Possession","description":"+50% stun","clanRequired":"nara"},
-    {"id":"nara_strangle","branch":"nara","distance":2,"type":"passive","effect":"aoe_range","value":0.3,"spCost":10,"requires":["nara_shadow"],"icon":"~","name":"Shadow Strangle","description":"+30% AOE","clanRequired":"nara"},
-    {"id":"hyu_64","branch":"hyuga","distance":1,"type":"passive","effect":"chakra_drain","value":5,"spCost":8,"requires":[],"icon":"O","name":"64 Palms","description":"Drain enemy chakra","clanRequired":"hyuga"},
-    {"id":"hyu_128","branch":"hyuga","distance":2,"type":"passive","effect":"chakra_drain","value":10,"spCost":12,"requires":["hyu_64"],"icon":"O","name":"128 Palms","description":"Double drain","clanRequired":"hyuga"},
+                                   ],
+                      "icon":  "@",
+                      "name":  "Amaterasu",
+                      "description":  "Black flames",
+                      "clanRequired":  "uchiha"
+                  },
+                  {
+                      "id":  "uchi_susano",
+                      "branch":  "uchiha",
+                      "distance":  2,
+                      "type":  "passive",
+                      "effect":  "damage_reduction",
+                      "value":  0.2,
+                      "spCost":  10,
+                      "requires":  [
+                                       "uchi_amaterasu"
+                                   ],
+                      "icon":  "@",
+                      "name":  "Susano\u0027o",
+                      "description":  "-20% damage taken",
+                      "clanRequired":  "uchiha"
+                  },
+                  {
+                      "id":  "saru_monkey",
+                      "branch":  "sarutobi",
+                      "distance":  1,
+                      "type":  "passive",
+                      "effect":  "taijutsu_bonus",
+                      "value":  0.15,
+                      "spCost":  8,
+                      "requires":  [
 
-    {"id":"kg_blaze","branch":"kekkei","distance":1,"type":"passive","effect":"kekkei_fire","value":0.25,"spCost":15,"requires":[],"icon":"@","name":"Blaze Release","description":"+25% fire damage","clanRequired":"uchiha","visibilityCondition":{"type":"two_natures_50","value":50}},
-    {"id":"kg_crystal","branch":"kekkei","distance":1,"type":"passive","effect":"kekkei_earth","value":0.2,"spCost":15,"requires":[],"icon":"@","name":"Crystal Release","description":"+20% earth damage","clanRequired":"hyuga","visibilityCondition":{"type":"two_natures_50","value":50}},
-    {"id":"kg_wood","branch":"kekkei","distance":1,"type":"passive","effect":"kekkei_regen","value":0.3,"spCost":15,"requires":[],"icon":"@","name":"Wood Release","description":"+30% chakra regen","clanRequired":"uzumaki","visibilityCondition":{"type":"two_natures_50","value":50}},
-    {"id":"kg_shadow","branch":"kekkei","distance":1,"type":"passive","effect":"kekkei_stun","value":0.5,"spCost":15,"requires":[],"icon":"@","name":"Shadow Release","description":"+50% stun duration","clanRequired":"nara","visibilityCondition":{"type":"two_natures_50","value":50}},
-    {"id":"kg_storm","branch":"kekkei","distance":1,"type":"passive","effect":"kekkei_lightning","value":0.25,"spCost":15,"requires":[],"icon":"@","name":"Storm Release","description":"+25% lightning damage","clanRequired":"hatake","visibilityCondition":{"type":"two_natures_50","value":50}},
-    {"id":"kg_lava","branch":"kekkei","distance":1,"type":"passive","effect":"kekkei_lava","value":0.1,"spCost":15,"requires":[],"icon":"@","name":"Lava Release","description":"+10% fire and earth damage","clanRequired":"sarutobi","visibilityCondition":{"type":"two_natures_50","value":50}},
+                                   ],
+                      "icon":  "M",
+                      "name":  "Monkey King Staff",
+                      "description":  "+15% taijutsu",
+                      "clanRequired":  "sarutobi"
+                  },
+                  {
+                      "id":  "saru_fire_prof",
+                      "branch":  "sarutobi",
+                      "distance":  2,
+                      "type":  "passive",
+                      "effect":  "fire_mastery",
+                      "value":  0.2,
+                      "spCost":  10,
+                      "requires":  [
+                                       "saru_monkey"
+                                   ],
+                      "icon":  "M",
+                      "name":  "Fire Professor",
+                      "description":  "+20% fire damage",
+                      "clanRequired":  "sarutobi"
+                  },
+                  {
+                      "id":  "uzu_chains",
+                      "branch":  "uzumaki",
+                      "distance":  1,
+                      "type":  "passive",
+                      "effect":  "chakra_regen",
+                      "value":  0.2,
+                      "spCost":  8,
+                      "requires":  [
 
-    {"id":"forb_8gates","branch":"forbidden","distance":1,"type":"passive","effect":"8gates_unlock","value":1,"spCost":20,"requires":[],"icon":"!","name":"Eight Gates","description":"Unlock 8 Gates","visibilityCondition":{"type":"stat_level","key":"taijutsu","value":50}},
-    {"id":"forb_edo","branch":"forbidden","distance":2,"type":"passive","effect":"edo_tensei","value":1,"spCost":25,"requires":["forb_8gates"],"icon":"!","name":"Edo Tensei","description":"Forbidden resurrection","visibilityCondition":{"type":"stat_level","key":"taijutsu","value":50}},
-    {"id":"shuriken_accuracy","branch":"shuriken","distance":1,"type":"passive","effect":"aim_cone","value":5,"spCost":4,"requires":[],"icon":"x","name":"Eagle Eye","description":"+5 deg shuriken aim assist"},
-    {"id":"shuriken_mark","branch":"shuriken","distance":2,"type":"passive","effect":"mark_duration","value":5,"spCost":5,"requires":["shuriken_accuracy"],"icon":"x","name":"Cursed Mark","description":"Mark lasts 15s instead of 10s"},
-    {"id":"shuriken_double","branch":"shuriken","distance":3,"type":"passive","effect":"double_throw","value":1,"spCost":7,"requires":["shuriken_mark"],"icon":"x","name":"Shadow Shuriken","description":"Throw a second shuriken"},
-{"id":"sum_wolf","branch":"summon","distance":1,"type":"jutsu","jutsuId":"shinobicore:summon_wolf","spCost":8,"requires":[],"icon":"P","name":"Wolf Pack","description":"Summon 2 tamed wolves"},
-{"id":"sum_golem","branch":"summon","distance":2,"type":"jutsu","jutsuId":"shinobicore:summon_iron_golem","spCost":14,"requires":["sum_wolf"],"icon":"P","name":"Iron Guardian","description":"Summon iron golem"},
-{"id":"sum_arrow","branch":"summon","distance":2,"angleOffset":12,"type":"jutsu","jutsuId":"shinobicore:summon_arrow_rain","spCost":10,"requires":["sum_wolf"],"icon":"P","name":"Arrow Rain","description":"Rain arrows from sky"},
-{"id":"seal_bind","branch":"sealing","distance":1,"type":"jutsu","jutsuId":"shinobicore:sealing_bind","spCost":7,"requires":[],"icon":"%","name":"Binding Seal","description":"Root a target"},
-{"id":"seal_lock","branch":"sealing","distance":2,"type":"jutsu","jutsuId":"shinobicore:sealing_chakra_lock","spCost":9,"requires":["seal_bind"],"icon":"%","name":"Chakra Lock","description":"Weaken and slow target"},
-{"id":"seal_reaper","branch":"sealing","distance":3,"type":"jutsu","jutsuId":"shinobicore:sealing_reaper","spCost":14,"requires":["seal_lock"],"icon":"%","name":"Reaper Strike","description":"Heavy multi-hit"},
-{"id":"ken_dance","branch":"kenjutsu","distance":1,"type":"jutsu","jutsuId":"shinobicore:kenjutsu_blade_dance","spCost":7,"requires":[],"icon":"/","name":"Blade Dance","description":"Multi-slash combo"},
-{"id":"ken_wind","branch":"kenjutsu","distance":2,"type":"jutsu","jutsuId":"shinobicore:kenjutsu_wind_slash","spCost":6,"requires":["ken_dance"],"icon":"/","name":"Wind Slash","description":"Ranged blade wave"},
-{"id":"fire_expl","branch":"fire","distance":4,"type":"jutsu","jutsuId":"shinobicore:fire_explosive_flame","spCost":7,"requires":["fire_advanced"],"icon":"F","name":"Explosive Flame","description":"Blasting fireball"},
-{"id":"fire_ash","branch":"fire","distance":4,"angleOffset":12,"type":"jutsu","jutsuId":"shinobicore:fire_ash_cloud","spCost":6,"requires":["fire_mid"],"icon":"F","name":"Ash Cloud","description":"Blinding smoke"},
-{"id":"water_shark_n","branch":"water","distance":4,"type":"jutsu","jutsuId":"shinobicore:water_shark","spCost":7,"requires":["water_waterfall"],"icon":"W","name":"Water Shark","description":"Fast shark projectile"},
-{"id":"water_prison_n","branch":"water","distance":4,"angleOffset":12,"type":"jutsu","jutsuId":"shinobicore:water_prison","spCost":7,"requires":["water_raging"],"icon":"W","name":"Water Prison","description":"Trap target in water"},
-{"id":"wind_sickle_n","branch":"wind","distance":3,"type":"jutsu","jutsuId":"shinobicore:wind_sickle","spCost":6,"requires":["wind_breakthrough"],"icon":"~","name":"Wind Sickle","description":"Piercing wind blade"},
-{"id":"wind_vac_n","branch":"wind","distance":4,"type":"jutsu","jutsuId":"shinobicore:wind_vacuum_sphere","spCost":8,"requires":["wind_sickle_n"],"icon":"~","name":"Vacuum Sphere","description":"Huge knockback blast"},
-{"id":"light_armor_n","branch":"lightning","distance":3,"type":"jutsu","jutsuId":"shinobicore:lightning_armor","spCost":7,"requires":["light_darkness"],"icon":"L","name":"Lightning Armor","description":"Resistance buff"},
-{"id":"light_beast_n","branch":"lightning","distance":4,"type":"jutsu","jutsuId":"shinobicore:lightning_beast","spCost":8,"requires":["light_darkness"],"icon":"L","name":"Beast Dash","description":"Lightning dash strike"},
-{"id":"earth_spear_n","branch":"earth","distance":3,"type":"jutsu","jutsuId":"shinobicore:earth_spear","spCost":6,"requires":["earth_mud"],"icon":"#","name":"Earth Spear","description":"Piercing ground strike"},
-{"id":"earth_golem_n","branch":"earth","distance":4,"type":"jutsu","jutsuId":"shinobicore:earth_golem","spCost":13,"requires":["earth_mud"],"icon":"#","name":"Stone Golem","description":"Summon golem"},
-{"id":"shu_boom","branch":"shuriken","distance":4,"type":"jutsu","jutsuId":"shinobicore:shuriken_boomerang","spCost":6,"requires":["shuriken_double"],"icon":"x","name":"Boomerang","description":"Returning shuriken"},
-{"id":"shu_tag","branch":"shuriken","distance":4,"angleOffset":12,"type":"jutsu","jutsuId":"shinobicore:shuriken_explosive_tag","spCost":7,"requires":["shuriken_mark"],"icon":"x","name":"Explosive Tag","description":"Blasting shuriken"},
-{"id":"tool_smoke","branch":"general","distance":2,"angleOffset":20,"type":"jutsu","jutsuId":"shinobicore:smoke_bomb","spCost":3,"requires":["gen_meditation"],"icon":"o","name":"Smoke Bomb","description":"Blind enemies"},
-{"id":"tool_hide","branch":"general","distance":3,"angleOffset":20,"type":"jutsu","jutsuId":"shinobicore:hiding_camouflage","spCost":5,"requires":["tool_smoke"],"icon":"o","name":"Camouflage","description":"Turn invisible"},
-{"id":"med_resus","branch":"medical","distance":3,"type":"jutsu","jutsuId":"shinobicore:healing_resuscitation","spCost":9,"requires":["med_palm"],"icon":"+","name":"Resuscitation","description":"Big heal"},
-{"id":"tai_swallow","branch":"taijutsu","distance":2,"angleOffset":12,"type":"jutsu","jutsuId":"shinobicore:flying_swallow","spCost":5,"requires":["tai_whirlwind"],"icon":"T","name":"Flying Swallow","description":"Long-range thrust"},
-{"id":"fire_prison_n","branch":"fire","distance":5,"type":"jutsu","jutsuId":"shinobicore:fire_flame_prison","spCost":8,"requires":["fire_expl"],"icon":"F","name":"Flame Prison","description":"Ring of fire DOT"},
-{"id":"fire_scorch_n","branch":"fire","distance":5,"angleOffset":12,"type":"jutsu","jutsuId":"shinobicore:fire_scorched_earth","spCost":9,"requires":["fire_expl"],"icon":"F","name":"Scorched Earth","description":"Burning ground zone"},
-{"id":"fire_ash_n","branch":"fire","distance":4,"angleOffset":15,"type":"jutsu","jutsuId":"shinobicore:fire_ash_pile","spCost":7,"requires":["fire_ash"],"icon":"F","name":"Ash Pile Burn","description":"Blinding smoke AOE"},
-{"id":"water_dragon_n","branch":"water","distance":5,"type":"jutsu","jutsuId":"shinobicore:water_dragon_bullet","spCost":10,"requires":["water_shark_n"],"icon":"W","name":"Water Dragon","description":"Massive water sphere"},
-{"id":"water_rain_n","branch":"water","distance":5,"angleOffset":12,"type":"jutsu","jutsuId":"shinobicore:water_rain_arrows","spCost":8,"requires":["water_prison_n"],"icon":"W","name":"Rain of Arrows","description":"Sky arrows"},
-{"id":"water_mael_n","branch":"water","distance":5,"angleOffset":-12,"type":"jutsu","jutsuId":"shinobicore:water_maelstrom","spCost":8,"requires":["water_prison_n"],"icon":"W","name":"Maelstrom","description":"Pulls enemies"},
-{"id":"wind_cage_n","branch":"wind","distance":5,"type":"jutsu","jutsuId":"shinobicore:wind_tornado_cage","spCost":7,"requires":["wind_vac_n"],"icon":"~","name":"Tornado Cage","description":"Trap in tornado"},
-{"id":"wind_pressure_n","branch":"wind","distance":5,"angleOffset":12,"type":"jutsu","jutsuId":"shinobicore:wind_pressure_damage","spCost":6,"requires":["wind_sickle_n"],"icon":"~","name":"Pressure Damage","description":"Top-down stun"},
-{"id":"wind_divine_n","branch":"wind","distance":5,"angleOffset":-12,"type":"jutsu","jutsuId":"shinobicore:wind_divine_wind","spCost":7,"requires":["wind_vac_n"],"icon":"~","name":"Divine Wind","description":"Piercing blade"},
-{"id":"light_cut_n","branch":"lightning","distance":5,"type":"jutsu","jutsuId":"shinobicore:lightning_thunder_cut","spCost":6,"requires":["light_beast_n"],"icon":"L","name":"Thunder Cut","description":"Melee x2.5"},
-{"id":"light_depth_n","branch":"lightning","distance":5,"angleOffset":12,"type":"jutsu","jutsuId":"shinobicore:lightning_depth_charge","spCost":8,"requires":["light_beast_n"],"icon":"L","name":"Depth Charge","description":"Dash + AOE"},
-{"id":"light_chain_n","branch":"lightning","distance":5,"angleOffset":-12,"type":"jutsu","jutsuId":"shinobicore:lightning_chain","spCost":9,"requires":["light_armor_n"],"icon":"L","name":"Chain Lightning","description":"Jumping bolt"},
-{"id":"earth_quake_n","branch":"earth","distance":5,"type":"jutsu","jutsuId":"shinobicore:earth_earthquake","spCost":9,"requires":["earth_golem_n"],"icon":"#","name":"Earthquake","description":"AOE knockdown"},
-{"id":"earth_trap_n","branch":"earth","distance":5,"angleOffset":12,"type":"jutsu","jutsuId":"shinobicore:earth_antlion_trap","spCost":7,"requires":["earth_spear_n"],"icon":"#","name":"Antlion Trap","description":"Sucking pit"},
-{"id":"earth_sand_n","branch":"earth","distance":5,"angleOffset":-12,"type":"jutsu","jutsuId":"shinobicore:earth_sandwich","spCost":7,"requires":["earth_spear_n"],"icon":"#","name":"Sandwich","description":"Crushing walls"},
-{"id":"kek_ice_n","branch":"kekkei","distance":3,"type":"jutsu","jutsuId":"shinobicore:kekkei_ice_mirror","spCost":12,"requires":["kg_ice"],"icon":"K","name":"Ice Mirror","description":"Teleport","visibilityCondition":{"type":"kekkei","key":"ice"}},
-{"id":"kek_lava_n","branch":"kekkei","distance":3,"angleOffset":12,"type":"jutsu","jutsuId":"shinobicore:kekkei_lava_golem","spCost":13,"requires":["kg_lava"],"icon":"K","name":"Lava Golem","description":"Summon magma cube","visibilityCondition":{"type":"kekkei","key":"lava"}},
-{"id":"kek_blaze_n","branch":"kekkei","distance":3,"angleOffset":-12,"type":"jutsu","jutsuId":"shinobicore:kekkei_blaze_flame","spCost":12,"requires":["kg_blaze"],"icon":"K","name":"Blaze Flame","description":"Black fire projectile","visibilityCondition":{"type":"kekkei","key":"blaze"}},
-{"id":"forb_edo_n","branch":"forbidden","distance":3,"type":"jutsu","jutsuId":"shinobicore:forbidden_edo_tensei","spCost":20,"requires":["forb_gates_node"],"icon":"!","name":"Edo Tensei","description":"Summon zombie horde"},
-{"id":"gen_basic","branch":"general","distance":3,"angleOffset":20,"type":"jutsu","jutsuId":"shinobicore:genjutsu_hell_viewing","spCost":6,"requires":["gen_leaf_focus"],"icon":"G","name":"Hell Viewing","description":"Targeted illusion debuff"},
-{"id":"gen_mirage_node","branch":"general","distance":4,"angleOffset":20,"type":"jutsu","jutsuId":"shinobicore:genjutsu_mirage","spCost":8,"requires":["gen_basic"],"icon":"G","name":"Mirage","description":"Long-range confusion"},
-{"id":"med_scalpel","branch":"medical","distance":3,"type":"jutsu","jutsuId":"shinobicore:medical_chakra_scalpel","spCost":7,"requires":["med_palm"],"icon":"+","name":"Chakra Scalpel","description":"Multi-hit melee bypass"},
-{"id":"med_poison","branch":"medical","distance":3,"angleOffset":12,"type":"jutsu","jutsuId":"shinobicore:medical_poison_mist","spCost":5,"requires":["med_palm"],"icon":"+","name":"Poison Mist","description":"AOE poison cloud"},
-{"id":"med_regen","branch":"medical","distance":4,"type":"jutsu","jutsuId":"shinobicore:medical_regeneration","spCost":10,"requires":["med_scalpel"],"icon":"+","name":"Strength of a Hundred","description":"Long regeneration buff"},
-{"id":"uchi_amaterasu_node","branch":"uchiha","distance":2,"type":"jutsu","jutsuId":"shinobicore:uchiha_amaterasu","spCost":12,"requires":["uchi_amaterasu"],"icon":"@","name":"Amaterasu Flame","description":"Black flame projectile","clanRequired":"uchiha"},
-{"id":"hyu_rotation_node","branch":"hyuga","distance":2,"type":"jutsu","jutsuId":"shinobicore:hyuga_rotation","spCost":9,"requires":["hyu_64"],"icon":"O","name":"Rotation","description":"360 knockback shield","clanRequired":"hyuga"},
-{"id":"uzu_chains_node","branch":"uzumaki","distance":2,"angleOffset":12,"type":"jutsu","jutsuId":"shinobicore:uzumaki_chains","spCost":11,"requires":["uzu_chains"],"icon":"S","name":"Chains Bind","description":"Root enemies nearby","clanRequired":"uzumaki"},
-{"id":"saru_dragon_node","branch":"sarutobi","distance":2,"angleOffset":12,"type":"jutsu","jutsuId":"shinobicore:sarutobi_fire_dragon","spCost":10,"requires":["saru_fire_prof"],"icon":"M","name":"Fire Dragon","description":"Continuous fire stream","clanRequired":"sarutobi"},
-{"id":"hatake_chidori_node","branch":"hatake","distance":2,"angleOffset":12,"type":"jutsu","jutsuId":"shinobicore:hatake_chidori","spCost":12,"requires":["hatake_chidori"],"icon":">","name":"Chidori Dash","description":"Lightning pierce dash","clanRequired":"hatake"},
-{"id":"nara_bind_node","branch":"nara","distance":2,"angleOffset":12,"type":"jutsu","jutsuId":"shinobicore:nara_shadow_bind","spCost":9,"requires":["nara_shadow"],"icon":"~","name":"Shadow Bind","description":"Root at target point","clanRequired":"nara"},
-{"id":"forb_gates_node","branch":"forbidden","distance":2,"type":"jutsu","jutsuId":"shinobicore:forbidden_eight_gates","spCost":18,"requires":["forb_8gates"],"icon":"!","name":"Open the Gates","description":"Massive strength buff"},
-{"id":"light_kirin","branch":"lightning","distance":3,"angleOffset":12,"type":"jutsu","jutsuId":"shinobicore:lightning_release_kirin","spCost":15,"requires":["light_darkness"],"icon":"L","name":"Kirin","description":"Lightning strikes from sky (rain or fire required)"},
-{"id":"water_mirror","branch":"water","distance":3,"angleOffset":12,"type":"jutsu","jutsuId":"shinobicore:water_release_water_mirror","spCost":8,"requires":["water_raging"],"icon":"W","name":"Water Mirror","description":"Spreads slowing water pool"},
-{"id":"rasenshuriken","branch":"wind","distance":4,"angleOffset":-12,"type":"jutsu","jutsuId":"shinobicore:rasenshuriken","spCost":20,"requires":["rasengan","wind_breakthrough"],"icon":"~","name":"Rasenshuriken","description":"Massive piercing wind sphere"},
-{"id":"shuriken_tracking","branch":"shuriken","distance":4,"type":"jutsu","jutsuId":"shinobicore:tracking_kunai","spCost":6,"requires":["shuriken_mark"],"icon":"x","name":"Tracking Kunai","description":"Long-lasting tracking mark"},
-{"id":"gen_basic","branch":"genjutsu","distance":1,"type":"jutsu","jutsuId":"shinobicore:genjutsu_fear","spCost":3,"requires":[],"icon":"G","name":"Fear Genjutsu","description":"Slows and nauseates target"},
-{"id":"gen_mid","branch":"genjutsu","distance":2,"type":"jutsu","jutsuId":"shinobicore:genjutsu_blindness","spCost":5,"requires":["gen_basic"],"icon":"G","name":"Darkness Genjutsu","description":"Blinds and weakens target"},
-{"id":"gen_advanced","branch":"genjutsu","distance":3,"type":"jutsu","jutsuId":"shinobicore:genjutsu_nightmare","spCost":8,"requires":["gen_mid"],"icon":"G","name":"Nightmare Genjutsu","description":"All debuffs, long duration"},
-{"id":"gen_resist","branch":"genjutsu","distance":4,"type":"passive","effect":"genjutsu_resist","value":0.10,"spCost":6,"requires":["gen_advanced"],"icon":"G","name":"Mental Fortress","description":"-10% genjutsu resist chance for targets"}
-  ,
-{"id":"gen_fear","branch":"genjutsu","distance":1,"type":"jutsu","jutsuId":"shinobicore:genjutsu_fear","spCost":3,"requires":[],"icon":"?","name":"Genjutsu: Fear","description":"Slowness + Nausea + Mining Fatigue"},
-{"id":"gen_blind","branch":"genjutsu","distance":2,"type":"jutsu","jutsuId":"shinobicore:genjutsu_blindness","spCost":4,"requires":["gen_fear"],"icon":"?","name":"Genjutsu: Darkness","description":"Blindness + Weakness + Slowness"},
-{"id":"gen_nightmare","branch":"genjutsu","distance":3,"type":"jutsu","jutsuId":"shinobicore:genjutsu_nightmare","spCost":6,"requires":["gen_blind"],"icon":"?","name":"Genjutsu: Nightmare","description":"All debuffs combined"},
-{"id":"gen_paralysis","branch":"genjutsu","distance":3,"angleOffset":12,"type":"jutsu","jutsuId":"shinobicore:genjutsu_paralysis","spCost":7,"requires":["gen_blind"],"icon":"?","name":"Genjutsu: Paralysis","description":"Complete freeze","visibilityCondition":{"type":"stat_level","key":"genjutsu","value":25}}
-,
-{"id":"fire_dragon_n","branch":"fire","distance":8,"type":"jutsu","jutsuId":"shinobicore:fire_dragon","spCost":10,"requires":["fire_bakuton_n"],"icon":"F","name":"Dragon Flame","description":"3D fire dragon projectile"},
-{"id":"water_dragon_n","branch":"water","distance":8,"type":"jutsu","jutsuId":"shinobicore:water_dragon_n","spCost":10,"requires":["water_maelstrom"],"icon":"W","name":"Water Dragon","description":"3D water dragon projectile"},
-{"id":"shadow_clone_n","branch":"general","distance":5,"type":"jutsu","jutsuId":"shinobicore:shadow_clone","spCost":8,"requires":["gen_substitution"],"icon":"N","name":"Shadow Clone","description":"Summon shadow clones"},
-{"id":"chidori_n","branch":"lightning","distance":8,"type":"jutsu","jutsuId":"shinobicore:chidori","spCost":12,"requires":["light_storm_n"],"icon":"L","name":"Chidori","description":"Lightning blade dash"},
-{"id":"amaterasu_n","branch":"fire","distance":8,"angleOffset":24,"type":"jutsu","jutsuId":"shinobicore:amaterasu","spCost":14,"requires":["fire_bakuton_n"],"icon":"A","name":"Amaterasu","description":"Black flame projectile"},
-{"id":"sand_coffin_n","branch":"earth","distance":8,"type":"jutsu","jutsuId":"shinobicore:sand_coffin","spCost":11,"requires":["earth_maus_n"],"icon":"S","name":"Sand Coffin","description":"Imprison and crush target"},
-{"id":"big_rasengan_n","branch":"general","distance":6,"type":"jutsu","jutsuId":"shinobicore:big_rasengan","spCost":16,"requires":["rasengan"],"icon":"R","name":"Big Rasengan","description":"Oversized Rasengan"},
-{"id":"phoenix_fire_n","branch":"fire","distance":7,"angleOffset":18,"type":"jutsu","jutsuId":"shinobicore:phoenix_fire","spCost":8,"requires":["fire_phoenix_f_n"],"icon":"F","name":"Phoenix Sage","description":"6 homing fireballs"}]
+                                   ],
+                      "icon":  "S",
+                      "name":  "Adamantine Chains",
+                      "description":  "+20% chakra regen",
+                      "clanRequired":  "uzumaki"
+                  },
+                  {
+                      "id":  "uzu_seal",
+                      "branch":  "uzumaki",
+                      "distance":  2,
+                      "type":  "passive",
+                      "effect":  "max_chakra",
+                      "value":  50,
+                      "spCost":  10,
+                      "requires":  [
+                                       "uzu_chains"
+                                   ],
+                      "icon":  "S",
+                      "name":  "Sealing Arts",
+                      "description":  "+50 max chakra",
+                      "clanRequired":  "uzumaki"
+                  },
+                  {
+                      "id":  "hatake_chidori",
+                      "branch":  "hatake",
+                      "distance":  1,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:lightning_release_false_darkness",
+                      "spCost":  8,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "\u003e",
+                      "name":  "Chidori",
+                      "description":  "Lightning blade",
+                      "clanRequired":  "hatake"
+                  },
+                  {
+                      "id":  "hatake_copy",
+                      "branch":  "hatake",
+                      "distance":  2,
+                      "type":  "passive",
+                      "effect":  "learn_bonus",
+                      "value":  1,
+                      "spCost":  10,
+                      "requires":  [
+                                       "hatake_chidori"
+                                   ],
+                      "icon":  "\u003e",
+                      "name":  "Copy Ninja",
+                      "description":  "Learn jutsu faster",
+                      "clanRequired":  "hatake"
+                  },
+                  {
+                      "id":  "nara_shadow",
+                      "branch":  "nara",
+                      "distance":  1,
+                      "type":  "passive",
+                      "effect":  "stun_duration",
+                      "value":  0.5,
+                      "spCost":  8,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "~",
+                      "name":  "Shadow Possession",
+                      "description":  "+50% stun",
+                      "clanRequired":  "nara"
+                  },
+                  {
+                      "id":  "nara_strangle",
+                      "branch":  "nara",
+                      "distance":  2,
+                      "type":  "passive",
+                      "effect":  "aoe_range",
+                      "value":  0.3,
+                      "spCost":  10,
+                      "requires":  [
+                                       "nara_shadow"
+                                   ],
+                      "icon":  "~",
+                      "name":  "Shadow Strangle",
+                      "description":  "+30% AOE",
+                      "clanRequired":  "nara"
+                  },
+                  {
+                      "id":  "hyu_64",
+                      "branch":  "hyuga",
+                      "distance":  1,
+                      "type":  "passive",
+                      "effect":  "chakra_drain",
+                      "value":  5,
+                      "spCost":  8,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "O",
+                      "name":  "64 Palms",
+                      "description":  "Drain enemy chakra",
+                      "clanRequired":  "hyuga"
+                  },
+                  {
+                      "id":  "hyu_128",
+                      "branch":  "hyuga",
+                      "distance":  2,
+                      "type":  "passive",
+                      "effect":  "chakra_drain",
+                      "value":  10,
+                      "spCost":  12,
+                      "requires":  [
+                                       "hyu_64"
+                                   ],
+                      "icon":  "O",
+                      "name":  "128 Palms",
+                      "description":  "Double drain",
+                      "clanRequired":  "hyuga"
+                  },
+                  {
+                      "id":  "kg_blaze",
+                      "branch":  "kekkei",
+                      "distance":  1,
+                      "type":  "passive",
+                      "effect":  "kekkei_fire",
+                      "value":  0.25,
+                      "spCost":  15,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "@",
+                      "name":  "Blaze Release",
+                      "description":  "+25% fire damage",
+                      "clanRequired":  "uchiha",
+                      "visibilityCondition":  {
+                                                  "type":  "two_natures_50",
+                                                  "value":  50
+                                              }
+                  },
+                  {
+                      "id":  "kg_crystal",
+                      "branch":  "kekkei",
+                      "distance":  1,
+                      "type":  "passive",
+                      "effect":  "kekkei_earth",
+                      "value":  0.2,
+                      "spCost":  15,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "@",
+                      "name":  "Crystal Release",
+                      "description":  "+20% earth damage",
+                      "clanRequired":  "hyuga",
+                      "visibilityCondition":  {
+                                                  "type":  "two_natures_50",
+                                                  "value":  50
+                                              }
+                  },
+                  {
+                      "id":  "kg_wood",
+                      "branch":  "kekkei",
+                      "distance":  1,
+                      "type":  "passive",
+                      "effect":  "kekkei_regen",
+                      "value":  0.3,
+                      "spCost":  15,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "@",
+                      "name":  "Wood Release",
+                      "description":  "+30% chakra regen",
+                      "clanRequired":  "uzumaki",
+                      "visibilityCondition":  {
+                                                  "type":  "two_natures_50",
+                                                  "value":  50
+                                              }
+                  },
+                  {
+                      "id":  "kg_shadow",
+                      "branch":  "kekkei",
+                      "distance":  1,
+                      "type":  "passive",
+                      "effect":  "kekkei_stun",
+                      "value":  0.5,
+                      "spCost":  15,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "@",
+                      "name":  "Shadow Release",
+                      "description":  "+50% stun duration",
+                      "clanRequired":  "nara",
+                      "visibilityCondition":  {
+                                                  "type":  "two_natures_50",
+                                                  "value":  50
+                                              }
+                  },
+                  {
+                      "id":  "kg_storm",
+                      "branch":  "kekkei",
+                      "distance":  1,
+                      "type":  "passive",
+                      "effect":  "kekkei_lightning",
+                      "value":  0.25,
+                      "spCost":  15,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "@",
+                      "name":  "Storm Release",
+                      "description":  "+25% lightning damage",
+                      "clanRequired":  "hatake",
+                      "visibilityCondition":  {
+                                                  "type":  "two_natures_50",
+                                                  "value":  50
+                                              }
+                  },
+                  {
+                      "id":  "kg_lava",
+                      "branch":  "kekkei",
+                      "distance":  1,
+                      "type":  "passive",
+                      "effect":  "kekkei_lava",
+                      "value":  0.1,
+                      "spCost":  15,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "@",
+                      "name":  "Lava Release",
+                      "description":  "+10% fire and earth damage",
+                      "clanRequired":  "sarutobi",
+                      "visibilityCondition":  {
+                                                  "type":  "two_natures_50",
+                                                  "value":  50
+                                              }
+                  },
+                  {
+                      "id":  "forb_8gates",
+                      "branch":  "forbidden",
+                      "distance":  1,
+                      "type":  "passive",
+                      "effect":  "8gates_unlock",
+                      "value":  1,
+                      "spCost":  20,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "!",
+                      "name":  "Eight Gates",
+                      "description":  "Unlock 8 Gates",
+                      "visibilityCondition":  {
+                                                  "type":  "stat_level",
+                                                  "key":  "taijutsu",
+                                                  "value":  50
+                                              }
+                  },
+                  {
+                      "id":  "forb_edo",
+                      "branch":  "forbidden",
+                      "distance":  2,
+                      "type":  "passive",
+                      "effect":  "edo_tensei",
+                      "value":  1,
+                      "spCost":  25,
+                      "requires":  [
+                                       "forb_8gates"
+                                   ],
+                      "icon":  "!",
+                      "name":  "Edo Tensei",
+                      "description":  "Forbidden resurrection",
+                      "visibilityCondition":  {
+                                                  "type":  "stat_level",
+                                                  "key":  "taijutsu",
+                                                  "value":  50
+                                              }
+                  },
+                  {
+                      "id":  "shuriken_accuracy",
+                      "branch":  "shuriken",
+                      "distance":  1,
+                      "type":  "passive",
+                      "effect":  "aim_cone",
+                      "value":  5,
+                      "spCost":  4,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "x",
+                      "name":  "Eagle Eye",
+                      "description":  "+5 deg shuriken aim assist"
+                  },
+                  {
+                      "id":  "shuriken_mark",
+                      "branch":  "shuriken",
+                      "distance":  2,
+                      "type":  "passive",
+                      "effect":  "mark_duration",
+                      "value":  5,
+                      "spCost":  5,
+                      "requires":  [
+                                       "shuriken_accuracy"
+                                   ],
+                      "icon":  "x",
+                      "name":  "Cursed Mark",
+                      "description":  "Mark lasts 15s instead of 10s"
+                  },
+                  {
+                      "id":  "shuriken_double",
+                      "branch":  "shuriken",
+                      "distance":  3,
+                      "type":  "passive",
+                      "effect":  "double_throw",
+                      "value":  1,
+                      "spCost":  7,
+                      "requires":  [
+                                       "shuriken_mark"
+                                   ],
+                      "icon":  "x",
+                      "name":  "Shadow Shuriken",
+                      "description":  "Throw a second shuriken"
+                  },
+                  {
+                      "id":  "sum_wolf",
+                      "branch":  "summon",
+                      "distance":  1,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:summon_wolf",
+                      "spCost":  8,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "P",
+                      "name":  "Wolf Pack",
+                      "description":  "Summon 2 tamed wolves"
+                  },
+                  {
+                      "id":  "sum_golem",
+                      "branch":  "summon",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:summon_iron_golem",
+                      "spCost":  14,
+                      "requires":  [
+                                       "sum_wolf"
+                                   ],
+                      "icon":  "P",
+                      "name":  "Iron Guardian",
+                      "description":  "Summon iron golem"
+                  },
+                  {
+                      "id":  "sum_arrow",
+                      "branch":  "summon",
+                      "distance":  2,
+                      "angleOffset":  12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:summon_arrow_rain",
+                      "spCost":  10,
+                      "requires":  [
+                                       "sum_wolf"
+                                   ],
+                      "icon":  "P",
+                      "name":  "Arrow Rain",
+                      "description":  "Rain arrows from sky"
+                  },
+                  {
+                      "id":  "seal_bind",
+                      "branch":  "sealing",
+                      "distance":  1,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:sealing_bind",
+                      "spCost":  7,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "%",
+                      "name":  "Binding Seal",
+                      "description":  "Root a target"
+                  },
+                  {
+                      "id":  "seal_lock",
+                      "branch":  "sealing",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:sealing_chakra_lock",
+                      "spCost":  9,
+                      "requires":  [
+                                       "seal_bind"
+                                   ],
+                      "icon":  "%",
+                      "name":  "Chakra Lock",
+                      "description":  "Weaken and slow target"
+                  },
+                  {
+                      "id":  "seal_reaper",
+                      "branch":  "sealing",
+                      "distance":  3,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:sealing_reaper",
+                      "spCost":  14,
+                      "requires":  [
+                                       "seal_lock"
+                                   ],
+                      "icon":  "%",
+                      "name":  "Reaper Strike",
+                      "description":  "Heavy multi-hit"
+                  },
+                  {
+                      "id":  "ken_dance",
+                      "branch":  "kenjutsu",
+                      "distance":  1,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:kenjutsu_blade_dance",
+                      "spCost":  7,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "/",
+                      "name":  "Blade Dance",
+                      "description":  "Multi-slash combo"
+                  },
+                  {
+                      "id":  "ken_wind",
+                      "branch":  "kenjutsu",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:kenjutsu_wind_slash",
+                      "spCost":  6,
+                      "requires":  [
+                                       "ken_dance"
+                                   ],
+                      "icon":  "/",
+                      "name":  "Wind Slash",
+                      "description":  "Ranged blade wave"
+                  },
+                  {
+                      "id":  "fire_ash",
+                      "branch":  "fire",
+                      "distance":  4,
+                      "angleOffset":  12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:fire_ash_cloud",
+                      "spCost":  6,
+                      "requires":  [
+                                       "fire_mid"
+                                   ],
+                      "icon":  "F",
+                      "name":  "Ash Cloud",
+                      "description":  "Blinding smoke"
+                  },
+                  {
+                      "id":  "water_shark_n",
+                      "branch":  "water",
+                      "distance":  4,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:water_shark",
+                      "spCost":  7,
+                      "requires":  [
+                                       "water_waterfall"
+                                   ],
+                      "icon":  "W",
+                      "name":  "Water Shark",
+                      "description":  "Fast shark projectile"
+                  },
+                  {
+                      "id":  "wind_sickle_n",
+                      "branch":  "wind",
+                      "distance":  3,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:wind_sickle",
+                      "spCost":  6,
+                      "requires":  [
+                                       "wind_breakthrough"
+                                   ],
+                      "icon":  "~",
+                      "name":  "Wind Sickle",
+                      "description":  "Piercing wind blade"
+                  },
+                  {
+                      "id":  "wind_vac_n",
+                      "branch":  "wind",
+                      "distance":  4,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:wind_vacuum_sphere",
+                      "spCost":  8,
+                      "requires":  [
+                                       "wind_sickle_n"
+                                   ],
+                      "icon":  "~",
+                      "name":  "Vacuum Sphere",
+                      "description":  "Huge knockback blast"
+                  },
+                  {
+                      "id":  "light_armor_n",
+                      "branch":  "lightning",
+                      "distance":  3,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:lightning_armor",
+                      "spCost":  7,
+                      "requires":  [
+                                       "light_darkness"
+                                   ],
+                      "icon":  "L",
+                      "name":  "Lightning Armor",
+                      "description":  "Resistance buff"
+                  },
+                  {
+                      "id":  "light_beast_n",
+                      "branch":  "lightning",
+                      "distance":  4,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:lightning_beast",
+                      "spCost":  8,
+                      "requires":  [
+                                       "light_darkness"
+                                   ],
+                      "icon":  "L",
+                      "name":  "Beast Dash",
+                      "description":  "Lightning dash strike"
+                  },
+                  {
+                      "id":  "earth_spear_n",
+                      "branch":  "earth",
+                      "distance":  3,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:earth_spear",
+                      "spCost":  6,
+                      "requires":  [
+                                       "earth_mud"
+                                   ],
+                      "icon":  "#",
+                      "name":  "Earth Spear",
+                      "description":  "Piercing ground strike"
+                  },
+                  {
+                      "id":  "earth_golem_n",
+                      "branch":  "earth",
+                      "distance":  4,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:earth_golem",
+                      "spCost":  13,
+                      "requires":  [
+                                       "earth_mud"
+                                   ],
+                      "icon":  "#",
+                      "name":  "Stone Golem",
+                      "description":  "Summon golem"
+                  },
+                  {
+                      "id":  "shu_boom",
+                      "branch":  "shuriken",
+                      "distance":  4,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:shuriken_boomerang",
+                      "spCost":  6,
+                      "requires":  [
+                                       "shuriken_double"
+                                   ],
+                      "icon":  "x",
+                      "name":  "Boomerang",
+                      "description":  "Returning shuriken"
+                  },
+                  {
+                      "id":  "shu_tag",
+                      "branch":  "shuriken",
+                      "distance":  4,
+                      "angleOffset":  12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:shuriken_explosive_tag",
+                      "spCost":  7,
+                      "requires":  [
+                                       "shuriken_mark"
+                                   ],
+                      "icon":  "x",
+                      "name":  "Explosive Tag",
+                      "description":  "Blasting shuriken"
+                  },
+                  {
+                      "id":  "tool_smoke",
+                      "branch":  "general",
+                      "distance":  2,
+                      "angleOffset":  20,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:smoke_bomb",
+                      "spCost":  3,
+                      "requires":  [
+                                       "gen_meditation"
+                                   ],
+                      "icon":  "o",
+                      "name":  "Smoke Bomb",
+                      "description":  "Blind enemies"
+                  },
+                  {
+                      "id":  "tool_hide",
+                      "branch":  "general",
+                      "distance":  3,
+                      "angleOffset":  20,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:hiding_camouflage",
+                      "spCost":  5,
+                      "requires":  [
+                                       "tool_smoke"
+                                   ],
+                      "icon":  "o",
+                      "name":  "Camouflage",
+                      "description":  "Turn invisible"
+                  },
+                  {
+                      "id":  "med_resus",
+                      "branch":  "medical",
+                      "distance":  3,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:healing_resuscitation",
+                      "spCost":  9,
+                      "requires":  [
+                                       "med_palm"
+                                   ],
+                      "icon":  "+",
+                      "name":  "Resuscitation",
+                      "description":  "Big heal"
+                  },
+                  {
+                      "id":  "tai_swallow",
+                      "branch":  "taijutsu",
+                      "distance":  2,
+                      "angleOffset":  12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:flying_swallow",
+                      "spCost":  5,
+                      "requires":  [
+                                       "tai_whirlwind"
+                                   ],
+                      "icon":  "T",
+                      "name":  "Flying Swallow",
+                      "description":  "Long-range thrust"
+                  },
+                  {
+                      "id":  "fire_prison_n",
+                      "branch":  "fire",
+                      "distance":  5,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:fire_flame_prison",
+                      "spCost":  8,
+                      "requires":  [
+                                       "fire_expl"
+                                   ],
+                      "icon":  "F",
+                      "name":  "Flame Prison",
+                      "description":  "Ring of fire DOT"
+                  },
+                  {
+                      "id":  "fire_scorch_n",
+                      "branch":  "fire",
+                      "distance":  5,
+                      "angleOffset":  12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:fire_scorched_earth",
+                      "spCost":  9,
+                      "requires":  [
+                                       "fire_expl"
+                                   ],
+                      "icon":  "F",
+                      "name":  "Scorched Earth",
+                      "description":  "Burning ground zone"
+                  },
+                  {
+                      "id":  "fire_ash_n",
+                      "branch":  "fire",
+                      "distance":  4,
+                      "angleOffset":  15,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:fire_ash_pile",
+                      "spCost":  7,
+                      "requires":  [
+                                       "fire_ash"
+                                   ],
+                      "icon":  "F",
+                      "name":  "Ash Pile Burn",
+                      "description":  "Blinding smoke AOE"
+                  },
+                  {
+                      "id":  "water_dragon_n",
+                      "branch":  "water",
+                      "distance":  5,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:water_dragon_bullet",
+                      "spCost":  10,
+                      "requires":  [
+                                       "water_shark_n"
+                                   ],
+                      "icon":  "W",
+                      "name":  "Water Dragon",
+                      "description":  "Massive water sphere"
+                  },
+                  {
+                      "id":  "water_rain_n",
+                      "branch":  "water",
+                      "distance":  5,
+                      "angleOffset":  12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:water_rain_arrows",
+                      "spCost":  8,
+                      "requires":  [
+                                       "water_prison_n"
+                                   ],
+                      "icon":  "W",
+                      "name":  "Rain of Arrows",
+                      "description":  "Sky arrows"
+                  },
+                  {
+                      "id":  "water_mael_n",
+                      "branch":  "water",
+                      "distance":  5,
+                      "angleOffset":  -12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:water_maelstrom",
+                      "spCost":  8,
+                      "requires":  [
+                                       "water_prison_n"
+                                   ],
+                      "icon":  "W",
+                      "name":  "Maelstrom",
+                      "description":  "Pulls enemies"
+                  },
+                  {
+                      "id":  "wind_cage_n",
+                      "branch":  "wind",
+                      "distance":  5,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:wind_tornado_cage",
+                      "spCost":  7,
+                      "requires":  [
+                                       "wind_vac_n"
+                                   ],
+                      "icon":  "~",
+                      "name":  "Tornado Cage",
+                      "description":  "Trap in tornado"
+                  },
+                  {
+                      "id":  "wind_pressure_n",
+                      "branch":  "wind",
+                      "distance":  5,
+                      "angleOffset":  12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:wind_pressure_damage",
+                      "spCost":  6,
+                      "requires":  [
+                                       "wind_sickle_n"
+                                   ],
+                      "icon":  "~",
+                      "name":  "Pressure Damage",
+                      "description":  "Top-down stun"
+                  },
+                  {
+                      "id":  "wind_divine_n",
+                      "branch":  "wind",
+                      "distance":  5,
+                      "angleOffset":  -12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:wind_divine_wind",
+                      "spCost":  7,
+                      "requires":  [
+                                       "wind_vac_n"
+                                   ],
+                      "icon":  "~",
+                      "name":  "Divine Wind",
+                      "description":  "Piercing blade"
+                  },
+                  {
+                      "id":  "light_cut_n",
+                      "branch":  "lightning",
+                      "distance":  5,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:lightning_thunder_cut",
+                      "spCost":  6,
+                      "requires":  [
+                                       "light_beast_n"
+                                   ],
+                      "icon":  "L",
+                      "name":  "Thunder Cut",
+                      "description":  "Melee x2.5"
+                  },
+                  {
+                      "id":  "light_depth_n",
+                      "branch":  "lightning",
+                      "distance":  5,
+                      "angleOffset":  12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:lightning_depth_charge",
+                      "spCost":  8,
+                      "requires":  [
+                                       "light_beast_n"
+                                   ],
+                      "icon":  "L",
+                      "name":  "Depth Charge",
+                      "description":  "Dash + AOE"
+                  },
+                  {
+                      "id":  "light_chain_n",
+                      "branch":  "lightning",
+                      "distance":  5,
+                      "angleOffset":  -12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:lightning_chain",
+                      "spCost":  9,
+                      "requires":  [
+                                       "light_armor_n"
+                                   ],
+                      "icon":  "L",
+                      "name":  "Chain Lightning",
+                      "description":  "Jumping bolt"
+                  },
+                  {
+                      "id":  "earth_quake_n",
+                      "branch":  "earth",
+                      "distance":  5,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:earth_earthquake",
+                      "spCost":  9,
+                      "requires":  [
+                                       "earth_golem_n"
+                                   ],
+                      "icon":  "#",
+                      "name":  "Earthquake",
+                      "description":  "AOE knockdown"
+                  },
+                  {
+                      "id":  "earth_trap_n",
+                      "branch":  "earth",
+                      "distance":  5,
+                      "angleOffset":  12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:earth_antlion_trap",
+                      "spCost":  7,
+                      "requires":  [
+                                       "earth_spear_n"
+                                   ],
+                      "icon":  "#",
+                      "name":  "Antlion Trap",
+                      "description":  "Sucking pit"
+                  },
+                  {
+                      "id":  "earth_sand_n",
+                      "branch":  "earth",
+                      "distance":  5,
+                      "angleOffset":  -12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:earth_sandwich",
+                      "spCost":  7,
+                      "requires":  [
+                                       "earth_spear_n"
+                                   ],
+                      "icon":  "#",
+                      "name":  "Sandwich",
+                      "description":  "Crushing walls"
+                  },
+                  {
+                      "id":  "kek_ice_n",
+                      "branch":  "kekkei",
+                      "distance":  3,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:kekkei_ice_mirror",
+                      "spCost":  12,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "K",
+                      "name":  "Ice Mirror",
+                      "description":  "Teleport",
+                      "visibilityCondition":  {
+                                                  "type":  "kekkei",
+                                                  "key":  "ice"
+                                              }
+                  },
+                  {
+                      "id":  "kek_lava_n",
+                      "branch":  "kekkei",
+                      "distance":  3,
+                      "angleOffset":  12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:kekkei_lava_golem",
+                      "spCost":  13,
+                      "requires":  [
+                                       "kg_lava"
+                                   ],
+                      "icon":  "K",
+                      "name":  "Lava Golem",
+                      "description":  "Summon magma cube",
+                      "visibilityCondition":  {
+                                                  "type":  "kekkei",
+                                                  "key":  "lava"
+                                              }
+                  },
+                  {
+                      "id":  "kek_blaze_n",
+                      "branch":  "kekkei",
+                      "distance":  3,
+                      "angleOffset":  -12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:kekkei_blaze_flame",
+                      "spCost":  12,
+                      "requires":  [
+                                       "kg_blaze"
+                                   ],
+                      "icon":  "K",
+                      "name":  "Blaze Flame",
+                      "description":  "Black fire projectile",
+                      "visibilityCondition":  {
+                                                  "type":  "kekkei",
+                                                  "key":  "blaze"
+                                              }
+                  },
+                  {
+                      "id":  "forb_edo_n",
+                      "branch":  "forbidden",
+                      "distance":  3,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:forbidden_edo_tensei",
+                      "spCost":  20,
+                      "requires":  [
+                                       "forb_gates_node"
+                                   ],
+                      "icon":  "!",
+                      "name":  "Edo Tensei",
+                      "description":  "Summon zombie horde"
+                  },
+                  {
+                      "id":  "gen_basic",
+                      "branch":  "general",
+                      "distance":  3,
+                      "angleOffset":  20,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:genjutsu_hell_viewing",
+                      "spCost":  6,
+                      "requires":  [
+                                       "gen_leaf_focus"
+                                   ],
+                      "icon":  "G",
+                      "name":  "Hell Viewing",
+                      "description":  "Targeted illusion debuff"
+                  },
+                  {
+                      "id":  "gen_mirage_node",
+                      "branch":  "general",
+                      "distance":  4,
+                      "angleOffset":  20,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:genjutsu_mirage",
+                      "spCost":  8,
+                      "requires":  [
+                                       "gen_basic"
+                                   ],
+                      "icon":  "G",
+                      "name":  "Mirage",
+                      "description":  "Long-range confusion"
+                  },
+                  {
+                      "id":  "med_scalpel",
+                      "branch":  "medical",
+                      "distance":  3,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:medical_chakra_scalpel",
+                      "spCost":  7,
+                      "requires":  [
+                                       "med_palm"
+                                   ],
+                      "icon":  "+",
+                      "name":  "Chakra Scalpel",
+                      "description":  "Multi-hit melee bypass"
+                  },
+                  {
+                      "id":  "med_poison_mist",
+                      "branch":  "medical",
+                      "distance":  3,
+                      "angleOffset":  12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:medical_poison_mist",
+                      "spCost":  5,
+                      "requires":  [
+                                       "med_palm"
+                                   ],
+                      "icon":  "+",
+                      "name":  "Poison Mist",
+                      "description":  "AOE poison cloud"
+                  },
+                  {
+                      "id":  "med_regen",
+                      "branch":  "medical",
+                      "distance":  4,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:medical_regeneration",
+                      "spCost":  10,
+                      "requires":  [
+                                       "med_scalpel"
+                                   ],
+                      "icon":  "+",
+                      "name":  "Strength of a Hundred",
+                      "description":  "Long regeneration buff"
+                  },
+                  {
+                      "id":  "uchi_amaterasu_node",
+                      "branch":  "uchiha",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:uchiha_amaterasu",
+                      "spCost":  12,
+                      "requires":  [
+                                       "uchi_amaterasu"
+                                   ],
+                      "icon":  "@",
+                      "name":  "Amaterasu Flame",
+                      "description":  "Black flame projectile",
+                      "clanRequired":  "uchiha"
+                  },
+                  {
+                      "id":  "hyu_rotation_node",
+                      "branch":  "hyuga",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:hyuga_rotation",
+                      "spCost":  9,
+                      "requires":  [
+                                       "hyu_64"
+                                   ],
+                      "icon":  "O",
+                      "name":  "Rotation",
+                      "description":  "360 knockback shield",
+                      "clanRequired":  "hyuga"
+                  },
+                  {
+                      "id":  "uzu_chains_node",
+                      "branch":  "uzumaki",
+                      "distance":  2,
+                      "angleOffset":  12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:uzumaki_chains",
+                      "spCost":  11,
+                      "requires":  [
+                                       "uzu_chains"
+                                   ],
+                      "icon":  "S",
+                      "name":  "Chains Bind",
+                      "description":  "Root enemies nearby",
+                      "clanRequired":  "uzumaki"
+                  },
+                  {
+                      "id":  "saru_dragon_node",
+                      "branch":  "sarutobi",
+                      "distance":  2,
+                      "angleOffset":  12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:sarutobi_fire_dragon",
+                      "spCost":  10,
+                      "requires":  [
+                                       "saru_fire_prof"
+                                   ],
+                      "icon":  "M",
+                      "name":  "Fire Dragon",
+                      "description":  "Continuous fire stream",
+                      "clanRequired":  "sarutobi"
+                  },
+                  {
+                      "id":  "hatake_chidori_node",
+                      "branch":  "hatake",
+                      "distance":  2,
+                      "angleOffset":  12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:hatake_chidori",
+                      "spCost":  12,
+                      "requires":  [
+                                       "hatake_chidori"
+                                   ],
+                      "icon":  "\u003e",
+                      "name":  "Chidori Dash",
+                      "description":  "Lightning pierce dash",
+                      "clanRequired":  "hatake"
+                  },
+                  {
+                      "id":  "nara_bind_node",
+                      "branch":  "nara",
+                      "distance":  2,
+                      "angleOffset":  12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:nara_shadow_bind",
+                      "spCost":  9,
+                      "requires":  [
+                                       "nara_shadow"
+                                   ],
+                      "icon":  "~",
+                      "name":  "Shadow Bind",
+                      "description":  "Root at target point",
+                      "clanRequired":  "nara"
+                  },
+                  {
+                      "id":  "forb_gates_node",
+                      "branch":  "forbidden",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:forbidden_eight_gates",
+                      "spCost":  18,
+                      "requires":  [
+                                       "forb_8gates"
+                                   ],
+                      "icon":  "!",
+                      "name":  "Open the Gates",
+                      "description":  "Massive strength buff"
+                  },
+                  {
+                      "id":  "light_kirin",
+                      "branch":  "lightning",
+                      "distance":  3,
+                      "angleOffset":  12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:lightning_release_kirin",
+                      "spCost":  15,
+                      "requires":  [
+                                       "light_darkness"
+                                   ],
+                      "icon":  "L",
+                      "name":  "Kirin",
+                      "description":  "Lightning strikes from sky (rain or fire required)"
+                  },
+                  {
+                      "id":  "water_mirror",
+                      "branch":  "water",
+                      "distance":  3,
+                      "angleOffset":  12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:water_release_water_mirror",
+                      "spCost":  8,
+                      "requires":  [
+                                       "water_raging"
+                                   ],
+                      "icon":  "W",
+                      "name":  "Water Mirror",
+                      "description":  "Spreads slowing water pool"
+                  },
+                  {
+                      "id":  "rasenshuriken",
+                      "branch":  "wind",
+                      "distance":  4,
+                      "angleOffset":  -12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:rasenshuriken",
+                      "spCost":  20,
+                      "requires":  [
+                                       "rasengan",
+                                       "wind_breakthrough"
+                                   ],
+                      "icon":  "~",
+                      "name":  "Rasenshuriken",
+                      "description":  "Massive piercing wind sphere"
+                  },
+                  {
+                      "id":  "shuriken_tracking",
+                      "branch":  "shuriken",
+                      "distance":  4,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:tracking_kunai",
+                      "spCost":  6,
+                      "requires":  [
+                                       "shuriken_mark"
+                                   ],
+                      "icon":  "x",
+                      "name":  "Tracking Kunai",
+                      "description":  "Long-lasting tracking mark"
+                  },
+                  {
+                      "id":  "gen_basic_fear",
+                      "branch":  "genjutsu",
+                      "distance":  1,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:genjutsu_fear",
+                      "spCost":  3,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "G",
+                      "name":  "Fear Genjutsu",
+                      "description":  "Slows and nauseates target"
+                  },
+                  {
+                      "id":  "gen_mid",
+                      "branch":  "genjutsu",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:genjutsu_blindness",
+                      "spCost":  5,
+                      "requires":  [
+                                       "gen_basic"
+                                   ],
+                      "icon":  "G",
+                      "name":  "Darkness Genjutsu",
+                      "description":  "Blinds and weakens target"
+                  },
+                  {
+                      "id":  "gen_advanced",
+                      "branch":  "genjutsu",
+                      "distance":  3,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:genjutsu_nightmare",
+                      "spCost":  8,
+                      "requires":  [
+                                       "gen_mid"
+                                   ],
+                      "icon":  "G",
+                      "name":  "Nightmare Genjutsu",
+                      "description":  "All debuffs, long duration"
+                  },
+                  {
+                      "id":  "gen_resist",
+                      "branch":  "genjutsu",
+                      "distance":  4,
+                      "type":  "passive",
+                      "effect":  "genjutsu_resist",
+                      "value":  0.10,
+                      "spCost":  6,
+                      "requires":  [
+                                       "gen_advanced"
+                                   ],
+                      "icon":  "G",
+                      "name":  "Mental Fortress",
+                      "description":  "-10% genjutsu resist chance for targets"
+                  },
+                  {
+                      "id":  "gen_fear",
+                      "branch":  "genjutsu",
+                      "distance":  1,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:genjutsu_fear",
+                      "spCost":  3,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "?",
+                      "name":  "Genjutsu: Fear",
+                      "description":  "Slowness + Nausea + Mining Fatigue"
+                  },
+                  {
+                      "id":  "gen_blind",
+                      "branch":  "genjutsu",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:genjutsu_blindness",
+                      "spCost":  4,
+                      "requires":  [
+                                       "gen_fear"
+                                   ],
+                      "icon":  "?",
+                      "name":  "Genjutsu: Darkness",
+                      "description":  "Blindness + Weakness + Slowness"
+                  },
+                  {
+                      "id":  "gen_nightmare",
+                      "branch":  "genjutsu",
+                      "distance":  3,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:genjutsu_nightmare",
+                      "spCost":  6,
+                      "requires":  [
+                                       "gen_blind"
+                                   ],
+                      "icon":  "?",
+                      "name":  "Genjutsu: Nightmare",
+                      "description":  "All debuffs combined"
+                  },
+                  {
+                      "id":  "gen_paralysis",
+                      "branch":  "genjutsu",
+                      "distance":  3,
+                      "angleOffset":  12,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:genjutsu_paralysis",
+                      "spCost":  7,
+                      "requires":  [
+                                       "gen_blind"
+                                   ],
+                      "icon":  "?",
+                      "name":  "Genjutsu: Paralysis",
+                      "description":  "Complete freeze",
+                      "visibilityCondition":  {
+                                                  "type":  "stat_level",
+                                                  "key":  "genjutsu",
+                                                  "value":  25
+                                              }
+                  },
+                  {
+                      "id":  "fire_dragon_n",
+                      "branch":  "fire",
+                      "distance":  8,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:fire_dragon",
+                      "spCost":  10,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "F",
+                      "name":  "Dragon Flame",
+                      "description":  "3D fire dragon projectile"
+                  },
+                  {
+                      "id":  "water_dragon_bullet_n",
+                      "branch":  "water",
+                      "distance":  8,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:water_dragon_n",
+                      "spCost":  10,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "W",
+                      "name":  "Water Dragon",
+                      "description":  "3D water dragon projectile"
+                  },
+                  {
+                      "id":  "shadow_clone_n",
+                      "branch":  "general",
+                      "distance":  5,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:shadow_clone",
+                      "spCost":  8,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "N",
+                      "name":  "Shadow Clone",
+                      "description":  "Summon shadow clones"
+                  },
+                  {
+                      "id":  "chidori_n",
+                      "branch":  "lightning",
+                      "distance":  8,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:chidori",
+                      "spCost":  12,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "L",
+                      "name":  "Chidori",
+                      "description":  "Lightning blade dash"
+                  },
+                  {
+                      "id":  "amaterasu_n",
+                      "branch":  "fire",
+                      "distance":  8,
+                      "angleOffset":  24,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:amaterasu",
+                      "spCost":  14,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "A",
+                      "name":  "Amaterasu",
+                      "description":  "Black flame projectile"
+                  },
+                  {
+                      "id":  "sand_coffin_n",
+                      "branch":  "earth",
+                      "distance":  8,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:sand_coffin",
+                      "spCost":  11,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "S",
+                      "name":  "Sand Coffin",
+                      "description":  "Imprison and crush target"
+                  },
+                  {
+                      "id":  "big_rasengan_n",
+                      "branch":  "general",
+                      "distance":  6,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:big_rasengan",
+                      "spCost":  16,
+                      "requires":  [
+                                       "rasengan"
+                                   ],
+                      "icon":  "R",
+                      "name":  "Big Rasengan",
+                      "description":  "Oversized Rasengan"
+                  },
+                  {
+                      "id":  "phoenix_fire_n",
+                      "branch":  "fire",
+                      "distance":  7,
+                      "angleOffset":  18,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:phoenix_fire",
+                      "spCost":  8,
+                      "requires":  [
+
+                                   ],
+                      "icon":  "F",
+                      "name":  "Phoenix Sage",
+                      "description":  "6 homing fireballs"
+                  }
+              ]
 }

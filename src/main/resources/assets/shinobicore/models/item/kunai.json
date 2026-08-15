@@ -1,1 +1,6 @@
-{ "parent": "item/generated", "textures": { "layer0": "shinobicore:item/kunai" } }
+{
+    "textures":  {
+                     "layer0":  "shinobicore:item/kunai"
+                 },
+    "parent":  "item/generated"
+}

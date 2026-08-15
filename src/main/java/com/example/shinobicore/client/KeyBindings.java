@@ -1,11 +1,14 @@
 package com.example.shinobicore.client;
+
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
+
 public class KeyBindings {
     public static final String CATEGORY = "key.categories.shinobicore";
     public static final String COMBAT_CATEGORY = "key.categories.shinobicore.combat";
+    
     public static KeyBinding MEDITATE;
     public static KeyBinding CAST_A;
     public static KeyBinding CAST_B;
@@ -20,7 +23,10 @@ public class KeyBindings {
     public static KeyBinding SWITCH_STYLE;
     public static KeyBinding SWITCH_STANCE;
     public static KeyBinding KATANA_DEFLECT;
+    public static KeyBinding IAI_DASH;
     public static KeyBinding TOGGLE_SENSORY;
+    public static KeyBinding TOGGLE_SCABBARD;
+
     public static void register() {
         MEDITATE = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "key.shinobicore.meditate", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_M, CATEGORY));
@@ -50,6 +56,13 @@ public class KeyBindings {
             "key.shinobicore.switch_stance", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F, COMBAT_CATEGORY));
         KATANA_DEFLECT = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "key.shinobicore.katana_deflect", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_X, COMBAT_CATEGORY));
+        TOGGLE_SCABBARD = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+            "key.shinobicore.toggle_scabbard", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_O, COMBAT_CATEGORY));
+      
+        // ✅ FIX: Register the IAI_DASH keybinding (Assigned to 'J' by default)
+        IAI_DASH = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+            "key.shinobicore.iai_dash", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_ALT, COMBAT_CATEGORY));
+            
         TOGGLE_SENSORY = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "key.shinobicore.toggle_sensory", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_Y, CATEGORY));
     }

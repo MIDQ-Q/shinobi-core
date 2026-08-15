@@ -7,5 +7,6 @@
   "params": {"effect": "strength", "amplifier": 4, "duration": 300, "showParticles": true},
   "baseCost": 100, "baseDamage": 0, "strain": 40,
   "requiredUsesForFullProficiency": 1,
-  "requirements": {"taijutsu": 50, "control": 40}
+  "requirements": {"taijutsu": 50, "control": 40},
+    "requiresScroll": "scroll_of_eight_gates"
 }

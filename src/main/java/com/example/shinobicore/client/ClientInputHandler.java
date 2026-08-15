@@ -50,6 +50,19 @@ public class ClientInputHandler {
             prevDeflectDown = deflectDown;
             if (hasKatana) KenjutsuClientHandler.setDeflectHeld(client.player, deflectDown);
         }
+
+        // === ИСПРАВЛЕННЫЙ БЛОК IAI DASH ===
+        if (KeyBindings.IAI_DASH.wasPressed()) {
+            String stance = ClientNinjaState.kenjutsuStance;
+            
+            // Используем уже существующую переменную hasKatana (без слова boolean)
+            if (hasKatana && stance.equals("iai")) {
+                // Вызываем существующий метод атаки. 
+                // Внутри tryAttack уже есть проверка на стойку "iai" и вызов playIaiSlash.
+                KenjutsuClientHandler.tryAttack(client.player); 
+            }
+        }
+
         if (KeyBindings.SWITCH_STYLE.wasPressed()) {
             if (hasKatana) {
                 KenjutsuClientHandler.cycleStance(client.player);
@@ -95,27 +108,22 @@ public class ClientInputHandler {
         // === RMB: throw rasenshuriken ===
         boolean rmbDown = client.options.useKey.isPressed();
         if (rmbDown && !prevRmbDown) {
-            System.out.println("### RASEN-DEBUG ### [CLIENT] RMB PRESSED! Searching for RasenshurikenEntity...");
             boolean hasRs = false;
             if (client.world != null && client.player != null) {
                 int entitiesFound = 0;
                 for (var e : client.world.getOtherEntities(client.player,
                         client.player.getBoundingBox().expand(3))) {
                     entitiesFound++;
-                    System.out.println("### RASEN-DEBUG ### [CLIENT] Nearby entity: " + e.getClass().getSimpleName());
                     if (e instanceof RasenshurikenEntity rs && !rs.isLaunched()) {
                         hasRs = true;
                         break;
                     }
                 }
-                System.out.println("### RASEN-DEBUG ### [CLIENT] Total entities in 3-block radius: " + entitiesFound);
             }
             if (hasRs) {
-                System.out.println("### RASEN-DEBUG ### [CLIENT] RasenshurikenEntity FOUND! Sending THROW packet...");
                 PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
                 ClientPlayNetworking.send(ModPackets.THROW_RASENSHURIKEN_ID, buf);
             } else {
-                System.out.println("### RASEN-DEBUG ### [CLIENT] ERROR: RasenshurikenEntity NOT FOUND! Packet NOT sent.");
             }
         }
         prevRmbDown = rmbDown;
@@ -123,31 +131,36 @@ public class ClientInputHandler {
         // === LMB: rasengan strike ===
         boolean lmbDown = client.options.attackKey.isPressed();
         if (lmbDown && !prevLmbDown) {
-            System.out.println("### RASEN-DEBUG ### [CLIENT] LMB PRESSED! Searching for RasenganHandEntity...");
             boolean hasRg = false;
             if (client.world != null && client.player != null) {
                 int entitiesFound = 0;
                 for (var e : client.world.getOtherEntities(client.player,
                         client.player.getBoundingBox().expand(3))) {
                     entitiesFound++;
-                    System.out.println("### RASEN-DEBUG ### [CLIENT] Nearby entity: " + e.getClass().getSimpleName());
                     if (e instanceof RasenganHandEntity) {
                         hasRg = true;
                         break;
                     }
                 }
-                System.out.println("### RASEN-DEBUG ### [CLIENT] Total entities in 3-block radius: " + entitiesFound);
             }
             if (hasRg) {
-                System.out.println("### RASEN-DEBUG ### [CLIENT] RasenganHandEntity FOUND! Sending STRIKE packet...");
                 PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
                 ClientPlayNetworking.send(ModPackets.RASENGAN_STRIKE_ID, buf);
             } else {
-                System.out.println("### RASEN-DEBUG ### [CLIENT] ERROR: RasenganHandEntity NOT FOUND! Packet NOT sent.");
             }
         }
         prevLmbDown = lmbDown;
         if (KeyBindings.CRAWL.wasPressed()) ShinobiCore.LOGGER.info("[INPUT] CRAWL (N) pressed");
+
+        if (KeyBindings.TOGGLE_SCABBARD.wasPressed()) {
+            net.minecraft.item.ItemStack mainHand = client.player.getMainHandStack();
+            if (mainHand.getItem() instanceof com.example.shinobicore.item.KatanaItem) {
+                net.minecraft.nbt.NbtCompound nbt = mainHand.getOrCreateNbt();
+                boolean isSheathed = nbt.getBoolean("Sheathed");
+                nbt.putBoolean("Sheathed", !isSheathed);
+                client.player.sendMessage(net.minecraft.text.Text.literal(!isSheathed ? "\u00a7aРљР°С‚Р°РЅР° СѓР±СЂР°РЅР° РІ РЅРѕР¶РЅС‹ РЅР° СЃРїРёРЅРµ" : "\u00a7cРљР°С‚Р°РЅР° СЃРЅСЏС‚Р° СЃРѕ СЃРїРёРЅС‹"), true);
+            }
+        }
     }
     private static void sendMeditatePacket(MinecraftClient client, boolean start) {
         if (client.getNetworkHandler() != null) {

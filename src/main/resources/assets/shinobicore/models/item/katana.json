@@ -1,12 +1,11 @@
 {
-  "parent": "builtin/entity",
-  "display": {
-    "gui": { "rotation": [0, 0, -45], "translation": [0, 0, 0], "scale": [0.7, 0.7, 0.7] },
-    "ground": { "rotation": [0, 0, 0], "translation": [0, 3, 0], "scale": [0.6, 0.6, 0.6] },
-    "fixed": { "rotation": [0, 0, 0], "translation": [0, 0, 0], "scale": [0.8, 0.8, 0.8] },
-    "thirdperson_righthand": { "rotation": [0, -90, 55], "translation": [0, 4, 2], "scale": [0.85, 0.85, 0.85] },
-    "thirdperson_lefthand": { "rotation": [0, 90, -55], "translation": [0, 4, 2], "scale": [0.85, 0.85, 0.85] },
-    "firstperson_righthand": { "rotation": [0, -90, 25], "translation": [1, 3, 1], "scale": [0.8, 0.8, 0.8] },
-    "firstperson_lefthand": { "rotation": [0, 90, -25], "translation": [1, 3, 1], "scale": [0.8, 0.8, 0.8] }
-  }
+    "parent":  "shinobicore:item/katana_iron",
+    "overrides":  [
+                      {
+                          "predicate":  {
+                                            "custom_model_data":  1
+                                        },
+                          "model":  "shinobicore:item/katana_sheathed"
+                      }
+                  ]
 }

@@ -125,7 +125,15 @@ public class NinjaTickHandler {
                         EntityAttributeModifier.Operation.MULTIPLY_BASE));
                 }
             }
-                // === PHASE_FIX2_TICK: sensory glow + danger sense + rasengan dissipate ===
+                // === PHASE3: Chakra combo decay ===
+            if (data.getChakraComboCounter() > 0) {
+                long sinceLastHit = System.currentTimeMillis() - data.getLastChakraHitMs();
+                if (sinceLastHit > 3000) {
+                    data.resetChakraCombo();
+                }
+            }
+
+            // === PHASE_FIX2_TICK: sensory glow + danger sense + rasengan dissipate ===
     TreePassives.Bonuses b2 = TreePassives.collectServer(data);
     int sensoryTick = (int)(player.getWorld().getTime() % 5);
         if (b2.sensory && data.isSensoryEnabled() && sensoryTick == 0) {

@@ -1,0 +1,75 @@
+﻿
+> Configure project :
+Fabric Loom: 1.9.2
+
+> Task :compileJava FAILED
+gradlew.bat : E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:1: error: illegal character: '\ufeff'
+E:\Games\mod\run_tests.ps1:30 знак:16
++ $buildOutput = & "$root\gradlew.bat" build 2>&1
++                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (E:\Games\mod\sr...acter: '\ufeff':String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+я╗┐package com.example.shinobicore;
+^
+E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:1: error: class, interface, enum, or record expected
+я╗┐package com.example.shinobicore;
+         ^
+E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:3: error: class, interface, enum, or record expected
+import com.example.shinobicore.stat.NinjaFormula;
+^
+E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:4: error: class, interface, enum, or record expected
+import com.example.shinobicore.stat.NinjaPlayerData;
+^
+E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:5: error: class, interface, enum, or record expected
+import com.example.shinobicore.config.ModConfig;
+^
+E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:6: error: class, interface, enum, or record expected
+import org.junit.jupiter.api.BeforeAll;
+^
+E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:7: error: class, interface, enum, or record expected
+import org.junit.jupiter.api.Test;
+^
+E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:8: error: class, interface, enum, or record expected
+import static org.junit.jupiter.api.Assertions.*;
+^
+8 errors
+
+[Incubating] Problems report is available at: file:///E:/Games/mod/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:1: error: illegal character: '\ufeff'
+  я╗┐package com.example.shinobicore;
+  ^E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:1: error: class, interface, enum, or record expected
+  я╗┐package com.example.shinobicore;
+           ^
+  E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:3: error: class, interface, enum, or record expected
+  import com.example.shinobicore.stat.NinjaFormula;
+  ^
+  E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:4: error: class, interface, enum, or record expected
+  import com.example.shinobicore.stat.NinjaPlayerData;
+  ^
+  E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:5: error: class, interface, enum, or record expected
+  import com.example.shinobicore.config.ModConfig;
+  ^
+  E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:6: error: class, interface, enum, or record expected
+  import org.junit.jupiter.api.BeforeAll;
+  ^
+  E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:7: error: class, interface, enum, or record expected
+  import org.junit.jupiter.api.Test;
+  ^
+  E:\Games\mod\src\main\java\com\example\shinobicore\FormulaTest.java:8: error: class, interface, enum, or record expected
+  import static org.junit.jupiter.api.Assertions.*;
+  ^
+  8 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+BUILD FAILED in 1s
+1 actionable task: 1 executed

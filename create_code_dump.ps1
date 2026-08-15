@@ -1,127 +1,223 @@
-﻿$ErrorActionPreference = "Continue"
-$root = "E:\Games\mod"
-$outFile = "$root\code_dump_15_08_2026.txt"
-$utf8 = New-Object System.Text.UTF8Encoding($false)
+﻿# ============================================================
+#  SHINOBICORE — FULL CODE DUMP SCRIPT
+#  Собирает весь код проекта в один .txt файл
+#  Запуск: powershell -ExecutionPolicy Bypass -File .\create_code_dump.ps1
+# ============================================================
 
-# Счётчики
-$javaCount = 0; $jsonCount = 0; $psCount = 0
-$javaLines = 0; $jsonLines = 0; $psLines = 0
-$mdCount = 0; $mdLines = 0
+$ErrorActionPreference = "Continue"
+$utf8 = New-Object System.Text.UTF8Encoding($false)  # UTF-8 без BOM
 
-# Вспомогательная функция записи секции
-function Write-Header($sb, $text) {
+# Автоматическое определение пути к проекту
+$root = Split-Path -Parent $MyInvocation.MyCommand.Path
+$timestamp = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
+$outFile = Join-Path $root "full_code_dump_$timestamp.txt"
+
+$sb = New-Object System.Text.StringBuilder
+$totalFiles = 0
+$totalLines = 0
+
+# ============================================================
+#  Вспомогательные функции
+# ============================================================
+
+function Write-Header($title) {
+    [void]$sb.AppendLine("")
     [void]$sb.AppendLine("################################################################################")
-    [void]$sb.AppendLine("# $text")
+    [void]$sb.AppendLine("# $title")
     [void]$sb.AppendLine("################################################################################")
+    Write-Host "" 
+    Write-Host "  >> $title" -ForegroundColor Cyan
 }
 
-function Write-FileBlock($sb, $relPath, $content) {
+function Add-FileBlock($relPath, $fullPath) {
+    if (-not (Test-Path $fullPath)) { return 0 }
+    
+    $script:totalFiles++
     [void]$sb.AppendLine("--------------------------------------------------------------------------------")
     [void]$sb.AppendLine("FILE: $relPath")
     [void]$sb.AppendLine("--------------------------------------------------------------------------------")
-    [void]$sb.AppendLine($content)
-}
-
-$sb = New-Object System.Text.StringBuilder
-$now = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-
-[void]$sb.AppendLine("================================================================================")
-[void]$sb.AppendLine("SHINOBICORE MOD - FULL CODE DUMP")
-[void]$sb.AppendLine("Generated: $now")
-[void]$sb.AppendLine("Project: $root")
-[void]$sb.AppendLine("================================================================================")
-
-# ============ SECTION 1: BUILD CONFIGURATION ============
-Write-Header $sb "SECTION 1: BUILD CONFIGURATION"
-
-$buildFiles = @("build.gradle", "gradle.properties", "settings.gradle",
-                "src\main\resources\fabric.mod.json",
-                "src\main\resources\shinobicore.mixins.json")
-foreach ($bf in $buildFiles) {
-    $full = Join-Path $root $bf
-    if (Test-Path $full) {
-        $content = [System.IO.File]::ReadAllText($full, $utf8)
-        Write-FileBlock $sb $bf $content
+    
+    try {
+        $content = [System.IO.File]::ReadAllText($fullPath, $utf8)
+        [void]$sb.AppendLine($content)
+        $lines = ($content -split "`n").Count
+        $script:totalLines += $lines
+        Write-Host "    [OK] $relPath ($lines lines)" -ForegroundColor Green
+        return $lines
+    }
+    catch {
+        [void]$sb.AppendLine("[ERROR reading file: $($_.Exception.Message)]")
+        Write-Host "    [ERR] $relPath - $($_.Exception.Message)" -ForegroundColor Red
+        return 0
     }
 }
 
-# ============ SECTION 2: JAVA SOURCE CODE ============
-Write-Header $sb "SECTION 2: JAVA SOURCE CODE"
-
-$javaFiles = Get-ChildItem -Path "$root\src\main\java" -Recurse -Filter "*.java" |
-    Sort-Object { $_.FullName }
-foreach ($jf in $javaFiles) {
-    $rel = $jf.FullName.Substring($root.Length + 1)
-    $content = [System.IO.File]::ReadAllText($jf.FullName, $utf8)
-    Write-FileBlock $sb $rel $content
-    $javaCount++
-    $javaLines += ($content -split "`n").Count
+function Add-DirectoryFiles($sectionName, $dirPath, $filter) {
+    if (-not (Test-Path $dirPath)) {
+        Write-Host "    [SKIP] Directory not found: $dirPath" -ForegroundColor Yellow
+        return
+    }
+    
+    Write-Host ""
+    Write-Host "  Scanning $sectionName..." -ForegroundColor White
+    
+    $files = Get-ChildItem -Path $dirPath -Recurse -Filter $filter | Sort-Object FullName
+    $count = 0
+    $lines = 0
+    
+    foreach ($f in $files) {
+        $rel = $f.FullName.Substring($root.Length + 1)
+        $l = Add-FileBlock $rel $f.FullName
+        $count++
+        $lines += $l
+    }
+    
+    Write-Host "  -> ${sectionName}: $count files, $lines lines" -ForegroundColor DarkCyan
 }
 
-# ============ SECTION 3: RESOURCE FILES - JSON ============
-Write-Header $sb "SECTION 3: RESOURCE FILES - JSON"
+# ============================================================
+#  Заголовок дампа
+# ============================================================
 
-$jsonFiles = Get-ChildItem -Path "$root\src\main\resources\data" -Recurse -Filter "*.json" |
-    Sort-Object { $_.FullName }
-foreach ($jf in $jsonFiles) {
-    $rel = $jf.FullName.Substring($root.Length + 1)
-    $content = [System.IO.File]::ReadAllText($jf.FullName, $utf8)
-    Write-FileBlock $sb $rel $content
-    $jsonCount++
-    $jsonLines += ($content -split "`n").Count
+[void]$sb.AppendLine("================================================================================")
+[void]$sb.AppendLine("  SHINOBICORE MOD - FULL CODE DUMP")
+[void]$sb.AppendLine("  Generated: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')")
+[void]$sb.AppendLine("  Project:   $root")
+[void]$sb.AppendLine("================================================================================")
+
+Write-Host ""
+Write-Host "==================================================================" -ForegroundColor Cyan
+Write-Host "           SHINOBICORE CODE DUMP" -ForegroundColor Cyan
+Write-Host "==================================================================" -ForegroundColor Cyan
+Write-Host "  Project: $root" -ForegroundColor White
+Write-Host "  Output:  $outFile" -ForegroundColor White
+
+# ============================================================
+#  SECTION 1: Build Configuration
+# ============================================================
+
+Write-Header "SECTION 1: BUILD CONFIGURATION"
+
+$buildFiles = @(
+    "build.gradle",
+    "gradle.properties",
+    "settings.gradle",
+    "src\main\resources\fabric.mod.json",
+    "src\main\resources\shinobicore.mixins.json"
+)
+
+foreach ($bf in $buildFiles) {
+    $full = Join-Path $root $bf
+    Add-FileBlock $bf $full
 }
 
-# ============ SECTION 4: DOCUMENTATION ============
-Write-Header $sb "SECTION 4: DOCUMENTATION"
+# ============================================================
+#  SECTION 2: Java Source Code
+# ============================================================
 
-$mdFiles = Get-ChildItem -Path $root -Filter "*.md" -File | Sort-Object Name
+Write-Header "SECTION 2: JAVA SOURCE CODE"
+
+$javaDir = Join-Path $root "src\main\java"
+Add-DirectoryFiles "Java Sources" $javaDir "*.java"
+
+# ============================================================
+#  SECTION 3: Resource Files (JSON)
+# ============================================================
+
+Write-Header "SECTION 3: RESOURCE FILES - JSON"
+
+$resDir = Join-Path $root "src\main\resources\data"
+Add-DirectoryFiles "JSON Resources" $resDir "*.json"
+
+# ============================================================
+#  SECTION 4: Asset Files (textures, sounds, models, lang)
+# ============================================================
+
+Write-Header "SECTION 4: ASSET FILES"
+
+$assetsDir = Join-Path $root "src\main\resources\assets"
+if (Test-Path $assetsDir) {
+    # JSON assets (sounds.json, lang files, models)
+    Add-DirectoryFiles "Asset JSONs" $assetsDir "*.json"
+    
+    # List texture files (не читаем бинарные, просто список)
+    $textures = Get-ChildItem -Path $assetsDir -Recurse -Include "*.png" -ErrorAction SilentlyContinue
+    if ($textures) {
+        [void]$sb.AppendLine("")
+        [void]$sb.AppendLine("--------------------------------------------------------------------------------")
+        [void]$sb.AppendLine("TEXTURE FILES ($($textures.Count) files)")
+        [void]$sb.AppendLine("--------------------------------------------------------------------------------")
+        foreach ($t in $textures) {
+            $rel = $t.FullName.Substring($root.Length + 1)
+            $size = [math]::Round($t.Length / 1KB, 1)
+            [void]$sb.AppendLine("  $rel ($size KB)")
+        }
+        Write-Host "    [OK] Listed $($textures.Count) texture files" -ForegroundColor Green
+    }
+}
+
+# ============================================================
+#  SECTION 5: Documentation
+# ============================================================
+
+Write-Header "SECTION 5: DOCUMENTATION"
+
+$mdFiles = Get-ChildItem -Path $root -Filter "*.md" -File -ErrorAction SilentlyContinue | Sort-Object Name
 foreach ($mf in $mdFiles) {
-    $content = [System.IO.File]::ReadAllText($mf.FullName, $utf8)
-    Write-FileBlock $sb $mf.Name $content
-    $mdCount++
-    $mdLines += ($content -split "`n").Count
+    Add-FileBlock $mf.Name $mf.FullName
 }
 
-# ============ SECTION 5: POWERSHELL SCRIPTS ============
-Write-Header $sb "SECTION 5: POWERSHELL SCRIPTS"
+# ============================================================
+#  SECTION 6: PowerShell Scripts
+# ============================================================
 
-$psFiles = Get-ChildItem -Path $root -Filter "*.ps1" -File | Sort-Object Name
+Write-Header "SECTION 6: POWERSHELL SCRIPTS"
+
+$psFiles = Get-ChildItem -Path $root -Filter "*.ps1" -File -ErrorAction SilentlyContinue | Sort-Object Name
 foreach ($pf in $psFiles) {
-    $content = [System.IO.File]::ReadAllText($pf.FullName, $utf8)
-    Write-FileBlock $sb $pf.Name $content
-    $psCount++
-    $psLines += ($content -split "`n").Count
+    # Пропускаем сам этот скрипт
+    if ($pf.FullName -eq $MyInvocation.MyCommand.Path) { continue }
+    Add-FileBlock $pf.Name $pf.FullName
 }
 
-# ============ STATISTICS ============
-$totalLines = $javaLines + $jsonLines + $psLines + $mdLines
+# ============================================================
+#  STATISTICS
+# ============================================================
+
+[void]$sb.AppendLine("")
 [void]$sb.AppendLine("################################################################################")
 [void]$sb.AppendLine("# STATISTICS")
 [void]$sb.AppendLine("################################################################################")
-[void]$sb.AppendLine("Java files: $javaCount")
-[void]$sb.AppendLine("JSON files: $jsonCount")
-[void]$sb.AppendLine("PowerShell scripts: $psCount")
-[void]$sb.AppendLine("Markdown files: $mdCount")
-[void]$sb.AppendLine("Total Java lines: $javaLines")
-[void]$sb.AppendLine("Total JSON lines: $jsonLines")
-[void]$sb.AppendLine("Total lines in dump: $totalLines")
+[void]$sb.AppendLine("Total files dumped: $totalFiles")
+[void]$sb.AppendLine("Total lines:        $totalLines")
+[void]$sb.AppendLine("Dump file size:     $([math]::Round((([System.Text.Encoding]::UTF8.GetBytes($sb.ToString())).Length) / 1MB, 2)) MB")
+[void]$sb.AppendLine("Generated at:       $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')")
 
-# Запись файла
-[System.IO.File]::WriteAllText($outFile, $sb.ToString(), $utf8)
-
-$fileSize = [math]::Round((Get-Item $outFile).Length / 1MB, 2)
+# ============================================================
+#  Запись в файл
+# ============================================================
 
 Write-Host ""
-Write-Host "╔══════════════════════════════════════════════════════════╗" -ForegroundColor Green
-Write-Host "║              CODE DUMP CREATED SUCCESSFULLY              ║" -ForegroundColor Green
-Write-Host "╚══════════════════════════════════════════════════════════╝" -ForegroundColor Green
-Write-Host ""
-Write-Host "  File: $outFile" -ForegroundColor Cyan
-Write-Host "  Size: $fileSize MB" -ForegroundColor Cyan
-Write-Host ""
-Write-Host "  Statistics:" -ForegroundColor White
-Write-Host "    Java files:        $javaCount ($javaLines lines)"
-Write-Host "    JSON files:        $jsonCount ($jsonLines lines)"
-Write-Host "    PowerShell:        $psCount ($psLines lines)"
-Write-Host "    Markdown:          $mdCount ($mdLines lines)"
-Write-Host "    Total:             $totalLines lines"
+Write-Host "  Writing dump file..." -ForegroundColor White
+
+try {
+    [System.IO.File]::WriteAllText($outFile, $sb.ToString(), $utf8)
+    
+    $fileSize = [math]::Round((Get-Item $outFile).Length / 1MB, 2)
+    
+    Write-Host ""
+    Write-Host "==================================================================" -ForegroundColor Green
+    Write-Host "           CODE DUMP CREATED SUCCESSFULLY!" -ForegroundColor Green
+    Write-Host "==================================================================" -ForegroundColor Green
+    Write-Host ""
+    Write-Host "  File:  $outFile" -ForegroundColor Cyan
+    Write-Host "  Size:  $fileSize MB" -ForegroundColor Cyan
+    Write-Host "  Files: $totalFiles" -ForegroundColor Cyan
+    Write-Host "  Lines: $totalLines" -ForegroundColor Cyan
+    Write-Host ""
+}
+catch {
+    Write-Host ""
+    Write-Host "  [ERROR] Failed to write dump file: $($_.Exception.Message)" -ForegroundColor Red
+    exit 1
+}

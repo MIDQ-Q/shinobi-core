@@ -12,11 +12,13 @@ public class KenjutsuAnimations {
         public SlashState(int step) { this.step = step; this.start = System.currentTimeMillis(); }
         public float getProgress() { return Math.min(1f, (System.currentTimeMillis() - start) / duration(step)); }
         public boolean isFinished() { return System.currentTimeMillis() - start >= duration(step); }
-        private float duration(int s) { return switch (s) { case 0, 1 -> 260f; case 2 -> 340f; case 4 -> 350f; default -> 520f; }; }
+        private float duration(int s) { return switch (s) { case 0, 1 -> 260f; case 2 -> 340f; case 4 -> 350f; case 6 -> 450f; case 7 -> 300f; default -> 520f; }; }
     }
     public static void playSlash(AbstractClientPlayerEntity p, int step) { SLASHES.put(p.getUuid(), new SlashState(step)); }
     public static void playIaiSlash(AbstractClientPlayerEntity p) { SLASHES.put(p.getUuid(), new SlashState(4)); }
     public static void playDeflect(AbstractClientPlayerEntity p) { DEFLECTS.put(p.getUuid(), System.currentTimeMillis() + 300); }
+    public static void playJumpSlash(AbstractClientPlayerEntity p) { SLASHES.put(p.getUuid(), new SlashState(6)); }
+    public static void playSprintSlash(AbstractClientPlayerEntity p) { SLASHES.put(p.getUuid(), new SlashState(7)); }
     public static boolean isDeflecting(AbstractClientPlayerEntity p) {
         Long t = DEFLECTS.get(p.getUuid());
         if (t == null) return false;
@@ -41,6 +43,8 @@ public class KenjutsuAnimations {
             case 0 -> { rArm.yaw = -1.9f + c * 3.2f; rArm.pitch = -0.85f; rArm.roll = 0.2f; body.yaw += c * 0.6f - 0.3f; body.pitch += c * 0.12f; lArm.yaw = 0.4f; lArm.pitch = -0.6f; }
             case 1 -> { rArm.yaw = 1.9f - c * 3.2f; rArm.pitch = -0.85f; rArm.roll = -0.2f; body.yaw -= c * 0.6f - 0.3f; body.pitch += c * 0.12f; lArm.yaw = -0.4f; lArm.pitch = -0.6f; }
             case 2 -> { rArm.pitch = 2.3f - c * 4.0f; rArm.yaw = -0.2f; body.pitch += c * 0.35f; body.roll += c * 0.05f; lArm.pitch = -0.9f; lArm.yaw = 0.5f; }
+            case 6 -> { rArm.pitch = -2.8f + c * 3.5f; rArm.yaw = 0f; rArm.roll = 0f; body.pitch = -0.3f + c * 0.5f; lArm.pitch = -1.0f; lArm.yaw = 0.4f; head.pitch += 0.2f * c; }
+            case 7 -> { rArm.yaw = -0.5f + c * 1.5f; rArm.pitch = -1.2f; body.yaw += c * 0.8f; body.pitch = 0.15f; lArm.pitch = -0.8f; }
             default -> { body.yaw += (float) Math.sin(s.getProgress() * Math.PI) * 1.2f; rArm.pitch = -1.5f; rArm.roll = 0.6f; lArm.pitch = -1.5f; lArm.yaw = -0.6f; head.pitch -= 0.1f; }
         }
     }

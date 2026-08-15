@@ -17,7 +17,9 @@ public record JutsuDefinition(
     float baseDamage,
     float strain,
     int requiredUsesForFullProficiency,
-    Map<String, Integer> requirements
+    Map<String, Integer> requirements,
+    String requiresDojutsu,
+    String requiresScroll
 ) {
     public boolean hasNature() {
         return nature != null;

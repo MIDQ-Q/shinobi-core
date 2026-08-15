@@ -68,6 +68,24 @@ public class ModConfig {
     }
 
     public Taijutsu taijutsu = new Taijutsu();
+    public Kenjutsu kenjutsu = new Kenjutsu();
+
+    public static class Kenjutsu {
+        public float baseDamage = 6.0f;
+        public float damagePerLevel = 0.35f;
+        public float jumpAttackMult = 2.5f;
+        public float sprintAttackMult = 1.6f;
+        public float chakraModeDamageMult = 1.3f;
+        public float chakraCostPerHit = 0.5f;
+        public float chakraCostJump = 3.0f;
+        public float chakraCostSprint = 1.5f;
+        public float parryChakraGainSeigan = 2.5f;
+        public float iaiDashDamageMult = 3.0f;
+        public float iaiDashChakraCost = 5.0f;
+        public int maxComboSteps = 6;
+        public float comboChakraScaling = 0.05f;
+        public float maxComboChakraBonus = 0.5f;
+    }
 
     public static class Meditation {
         public float regenMultiplier = 4.0f;

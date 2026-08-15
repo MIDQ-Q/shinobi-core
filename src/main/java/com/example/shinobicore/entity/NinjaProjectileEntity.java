@@ -12,6 +12,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -136,6 +137,18 @@ public class NinjaProjectileEntity extends Entity {
             float radius = this.dataTracker.get(RADIUS);
             float damage = this.dataTracker.get(DAMAGE);
             String model = this.dataTracker.get(MODEL_TYPE);
+
+            // === ELEMENTAL INTERACTIONS ===
+            if (this.getWorld() instanceof ServerWorld sw) {
+                String particle = this.dataTracker.get(PARTICLE_TYPE);
+                Vec3d impactPos = this.getPos();
+                ServerPlayerEntity ownerPlayer = null;
+                if (this.getOwner() instanceof ServerPlayerEntity sp) {
+                    ownerPlayer = sp;
+                }
+                com.example.shinobicore.jutsu.ElementInteractionManager
+                    .onElementalImpact(sw, particle, impactPos, radius, ownerPlayer);
+            }
 
             if (radius > 0.5f) {
                 for (Entity entity : this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(radius))) {

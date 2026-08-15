@@ -33,6 +33,11 @@ import com.example.shinobicore.client.HandSignsHudRenderer;
 import com.example.shinobicore.ShinobiCore;
 import com.example.shinobicore.client.combat.TaijutsuAnimations;
 import com.example.shinobicore.client.combat.HitStopManager;
+import com.example.shinobicore.client.render.NarutoArmorRenderer;
+import com.example.shinobicore.client.render.BackKatanaRenderer;
+import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
+import net.minecraft.entity.EntityType;
+import net.minecraft.client.render.entity.model.PlayerEntityModel;
 public class ShinobiCoreClient implements ClientModInitializer {
 
     @Override
@@ -159,6 +164,10 @@ public class ShinobiCoreClient implements ClientModInitializer {
                 ClientNinjaState.chakraMode = chakra;
                 ClientNinjaState.clanId = clan.isEmpty() ? "none" : clan;
                 ClientNinjaState.affinityId = affinity.isEmpty() ? null : affinity;
+                if (buf.readableBytes() > 0) {
+                    String dojutsu = buf.readString();
+                    ClientNinjaState.activeDojutsu = dojutsu.isEmpty() ? null : dojutsu;
+                }
             });
         });
 
@@ -215,5 +224,11 @@ public class ShinobiCoreClient implements ClientModInitializer {
         });
         // HUD registration now inside ChakraHudRenderer.register() (self-guarded)
         HudRenderCallback.EVENT.register(HandSignsHudRenderer::render);
+NarutoArmorRenderer.register();
+        LivingEntityFeatureRendererRegistrationCallback.EVENT.register((entityType, entityRenderer, registrationHelper, context) -> {
+            if (entityRenderer instanceof net.minecraft.client.render.entity.PlayerEntityRenderer playerRenderer) {
+                registrationHelper.register(new BackKatanaRenderer(playerRenderer));
+            }
+        });
     }
 }

@@ -44,6 +44,8 @@ public class SwordTrailRenderer {
             case 1 -> spawnHorizontalArc(client, pos, right, up, false);  // right to left
             case 2 -> spawnVerticalArc(client, pos, look, right);         // top to bottom
             case 3 -> spawnFinisherRing(client, pos);                     // 360 ring
+        case 4 -> spawnHorizontalArc(client, pos, right, up, true);   // step 4
+        case 5 -> spawnFinisherRing(client, pos);                     // step 5 finisher
         }
     }
 
@@ -125,6 +127,47 @@ public class SwordTrailRenderer {
                     center.y + Math.random() * 0.5,
                     center.z + (Math.random() - 0.5) * 1.5,
                     0, 0.12, 0);
+        }
+    }
+
+    /**
+     * Jump attack trail: downward arc.
+     */
+    public static void playJumpTrail(AbstractClientPlayerEntity player) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.world == null) return;
+        Vec3d pos = player.getPos().add(0, 1.5, 0);
+        Vec3d look = player.getRotationVector();
+        for (int i = 0; i < 18; i++) {
+            float t = (float) i / 18;
+            Vec3d offset = look.multiply(0.5 + t * 1.5)
+                    .add(new Vec3d(0, -t * 2.0, 0));
+            Vec3d p = pos.add(offset);
+            client.world.addParticle(ParticleTypes.SWEEP_ATTACK, p.x, p.y, p.z, 0, -0.1, 0);
+            if (i % 3 == 0) client.world.addParticle(ParticleTypes.CRIT, p.x, p.y, p.z, 0, -0.05, 0);
+        }
+        client.world.addParticle(ParticleTypes.EXPLOSION, pos.x + look.x * 1.5, pos.y - 1.5, pos.z + look.z * 1.5, 0, 0, 0);
+    }
+
+    /**
+     * Sprint attack trail: forward thrust.
+     */
+    public static void playSprintTrail(AbstractClientPlayerEntity player) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.world == null) return;
+        Vec3d pos = player.getPos().add(0, 1.2, 0);
+        Vec3d look = player.getRotationVector();
+        for (int i = 0; i < 12; i++) {
+            float t = (float) i / 12;
+            Vec3d p = pos.add(look.multiply(t * 3.0))
+                    .add(new Vec3d((Math.random()-0.5)*0.3, (Math.random()-0.5)*0.3, (Math.random()-0.5)*0.3));
+            client.world.addParticle(ParticleTypes.SWEEP_ATTACK, p.x, p.y, p.z, look.x * 0.1, 0, look.z * 0.1);
+        }
+        for (int i = 0; i < 6; i++) {
+            client.world.addParticle(ParticleTypes.CLOUD,
+                    pos.x + look.x * 2.5 + (Math.random()-0.5)*0.5,
+                    pos.y + (Math.random()-0.5)*0.5,
+                    pos.z + look.z * 2.5 + (Math.random()-0.5)*0.5, 0, 0.02, 0);
         }
     }
 

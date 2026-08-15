@@ -10,9 +10,11 @@ import com.example.shinobicore.entity.ModEntities;
 import com.example.shinobicore.item.ModItems;
 import com.example.shinobicore.event.NinjaTickHandler;
 import com.example.shinobicore.jutsu.AoeBehavior;
+import com.example.shinobicore.dojutsu.DojutsuRegistry;
 import com.example.shinobicore.jutsu.BehaviorRegistry;
 import com.example.shinobicore.jutsu.DashBehavior;
 import com.example.shinobicore.jutsu.JutsuLogger;
+import com.example.shinobicore.dojutsu.DojutsuRegistry;
 import com.example.shinobicore.jutsu.JutsuRegistry;
 import com.example.shinobicore.jutsu.MeleeBehavior;
 import com.example.shinobicore.jutsu.ProjectileBehavior;
@@ -59,16 +61,12 @@ public class ShinobiCore implements ModInitializer {
         // === RASENSHURIKEN THROW HANDLER ===
         ServerPlayNetworking.registerGlobalReceiver(ModPackets.THROW_RASENSHURIKEN_ID,
         (server, player, handler, buf, responseSender) -> {
-            System.out.println("### RASEN-DEBUG ### [SERVER] Received THROW packet from " + player.getName().getString());
             server.execute(() -> {
-                System.out.println("### RASEN-DEBUG ### [SERVER] Executing THROW on main thread. Searching entities...");
                 boolean found = false;
                 int count = 0;
                 for (var e : player.getWorld().getOtherEntities(player, player.getBoundingBox().expand(3))) {
                     count++;
-                    System.out.println("### RASEN-DEBUG ### [SERVER] Nearby entity: " + e.getClass().getSimpleName() + " (ID: " + e.getId() + ")");
                     if (e instanceof RasenshurikenEntity rs && !rs.isLaunched()) {
-                        System.out.println("### RASEN-DEBUG ### [SERVER] RasenshurikenEntity FOUND! Launching...");
                         Vec3d dir = player.getRotationVector();
                         rs.launch(dir);
                         found = true;
@@ -76,7 +74,6 @@ public class ShinobiCore implements ModInitializer {
                     }
                 }
                 if (!found) {
-                    System.out.println("### RASEN-DEBUG ### [SERVER] ERROR: Could not find unlaunched RasenshurikenEntity! (Checked " + count + " entities)");
                 }
             });
         });
@@ -84,21 +81,17 @@ public class ShinobiCore implements ModInitializer {
         // === RASENGAN STRIKE HANDLER ===
         ServerPlayNetworking.registerGlobalReceiver(ModPackets.RASENGAN_STRIKE_ID,
         (server, player, handler, buf, responseSender) -> {
-            System.out.println("### RASEN-DEBUG ### [SERVER] Received STRIKE packet from " + player.getName().getString());
             server.execute(() -> {
-                System.out.println("### RASEN-DEBUG ### [SERVER] Executing STRIKE on main thread. Searching entities...");
                 RasenganHandEntity rasengan = null;
                 int count = 0;
                 for (var e : player.getWorld().getOtherEntities(player, player.getBoundingBox().expand(3))) {
                     count++;
-                    System.out.println("### RASEN-DEBUG ### [SERVER] Nearby entity: " + e.getClass().getSimpleName() + " (ID: " + e.getId() + ")");
                     if (e instanceof RasenganHandEntity rg) {
                         rasengan = rg;
                         break;
                     }
                 }
                 if (rasengan != null) {
-                    System.out.println("### RASEN-DEBUG ### [SERVER] RasenganHandEntity FOUND! Applying damage...");
                     float damage = rasengan.getDamage();
                     Vec3d look = player.getRotationVector();
                     Vec3d strikeCenter = player.getPos().add(look.multiply(1.5)).add(0, 0.5, 0);
@@ -112,9 +105,7 @@ public class ShinobiCore implements ModInitializer {
                         }
                     }
                     rasengan.discard();
-                    System.out.println("### RASEN-DEBUG ### [SERVER] Rasengan strike SUCCESS. Entity discarded.");
                 } else {
-                    System.out.println("### RASEN-DEBUG ### [SERVER] ERROR: Could not find RasenganHandEntity! (Checked " + count + " entities)");
                 }
             });
         });
@@ -130,7 +121,10 @@ public class ShinobiCore implements ModInitializer {
         BehaviorRegistry.register("utility", new UtilityBehavior());
         BehaviorRegistry.register("genjutsu", new GenjutsuBehavior());
 
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> NinjaCommand.register(dispatcher));
+CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
+    NinjaCommand.register(dispatcher);
+    com.example.shinobicore.command.TestAllCommand.register(dispatcher);
+});
         ServerTickEvents.END_SERVER_TICK.register(NinjaTickHandler::onServerTick);
         // === PHASE5_CAST_TICK ===
         ServerTickEvents.END_SERVER_TICK.register(server -> {
@@ -161,6 +155,14 @@ public class ShinobiCore implements ModInitializer {
                     // === ФИКС: разблокировать affinity как nature ===
                     
                     data.setClanChosen(true);
+                    if (randomClan.hasDojutsu() && randomClan.dojutsuHook() != null) {
+                        data.setActiveDojutsu(randomClan.dojutsuHook());
+                    }
+                    // === AUTO-SET DOJUTSU FROM CLAN ===
+                    if (randomClan.hasDojutsu() && randomClan.dojutsuHook() != null) {
+                        data.setActiveDojutsu(randomClan.dojutsuHook());
+                        LOGGER.info("Auto-assigned dojutsu {} to {}", randomClan.dojutsuHook(), player.getName().getString());
+                    }
 
                     if (randomClan.extraAffinityCount() > 0) {
                         ElementType[] elements = ElementType.values();
@@ -187,6 +189,7 @@ public class ShinobiCore implements ModInitializer {
             JutsuRegistry.reload(server.getResourceManager());
             ClanRegistry.reload(server.getResourceManager());
             SkillTreeRegistry.reload(server.getResourceManager());
+                DojutsuRegistry.reload(server.getResourceManager());
         });
 
         ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, resourceManager, success) -> {
@@ -194,6 +197,7 @@ public class ShinobiCore implements ModInitializer {
                 JutsuRegistry.reload(server.getResourceManager());
                 ClanRegistry.reload(server.getResourceManager());
             SkillTreeRegistry.reload(server.getResourceManager());
+                DojutsuRegistry.reload(server.getResourceManager());
                 for (ServerPlayerEntity p : server.getPlayerManager().getPlayerList()) sendCatalogSync(p);
             }
         });

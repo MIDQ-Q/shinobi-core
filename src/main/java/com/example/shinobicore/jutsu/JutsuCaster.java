@@ -11,6 +11,7 @@ import com.example.shinobicore.stat.StatType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import com.example.shinobicore.tree.TreePassives;
 import com.example.shinobicore.stat.ElementType;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 
 public class JutsuCaster {
@@ -25,6 +26,88 @@ public class JutsuCaster {
         if (def == null) {
             player.sendMessage(Text.literal("§cJutsu not found!"), false);
             return false;
+        }
+        // === DOJUTSU CHECK ===
+        if (def.requiresDojutsu() != null) {
+            String activeDojutsu = data.getActiveDojutsu();
+            if (activeDojutsu == null || !activeDojutsu.equals(def.requiresDojutsu())) {
+                // Check if player has a scroll for this jutsu
+                boolean hasScroll = false;
+                if (def.requiresScroll() != null) {
+                    for (int i = 0; i < player.getInventory().size(); i++) {
+                        ItemStack stack = player.getInventory().getStack(i);
+                        if (stack.getItem() instanceof com.example.shinobicore.item.ScrollItem) {
+                            String scrollJutsu = com.example.shinobicore.item.ScrollItem.getJutsuId(stack);
+                            if (def.id().equals(scrollJutsu)) {
+                                hasScroll = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (!hasScroll) {
+                    player.sendMessage(Text.literal("\u00a7cThis jutsu requires " + def.requiresDojutsu()
+                        + "! (Or a scroll)"), false);
+                    JutsuLogger.logBehavior("caster",
+                        String.format("REJECTED dojutsu: player=%s, jutsu=%s, required=%s, active=%s",
+                            player.getName().getString(), def.id(), def.requiresDojutsu(), activeDojutsu));
+                    return false;
+                }
+            }
+        }
+
+        // === SCROLL CHECK (for jutsu that only need scroll, no dojutsu) ===
+        if (def.requiresScroll() != null && def.requiresDojutsu() == null) {
+            boolean hasScroll = false;
+            for (int i = 0; i < player.getInventory().size(); i++) {
+                ItemStack stack = player.getInventory().getStack(i);
+                if (stack.getItem() instanceof com.example.shinobicore.item.ScrollItem) {
+                    String scrollJutsu = com.example.shinobicore.item.ScrollItem.getJutsuId(stack);
+                    if (def.id().equals(scrollJutsu)) {
+                        hasScroll = true;
+                        break;
+                    }
+                }
+            }
+            if (!hasScroll) {
+                player.sendMessage(Text.literal("\u00a7cThis jutsu requires a scroll: "
+                    + def.requiresScroll()), false);
+                return false;
+            }
+        }
+
+        // === DOJUTSU CHECK ===
+        if (def.requiresDojutsu() != null) {
+            String active = data.getActiveDojutsu();
+            if (active == null || !active.equals(def.requiresDojutsu())) {
+                boolean hasScroll = false;
+                for (int i = 0; i < player.getInventory().size(); i++) {
+                    net.minecraft.item.ItemStack st = player.getInventory().getStack(i);
+                    if (st.getItem() instanceof com.example.shinobicore.item.ScrollItem) {
+                        String sid = com.example.shinobicore.item.ScrollItem.getJutsuId(st);
+                        if (def.id().equals(sid)) { hasScroll = true; break; }
+                    }
+                }
+                if (!hasScroll) {
+                    player.sendMessage(Text.literal("\u00a7cRequires " + def.requiresDojutsu() + "!"), false);
+                    return false;
+                }
+            }
+        }
+        // === SCROLL CHECK ===
+        if (def.requiresScroll() != null && def.requiresDojutsu() == null) {
+            boolean hasScroll = false;
+            for (int i = 0; i < player.getInventory().size(); i++) {
+                net.minecraft.item.ItemStack st = player.getInventory().getStack(i);
+                if (st.getItem() instanceof com.example.shinobicore.item.ScrollItem) {
+                    String sid = com.example.shinobicore.item.ScrollItem.getJutsuId(st);
+                    if (def.id().equals(sid)) { hasScroll = true; break; }
+                }
+            }
+            if (!hasScroll) {
+                player.sendMessage(Text.literal("\u00a7cRequires scroll: " + def.requiresScroll()), false);
+                return false;
+            }
         }
         if (!NinjaFormula.checkRequirements(def, data)) {
             player.sendMessage(Text.literal("§cYour stats are too low for this jutsu!"), false);
@@ -114,6 +197,88 @@ public class JutsuCaster {
         if (def == null) {
             player.sendMessage(Text.literal("\u00a7cJutsu not found!"), false);
             return false;
+        }
+        // === DOJUTSU CHECK ===
+        if (def.requiresDojutsu() != null) {
+            String activeDojutsu = data.getActiveDojutsu();
+            if (activeDojutsu == null || !activeDojutsu.equals(def.requiresDojutsu())) {
+                // Check if player has a scroll for this jutsu
+                boolean hasScroll = false;
+                if (def.requiresScroll() != null) {
+                    for (int i = 0; i < player.getInventory().size(); i++) {
+                        ItemStack stack = player.getInventory().getStack(i);
+                        if (stack.getItem() instanceof com.example.shinobicore.item.ScrollItem) {
+                            String scrollJutsu = com.example.shinobicore.item.ScrollItem.getJutsuId(stack);
+                            if (def.id().equals(scrollJutsu)) {
+                                hasScroll = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (!hasScroll) {
+                    player.sendMessage(Text.literal("\u00a7cThis jutsu requires " + def.requiresDojutsu()
+                        + "! (Or a scroll)"), false);
+                    JutsuLogger.logBehavior("caster",
+                        String.format("REJECTED dojutsu: player=%s, jutsu=%s, required=%s, active=%s",
+                            player.getName().getString(), def.id(), def.requiresDojutsu(), activeDojutsu));
+                    return false;
+                }
+            }
+        }
+
+        // === SCROLL CHECK (for jutsu that only need scroll, no dojutsu) ===
+        if (def.requiresScroll() != null && def.requiresDojutsu() == null) {
+            boolean hasScroll = false;
+            for (int i = 0; i < player.getInventory().size(); i++) {
+                ItemStack stack = player.getInventory().getStack(i);
+                if (stack.getItem() instanceof com.example.shinobicore.item.ScrollItem) {
+                    String scrollJutsu = com.example.shinobicore.item.ScrollItem.getJutsuId(stack);
+                    if (def.id().equals(scrollJutsu)) {
+                        hasScroll = true;
+                        break;
+                    }
+                }
+            }
+            if (!hasScroll) {
+                player.sendMessage(Text.literal("\u00a7cThis jutsu requires a scroll: "
+                    + def.requiresScroll()), false);
+                return false;
+            }
+        }
+
+        // === DOJUTSU CHECK ===
+        if (def.requiresDojutsu() != null) {
+            String active = data.getActiveDojutsu();
+            if (active == null || !active.equals(def.requiresDojutsu())) {
+                boolean hasScroll = false;
+                for (int i = 0; i < player.getInventory().size(); i++) {
+                    net.minecraft.item.ItemStack st = player.getInventory().getStack(i);
+                    if (st.getItem() instanceof com.example.shinobicore.item.ScrollItem) {
+                        String sid = com.example.shinobicore.item.ScrollItem.getJutsuId(st);
+                        if (def.id().equals(sid)) { hasScroll = true; break; }
+                    }
+                }
+                if (!hasScroll) {
+                    player.sendMessage(Text.literal("\u00a7cRequires " + def.requiresDojutsu() + "!"), false);
+                    return false;
+                }
+            }
+        }
+        // === SCROLL CHECK ===
+        if (def.requiresScroll() != null && def.requiresDojutsu() == null) {
+            boolean hasScroll = false;
+            for (int i = 0; i < player.getInventory().size(); i++) {
+                net.minecraft.item.ItemStack st = player.getInventory().getStack(i);
+                if (st.getItem() instanceof com.example.shinobicore.item.ScrollItem) {
+                    String sid = com.example.shinobicore.item.ScrollItem.getJutsuId(st);
+                    if (def.id().equals(sid)) { hasScroll = true; break; }
+                }
+            }
+            if (!hasScroll) {
+                player.sendMessage(Text.literal("\u00a7cRequires scroll: " + def.requiresScroll()), false);
+                return false;
+            }
         }
         if (!NinjaFormula.checkRequirements(def, data)) {
             player.sendMessage(Text.literal("\u00a7cYour stats are too low for this jutsu!"), false);
