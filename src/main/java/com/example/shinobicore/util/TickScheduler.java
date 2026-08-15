@@ -2,6 +2,7 @@ package com.example.shinobicore.util;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.server.world.ServerWorld;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -16,6 +17,7 @@ public class TickScheduler {
         ServerTickEvents.START_WORLD_TICK.register(world -> {
             List<Task> currentTasks;
             synchronized (TASKS) {
+                // Делаем снапшот списка и очищаем оригинал, чтобы избежать ConcurrentModificationException
                 currentTasks = new ArrayList<>(TASKS);
                 TASKS.clear();
             }
@@ -48,19 +50,20 @@ public class TickScheduler {
 
     public static void schedule(ServerWorld world, int delay, int interval, int count, Consumer<ServerWorld> action) {
         register();
-        synchronized (TASKS) { 
-            TASKS.add(new Task(world, delay, interval, count, action)); 
+        synchronized (TASKS) {
+            TASKS.add(new Task(world, delay, interval, count, action));
         }
     }
 
     private static class Task {
-        final ServerWorld world; 
-        int delay; 
-        final int interval; 
-        int count; 
+        final ServerWorld world;
+        int delay;
+        final int interval;
+        int count;
         final Consumer<ServerWorld> action;
-        Task(ServerWorld w, int d, int i, int c, Consumer<ServerWorld> a) { 
-            world = w; delay = d; interval = i; count = c; action = a; 
+
+        Task(ServerWorld w, int d, int i, int c, Consumer<ServerWorld> a) {
+            world = w; delay = d; interval = i; count = c; action = a;
         }
     }
 }

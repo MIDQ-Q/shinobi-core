@@ -2,20 +2,25 @@ package com.example.shinobicore.entity;
 
 import com.example.shinobicore.ShinobiCore;
 import com.example.shinobicore.combat.MarkTracker;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +28,7 @@ public class NinjaProjectileEntity extends Entity {
     private static final TrackedData<Float> DAMAGE = DataTracker.registerData(NinjaProjectileEntity.class, TrackedDataHandlerRegistry.FLOAT);
     private static final TrackedData<Float> RADIUS = DataTracker.registerData(NinjaProjectileEntity.class, TrackedDataHandlerRegistry.FLOAT);
     private static final TrackedData<String> PARTICLE_TYPE = DataTracker.registerData(NinjaProjectileEntity.class, TrackedDataHandlerRegistry.STRING);
-    private static final TrackedData<String> MODEL_TYPE = DataTracker.registerData(NinjaProjectileEntity.class, TrackedDataHandlerRegistry.STRING); // РќРћР’РћР•
+    private static final TrackedData<String> MODEL_TYPE = DataTracker.registerData(NinjaProjectileEntity.class, TrackedDataHandlerRegistry.STRING);
     private static final TrackedData<Integer> LIFETIME = DataTracker.registerData(NinjaProjectileEntity.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Boolean> HAS_GRAVITY = DataTracker.registerData(NinjaProjectileEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Integer> PIERCE_COUNT = DataTracker.registerData(NinjaProjectileEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -31,23 +36,14 @@ public class NinjaProjectileEntity extends Entity {
 
     public float getRadius() { return this.dataTracker.get(RADIUS); }
     public String getParticleType() { return this.dataTracker.get(PARTICLE_TYPE); }
-    public String getModelType() { return this.dataTracker.get(MODEL_TYPE); } // РќРћР’РћР•
-
+    public String getModelType() { return this.dataTracker.get(MODEL_TYPE); }
+    
+    public int age = 0;
     private UUID ownerId;
-    public Entity getOwner() {
-        if (ownerId == null) return null;
-        if (this.getWorld() instanceof ServerWorld sw) return sw.getPlayerByUuid(ownerId);
-        return null;
-    }
-
-    // РР·РјРµРЅРµРЅРѕ РЅР° public, С‡С‚РѕР±С‹ СЂРµРЅРґРµСЂРµСЂ РјРѕРі С‡РёС‚Р°С‚СЊ age РґР»СЏ Р°РЅРёРјР°С†РёРё РІСЂР°С‰РµРЅРёСЏ
-    public int age = 0; 
     private int pierceRemaining = 0;
     private int bounceRemaining = 0;
 
-    public NinjaProjectileEntity(EntityType<?> type, World world) {
-        super(type, world);
-    }
+    public NinjaProjectileEntity(EntityType<?> type, World world) { super(type, world); }
 
     public NinjaProjectileEntity(World world, LivingEntity owner, Vec3d velocity, float damage, float radius, String particle, String model, int lifetime) {
         super(ModEntities.NINJA_PROJECTILE, world);
@@ -79,6 +75,11 @@ public class NinjaProjectileEntity extends Entity {
         this.dataTracker.startTracking(BOUNCE_COUNT, 0);
     }
 
+    public Entity getOwner() {
+        if (ownerId == null) return null;
+        return this.getWorld().getPlayerByUuid(ownerId);
+    }
+
     @Override
     public void tick() {
         super.tick();
@@ -94,11 +95,12 @@ public class NinjaProjectileEntity extends Entity {
         Vec3d startPos = this.getPos();
         Vec3d endPos = startPos.add(vel);
         HitResult blockHit = this.getWorld().raycast(new RaycastContext(startPos, endPos, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, this));
-
+        
         LivingEntity hitEntity = null;
         double closestDist = Double.MAX_VALUE;
         Box searchBox = this.getBoundingBox().stretch(vel).expand(0.15);
         List<Entity> entities = this.getWorld().getOtherEntities(this, searchBox);
+
         for (Entity entity : entities) {
             if (entity instanceof LivingEntity living && !living.getUuid().equals(this.ownerId)) {
                 Box entityBox = entity.getBoundingBox().expand(0.3);
@@ -133,10 +135,55 @@ public class NinjaProjectileEntity extends Entity {
         if (hit) {
             float radius = this.dataTracker.get(RADIUS);
             float damage = this.dataTracker.get(DAMAGE);
+            String model = this.dataTracker.get(MODEL_TYPE);
+
             if (radius > 0.5f) {
                 for (Entity entity : this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(radius))) {
                     if (entity instanceof LivingEntity living && !living.getUuid().equals(this.ownerId)) {
                         living.damage(this.getDamageSources().magic(), damage * 0.5f);
+                    }
+                }
+            }
+
+            // === UNIQUE IMPACT MECHANICS ===
+            if (this.getWorld() instanceof ServerWorld sw) {
+                if ("water_dragon".equals(model)) {
+                    // Water Puddle
+                    BlockPos impactPos = this.getBlockPos();
+                    List<net.minecraft.util.math.BlockPos> placed = new ArrayList<>();
+                    for (int dx = -2; dx <= 2; dx++) {
+                        for (int dz = -2; dz <= 2; dz++) {
+                            if (dx*dx + dz*dz <= 5) {
+                                BlockPos p = impactPos.add(dx, 0, dz);
+                                if (sw.getBlockState(p).isAir()) {
+                                    sw.setBlockState(p, Blocks.WATER.getDefaultState(), 3);
+                                    placed.add(p);
+                                }
+                            }
+                        }
+                    }
+                    if (!placed.isEmpty()) com.example.shinobicore.jutsu.WallRemovalTask.schedule(sw, placed, 200);
+                } else if ("earth_dragon".equals(model)) {
+                    // Mud Pit (Slowness + Fatigue)
+                    BlockPos impactPos = this.getBlockPos();
+                    Box aoe = new Box(impactPos, impactPos).expand(3.0);
+                    for (Entity e : sw.getOtherEntities(this, aoe)) {
+                        if (e instanceof LivingEntity liv && !liv.getUuid().equals(this.ownerId)) {
+                            liv.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 2, false, false));
+                            liv.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, 100, 1, false, false));
+                        }
+                    }
+                } else if ("blade".equals(model)) {
+                    // Bleed (Wither)
+                    if (hitEntity != null) {
+                        hitEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 60, 1, false, false));
+                    }
+                } else if ("hound".equals(model)) {
+                    // Paralysis
+                    if (hitEntity != null) {
+                        hitEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 80, 4, false, false));
+                        hitEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, 80, 4, false, false));
+                        hitEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 80, 2, false, false));
                     }
                 }
             }
@@ -145,10 +192,9 @@ public class NinjaProjectileEntity extends Entity {
         }
 
         this.setPosition(this.getX() + vel.x, this.getY() + vel.y, this.getZ() + vel.z);
-
-        if (this.getWorld() instanceof ServerWorld serverWorld) {
+        
+        if (this.getWorld() instanceof ServerWorld serverWorld && age % 2 == 0) {
             String particle = this.dataTracker.get(PARTICLE_TYPE);
-            float radius = this.dataTracker.get(RADIUS);
             net.minecraft.particle.ParticleEffect particleType = switch (particle) {
                 case "water" -> net.minecraft.particle.ParticleTypes.FALLING_WATER;
                 case "smoke" -> net.minecraft.particle.ParticleTypes.SMOKE;
@@ -157,20 +203,11 @@ public class NinjaProjectileEntity extends Entity {
                 case "earth" -> net.minecraft.particle.ParticleTypes.POOF;
                 default -> net.minecraft.particle.ParticleTypes.FLAME;
             };
-            int count = Math.max(3, (int)(radius * 1.5));
-            float spread = radius * 0.2f;
-            for (int i = 0; i < count; i++) {
-                if (age % 2 == 0) serverWorld.spawnParticles(particleType,
-                    this.getX() + (Math.random() - 0.5) * spread, 
-                    this.getY() + (Math.random() - 0.5) * spread, 
-                    this.getZ() + (Math.random() - 0.5) * spread,
-                    1, 0.01, 0.01, 0.01, 0.01);
-            }
+            serverWorld.spawnParticles(particleType, this.getX(), this.getY(), this.getZ(), 1, 0.01, 0.01, 0.01, 0.01);
         }
     }
 
-    @Override
-    protected void readCustomDataFromNbt(NbtCompound nbt) {
+    @Override protected void readCustomDataFromNbt(NbtCompound nbt) {
         this.dataTracker.set(DAMAGE, nbt.getFloat("Damage"));
         this.dataTracker.set(RADIUS, nbt.getFloat("Radius"));
         this.dataTracker.set(PARTICLE_TYPE, nbt.getString("Particle"));
@@ -184,8 +221,7 @@ public class NinjaProjectileEntity extends Entity {
         if (nbt.containsUuid("OwnerUUID")) ownerId = nbt.getUuid("OwnerUUID");
     }
 
-    @Override
-    protected void writeCustomDataToNbt(NbtCompound nbt) {
+    @Override protected void writeCustomDataToNbt(NbtCompound nbt) {
         nbt.putFloat("Damage", this.dataTracker.get(DAMAGE));
         nbt.putFloat("Radius", this.dataTracker.get(RADIUS));
         nbt.putString("Particle", this.dataTracker.get(PARTICLE_TYPE));

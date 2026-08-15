@@ -1,5 +1,7 @@
 package com.example.shinobicore;
 
+import net.minecraft.util.math.Vec3d;
+
 import com.example.shinobicore.clan.ClanDefinition;
 import com.example.shinobicore.clan.ClanRegistry;
 import com.example.shinobicore.command.NinjaCommand;
@@ -24,6 +26,8 @@ import com.example.shinobicore.stat.ElementType;
 import com.example.shinobicore.stat.NinjaDataHolder;
 import com.example.shinobicore.stat.NinjaFormula;
 import com.example.shinobicore.stat.NinjaPlayerData;
+import com.example.shinobicore.entity.RasenshurikenEntity;
+import com.example.shinobicore.entity.RasenganHandEntity;
 import com.example.shinobicore.tree.SkillTreeNode;
 import com.example.shinobicore.tree.SkillTreeRegistry;
 import com.example.shinobicore.stat.StatType;
@@ -52,6 +56,68 @@ public class ShinobiCore implements ModInitializer {
     public void onInitialize() {
         LOGGER.info("Shinobi Core загружается...");
         ModConfig.load();
+        // === RASENSHURIKEN THROW HANDLER ===
+        ServerPlayNetworking.registerGlobalReceiver(ModPackets.THROW_RASENSHURIKEN_ID,
+        (server, player, handler, buf, responseSender) -> {
+            System.out.println("### RASEN-DEBUG ### [SERVER] Received THROW packet from " + player.getName().getString());
+            server.execute(() -> {
+                System.out.println("### RASEN-DEBUG ### [SERVER] Executing THROW on main thread. Searching entities...");
+                boolean found = false;
+                int count = 0;
+                for (var e : player.getWorld().getOtherEntities(player, player.getBoundingBox().expand(3))) {
+                    count++;
+                    System.out.println("### RASEN-DEBUG ### [SERVER] Nearby entity: " + e.getClass().getSimpleName() + " (ID: " + e.getId() + ")");
+                    if (e instanceof RasenshurikenEntity rs && !rs.isLaunched()) {
+                        System.out.println("### RASEN-DEBUG ### [SERVER] RasenshurikenEntity FOUND! Launching...");
+                        Vec3d dir = player.getRotationVector();
+                        rs.launch(dir);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    System.out.println("### RASEN-DEBUG ### [SERVER] ERROR: Could not find unlaunched RasenshurikenEntity! (Checked " + count + " entities)");
+                }
+            });
+        });
+
+        // === RASENGAN STRIKE HANDLER ===
+        ServerPlayNetworking.registerGlobalReceiver(ModPackets.RASENGAN_STRIKE_ID,
+        (server, player, handler, buf, responseSender) -> {
+            System.out.println("### RASEN-DEBUG ### [SERVER] Received STRIKE packet from " + player.getName().getString());
+            server.execute(() -> {
+                System.out.println("### RASEN-DEBUG ### [SERVER] Executing STRIKE on main thread. Searching entities...");
+                RasenganHandEntity rasengan = null;
+                int count = 0;
+                for (var e : player.getWorld().getOtherEntities(player, player.getBoundingBox().expand(3))) {
+                    count++;
+                    System.out.println("### RASEN-DEBUG ### [SERVER] Nearby entity: " + e.getClass().getSimpleName() + " (ID: " + e.getId() + ")");
+                    if (e instanceof RasenganHandEntity rg) {
+                        rasengan = rg;
+                        break;
+                    }
+                }
+                if (rasengan != null) {
+                    System.out.println("### RASEN-DEBUG ### [SERVER] RasenganHandEntity FOUND! Applying damage...");
+                    float damage = rasengan.getDamage();
+                    Vec3d look = player.getRotationVector();
+                    Vec3d strikeCenter = player.getPos().add(look.multiply(1.5)).add(0, 0.5, 0);
+                    float radius = 2.5f;
+                    for (var e : player.getWorld().getOtherEntities(player, new net.minecraft.util.math.Box(strikeCenter, strikeCenter).expand(radius))) {
+                        if (e instanceof net.minecraft.entity.LivingEntity liv) {
+                            liv.damage(player.getDamageSources().magic(), damage);
+                            Vec3d kb = liv.getPos().subtract(player.getPos()).normalize().multiply(2.0);
+                            liv.addVelocity(kb.x, 0.5, kb.z);
+                            liv.velocityModified = true;
+                        }
+                    }
+                    rasengan.discard();
+                    System.out.println("### RASEN-DEBUG ### [SERVER] Rasengan strike SUCCESS. Entity discarded.");
+                } else {
+                    System.out.println("### RASEN-DEBUG ### [SERVER] ERROR: Could not find RasenganHandEntity! (Checked " + count + " entities)");
+                }
+            });
+        });
         JutsuLogger.init();
         ModEntities.register();
         ModItems.register();

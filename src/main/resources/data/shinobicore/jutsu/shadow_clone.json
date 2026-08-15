@@ -1,0 +1,1 @@
+{"id":"shinobicore:shadow_clone","name":"Shadow Clone Jutsu","category":"general","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.ShadowCloneBehavior","params":{"count":3,"duration":400},"baseCost":50,"baseDamage":0,"strain":12,"requiredUsesForFullProficiency":50,"requirements":{"control":25,"ninjutsu":30}}

@@ -30,6 +30,27 @@ public class ModEntities {
                     .build()
     );
 
+    
+    public static final EntityType<RasenshurikenEntity> RASENSHURIKEN = Registry.register(
+        Registries.ENTITY_TYPE,
+        new Identifier(ShinobiCore.MOD_ID, "rasenshuriken"),
+        FabricEntityTypeBuilder.<RasenshurikenEntity>create(SpawnGroup.MISC, RasenshurikenEntity::new)
+            .dimensions(EntityDimensions.fixed(1.5f, 1.5f))
+            .trackRangeChunks(64)
+            .trackedUpdateRate(2)
+            .build()
+    );
+
+    public static final EntityType<RasenganHandEntity> RASENGAN_HAND = Registry.register(
+        Registries.ENTITY_TYPE,
+        new Identifier(ShinobiCore.MOD_ID, "rasengan_hand"),
+        FabricEntityTypeBuilder.<RasenganHandEntity>create(SpawnGroup.MISC, RasenganHandEntity::new)
+            .dimensions(EntityDimensions.fixed(0.5f, 0.5f))
+            .trackRangeChunks(32)
+            .trackedUpdateRate(1)
+            .build()
+    );
+
     public static void register() {
         ShinobiCore.LOGGER.info("Registered entities");
     }

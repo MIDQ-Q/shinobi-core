@@ -143,6 +143,9 @@ public class JutsuCaster {
         NinjaFormula.grantStatXp(data, StatType.NINJUTSU, ninjutsuXp);
         int castTimeTicks = calculateCastTime(def, data);
         ShinobiCore.sendChakraSync(player);
+        // === ЗВУК НАЧАЛА ЗАРЯДКИ ===
+        JutsuSoundHelper.playChargeStartSound(player, def);
+
         com.example.shinobicore.combat.CastingServerState.startCast(player, jutsuId, castTimeTicks, cost);
         ShinobiCore.broadcastCastStart(player, jutsuId, castTimeTicks);
         JutsuLogger.logBehavior("hand_signs", String.format(
@@ -156,6 +159,10 @@ public class JutsuCaster {
         TreePassives.Bonuses pbs = TreePassives.collectServer(data);
         com.example.shinobicore.jutsu.JutsuDefinition def = com.example.shinobicore.jutsu.JutsuRegistry.get(jutsuId);
         if (def == null) return false;
+
+        // === ЗВУК ЗАВЕРШЕНИЯ ЗАРЯДКИ ===
+        JutsuSoundHelper.playChargeReadySound(player, def);
+
         float cost = NinjaFormula.calculateCost(def, data);
         float damage = def.baseDamage() * NinjaFormula.damageMultiplier(data, def);
         if (def.hasNature()) {

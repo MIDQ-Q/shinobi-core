@@ -1,5 +1,7 @@
 package com.example.shinobicore.client;
 import com.example.shinobicore.ShinobiCore;
+import com.example.shinobicore.entity.RasenshurikenEntity;
+import com.example.shinobicore.entity.RasenganHandEntity;
 import com.example.shinobicore.client.combat.TaijutsuKickHandler;
 import com.example.shinobicore.client.combat.TaijutsuClientHandler;
 import com.example.shinobicore.client.combat.KenjutsuClientHandler;
@@ -15,6 +17,8 @@ import net.minecraft.text.Text;
 public class ClientInputHandler {
     private static boolean prevMeditatePressed = false;
     private static boolean prevDeflectDown = false;
+    private static boolean prevRmbDown = false;
+    private static boolean prevLmbDown = false;
     public static void register() {
         ClientTickEvents.END_CLIENT_TICK.register(ClientInputHandler::onClientTick);
     }
@@ -87,6 +91,62 @@ public class ClientInputHandler {
         if (KeyBindings.CYCLE_A.wasPressed()) ClientNinjaState.cycleLoadout(0);
         if (KeyBindings.CYCLE_B.wasPressed()) ClientNinjaState.cycleLoadout(1);
         if (KeyBindings.PROGRESSION.wasPressed()) client.setScreen(new ProgressionScreen());
+        
+        // === RMB: throw rasenshuriken ===
+        boolean rmbDown = client.options.useKey.isPressed();
+        if (rmbDown && !prevRmbDown) {
+            System.out.println("### RASEN-DEBUG ### [CLIENT] RMB PRESSED! Searching for RasenshurikenEntity...");
+            boolean hasRs = false;
+            if (client.world != null && client.player != null) {
+                int entitiesFound = 0;
+                for (var e : client.world.getOtherEntities(client.player,
+                        client.player.getBoundingBox().expand(3))) {
+                    entitiesFound++;
+                    System.out.println("### RASEN-DEBUG ### [CLIENT] Nearby entity: " + e.getClass().getSimpleName());
+                    if (e instanceof RasenshurikenEntity rs && !rs.isLaunched()) {
+                        hasRs = true;
+                        break;
+                    }
+                }
+                System.out.println("### RASEN-DEBUG ### [CLIENT] Total entities in 3-block radius: " + entitiesFound);
+            }
+            if (hasRs) {
+                System.out.println("### RASEN-DEBUG ### [CLIENT] RasenshurikenEntity FOUND! Sending THROW packet...");
+                PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+                ClientPlayNetworking.send(ModPackets.THROW_RASENSHURIKEN_ID, buf);
+            } else {
+                System.out.println("### RASEN-DEBUG ### [CLIENT] ERROR: RasenshurikenEntity NOT FOUND! Packet NOT sent.");
+            }
+        }
+        prevRmbDown = rmbDown;
+
+        // === LMB: rasengan strike ===
+        boolean lmbDown = client.options.attackKey.isPressed();
+        if (lmbDown && !prevLmbDown) {
+            System.out.println("### RASEN-DEBUG ### [CLIENT] LMB PRESSED! Searching for RasenganHandEntity...");
+            boolean hasRg = false;
+            if (client.world != null && client.player != null) {
+                int entitiesFound = 0;
+                for (var e : client.world.getOtherEntities(client.player,
+                        client.player.getBoundingBox().expand(3))) {
+                    entitiesFound++;
+                    System.out.println("### RASEN-DEBUG ### [CLIENT] Nearby entity: " + e.getClass().getSimpleName());
+                    if (e instanceof RasenganHandEntity) {
+                        hasRg = true;
+                        break;
+                    }
+                }
+                System.out.println("### RASEN-DEBUG ### [CLIENT] Total entities in 3-block radius: " + entitiesFound);
+            }
+            if (hasRg) {
+                System.out.println("### RASEN-DEBUG ### [CLIENT] RasenganHandEntity FOUND! Sending STRIKE packet...");
+                PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+                ClientPlayNetworking.send(ModPackets.RASENGAN_STRIKE_ID, buf);
+            } else {
+                System.out.println("### RASEN-DEBUG ### [CLIENT] ERROR: RasenganHandEntity NOT FOUND! Packet NOT sent.");
+            }
+        }
+        prevLmbDown = lmbDown;
         if (KeyBindings.CRAWL.wasPressed()) ShinobiCore.LOGGER.info("[INPUT] CRAWL (N) pressed");
     }
     private static void sendMeditatePacket(MinecraftClient client, boolean start) {

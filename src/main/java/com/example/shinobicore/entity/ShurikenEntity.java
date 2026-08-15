@@ -104,8 +104,7 @@ public class ShurikenEntity extends Entity {
 
     public Entity getOwner() {
         if (ownerId == null) return null;
-        if (this.getWorld() instanceof ServerWorld sw) return sw.getPlayerByUuid(ownerId);
-        return null;
+        return this.getWorld().getPlayerByUuid(ownerId);
     }
     public int getAge() { return age; }
     public float getDamage() { return damage; }

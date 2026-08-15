@@ -159,5 +159,13 @@
 {"id":"gen_blind","branch":"genjutsu","distance":2,"type":"jutsu","jutsuId":"shinobicore:genjutsu_blindness","spCost":4,"requires":["gen_fear"],"icon":"?","name":"Genjutsu: Darkness","description":"Blindness + Weakness + Slowness"},
 {"id":"gen_nightmare","branch":"genjutsu","distance":3,"type":"jutsu","jutsuId":"shinobicore:genjutsu_nightmare","spCost":6,"requires":["gen_blind"],"icon":"?","name":"Genjutsu: Nightmare","description":"All debuffs combined"},
 {"id":"gen_paralysis","branch":"genjutsu","distance":3,"angleOffset":12,"type":"jutsu","jutsuId":"shinobicore:genjutsu_paralysis","spCost":7,"requires":["gen_blind"],"icon":"?","name":"Genjutsu: Paralysis","description":"Complete freeze","visibilityCondition":{"type":"stat_level","key":"genjutsu","value":25}}
-]
+,
+{"id":"fire_dragon_n","branch":"fire","distance":8,"type":"jutsu","jutsuId":"shinobicore:fire_dragon","spCost":10,"requires":["fire_bakuton_n"],"icon":"F","name":"Dragon Flame","description":"3D fire dragon projectile"},
+{"id":"water_dragon_n","branch":"water","distance":8,"type":"jutsu","jutsuId":"shinobicore:water_dragon_n","spCost":10,"requires":["water_maelstrom"],"icon":"W","name":"Water Dragon","description":"3D water dragon projectile"},
+{"id":"shadow_clone_n","branch":"general","distance":5,"type":"jutsu","jutsuId":"shinobicore:shadow_clone","spCost":8,"requires":["gen_substitution"],"icon":"N","name":"Shadow Clone","description":"Summon shadow clones"},
+{"id":"chidori_n","branch":"lightning","distance":8,"type":"jutsu","jutsuId":"shinobicore:chidori","spCost":12,"requires":["light_storm_n"],"icon":"L","name":"Chidori","description":"Lightning blade dash"},
+{"id":"amaterasu_n","branch":"fire","distance":8,"angleOffset":24,"type":"jutsu","jutsuId":"shinobicore:amaterasu","spCost":14,"requires":["fire_bakuton_n"],"icon":"A","name":"Amaterasu","description":"Black flame projectile"},
+{"id":"sand_coffin_n","branch":"earth","distance":8,"type":"jutsu","jutsuId":"shinobicore:sand_coffin","spCost":11,"requires":["earth_maus_n"],"icon":"S","name":"Sand Coffin","description":"Imprison and crush target"},
+{"id":"big_rasengan_n","branch":"general","distance":6,"type":"jutsu","jutsuId":"shinobicore:big_rasengan","spCost":16,"requires":["rasengan"],"icon":"R","name":"Big Rasengan","description":"Oversized Rasengan"},
+{"id":"phoenix_fire_n","branch":"fire","distance":7,"angleOffset":18,"type":"jutsu","jutsuId":"shinobicore:phoenix_fire","spCost":8,"requires":["fire_phoenix_f_n"],"icon":"F","name":"Phoenix Sage","description":"6 homing fireballs"}]
 }

@@ -25,6 +25,7 @@ import com.example.shinobicore.stat.NinjaFormula;
 import com.example.shinobicore.tree.TreePassives;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 public class ModPackets {
+    public static final net.minecraft.util.Identifier THROW_RASENSHURIKEN_ID = new net.minecraft.util.Identifier("shinobicore", "throw_rasenshuriken");
     public static final Identifier CHAKRA_SYNC_ID = new Identifier("shinobicore", "chakra_sync");
     public static final Identifier MEDITATE_ID = new Identifier("shinobicore", "meditate");
     public static final Identifier SELECT_SLOT_ID = new Identifier("shinobicore", "select_slot");

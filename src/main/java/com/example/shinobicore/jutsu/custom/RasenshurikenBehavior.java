@@ -1,8 +1,9 @@
 package com.example.shinobicore.jutsu.custom;
 
-import com.example.shinobicore.entity.NinjaProjectileEntity;
+import com.example.shinobicore.entity.RasenshurikenEntity;
 import com.example.shinobicore.jutsu.JutsuBehavior;
 import com.example.shinobicore.jutsu.JutsuDefinition;
+import com.example.shinobicore.jutsu.JutsuLogger;
 import com.example.shinobicore.stat.NinjaPlayerData;
 import com.example.shinobicore.util.TickScheduler;
 import com.google.gson.JsonObject;
@@ -19,33 +20,31 @@ public class RasenshurikenBehavior implements JutsuBehavior {
     public void cast(ServerPlayerEntity player, JutsuDefinition def, NinjaPlayerData data,
                      JsonObject params, float damage) {
         if (!(player.getWorld() instanceof ServerWorld world)) return;
-        
-        float radius = params.has("radius") ? params.get("radius").getAsFloat() : 8f;
-        int chargeTicks = params.has("chargeTicks") ? params.get("chargeTicks").getAsInt() : 60;
-        
-        player.sendMessage(Text.literal("\u00a7bRasenshuriken charging..."), true);
-        world.playSound(null, player.getBlockPos(), SoundEvents.BLOCK_BEACON_AMBIENT, SoundCategory.PLAYERS, 2.0f, 1.5f);
-        
-        TickScheduler.schedule(world, 1, 2, chargeTicks / 2, w -> {
-            Vec3d hand = player.getEyePos().add(player.getRotationVector().multiply(0.8)).add(0, -0.3, 0);
-            w.spawnParticles(ParticleTypes.CLOUD, hand.x, hand.y, hand.z, 15, 0.3, 0.3, 0.3, 0.05);
-            w.spawnParticles(ParticleTypes.END_ROD, hand.x, hand.y, hand.z, 5, 0.1, 0.1, 0.1, 0.02);
+
+        // Создаём сущность расенсюрикена НАД ГОЛОВОЙ
+        RasenshurikenEntity shurikenEntity = new RasenshurikenEntity(world, player, damage);
+        world.spawnEntity(shurikenEntity);
+        player.sendMessage(Text.literal("\u00a7b\u2726 Rasenshuriken ready! Right-click to throw!"), true);
+        world.playSound(null, player.getBlockPos(), SoundEvents.BLOCK_BEACON_AMBIENT,
+                SoundCategory.PLAYERS, 2.0f, 1.5f);
+
+        // Частицы зарядки
+        TickScheduler.schedule(world, 1, 2, 30, w -> {
+            Vec3d above = player.getPos().add(0, player.getHeight() + 0.8, 0);
+            float rot = w.getTime() * 0.3f;
+            for (int i = 0; i < 12; i++) {
+                double a = rot + (i / 12.0) * Math.PI * 2;
+                double r = 0.6 + (i % 3) * 0.2;
+                w.spawnParticles(ParticleTypes.CLOUD,
+                        above.x + Math.cos(a) * r,
+                        above.y + Math.sin(a * 2) * 0.2,
+                        above.z + Math.sin(a) * r,
+                        2, 0.04, 0.04, 0.04, 0.02);
+            }
         });
-        
-        TickScheduler.schedule(world, chargeTicks + 1, chargeTicks + 1, 1, w -> {
-            player.sendMessage(Text.literal("\u00a7aRASENSHURIKEN!"), true);
-            world.playSound(null, player.getBlockPos(), SoundEvents.ENTITY_ENDER_DRAGON_GROWL, SoundCategory.PLAYERS, 2.0f, 1.2f);
-            
-            Vec3d eye = player.getEyePos();
-            Vec3d look = player.getRotationVector();
-            
-            NinjaProjectileEntity proj = new NinjaProjectileEntity(
-                world, player, look.multiply(2.5), damage, radius, "wind", "default", 80
-            );
-            proj.setPosition(eye.x + look.x, eye.y - 0.2, eye.z + look.z);
-            proj.setHasGravity(false);
-            proj.setPierceCount(20); // РџСЂРѕР±РёРІР°РµС‚ РІСЃС‘ РЅР°СЃРєРІРѕР·СЊ Рё РІР·СЂС‹РІР°РµС‚СЃСЏ РІ РєРѕРЅС†Рµ
-            world.spawnEntity(proj);
-        });
+
+        JutsuLogger.logBehavior("rasenshuriken",
+            String.format("SPAWNED above head: player=%s, damage=%.1f",
+            player.getName().getString(), damage));
     }
 }

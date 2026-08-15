@@ -1,0 +1,302 @@
+﻿[15:04:33] ╔══════════════════════════════════════════════════════════╗
+[15:04:33] ║   SHINOBICORE DIAGNOSTIC LOG COLLECTOR                   ║
+[15:04:33] ║   Started: 2026-08-15 15:04:33                    ║
+[15:04:33] ╚══════════════════════════════════════════════════════════╝
+[15:04:33] Output file: E:\Games\mod\DIAG_20260815_150433.txt
+
+======================================================================
+  1. SYSTEM INFO
+======================================================================
+[15:04:33] OS: Microsoft Windows NT 10.0.19045.0
+[15:04:33] Java: openjdk version "21.0.12" 2026-07-21 LTS
+[15:04:33] Project dir: E:\Games\mod
+[15:04:33] Files count (java): 170
+[15:04:33] Files count (json): 181
+
+======================================================================
+  2. BUILD CONFIG
+======================================================================
+[15:04:33]   org.gradle.jvmargs=-Xmx2G
+[15:04:33]   org.gradle.parallel=true
+[15:04:33]   
+[15:04:33]   # Fabric Properties РґР»СЏ 1.20.1
+[15:04:33]   minecraft_version=1.20.1
+[15:04:33]   yarn_mappings=1.20.1+build.10
+[15:04:33]   loader_version=0.16.9
+[15:04:33]   
+[15:04:33]   # Mod Properties
+[15:04:33]   mod_version=1.0.0
+[15:04:33]   maven_group=com.example
+[15:04:33]   archives_base_name=shinobicore
+[15:04:33]   
+[15:04:33]   # Dependencies
+[15:04:33]   fabric_version=0.92.3+1.20.1
+
+======================================================================
+  3. FABRIC.MOD.JSON
+======================================================================
+[15:04:33]   {
+[15:04:33]     "schemaVersion": 1,
+[15:04:33]     "id": "shinobicore",
+[15:04:33]     "version": "1.0.0",
+[15:04:33]     "name": "Shinobi Core",
+[15:04:33]     "description": "Naruto-themed mod for Minecraft",
+[15:04:33]     "authors": ["You"],
+[15:04:33]     "contact": {},
+[15:04:33]     "license": "MIT",
+[15:04:33]     "icon": "assets/shinobicore/icon.png",
+[15:04:33]     "environment": "*",
+[15:04:33]     "entrypoints": {
+[15:04:33]       "main": [
+[15:04:33]         "com.example.shinobicore.ShinobiCore",
+[15:04:34]         "com.example.shinobicore.DebugCommands"
+[15:04:34]       ],
+[15:04:34]       "client": [
+[15:04:34]         "com.example.shinobicore.client.ShinobiCoreClient"
+[15:04:34]       ]
+[15:04:34]     },
+[15:04:34]     "mixins": [
+[15:04:34]       "shinobicore.mixins.json"
+[15:04:34]     ],
+[15:04:34]     "depends": {
+[15:04:34]       "fabricloader": ">=0.14.21",
+[15:04:34]       "minecraft": "~1.20.1",
+[15:04:34]       "java": ">=17",
+[15:04:34]       "fabric-api": "*"
+[15:04:34]     }
+[15:04:34]   }
+
+======================================================================
+  4. MIXINS CONFIG
+======================================================================
+[15:04:34]   {
+[15:04:34]     "required": true,
+[15:04:34]     "package": "com.example.shinobicore.mixin",
+[15:04:34]     "compatibilityLevel": "JAVA_21",
+[15:04:34]     "mixins": [
+[15:04:34]       "ServerPlayerEntityMixin",
+[15:04:34]       "FallDamageMixin",
+[15:04:34]       "ChakraWaterTouchMixin",
+[15:04:34]       "SlideTravelMixin",
+[15:04:34]       "SlidePoseMixin",
+[15:04:34]       "RollPoseMixin",
+[15:04:34]       "ChargedJumpMixin",
+[15:04:34]       "HideVanillaStatusMixin",
+[15:04:34]       "PlayerAttackMixin",
+[15:04:34]       "PlayerRenderAnimationMixin",
+[15:04:34]       "SlideDimensionsMixin",
+[15:04:34]       "CameraMixin",
+[15:04:34]       "CameraAccessor",
+[15:04:34]       "KatanaDeflectMixin",
+[15:04:34]       "PlayerCopyMixin",
+[15:04:34]       "PlayerParryMixin",
+[15:04:34]       "InterruptCastMixin",
+[15:04:34]       "MobEntityAccessor"
+[15:04:34]     ],
+[15:04:34]     "injectors": {
+[15:04:34]       "defaultRequire": 1
+[15:04:34]     }
+[15:04:34]   }
+
+======================================================================
+  5. GRADLE BUILD
+======================================================================
+[15:04:34] Running: .\gradlew.bat build --info
+[15:04:35] Full build log saved: E:\Games\mod\build_log_20260815_150433.txt
+[15:04:35] Build exit code: 0
+[15:04:35] Errors found: 0
+[15:04:35] Warnings found: 0
+[15:04:35] [OK] Build successful
+
+======================================================================
+  6. RUN CLIENT (30 sec timeout)
+======================================================================
+[15:04:35] Starting client... will auto-kill after 30 seconds
+[15:04:35] Removed old latest.log
+[15:04:35] Client PID: 20016
+[15:04:35] Waiting up to 45 seconds...
+[15:04:38]   ...waited 3s
+[15:04:38] [CRASH DETECTED] crash-2026-08-14_21.25.39-server.txt
+[15:04:38] [OK] Client seems to have started
+[15:04:41]   ...waited 6s
+[15:04:41] [OK] Client seems to have started
+[15:04:44]   ...waited 9s
+[15:04:44] [OK] Client seems to have started
+[15:04:47]   ...waited 12s
+[15:04:47] [OK] Client seems to have started
+[15:04:50]   ...waited 15s
+[15:04:50] [OK] Client seems to have started
+[15:04:53]   ...waited 18s
+[15:04:53] [OK] Client seems to have started
+[15:04:57]   ...waited 21s
+[15:04:57] [OK] Client seems to have started
+[15:05:00]   ...waited 24s
+[15:05:00] [OK] Client seems to have started
+[15:05:03]   ...waited 27s
+[15:05:03] [OK] Client seems to have started
+[15:05:06]   ...waited 30s
+[15:05:06] [OK] Client seems to have started
+[15:05:09]   ...waited 33s
+[15:05:09] [OK] Client seems to have started
+[15:05:12]   ...waited 36s
+[15:05:12] [OK] Client seems to have started
+[15:05:15]   ...waited 39s
+[15:05:15] [OK] Client seems to have started
+[15:05:18]   ...waited 42s
+[15:05:18] [OK] Client seems to have started
+[15:05:21]   ...waited 45s
+[15:05:21] [OK] Client seems to have started
+[15:05:21] Killing client process (timeout reached)
+[15:05:23] Client exit code: 
+
+======================================================================
+  7. LATEST.LOG ANALYSIS
+======================================================================
+[15:05:23] Log size: 372 lines
+[15:05:23] Saved: latest_log_20260815_150433.txt
+[15:05:23] FATAL messages: 0
+[15:05:23] ERROR messages: 1
+[15:05:23]   [15:04:46] [Render thread/ERROR] (Minecraft) Failed to verify authentication
+[15:05:23] Mixin issues: 0
+[15:05:23] ShinobiCore messages: 237
+[15:05:23]   	- shinobicore 1.0.0
+[15:05:23]   [15:04:46] [Render thread/INFO] (shinobicore) Shinobi Core Р·Р°РіСЂСѓР¶Р°РµС‚СЃСЏ...
+[15:05:23]   [15:04:46] [Render thread/INFO] (shinobicore) Config loaded from E:\Games\mod\run\config\shinobicore\main.json
+[15:05:23]   [15:04:46] [Render thread/INFO] (ShinobiCore-Jutsu) Jutsu debug log initialized: E:\Games\mod\run\config\shinobicore\jutsu_debug.log
+[15:05:23]   [15:04:46] [Render thread/INFO] (shinobicore) Registered entities
+[15:05:23]   [15:04:46] [Render thread/INFO] (shinobicore) Registered katana/shuriken/kunai items
+[15:05:23]   [15:04:46] [Render thread/INFO] (shinobicore) Registered jutsu behavior: projectile
+[15:05:23]   [15:04:46] [Render thread/INFO] (shinobicore) Registered jutsu behavior: aoe
+[15:05:23]   [15:04:46] [Render thread/INFO] (shinobicore) Registered jutsu behavior: dash
+[15:05:23]   [15:04:46] [Render thread/INFO] (shinobicore) Registered jutsu behavior: melee
+[15:05:23]   [15:04:46] [Render thread/INFO] (shinobicore) Registered jutsu behavior: wall
+[15:05:23]   [15:04:46] [Render thread/INFO] (shinobicore) Registered jutsu behavior: utility
+[15:05:23]   [15:04:46] [Render thread/INFO] (shinobicore) Registered jutsu behavior: genjutsu
+[15:05:23]   [15:04:46] [Render thread/INFO] (shinobicore) Shinobi Core Р·Р°РіСЂСѓР¶РµРЅ!
+[15:05:23]   [15:04:46] [Render thread/INFO] (shinobicore) Registered taijutsu sounds
+[15:05:23]   [15:04:46] [Render thread/INFO] (shinobicore) Registered cinematic camera
+[15:05:23]   [15:04:47] [Render thread/INFO] (Minecraft) Reloading ResourceManager: vanilla, fabric (fabric-api-base, fabric-screen-handler-api-v1, fabric-dimensions-v1, fabric-rendering-fluids-v1, fabric-rendering-v1, fabric-screen-api-v1, fabric-data-attachment-api-v1, fabric-renderer-indigo, fabric-biome-api-v1, fabric-keybindings-v0, fabric-resource-conditions-api-v1, fabric-rendering-v0, fabric-command-api-v1, fabric-client-tags-api-v1, fabric-mining-level-api-v1, fabric-loot-tables-v1, fabric-commands-v0, fabric-crash-report-info-v1, fabric-events-interaction-v0, fabric-api-lookup-api-v1, fabric-api, fabric-item-api-v1, fabric-convention-tags-v1, fabric-model-loading-api-v1, fabric-particles-v1, fabric-recipe-api-v1, fabricloader, shinobicore, fabric-item-group-api-v1, fabric-containers-v0, fabric-object-builder-api-v1, fabric-networking-api-v1, fabric-models-v0, fabric-loot-api-v2, fabric-block-api-v1, fabric-command-api-v2, fabric-gametest-api-v1, fabric-transitive-access-wideners-v1, fabric-data-generation-api-v1, fabric-blockrenderlayer-v1, fabric-networking-v0, fabric-registry-sync-v0, fabric-message-api-v1, fabric-renderer-registries-v1, fabric-resource-loader-v0, fabric-rendering-data-attachment-v1, fabric-transfer-api-v1, fabric-block-view-api-v2, fabric-content-registries-v0, fabric-events-lifecycle-v0, fabric-entity-events-v1, fabric-game-rule-api-v1, fabric-lifecycle-events-v1, fabric-key-binding-api-v1, fabric-renderer-api-v1, fabric-sound-api-v1)
+[15:05:23]   [15:04:47] [Worker-Main-2/WARN] (Minecraft) File minecraft:sounds/mob/player/attack/weak1.ogg does not exist, cannot add it to event shinobicore:punch_light
+[15:05:23]   [15:04:47] [Worker-Main-2/WARN] (Minecraft) File minecraft:sounds/mob/player/attack/weak2.ogg does not exist, cannot add it to event shinobicore:punch_light
+[15:05:23]   [15:04:47] [Worker-Main-2/WARN] (Minecraft) File minecraft:sounds/mob/player/attack/weak3.ogg does not exist, cannot add it to event shinobicore:punch_light
+[15:05:23]   [15:04:47] [Worker-Main-2/WARN] (Minecraft) File minecraft:sounds/mob/player/attack/weak4.ogg does not exist, cannot add it to event shinobicore:punch_light
+[15:05:23]   [15:04:47] [Worker-Main-2/WARN] (Minecraft) File minecraft:sounds/mob/player/attack/strong1.ogg does not exist, cannot add it to event shinobicore:punch_heavy
+[15:05:23]   [15:04:47] [Worker-Main-2/WARN] (Minecraft) File minecraft:sounds/mob/player/attack/strong2.ogg does not exist, cannot add it to event shinobicore:punch_heavy
+[15:05:23]   [15:04:47] [Worker-Main-2/WARN] (Minecraft) File minecraft:sounds/mob/player/attack/strong3.ogg does not exist, cannot add it to event shinobicore:punch_heavy
+[15:05:23]   [15:04:47] [Worker-Main-2/WARN] (Minecraft) File minecraft:sounds/mob/player/attack/strong4.ogg does not exist, cannot add it to event shinobicore:punch_heavy
+[15:05:23]   [15:04:47] [Worker-Main-2/WARN] (Minecraft) File minecraft:sounds/mob/player/attack/critical1.ogg does not exist, cannot add it to event shinobicore:kick
+[15:05:23]   [15:04:47] [Worker-Main-2/WARN] (Minecraft) File minecraft:sounds/mob/player/attack/critical2.ogg does not exist, cannot add it to event shinobicore:kick
+[15:05:23]   [15:04:47] [Worker-Main-2/WARN] (Minecraft) File minecraft:sounds/mob/player/attack/critical3.ogg does not exist, cannot add it to event shinobicore:kick
+[15:05:23]   [15:04:47] [Worker-Main-2/WARN] (Minecraft) File minecraft:sounds/mob/player/attack/sweep1.ogg does not exist, cannot add it to event shinobicore:whoosh
+[15:05:23]   [15:04:47] [Worker-Main-2/WARN] (Minecraft) File minecraft:sounds/mob/player/attack/sweep2.ogg does not exist, cannot add it to event shinobicore:whoosh
+
+======================================================================
+  8. CRASH REPORTS
+======================================================================
+[15:05:23] Found 3 crash report(s)
+[15:05:23] Latest: crash-2026-08-14_21.25.39-server.txt (08/14/2026 21:25:39)
+[15:05:23] Saved: latest_crash_20260815_150433.txt
+[15:05:23] 
+--- CRASH SUMMARY (first 60 lines) ---
+[15:05:24]   ---- Minecraft Crash Report ----
+[15:05:24]   // Surprise! Haha. Well, this is awkward.
+[15:05:24]   
+[15:05:24]   Time: 2026-08-14 21:25:39
+[15:05:24]   Description: Exception ticking world
+[15:05:24]   
+[15:05:24]   java.util.ConcurrentModificationException
+[15:05:24]   	at java.base/java.util.ArrayList$Itr.checkForComodification(ArrayList.java:1095)
+[15:05:24]   	at java.base/java.util.ArrayList$Itr.remove(ArrayList.java:1063)
+[15:05:24]   	at knot//com.example.shinobicore.util.TickScheduler.lambda$register$0(TickScheduler.java:28)
+[15:05:24]   	at knot//net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents.lambda$static$4(ServerTickEvents.java:52)
+[15:05:24]   	at knot//net.minecraft.server.world.ServerWorld.handler$zcg000$fabric-lifecycle-events-v1$startWorldTick(ServerWorld.java:2235)
+[15:05:24]   	at knot//net.minecraft.server.world.ServerWorld.tick(ServerWorld.java:294)
+[15:05:24]   	at knot//net.minecraft.server.MinecraftServer.tickWorlds(MinecraftServer.java:897)
+[15:05:24]   	at knot//net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:824)
+[15:05:24]   	at knot//net.minecraft.server.integrated.IntegratedServer.tick(IntegratedServer.java:105)
+[15:05:24]   	at knot//net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:671)
+[15:05:24]   	at knot//net.minecraft.server.MinecraftServer.method_29739(MinecraftServer.java:265)
+[15:05:24]   	at java.base/java.lang.Thread.run(Thread.java:1583)
+[15:05:24]   
+[15:05:24]   
+[15:05:24]   A detailed walkthrough of the error, its code path and all known details is as follows:
+[15:05:24]   ---------------------------------------------------------------------------------------
+[15:05:24]   
+[15:05:24]   -- Head --
+[15:05:24]   Thread: Server thread
+[15:05:24]   Stacktrace:
+[15:05:24]   	at java.base/java.util.ArrayList$Itr.checkForComodification(ArrayList.java:1095)
+[15:05:24]   	at java.base/java.util.ArrayList$Itr.remove(ArrayList.java:1063)
+[15:05:24]   	at knot//com.example.shinobicore.util.TickScheduler.lambda$register$0(TickScheduler.java:28)
+[15:05:24]   	at knot//net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents.lambda$static$4(ServerTickEvents.java:52)
+[15:05:24]   	at knot//net.minecraft.server.world.ServerWorld.handler$zcg000$fabric-lifecycle-events-v1$startWorldTick(ServerWorld.java:2235)
+[15:05:24]   	at knot//net.minecraft.server.world.ServerWorld.tick(ServerWorld.java:294)
+[15:05:24]   
+[15:05:24]   -- Affected level --
+[15:05:24]   Details:
+[15:05:24]   	All players: 1 total; [ServerPlayerEntity['Player670'/40, l='ServerLevel[New World]', x=603.85, y=63.00, z=206.71]]
+[15:05:24]   	Chunk stats: 4682
+[15:05:24]   	Level dimension: minecraft:overworld
+[15:05:24]   	Level spawn location: World: (-80,76,320), Section: (at 0,12,0 in -5,4,20; chunk contains blocks -80,-64,320 to -65,319,335), Region: (-1,0; contains chunks -32,0 to -1,31, blocks -512,-64,0 to -1,319,511)
+[15:05:24]   	Level time: 390467 game time, 18683 day time
+[15:05:24]   	Level name: New World
+[15:05:24]   	Level game mode: Game mode: survival (ID 0). Hardcore: false. Cheats: true
+[15:05:24]   	Level weather: Rain time: 1 (now: false), thunder time: 1 (now: false)
+[15:05:24]   	Known server brands: fabric
+[15:05:24]   	Removed feature flags: 
+[15:05:24]   	Level was modded: true
+[15:05:24]   	Level storage version: 0x04ABD - Anvil
+[15:05:24]   Stacktrace:
+[15:05:24]   	at knot//net.minecraft.server.MinecraftServer.tickWorlds(MinecraftServer.java:897)
+[15:05:24]   	at knot//net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:824)
+[15:05:24]   	at knot//net.minecraft.server.integrated.IntegratedServer.tick(IntegratedServer.java:105)
+[15:05:24]   	at knot//net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:671)
+[15:05:24]   	at knot//net.minecraft.server.MinecraftServer.method_29739(MinecraftServer.java:265)
+[15:05:24]   	at java.base/java.lang.Thread.run(Thread.java:1583)
+[15:05:24]   
+[15:05:24]   -- System Details --
+[15:05:24]   Details:
+[15:05:24]   	Minecraft Version: 1.20.1
+[15:05:24]   	Minecraft Version ID: 1.20.1
+
+======================================================================
+  9. CLIENT STDERR (last 40 lines)
+======================================================================
+
+======================================================================
+  10. KNOWN ISSUES CHECKLIST
+======================================================================
+[15:05:24] [OK] ShinobiCore entry
+[15:05:24] [OK] Client entry
+[15:05:24] [OK] MobEntityAccessor mixin registered
+[15:05:24] [OK] CameraMixin registered
+[15:05:24] [OK] Mixin compat level
+[15:05:24] [OK] TickScheduler exists
+
+======================================================================
+  11. DUPLICATE IMPORTS CHECK
+======================================================================
+[15:05:25] [OK] No duplicate imports found
+
+======================================================================
+  SUMMARY
+======================================================================
+[15:05:25] All diagnostic files in: E:\Games\mod
+[15:05:25]   - DIAG_20260815_150433.txt (this file)
+[15:05:25]   - build_log_20260815_150433.txt
+[15:05:25]   - latest_log_20260815_150433.txt
+[15:05:25]   - client_stdout_20260815_150433.txt
+[15:05:25]   - client_stderr_20260815_150433.txt
+[15:05:25]   - latest_crash_20260815_150433.txt
+[15:05:25] 
+[15:05:25] ╔══════════════════════════════════════════════════════════╗
+[15:05:25] ║  INSTRUCTIONS:                                          ║
+[15:05:25] ║  1. Open this file (DIAG_20260815_150433.txt)                ║
+[15:05:25] ║  2. Copy its FULL content                               ║
+[15:05:25] ║  3. Send it to me for analysis                          ║
+[15:05:25] ║                                                         ║
+[15:05:25] ║  Or tell me specifically:                               ║
+[15:05:25] ║  - Build fails? (compile error)                         ║
+[15:05:25] ║  - Client crashes on start?                             ║
+[15:05:25] ║  - Something doesn't work in-game?                      ║
+[15:05:25] ╚══════════════════════════════════════════════════════════╝

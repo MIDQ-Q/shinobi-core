@@ -52,6 +52,8 @@ public class ShinobiCoreClient implements ClientModInitializer {
         // === РЕГИСТРАЦИЯ РЕНДЕРЕРОВ (было потеряно!) ===
         EntityRendererRegistry.register(ModEntities.NINJA_PROJECTILE, NinjaProjectileRenderer::new);
         EntityRendererRegistry.register(ModEntities.SHURIKEN, ShurikenRenderer::new);
+        EntityRendererRegistry.register(ModEntities.RASENSHURIKEN, com.example.shinobicore.entity.RasenshurikenRenderer::new);
+        EntityRendererRegistry.register(ModEntities.RASENGAN_HAND, com.example.shinobicore.entity.RasenganHandRenderer::new);
         // PHASE_K3_KATANA_RENDERER_REGISTERED
         BuiltinItemRendererRegistry.INSTANCE.register(com.example.shinobicore.item.ModItems.KATANA, com.example.shinobicore.client.render.KatanaBuiltinRenderer::render);
         

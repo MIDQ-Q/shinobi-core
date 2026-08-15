@@ -31,7 +31,7 @@ public class KenjutsuClientHandler {
         if (stance.equals("iai")) KenjutsuAnimations.playIaiSlash(player); else KenjutsuAnimations.playSlash(player, comboStep); // PHASE_A_IAI_HOOK
         playSlashParticles(player, comboStep);
         SwordTrailRenderer.playSlashTrail(player, comboStep); // PHASE_K1_TRAIL_HOOKED
-        TaijutsuSounds.playWhoosh();
+        TaijutsuSounds.playKatanaSlash(comboStep);
         if (comboStep == 3) {
             TaijutsuSounds.playKickSound();
             CinematicCamera.addShake(0.12f);
@@ -50,7 +50,7 @@ public class KenjutsuClientHandler {
         ClientNinjaState.deflectHeld = held;
         if (held) {
             KenjutsuAnimations.playDeflect(player);
-            player.playSound(SoundEvents.ITEM_SHIELD_BLOCK, 0.4f, 1.5f);
+            TaijutsuSounds.playKatanaDeflectSound();
         }
     }
     public static void cycleStance(ClientPlayerEntity player) {
