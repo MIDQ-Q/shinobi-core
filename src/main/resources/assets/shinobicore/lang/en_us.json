@@ -29,6 +29,8 @@
   "key.shinobicore.iai_dash": "Iai Dash (Alt)",
   "key.shinobicore.toggle_sensory": "Sensory (Y)",
   "key.shinobicore.toggle_scabbard": "Sheathe / Draw Katana (O)",
+  "key.shinobicore.kawarimi": "Kawarimi (J)",
+  "key.shinobicore.kawarimi": "Kawarimi (Q)",
   "key.categories.shinobicore": "ShinobiCore",
   "key.shinobicore.debug_overlay": "Debug Overlay (F6)",
   "key.categories.shinobicore.combat": "ShinobiCore - Combat"

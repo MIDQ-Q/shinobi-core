@@ -60,12 +60,18 @@ public class KeyBindings {
             "key.shinobicore.katana_deflect", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_X, COMBAT_CATEGORY));
         TOGGLE_SCABBARD = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "key.shinobicore.toggle_scabbard", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_O, COMBAT_CATEGORY));
-      
-        // ✅ FIX: Register the IAI_DASH keybinding (Assigned to 'J' by default)
+        KAWARIMI = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+            "key.shinobicore.kawarimi", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_J, CATEGORY));      
+        
+        // IAI_DASH
         IAI_DASH = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "key.shinobicore.iai_dash", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_ALT, COMBAT_CATEGORY));
             
         TOGGLE_SENSORY = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "key.shinobicore.toggle_sensory", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_Y, CATEGORY));
+
+        // ✅ ИСПРАВЛЕНИЕ: Регистрируем DEBUG_OVERLAY (F6)
+        DEBUG_OVERLAY = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+            "key.shinobicore.debug_overlay", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F6, CATEGORY));
     }
 }

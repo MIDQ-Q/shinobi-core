@@ -1,3 +1,9 @@
+$ErrorActionPreference = "Stop"
+$utf8 = New-Object System.Text.UTF8Encoding($false)
+$root = "E:\Games\mod"
+$file = "$root\src\main\java\com\example\shinobicore\mixin\FallDamageMixin.java"
+
+$content = @'
 package com.example.shinobicore.mixin;
 
 import com.example.shinobicore.stat.NinjaDataHolder;
@@ -35,3 +41,8 @@ public class FallDamageMixin {
         }
     }
 }
+'@
+
+[System.IO.File]::WriteAllText($file, $content, $utf8)
+Write-Host "[OK] FallDamageMixin.java fixed with instanceof check!" -ForegroundColor Green
+Write-Host "Run: .\gradlew.bat build" -ForegroundColor Cyan
