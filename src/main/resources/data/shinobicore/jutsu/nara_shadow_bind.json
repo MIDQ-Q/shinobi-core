@@ -1,5 +1,7 @@
 {
   "id": "shinobicore:nara_shadow_bind",
+  "tier": 3,
+  "cast_time": 1.5,
   "name": "Shadow Bind",
   "category": "shape_ninjutsu",
   "type": "custom",

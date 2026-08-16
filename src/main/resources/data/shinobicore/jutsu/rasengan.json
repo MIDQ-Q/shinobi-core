@@ -1,6 +1,8 @@
 {
   "model": "rasengan",
   "id": "shinobicore:rasengan",
+  "tier": 4,
+  "cast_time": 2.5,
   "name": "Rasengan",
   "category": "shape_ninjutsu",
   "type": "custom",

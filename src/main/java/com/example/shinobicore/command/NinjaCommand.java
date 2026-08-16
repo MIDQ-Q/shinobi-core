@@ -12,6 +12,8 @@ import com.example.shinobicore.stat.NinjaDataHolder;
 import com.example.shinobicore.stat.NinjaFormula;
 import com.example.shinobicore.stat.NinjaPlayerData;
 import com.example.shinobicore.stat.StatType;
+import com.example.shinobicore.tree.SkillTreeNode;
+import com.example.shinobicore.tree.SkillTreeRegistry;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -45,6 +47,7 @@ public class NinjaCommand {
                                     return JutsuCaster.cast(p, normalizeId(StringArgumentType.getString(ctx, "id"))) ? 1 : 0;
                                 })))
                 .then(slotBranch())
+                .then(teachBranch())
                 .then(clanBranch())
                 .then(CommandManager.literal("reloadconfig").executes(ctx -> {
                     ModConfig.load();
@@ -206,6 +209,32 @@ public class NinjaCommand {
                             ShinobiCore.sendLoadoutSync(p);
                             return feedback(ctx.getSource(), "Slot set");
                         }));
+    }
+
+    private static ArgumentBuilder<ServerCommandSource, ?> teachBranch() {
+        return CommandManager.literal("teach")
+            .then(CommandManager.argument("node", StringArgumentType.word())
+                .suggests(NinjaCommand::suggestTreeNodes)
+                .executes(ctx -> teach(ctx.getSource(), StringArgumentType.getString(ctx, "node"))));
+    }
+
+    private static int teach(ServerCommandSource source, String nodeId) {
+        ServerPlayerEntity p = source.getPlayer();
+        NinjaPlayerData d = data(p);
+        SkillTreeNode node = SkillTreeRegistry.get(nodeId);
+        if (node == null) {
+            source.sendFeedback(() -> Text.literal("\u00a7cUnknown node: " + nodeId), false);
+            return 0;
+        }
+        d.approveTeacherNode(nodeId);
+        ShinobiCore.sendTreeSync(p);
+        source.sendFeedback(() -> Text.literal("\u00a7aTeacher approved for: " + nodeId), false);
+        return 1;
+    }
+
+    private static CompletableFuture<Suggestions> suggestTreeNodes(CommandContext<ServerCommandSource> ctx, SuggestionsBuilder b) {
+        for (SkillTreeNode node : SkillTreeRegistry.getAll()) b.suggest(node.id());
+        return b.buildFuture();
     }
 
     private static ArgumentBuilder<ServerCommandSource, ?> clanBranch() {

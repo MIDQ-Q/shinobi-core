@@ -1,1 +1,3 @@
-{"id":"shinobicore:wind_tornado","name":"Wind Release: Tornado","category":"elemental_ninjutsu","nature":"wind","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.PullBehavior","params":{"range":12,"radius":5,"pullStrength":0.7,"duration":80},"baseCost":40,"baseDamage":5,"strain":10,"requiredUsesForFullProficiency":55,"requirements":{"control":26,"nature_wind":34,"ninjutsu":24}}
+{"id":"shinobicore:wind_tornado",
+  "tier": 3,
+  "cast_time": 1.5,"name":"Wind Release: Tornado","category":"elemental_ninjutsu","nature":"wind","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.PullBehavior","params":{"range":12,"radius":5,"pullStrength":0.7,"duration":80},"baseCost":40,"baseDamage":5,"strain":10,"requiredUsesForFullProficiency":55,"requirements":{"control":26,"nature_wind":34,"ninjutsu":24}}

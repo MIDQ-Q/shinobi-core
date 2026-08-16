@@ -1583,6 +1583,7 @@
                   },
                   {
                       "id":  "forb_edo_n",
+            "requires_teacher":  true,
                       "branch":  "forbidden",
                       "distance":  3,
                       "type":  "jutsu",
@@ -1764,6 +1765,7 @@
                   },
                   {
                       "id":  "forb_gates_node",
+            "requires_teacher":  true,
                       "branch":  "forbidden",
                       "distance":  2,
                       "type":  "jutsu",
@@ -1835,20 +1837,6 @@
                       "icon":  "x",
                       "name":  "Tracking Kunai",
                       "description":  "Long-lasting tracking mark"
-                  },
-                  {
-                      "id":  "gen_basic_fear",
-                      "branch":  "genjutsu",
-                      "distance":  1,
-                      "type":  "jutsu",
-                      "jutsuId":  "shinobicore:genjutsu_fear",
-                      "spCost":  3,
-                      "requires":  [
-
-                                   ],
-                      "icon":  "G",
-                      "name":  "Fear Genjutsu",
-                      "description":  "Slows and nauseates target"
                   },
                   {
                       "id":  "gen_mid",

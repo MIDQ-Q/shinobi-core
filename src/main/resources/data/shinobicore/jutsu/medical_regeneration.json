@@ -1,5 +1,7 @@
 {
   "id": "shinobicore:medical_regeneration",
+  "tier": 3,
+  "cast_time": 1.5,
   "name": "Strength of a Hundred",
   "category": "medical",
   "type": "custom",

@@ -1,6 +1,8 @@
 {
   "model": "fireball",
   "id": "shinobicore:fire_release_flame_bullet",
+  "tier": 1,
+  "cast_time": 0.5,
   "name": "Fire Release: Flame Bullet",
   "category": "elemental_ninjutsu",
   "nature": "fire",

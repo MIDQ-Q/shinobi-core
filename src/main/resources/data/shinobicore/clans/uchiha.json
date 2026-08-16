@@ -3,17 +3,11 @@
   "name": "Uchiha Clan",
   "affinity": "fire",
   "extraAffinityCount": 0,
-  "statBonuses": {
-    "genjutsu": 5,
-    "perception": 5
-  },
-  "natureBonuses": {
-    "fire": 10
-  },
-  "costMultiplier": {
-    "fire": 0.90
-  },
+  "statBonuses": { "genjutsu": 5, "perception": 5 },
+  "natureBonuses": { "fire": 10 },
+  "costMultiplier": { "fire": 0.90 },
   "fatigueMultiplier": 1.0,
   "reserveBonus": 0,
-  "dojutsuHook": "sharingan"
+  "dojutsuHook": "sharingan",
+  "chakraCap": 2500
 }

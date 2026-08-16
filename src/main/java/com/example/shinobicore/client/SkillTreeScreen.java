@@ -144,9 +144,8 @@ public class SkillTreeScreen extends Screen {
             ctx.fill(x - HALF, y + HALF - 1, x + HALF, y + HALF, SLOT_LO);
 
             // Р Р°РјРєР° 2px
-            int border;
-            if (unlocked) {
-                border = bc;
+            boolean invalid = SkillTreeRegistry.isInvalid(n.id());            int border;
+            if (invalid) {                border = 0xFFFF2222;            } else if (unlocked) {                border = bc;
             } else if (available) {
                 int pulse = (int)(150 + 105 * Math.sin(System.currentTimeMillis() / 250.0));
                 border = (pulse << 24) | 0xFFFF00;
@@ -235,8 +234,10 @@ public class SkillTreeScreen extends Screen {
     }
 
     private boolean canUnlock(SkillTreeNode node) {
+        if (SkillTreeRegistry.isInvalid(node.id())) return false;
         if (ClientNinjaState.unlockedNodes.contains(node.id())) return false;
         if (ClientNinjaState.skillPoints < node.spCost()) return false;
+        if (node.requiresTeacher() && !ClientNinjaState.teacherApproved.contains(node.id())) return false;
         for (String r : node.requires()) {
             if (!ClientNinjaState.unlockedNodes.contains(r)) return false;
         }
@@ -254,9 +255,18 @@ public class SkillTreeScreen extends Screen {
         if (!node.requires().isEmpty()) lines.add("Requires: " + String.join(", ", node.requires()));
         boolean unlocked = ClientNinjaState.unlockedNodes.contains(node.id());
         boolean available = canUnlock(node);
-        if (unlocked) lines.add("[UNLOCKED]");
+        if (SkillTreeRegistry.isInvalid(node.id())) lines.add("[INVALID] " + SkillTreeRegistry.getInvalidReason(node.id()));
+        else if (unlocked) lines.add("[UNLOCKED]");
         else if (available) lines.add("[Click to unlock]");
-        else lines.add("[Locked]");
+        else {
+            lines.add("[Locked]");
+            if (node.requiresTeacher() && !ClientNinjaState.teacherApproved.contains(node.id())) {
+                lines.add("  Requires a teacher");
+            }
+            if (node.requiresScroll() != null && !node.requiresScroll().isEmpty()) {
+                lines.add("  Requires scroll: " + node.requiresScroll());
+            }
+        }
 
         int tw = 0;
         for (String l : lines) tw = Math.max(tw, textRenderer.getWidth(l));

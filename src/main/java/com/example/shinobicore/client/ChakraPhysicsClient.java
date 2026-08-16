@@ -39,6 +39,20 @@ public class ChakraPhysicsClient {
         // Состояние "на земле или воде" — из прошлого тика
         boolean onGroundOrWater = player.isOnGround() || standingOnWater;
 
+        // === S2-02: CONTROL INERTIA DAMPING ===
+        int controlLevel = ClientNinjaState.statLevels.getOrDefault("control", 0);
+        float inertiaDamping = 0.92f - (controlLevel * 0.0025f); // 0.92 -> 0.67 at 100 control
+        if (!player.input.pressingForward && !player.input.pressingBack && !player.input.pressingLeft && !player.input.pressingRight) {
+            if (player.isOnGround() && !player.isSneaking() && !ParkourManager.isSliding()) {
+                Vec3d v = player.getVelocity();
+                double horizSpeedSq = v.x * v.x + v.z * v.z;
+                if (horizSpeedSq > 0.02) {
+                    player.setVelocity(v.x * inertiaDamping, v.y, v.z * inertiaDamping);
+                    player.velocityModified = true;
+                }
+            }
+        }
+
         // Сброс airJumpsUsed при сходе с земли/воды
         if (wasOnGroundOrWater && !onGroundOrWater) {
             airJumpsUsed = 0;

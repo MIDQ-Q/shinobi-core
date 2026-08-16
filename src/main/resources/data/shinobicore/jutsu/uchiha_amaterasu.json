@@ -1,6 +1,8 @@
 {
   "model": "fireball",
   "id": "shinobicore:uchiha_amaterasu",
+  "tier": 4,
+  "cast_time": 2.5,
   "name": "Amaterasu",
   "category": "elemental_ninjutsu",
   "nature": "fire",

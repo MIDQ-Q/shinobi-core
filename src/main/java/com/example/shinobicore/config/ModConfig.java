@@ -15,7 +15,7 @@ import java.nio.file.Path;
 public class ModConfig {
 
     public static class Chakra {
-        public float baseChakra = 100f;
+        public float baseChakra = 2000f;
         public float chakraPerReserveLevel = 12f;
         public float baseRegen = 1.0f;
         public float regenPerReserveLevel = 0.03f;
@@ -134,6 +134,69 @@ public class ModConfig {
     public Progression progression = new Progression();
     public Combat combat = new Combat();
     public Hud hud = new Hud();
+    public Movement movement = new Movement();
+
+    public static class Movement {
+        public float speedCapNormal = 1.3f;
+        public float speedCapChakra = 1.6f;
+        public float jumpHorizCap = 1.8f;
+        public float jumpVertCap = 1.4f;
+    }
+    public Stamina stamina = new Stamina();
+    public Kawarimi kawarimi = new Kawarimi();
+
+    public static class Kawarimi {
+        public float windowDuration = 3.0f;
+        public float cooldown = 15.0f;
+        public float lethalCooldown = 60.0f;
+        public float chakraCost = 50.0f;
+        public float staminaCost = 30.0f;
+    }
+    public PassiveDrift passiveDrift = new PassiveDrift();
+    public TierConfig tiers = new TierConfig();
+    public CastTime castTime = new CastTime();
+
+    public static class Stamina {
+        public float baseStamina = 100f;
+        public float baseRegen = 5.0f;
+        public float sprintCostPerSecond = 2.0f;
+    }
+
+    public static class PassiveDrift {
+        public int xpPerMinute = 5;
+        public int dailyXpCap = 500;
+        public float diminishingThreshold = 0.5f;
+        public float controlXpRatio = 0.2f;
+    }
+
+    public static class TierConfig {
+        public int t1CooldownTicks = 0;
+        public int t2CooldownTicks = 20;
+        public int t3CooldownTicks = 40;
+        public int t4CooldownTicks = 60;
+        public int t5CooldownTicks = 100;
+        public int getCooldownForTier(int tier) {
+            switch (tier) {
+                case 1: return t1CooldownTicks;
+                case 2: return t2CooldownTicks;
+                case 3: return t3CooldownTicks;
+                case 4: return t4CooldownTicks;
+                case 5: return t5CooldownTicks;
+                default: return t3CooldownTicks;
+            }
+        }
+    }
+
+    public static class CastTime {
+        public float tier1Time = 0.5f;
+        public float tier2Time = 1.0f;
+        public float tier3Time = 2.0f;
+        public float tier4Time = 3.0f;
+        public float tier5Time = 5.0f;
+        public float maxReduction = 0.4f;
+        public float controlBonusPerLevel = 0.003f;
+        public float masteryBonusFactor = 0.1f;
+    }
 
     public static ModConfig instance = new ModConfig();
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();

@@ -1,5 +1,7 @@
 {
  "id": "shinobicore:genjutsu_fear",
+  "tier": 1,
+  "cast_time": 0.5,
  "name": "Genjutsu: Fear",
  "category": "genjutsu",
  "type": "genjutsu",

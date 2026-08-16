@@ -42,7 +42,9 @@ public class ClientNinjaState {
     public static String clanId = "none";
     public static String affinityId = null;
     public static String activeDojutsu = null;
+    public static boolean isBlockingClient = false;
     public static final Set<String> unlockedNodes = new HashSet<>();
+    public static final Set<String> teacherApproved = new HashSet<>();
 
     public static String[] loadout(int set) { return set == 0 ? loadoutA : loadoutB; }
     public static int active(int set) { return set == 0 ? activeA : activeB; }

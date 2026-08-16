@@ -1,5 +1,7 @@
 {
   "id": "shinobicore:tracking_kunai",
+  "tier": 1,
+  "cast_time": 0.5,
   "name": "Tracking Kunai",
   "category": "shape_ninjutsu",
   "type": "custom",

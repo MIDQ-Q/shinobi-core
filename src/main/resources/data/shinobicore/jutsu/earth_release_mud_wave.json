@@ -1,5 +1,7 @@
 {
   "id": "shinobicore:earth_release_mud_wave",
+  "tier": 2,
+  "cast_time": 1,
   "name": "Earth Release: Mud Wave",
   "category": "elemental_ninjutsu",
   "nature": "earth",

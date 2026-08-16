@@ -3,15 +3,11 @@
   "name": "Uzumaki Clan",
   "affinity": "water",
   "extraAffinityCount": 0,
-  "statBonuses": {
-    "control": 5,
-    "ninjutsu": 5
-  },
-  "natureBonuses": {
-    "water": 10
-  },
+  "statBonuses": { "control": 5, "ninjutsu": 5 },
+  "natureBonuses": { "water": 10 },
   "costMultiplier": {},
   "fatigueMultiplier": 0.85,
   "reserveBonus": 150,
-  "dojutsuHook": null
+  "dojutsuHook": null,
+  "chakraCap": 6000
 }

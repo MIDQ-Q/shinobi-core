@@ -1,5 +1,7 @@
 {
   "id": "shinobicore:medical_chakra_scalpel",
+  "tier": 2,
+  "cast_time": 1,
   "name": "Medical: Chakra Scalpel",
   "category": "medical",
   "type": "custom",

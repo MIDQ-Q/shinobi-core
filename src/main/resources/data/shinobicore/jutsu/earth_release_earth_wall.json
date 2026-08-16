@@ -1,5 +1,7 @@
-﻿{
+{
   "id": "shinobicore:earth_release_earth_wall",
+  "tier": 2,
+  "cast_time": 1,
   "name": "Earth Release: Earth Wall",
   "category": "elemental_ninjutsu",
   "nature": "earth",

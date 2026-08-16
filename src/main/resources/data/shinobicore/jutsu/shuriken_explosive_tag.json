@@ -1,1 +1,3 @@
-{"id":"shinobicore:shuriken_explosive_tag","name":"Shuriken: Explosive Tag","category":"shape_ninjutsu","type":"projectile","params":{"speed":1.8,"radius":3,"particle":"flame","lifetime":60},"baseCost":26,"baseDamage":7,"strain":7,"requiredUsesForFullProficiency":40,"requirements":{"control":20,"perception":15}}
+{"id":"shinobicore:shuriken_explosive_tag",
+  "tier": 2,
+  "cast_time": 1,"name":"Shuriken: Explosive Tag","category":"shape_ninjutsu","type":"projectile","params":{"speed":1.8,"radius":3,"particle":"flame","lifetime":60},"baseCost":26,"baseDamage":7,"strain":7,"requiredUsesForFullProficiency":40,"requirements":{"control":20,"perception":15}}

@@ -79,6 +79,15 @@ public class NinjaTickHandler {
                 } else if (data.isChakraMode()) regen *= NinjaFormula.chakraModeRegenMultiplier();
                 data.setCurrentChakra(Math.min(data.getCurrentChakra() + regen, maxChakra));
             }
+            // === S1-02: STAMINA REGEN & SPRINT COST ===
+            if (data.getCurrentStamina() < data.getMaxStamina()) {
+                float stRegen = ModConfig.instance.stamina.baseRegen;
+                data.setCurrentStamina(data.getCurrentStamina() + stRegen);
+            }
+            if (player.isSprinting() && data.getCurrentStamina() > 0) {
+                data.setCurrentStamina(data.getCurrentStamina() - ModConfig.instance.stamina.sprintCostPerSecond);
+            }
+
             if (data.getFatigue() > 0) {
                 float decay = NinjaFormula.fatigueDecayPerSecond(data);
                 if (data.isMeditating()) decay *= NinjaFormula.meditationFatigueDecayMultiplier();
@@ -168,6 +177,8 @@ public class NinjaTickHandler {
         data.setRasenganReadyTicks(0);
     }
     // === END PHASE_FIX2_TICK ===
+        // === S1-08: PASSIVE XP DRIFT ===
+        NinjaFormula.grantPassiveXp(data);
             ShinobiCore.sendChakraSync(player);
             if (data.consumeStatsDirty()) {
                 ShinobiCore.sendStatsSync(player);

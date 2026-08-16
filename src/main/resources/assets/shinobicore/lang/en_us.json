@@ -20,6 +20,7 @@
   "key.shinobicore.cycle_b": "Cycle Slots B (H)",
   "key.shinobicore.dodge_left": "Dodge Left (Z)",
   "key.shinobicore.dodge_right": "Dodge Right (C)",
+  "key.shinobicore.kawarimi": "Kawarimi (Q)",
   "key.shinobicore.crawl": "Crawl (N)",
   "key.shinobicore.kick": "Kick (V)",
   "key.shinobicore.switch_style": "Switch Style (B)",
@@ -29,5 +30,6 @@
   "key.shinobicore.toggle_sensory": "Sensory (Y)",
   "key.shinobicore.toggle_scabbard": "Sheathe / Draw Katana (O)",
   "key.categories.shinobicore": "ShinobiCore",
+  "key.shinobicore.debug_overlay": "Debug Overlay (F6)",
   "key.categories.shinobicore.combat": "ShinobiCore - Combat"
 }

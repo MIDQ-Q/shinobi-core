@@ -1,2 +1,4 @@
 {
-  "model": "shuriken","id":"shinobicore:shu_senbon","name":"Tool: Poison Senbon","category":"shape_ninjutsu","type":"projectile","params":{"speed":2.8,"radius":0.5,"particle":"smoke","lifetime":50,"statusEffect":"poison","statusDuration":120},"baseCost":22,"baseDamage":3,"strain":5,"requiredUsesForFullProficiency":35,"requirements":{"control":20,"medical":15}}
+  "model": "shuriken","id":"shinobicore:shu_senbon",
+  "tier": 2,
+  "cast_time": 1,"name":"Tool: Poison Senbon","category":"shape_ninjutsu","type":"projectile","params":{"speed":2.8,"radius":0.5,"particle":"smoke","lifetime":50,"statusEffect":"poison","statusDuration":120},"baseCost":22,"baseDamage":3,"strain":5,"requiredUsesForFullProficiency":35,"requirements":{"control":20,"medical":15}}

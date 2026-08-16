@@ -479,6 +479,9 @@ CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environm
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeInt(data.getUnlockedNodes().size());
         for (String nodeId : data.getUnlockedNodes()) buf.writeString(nodeId);
+        // S1-07: Teacher approved nodes
+        buf.writeInt(data.getTeacherApprovedNodes().size());
+        for (String nodeId : data.getTeacherApprovedNodes()) buf.writeString(nodeId);
         ServerPlayNetworking.send(player, ModPackets.TREE_SYNC_ID, buf);
     }
 
@@ -488,6 +491,30 @@ CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environm
         if (node == null) {
             player.sendMessage(Text.literal("В§cUnknown node: " + nodeId), false);
             return;
+        }
+        if (SkillTreeRegistry.isInvalid(nodeId)) {
+            player.sendMessage(Text.literal("\u00a7cNode is broken: " + SkillTreeRegistry.getInvalidReason(nodeId)), false);
+            return;
+        }
+        // S1-07: Check teacher requirement
+        if (node.requiresTeacher() && !data.getTeacherApprovedNodes().contains(nodeId)) {
+            player.sendMessage(Text.literal("\u00a7cThis technique requires a teacher!"), false);
+            return;
+        }
+        // S1-07: Check scroll requirement
+        if (node.requiresScroll() != null && !node.requiresScroll().isEmpty()) {
+            boolean hasScroll = false;
+            for (int i = 0; i < player.getInventory().size(); i++) {
+                net.minecraft.item.ItemStack stack = player.getInventory().getStack(i);
+                if (stack.getItem() instanceof com.example.shinobicore.item.ScrollItem) {
+                    String scrollId = com.example.shinobicore.item.ScrollItem.getJutsuId(stack);
+                    if (node.requiresScroll().equals(scrollId)) { hasScroll = true; break; }
+                }
+            }
+            if (!hasScroll) {
+                player.sendMessage(Text.literal("\u00a7cRequires scroll: " + node.requiresScroll()), false);
+                return;
+            }
         }
         if (data.isNodeUnlocked(nodeId)) {
             player.sendMessage(Text.literal("В§cAlready unlocked!"), false);
@@ -542,6 +569,15 @@ CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environm
     private static ElementType elementById(String id) {
         for (ElementType e : ElementType.values()) if (e.getId().equals(id)) return e;
         return null;
+    }
+
+    public static void sendPredictionCorrection(ServerPlayerEntity player) {
+        net.minecraft.network.PacketByteBuf buf = new net.minecraft.network.PacketByteBuf(io.netty.buffer.Unpooled.buffer());
+        new com.example.shinobicore.network.PredictionCorrectionPacket(
+            player.getX(), player.getY(), player.getZ(),
+            player.getVelocity().x, player.getVelocity().y, player.getVelocity().z
+        ).write(buf);
+        net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.send(player, com.example.shinobicore.network.ModPackets.PREDICTION_CORRECTION_ID, buf);
     }
 
     public static void broadcastHitStop(ServerPlayerEntity attacker, net.minecraft.entity.LivingEntity target,

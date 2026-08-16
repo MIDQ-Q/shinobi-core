@@ -1,6 +1,7 @@
 package com.example.shinobicore.clan;
 
 import com.example.shinobicore.stat.ElementType;
+import java.util.List;
 import java.util.Map;
 
 public record ClanDefinition(
@@ -13,7 +14,9 @@ public record ClanDefinition(
     Map<String, Float> costMultiplier,
     float fatigueMultiplier,
     float reserveBonus,
-    String dojutsuHook
+    String dojutsuHook,
+    int chakraCap,
+    List<String> startingJutsu
 ) {
     public boolean hasDojutsu() {
         return dojutsuHook != null && !dojutsuHook.isEmpty();

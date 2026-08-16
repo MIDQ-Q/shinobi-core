@@ -1,5 +1,7 @@
 {
  "id": "shinobicore:genjutsu_blindness",
+  "tier": 2,
+  "cast_time": 1,
  "name": "Genjutsu: Darkness",
  "category": "genjutsu",
  "type": "genjutsu",

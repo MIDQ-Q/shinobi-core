@@ -1,5 +1,7 @@
 {
   "id": "shinobicore:hatake_chidori",
+  "tier": 4,
+  "cast_time": 2.5,
   "name": "Chidori",
   "category": "elemental_ninjutsu",
   "nature": "lightning",

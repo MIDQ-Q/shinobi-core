@@ -1,5 +1,7 @@
 {
   "id": "shinobicore:shunshin_no_jutsu",
+  "tier": 1,
+  "cast_time": 0.5,
   "name": "Shunshin no Jutsu",
   "category": "space_time",
   "type": "dash",

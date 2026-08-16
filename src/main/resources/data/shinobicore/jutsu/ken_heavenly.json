@@ -1,1 +1,3 @@
-{"id":"shinobicore:ken_heavenly","name":"Kenjutsu: Heavenly Strike","category":"taijutsu","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.HeavenlyStrikeBehavior","params":{"jumpHeight":1.8,"radius":4,"knockdown":1.2},"baseCost":35,"baseDamage":14,"strain":10,"requiredUsesForFullProficiency":55,"requirements":{"taijutsu":32,"control":24}}
+{"id":"shinobicore:ken_heavenly",
+  "tier": 2,
+  "cast_time": 1,"name":"Kenjutsu: Heavenly Strike","category":"taijutsu","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.HeavenlyStrikeBehavior","params":{"jumpHeight":1.8,"radius":4,"knockdown":1.2},"baseCost":35,"baseDamage":14,"strain":10,"requiredUsesForFullProficiency":55,"requirements":{"taijutsu":32,"control":24}}

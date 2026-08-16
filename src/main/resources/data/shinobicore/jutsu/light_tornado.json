@@ -1,1 +1,3 @@
-{"id":"shinobicore:light_tornado","name":"Lightning Release: Lightning Tornado","category":"elemental_ninjutsu","nature":"lightning","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.PullBehavior","params":{"range":10,"radius":5,"pullStrength":0.6,"duration":60},"baseCost":38,"baseDamage":6,"strain":10,"requiredUsesForFullProficiency":55,"requirements":{"control":26,"nature_lightning":32,"ninjutsu":22}}
+{"id":"shinobicore:light_tornado",
+  "tier": 3,
+  "cast_time": 1.5,"name":"Lightning Release: Lightning Tornado","category":"elemental_ninjutsu","nature":"lightning","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.PullBehavior","params":{"range":10,"radius":5,"pullStrength":0.6,"duration":60},"baseCost":38,"baseDamage":6,"strain":10,"requiredUsesForFullProficiency":55,"requirements":{"control":26,"nature_lightning":32,"ninjutsu":22}}

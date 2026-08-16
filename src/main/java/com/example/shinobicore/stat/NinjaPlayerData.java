@@ -13,7 +13,11 @@ import java.util.Set;
 public class NinjaPlayerData {
     public static final int MAX_LEVEL = 100;
 
-    private float currentChakra = 100f;
+    private float currentChakra = 2000f;
+    private float currentStamina = 100f;
+    private float maxStamina = 100f;
+    private float modeBuffer = 0f;
+    private boolean isBlocking = false;
     private int reserveLevel = 1;
     private int reserveXp = 0;
     private float fatigue = 0f;
@@ -32,6 +36,12 @@ public class NinjaPlayerData {
     private boolean rasenganReady = false;
     private int rasenganReadyTicks = 0;
     private boolean lastDangerState = false;
+    // === S1-08: PASSIVE DRIFT ===
+    private int passiveXpToday = 0;
+    private long lastPassiveDay = 0;
+    private long lastPassiveXpTimeMs = 0;
+    private final Map<Integer, Long> tierCooldowns = new HashMap<>();
+    private final Set<String> teacherApprovedNodes = new HashSet<>();
     private String clanId = "none";
     private boolean clanChosen = false;
 
@@ -81,6 +91,14 @@ public class NinjaPlayerData {
 
     // === Геттеры ===
     public float getCurrentChakra() { return currentChakra; }
+    public float getCurrentStamina() { return currentStamina; }
+    public void setCurrentStamina(float v) { this.currentStamina = Math.max(0, Math.min(v, maxStamina)); }
+    public float getMaxStamina() { return maxStamina; }
+    public void setMaxStamina(float v) { this.maxStamina = Math.max(1, v); }
+    public float getModeBuffer() { return modeBuffer; }
+    public void setModeBuffer(float v) { this.modeBuffer = Math.max(0, v); }
+    public boolean isBlocking() { return isBlocking; }
+    public void setBlocking(boolean v) { this.isBlocking = v; }
     public int getReserveLevel() { return reserveLevel; }
     public int getReserveXp() { return reserveXp; }
     public float getFatigue() { return fatigue; }
@@ -93,6 +111,10 @@ public class NinjaPlayerData {
     public int getHpLevel() { return hpLevel; }
     public int getSpeedLevel() { return speedLevel; }
     public int getJumpLevel() { return jumpLevel; }
+    public long getLastCastTimeForTier(int tier) { return tierCooldowns.getOrDefault(tier, 0L); }
+    public void setLastCastTimeForTier(int tier, long time) { tierCooldowns.put(tier, time); }
+    public Set<String> getTeacherApprovedNodes() { return teacherApprovedNodes; }
+    public void approveTeacherNode(String nodeId) { teacherApprovedNodes.add(nodeId); statsDirty = true; }
     public boolean isChakraMode() { return chakraMode; }
     public String getActiveDojutsu() { return activeDojutsu; }
     public void setActiveDojutsu(String d) { this.activeDojutsu = d; statsDirty = true; }
@@ -141,6 +163,14 @@ public class NinjaPlayerData {
     public void setReserveXp(int v) { reserveXp = Math.max(0, v); statsDirty = true; }
     public void setFatigue(float v) { this.fatigue = Math.max(0, Math.min(v, 100f)); this.exhausted = this.fatigue >= 100f; }
     public void setMeditating(boolean v) { this.meditating = v; }
+    // === S2-04: Kawarimi State ===
+    private long kawarimiWindowEndMs = 0;
+    private long kawarimiCooldownEndMs = 0;
+
+    public boolean isKawarimiWindowActive() { return System.currentTimeMillis() < kawarimiWindowEndMs; }
+    public void setKawarimiWindow(long durationMs) { this.kawarimiWindowEndMs = System.currentTimeMillis() + durationMs; }
+    public boolean isKawarimiOnCooldown() { return System.currentTimeMillis() < kawarimiCooldownEndMs; }
+    public void setKawarimiCooldown(long durationMs) { this.kawarimiCooldownEndMs = System.currentTimeMillis() + durationMs; }
 
     public void setClanId(String id) {
         String newId = id != null ? id : "none";
@@ -229,7 +259,16 @@ public class NinjaPlayerData {
             for (ElementType e : ElementType.values()) {
                 if (e.getId().equals(key)) {
                     int current = natureLevels.getOrDefault(e, 0);
-                    natureLevels.put(e, current + bonus);
+                   // S0-05: Apply starting jutsu
+        if (clan.startingJutsu() != null) {
+            for (String jutsuId : clan.startingJutsu()) {
+                if (!learnedJutsus.contains(jutsuId)) {
+                    learnedJutsus.add(jutsuId);
+                    statsDirty = true;
+                }
+            }
+        }
+         natureLevels.put(e, current + bonus);
                     natureUnlocked.put(e, true);
                     appliedClanNatureBonuses.put(key, bonus);
                     break;
@@ -279,6 +318,9 @@ public class NinjaPlayerData {
     public NbtCompound writeNbt() {
         NbtCompound nbt = new NbtCompound();
         nbt.putFloat("Chakra", currentChakra);
+        nbt.putFloat("Stamina", currentStamina);
+        nbt.putFloat("MaxStamina", maxStamina);
+        nbt.putFloat("ModeBuffer", modeBuffer);
         nbt.putInt("ReserveLevel", reserveLevel);
         nbt.putInt("ReserveXp", reserveXp);
         nbt.putFloat("Fatigue", fatigue);
@@ -297,6 +339,9 @@ public class NinjaPlayerData {
         nbt.putInt("RasenganChargeTicks", rasenganChargeTicks);
         nbt.putInt("RasenganChargeTarget", rasenganChargeTarget);
         nbt.putBoolean("RasenganReady", rasenganReady);
+nbt.putInt("PassiveXpToday", passiveXpToday);
+nbt.putLong("LastPassiveDay", lastPassiveDay);
+nbt.putLong("LastPassiveXpTimeMs", lastPassiveXpTimeMs);
         // === НОВОЕ: сохраняем стиль ===
         nbt.putString("Style", currentStyleId);
         nbt.putString("KatanaStance", katanaStanceId);
@@ -355,6 +400,9 @@ public class NinjaPlayerData {
     public void readNbt(NbtCompound nbt) {
         if (nbt == null) return;
         currentChakra = nbt.getFloat("Chakra");
+        currentStamina = nbt.contains("Stamina") ? nbt.getFloat("Stamina") : 100f;
+        maxStamina = nbt.contains("MaxStamina") ? nbt.getFloat("MaxStamina") : 100f;
+        modeBuffer = nbt.getFloat("ModeBuffer");
         reserveLevel = Math.max(1, nbt.getInt("ReserveLevel"));
         reserveXp = nbt.getInt("ReserveXp");
         fatigue = nbt.getFloat("Fatigue");
@@ -376,6 +424,14 @@ public class NinjaPlayerData {
         rasenganChargeTicks = nbt.getInt("RasenganChargeTicks");
         rasenganChargeTarget = nbt.getInt("RasenganChargeTarget");
         rasenganReady = nbt.getBoolean("RasenganReady");
+passiveXpToday = nbt.getInt("PassiveXpToday");
+lastPassiveDay = nbt.getLong("LastPassiveDay");
+lastPassiveXpTimeMs = nbt.getLong("LastPassiveXpTimeMs");
+long currentDayCheck = System.currentTimeMillis() / 86400000L;
+if (currentDayCheck != lastPassiveDay) {
+    passiveXpToday = 0;
+    lastPassiveDay = currentDayCheck;
+}
         // === НОВОЕ: читаем стиль ===
         if (nbt.contains("Style")) {
             currentStyleId = nbt.getString("Style");

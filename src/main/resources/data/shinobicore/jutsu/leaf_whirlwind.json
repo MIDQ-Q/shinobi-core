@@ -1,5 +1,7 @@
 {
   "id": "shinobicore:leaf_whirlwind",
+  "tier": 1,
+  "cast_time": 0.5,
   "name": "Leaf Whirlwind",
   "category": "taijutsu",
   "type": "melee",

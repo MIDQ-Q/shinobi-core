@@ -58,9 +58,24 @@ public class ModPackets {
     public static final Identifier CAST_START_ID = new Identifier("shinobicore", "cast_start");
     public static final Identifier CAST_INTERRUPT_ID = new Identifier("shinobicore", "cast_interrupt");
     public static final Identifier HIT_STOP_ID = new Identifier("shinobicore", "hit_stop");
+    public static final Identifier ATTRIBUTE_SYNC_ID = new Identifier("shinobicore", "attribute_sync");
     public static final Identifier IAI_DASH_ID = new Identifier("shinobicore", "iai_dash");
+    public static final Identifier PREDICTION_CORRECTION_ID = new Identifier("shinobicore", "prediction_correction");
+    public static final Identifier BLOCK_STATE_ID = new Identifier("shinobicore", "block_state");
+    public static final Identifier RELEASE_CAST_ID = new Identifier("shinobicore", "release_cast");
     
     public static void register() {
+        S06NetworkLayer.register(); // S0-06
+
+        // === S2-03: Block State Receiver ===
+        net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.registerGlobalReceiver(BLOCK_STATE_ID, (server, player, handler, buf, responseSender) -> {
+            boolean blocking = buf.readBoolean();
+            server.execute(() -> {
+                com.example.shinobicore.stat.NinjaPlayerData data = ((com.example.shinobicore.stat.NinjaDataHolder)player).shinobicore_getData();
+                if (blocking && data.getCurrentStamina() <= 0) return; // Cannot block with 0 stamina
+                data.setBlocking(blocking);
+            });
+        });
         ServerPlayNetworking.registerGlobalReceiver(MEDITATE_ID, (server, player, handler, buf, responseSender) -> {
             boolean start = buf.readBoolean();
             server.execute(() -> ((NinjaDataHolder) player).shinobicore_getData().setMeditating(start));
@@ -456,5 +471,13 @@ public class ModPackets {
         // === HIT-STOP (server -> client): freeze-frame on hit ===
         // This is S2C only, no server receiver needed.
         // Server sends it via ShinobiCore.broadcastHitStop()
+    
+
+        // === S1-05: RELEASE CAST (charge release) ===
+        ServerPlayNetworking.registerGlobalReceiver(RELEASE_CAST_ID, (server, player, handler, buf, responseSender) -> {
+            server.execute(() -> {
+                com.example.shinobicore.combat.CastingServerState.releaseCast(player);
+            });
+        });
     }
 }

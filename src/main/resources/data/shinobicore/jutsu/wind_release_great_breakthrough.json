@@ -1,5 +1,7 @@
 {
   "id": "shinobicore:wind_release_great_breakthrough",
+  "tier": 2,
+  "cast_time": 1,
   "name": "Wind Release: Great Breakthrough",
   "category": "elemental_ninjutsu",
   "nature": "wind",

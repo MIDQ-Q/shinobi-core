@@ -60,6 +60,7 @@ public class TestAllCommand {
         runTreeTests(source);
         runClanTests(source);
         runCombatTests(source);
+        runBalanceTests(source);
         runConfigTests(source);
         runNetworkTests(source);
 
@@ -482,5 +483,70 @@ public class TestAllCommand {
         } catch (IOException e) {
             source.sendFeedback(() -> Text.literal("§cFailed to write report: " + e.getMessage()), false);
         }
+    }
+
+    // ==================== BALANCE TESTS (S1-10) ====================
+    private static int runBalanceTests(ServerCommandSource source) {
+        source.sendFeedback(() -> Text.literal("В§6--- Balance Core Tests (S1-10) ---"), false);
+        
+        Collection<JutsuDefinition> allJutsu = JutsuRegistry.getAll();
+        int tierCostOk = 0, tierCostFail = 0;
+        int castTimeOk = 0, castTimeFail = 0;
+        java.util.List<String> tierMismatches = new java.util.ArrayList<>();
+        
+        for (JutsuDefinition def : allJutsu) {
+            // 1. Tier vs Cost bracket check
+            float cost = def.baseCost();
+            int tier = def.tier();
+            boolean costMatch = false;
+            
+            // Brackets: T1 <= 25, T2 <= 40, T3 <= 60, T4 <= 90, T5 > 70
+            if (tier == 1 && cost <= 25) costMatch = true;
+            if (tier == 2 && cost <= 40) costMatch = true;
+            if (tier == 3 && cost <= 60) costMatch = true;
+            if (tier == 4 && cost <= 90) costMatch = true;
+            if (tier == 5 && cost > 70) costMatch = true;
+            
+            if (costMatch) { tierCostOk++; } 
+            else { 
+                tierCostFail++; 
+                tierMismatches.add(def.id() + " (T" + tier + " cost=" + cost + ")");
+            }
+            
+            // 2. Cast time > 0
+            if (def.castTime() > 0) castTimeOk++; else castTimeFail++;
+        }
+        
+        check("T1-T5 Cost brackets match tiers", tierCostFail == 0, 
+            tierCostOk + " ok, " + tierCostFail + " mismatched" + 
+            (tierCostFail > 0 ? ": " + String.join(", ", tierMismatches.subList(0, Math.min(5, tierMismatches.size()))) : ""));
+            
+        check("All jutsu have cast_time > 0", castTimeFail == 0, 
+            castTimeOk + " ok, " + castTimeFail + " missing/zero");
+            
+        // 3. Stamina factor affects regen
+        NinjaPlayerData testData = new NinjaPlayerData();
+        testData.setCurrentStamina(0f); // Zero stamina
+        float regenZeroStam = NinjaFormula.regenPerSecond(testData);
+        testData.setCurrentStamina(100f); // Full stamina
+        float regenFullStam = NinjaFormula.regenPerSecond(testData);
+        
+        check("Stamina factor affects regen (0 vs 100)", regenZeroStam < regenFullStam, 
+            "zero=" + String.format("%.2f", regenZeroStam) + " full=" + String.format("%.2f", regenFullStam));
+            
+        // 4. calculateCost() > 0 for all jutsu
+        boolean castFormulaOk = true;
+        try {
+            for (JutsuDefinition def : allJutsu) {
+                float cost = NinjaFormula.calculateCost(def, testData);
+                if (cost <= 0) castFormulaOk = false;
+            }
+        } catch (Exception e) {
+            castFormulaOk = false;
+        }
+        check("calculateCost() > 0 for all jutsu", castFormulaOk, "No crashes, all positive");
+        
+        source.sendFeedback(() -> Text.literal("В§7Balance tests done."), false);
+        return 1;
     }
 }

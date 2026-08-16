@@ -1,5 +1,7 @@
 {
   "id": "shinobicore:sarutobi_fire_dragon",
+  "tier": 3,
+  "cast_time": 1.5,
   "name": "Fire Dragon Bullet",
   "category": "elemental_ninjutsu",
   "nature": "fire",

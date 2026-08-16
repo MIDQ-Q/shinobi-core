@@ -1,5 +1,7 @@
-﻿{
+{
   "id": "shinobicore:lightning_release_shock",
+  "tier": 2,
+  "cast_time": 1,
   "name": "Lightning Release: Shock",
   "category": "elemental_ninjutsu",
   "nature": "lightning",

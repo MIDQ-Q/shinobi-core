@@ -1,1 +1,3 @@
-{"id":"shinobicore:earth_shore","name":"Earth Release: Earth Shore","category":"elemental_ninjutsu","nature":"earth","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.WallCreationBehavior","params":{"range":4,"width":4,"height":2,"lifetime":600,"blockType":"dirt"},"baseCost":28,"baseDamage":0,"strain":7,"requiredUsesForFullProficiency":40,"requirements":{"control":20,"nature_earth":26,"ninjutsu":16}}
+{"id":"shinobicore:earth_shore",
+  "tier": 2,
+  "cast_time": 1,"name":"Earth Release: Earth Shore","category":"elemental_ninjutsu","nature":"earth","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.WallCreationBehavior","params":{"range":4,"width":4,"height":2,"lifetime":600,"blockType":"dirt"},"baseCost":28,"baseDamage":0,"strain":7,"requiredUsesForFullProficiency":40,"requirements":{"control":20,"nature_earth":26,"ninjutsu":16}}

@@ -1,1 +1,3 @@
-{"id":"shinobicore:phoenix_fire","name":"Fire Release: Phoenix Sage Fire","category":"elemental_ninjutsu","nature":"fire","type":"projectile","params":{"speed":2.0,"radius":1.5,"particle":"fireball","lifetime":70,"count":6,"spread":15,"model":"fireball"},"baseCost":32,"baseDamage":6,"strain":8,"requiredUsesForFullProficiency":45,"requirements":{"control":20,"nature_fire":25,"ninjutsu":18}}
+{"id":"shinobicore:phoenix_fire",
+  "tier": 2,
+  "cast_time": 1,"name":"Fire Release: Phoenix Sage Fire","category":"elemental_ninjutsu","nature":"fire","type":"projectile","params":{"speed":2.0,"radius":1.5,"particle":"fireball","lifetime":70,"count":6,"spread":15,"model":"fireball"},"baseCost":32,"baseDamage":6,"strain":8,"requiredUsesForFullProficiency":45,"requirements":{"control":20,"nature_fire":25,"ninjutsu":18}}

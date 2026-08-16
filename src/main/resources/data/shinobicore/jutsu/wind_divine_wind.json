@@ -1,1 +1,3 @@
-{"id":"shinobicore:wind_divine_wind","name":"Wind Release: Divine Wind","category":"elemental_ninjutsu","nature":"wind","type":"projectile","params":{"speed":3.0,"radius":0.8,"particle":"wind","lifetime":80,"pierce":5},"baseCost":34,"baseDamage":10,"strain":9,"requiredUsesForFullProficiency":50,"requirements":{"control":24,"nature_wind":32,"ninjutsu":20}}
+{"id":"shinobicore:wind_divine_wind",
+  "tier": 2,
+  "cast_time": 1,"name":"Wind Release: Divine Wind","category":"elemental_ninjutsu","nature":"wind","type":"projectile","params":{"speed":3.0,"radius":0.8,"particle":"wind","lifetime":80,"pierce":5},"baseCost":34,"baseDamage":10,"strain":9,"requiredUsesForFullProficiency":50,"requirements":{"control":24,"nature_wind":32,"ninjutsu":20}}

@@ -1,1 +1,3 @@
-{"id":"shinobicore:wind_vacuum_sphere","name":"Wind Release: Vacuum Sphere","category":"elemental_ninjutsu","nature":"wind","type":"aoe","params":{"radius":6,"particle":"wind","particleCount":60,"knockback":2.5},"baseCost":32,"baseDamage":5,"strain":9,"requiredUsesForFullProficiency":50,"requirements":{"control":24,"nature_wind":28,"ninjutsu":18}}
+{"id":"shinobicore:wind_vacuum_sphere",
+  "tier": 2,
+  "cast_time": 1,"name":"Wind Release: Vacuum Sphere","category":"elemental_ninjutsu","nature":"wind","type":"aoe","params":{"radius":6,"particle":"wind","particleCount":60,"knockback":2.5},"baseCost":32,"baseDamage":5,"strain":9,"requiredUsesForFullProficiency":50,"requirements":{"control":24,"nature_wind":28,"ninjutsu":18}}

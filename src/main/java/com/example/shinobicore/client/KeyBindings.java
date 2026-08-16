@@ -18,6 +18,7 @@ public class KeyBindings {
     public static KeyBinding CHAKRA_MODE;
     public static KeyBinding DODGE_LEFT;
     public static KeyBinding DODGE_RIGHT;
+    public static KeyBinding KAWARIMI;
     public static KeyBinding CRAWL;
     public static KeyBinding KICK;
     public static KeyBinding SWITCH_STYLE;
@@ -25,6 +26,7 @@ public class KeyBindings {
     public static KeyBinding KATANA_DEFLECT;
     public static KeyBinding IAI_DASH;
     public static KeyBinding TOGGLE_SENSORY;
+    public static KeyBinding DEBUG_OVERLAY;
     public static KeyBinding TOGGLE_SCABBARD;
 
     public static void register() {

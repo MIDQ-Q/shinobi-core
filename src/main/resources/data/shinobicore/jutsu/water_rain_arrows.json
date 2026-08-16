@@ -1,1 +1,3 @@
-{"id":"shinobicore:water_rain_arrows","name":"Water Release: Rain of Arrows","category":"elemental_ninjutsu","nature":"water","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.ArrowRainBehavior","params":{"count":18,"area":7,"arrowDamage":3},"baseCost":40,"baseDamage":0,"strain":10,"requiredUsesForFullProficiency":55,"requirements":{"control":26,"nature_water":30,"ninjutsu":20}}
+{"id":"shinobicore:water_rain_arrows",
+  "tier": 3,
+  "cast_time": 1.5,"name":"Water Release: Rain of Arrows","category":"elemental_ninjutsu","nature":"water","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.ArrowRainBehavior","params":{"count":18,"area":7,"arrowDamage":3},"baseCost":40,"baseDamage":0,"strain":10,"requiredUsesForFullProficiency":55,"requirements":{"control":26,"nature_water":30,"ninjutsu":20}}

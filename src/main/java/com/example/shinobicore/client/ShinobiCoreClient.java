@@ -31,6 +31,9 @@ import com.example.shinobicore.client.CinematicCamera;
 import com.example.shinobicore.client.HandSignsClientState;
 import com.example.shinobicore.client.HandSignsHudRenderer;
 import com.example.shinobicore.ShinobiCore;
+import com.example.shinobicore.network.AttributeSyncPacket;
+import com.example.shinobicore.network.S06NetworkLayer;
+import com.example.shinobicore.network.NetworkDebugLogger;
 import com.example.shinobicore.client.combat.TaijutsuAnimations;
 import com.example.shinobicore.client.combat.HitStopManager;
 import com.example.shinobicore.client.render.NarutoArmorRenderer;
@@ -53,7 +56,8 @@ public class ShinobiCoreClient implements ClientModInitializer {
         HudRenderCallback.EVENT.register(ChakraHudRenderer::render);
         com.example.shinobicore.client.TargetFrameHud.register();
         com.example.shinobicore.client.RpgCameraKeybind.register(); // PHASE_H_CAMERA // BATCH3_AURA
-        com.example.shinobicore.client.LandingAnimations.register(); // PHASE_A_REG
+        com.example.shinobicore.client.LandingAnimations.register();
+        com.example.shinobicore.client.LandingControlRecovery.register(); // S2-08 // PHASE_A_REG
         // === РЕГИСТРАЦИЯ РЕНДЕРЕРОВ (было потеряно!) ===
         EntityRendererRegistry.register(ModEntities.NINJA_PROJECTILE, NinjaProjectileRenderer::new);
         EntityRendererRegistry.register(ModEntities.SHURIKEN, ShurikenRenderer::new);
@@ -72,6 +76,11 @@ public class ShinobiCoreClient implements ClientModInitializer {
 
         // === РЕГИСТРАЦИЯ КИНЕМАТОГРАФИЧНОЙ КАМЕРЫ ===
         ClientTickEvents.END_CLIENT_TICK.register(CinematicCamera::tick);
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (client.player != null) {
+                com.example.shinobicore.client.prediction.ClientPredictionManager.tick(client.player);
+            }
+        });
         ShinobiCore.LOGGER.info("Registered cinematic camera");
 
         ClientPlayNetworking.registerGlobalReceiver(ModPackets.CHAKRA_SYNC_ID, (client, handler, buf, responseSender) -> {
@@ -79,7 +88,11 @@ public class ShinobiCoreClient implements ClientModInitializer {
             client.execute(() -> {
                 ChakraHudRenderer.currentChakra = packet.currentChakra();
                 ChakraHudRenderer.maxChakra = packet.maxChakra();
+                ChakraHudRenderer.currentStamina = packet.currentStamina();
+                ChakraHudRenderer.maxStamina = packet.maxStamina();
                 ChakraHudRenderer.fatigue = packet.fatigue();
+                ChakraHudRenderer.currentStamina = packet.currentStamina();
+                ChakraHudRenderer.maxStamina = packet.maxStamina();
                 ChakraHudRenderer.exhausted = packet.exhausted();
                 ClientNinjaState.meditating = packet.meditating();
             });
@@ -175,9 +188,15 @@ public class ShinobiCoreClient implements ClientModInitializer {
             int count = buf.readInt();
             Set<String> nodes = new HashSet<>();
             for (int i = 0; i < count; i++) nodes.add(buf.readString());
+            // S1-07: Read teacher approved nodes
+            int teacherCount = buf.readInt();
+            Set<String> teacherNodes = new HashSet<>();
+            for (int i = 0; i < teacherCount; i++) teacherNodes.add(buf.readString());
             client.execute(() -> {
                 ClientNinjaState.unlockedNodes.clear();
                 ClientNinjaState.unlockedNodes.addAll(nodes);
+                ClientNinjaState.teacherApproved.clear();
+                ClientNinjaState.teacherApproved.addAll(teacherNodes);
             });
         });
 
@@ -198,20 +217,30 @@ public class ShinobiCoreClient implements ClientModInitializer {
         CastingClientVisual.register();
         com.example.shinobicore.client.combat.SwordTrailRenderer.register(); // PHASE_K1_TRAIL_REGISTERED
         ChakraAuraRenderer.register(); // PHASE_E_AURA_REGISTERED
-                ClientPlayNetworking.registerGlobalReceiver(ModPackets.HIT_STOP_ID, (client, handler, buf, responseSender) -> {
+                ClientPlayNetworking.registerGlobalReceiver(com.example.shinobicore.network.PredictionCorrectionPacket.ID, (client, handler, buf, responseSender) -> {
+            final com.example.shinobicore.network.PredictionCorrectionPacket packet = com.example.shinobicore.network.PredictionCorrectionPacket.read(buf);
+            client.execute(() -> {
+                if (client.player != null) {
+                    com.example.shinobicore.client.prediction.ClientPredictionManager.applyCorrection(client.player, packet.getPos(), packet.getVel());
+                }
+            });
+        });
+
+        ClientPlayNetworking.registerGlobalReceiver(ModPackets.HIT_STOP_ID, (client, handler, buf, responseSender) -> {
             int entityId = buf.readInt();
             int durationMs = buf.readInt();
             client.execute(() -> HitStopManager.freeze(entityId, durationMs));
         });
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
             IdlePoseSystem.cleanupAll();
+            com.example.shinobicore.client.LandingControlRecovery.cleanupAll(); // S2-08
             com.example.shinobicore.client.combat.TaijutsuAnimations.cleanup(client.player.getUuid());
             com.example.shinobicore.client.combat.KenjutsuAnimations.cleanup(client.player.getUuid());
             CastingClientState.clear();
             HitStopManager.clear();
             HandSignsClientState.clear();
         });
-                // === PHASE5 HAND SIGNS ===
+                        // === PHASE5 HAND SIGNS ===
         ClientPlayNetworking.registerGlobalReceiver(ModPackets.CAST_START_ID, (client, handler, buf, responseSender) -> {
             int entityId = buf.readInt();
             String jutsuId = buf.readString();
@@ -222,13 +251,72 @@ public class ShinobiCoreClient implements ClientModInitializer {
             int entityId = buf.readInt();
             client.execute(() -> HandSignsClientState.interruptCasting(entityId));
         });
-        // HUD registration now inside ChakraHudRenderer.register() (self-guarded)
         HudRenderCallback.EVENT.register(HandSignsHudRenderer::render);
-NarutoArmorRenderer.register();
+        HudRenderCallback.EVENT.register(com.example.shinobicore.client.debug.DebugOverlayRenderer::render);
+
+        // === S0-01: Attribute delta sync receiver ===
+        ClientPlayNetworking.registerGlobalReceiver(AttributeSyncPacket.ID, (client, handler, buf, responseSender) -> {
+            final AttributeSyncPacket packet = AttributeSyncPacket.read(buf);
+            client.execute(() -> {
+                if (client.player != null) {
+                    ShinobiCore.LOGGER.debug("[ATTR-SYNC] Received {} attribute changes", packet.changedAttributes().size());
+                }
+            });
+        });
+
+        NarutoArmorRenderer.register();
         LivingEntityFeatureRendererRegistrationCallback.EVENT.register((entityType, entityRenderer, registrationHelper, context) -> {
             if (entityRenderer instanceof net.minecraft.client.render.entity.PlayerEntityRenderer playerRenderer) {
                 registrationHelper.register(new BackKatanaRenderer(playerRenderer));
             }
         });
+
+        // === S0-06: Network Layer Receivers ===
+        registerS06ClientReceivers();
+    }
+
+    // === S0-06: Client receivers for new packets ===
+    private void registerS06ClientReceivers() {
+        ClientPlayNetworking.registerGlobalReceiver(S06NetworkLayer.VFX_SPAWN_ID, (client, handler, buf, responseSender) -> {
+            int vfxType = buf.readByte() & 0xFF;
+            double x = buf.readDouble(); double y = buf.readDouble(); double z = buf.readDouble();
+            float scale = buf.readFloat();
+            client.execute(() -> NetworkDebugLogger.logPacket("vfx_spawn", "S2C", client.player != null ? client.player.getName().getString() : "?", "type=" + vfxType));
+        });
+        ClientPlayNetworking.registerGlobalReceiver(S06NetworkLayer.HIT_RESULT_ID, (client, handler, buf, responseSender) -> {
+            int attackerId = buf.readVarInt(); int targetId = buf.readVarInt();
+            float damage = buf.readFloat(); boolean crit = buf.readBoolean();
+            client.execute(() -> NetworkDebugLogger.logPacket("hit_result", "S2C", client.player != null ? client.player.getName().getString() : "?", "dmg=" + damage + " crit=" + crit));
+        });
+        ClientPlayNetworking.registerGlobalReceiver(S06NetworkLayer.DOJUTSU_STATE_ID, (client, handler, buf, responseSender) -> {
+            String dojutsuId = buf.readString(); int stage = buf.readByte(); boolean active = buf.readBoolean();
+            client.execute(() -> {
+                NetworkDebugLogger.logPacket("dojutsu_state", "S2C", client.player != null ? client.player.getName().getString() : "?", "id=" + dojutsuId + " stage=" + stage);
+                ClientNinjaState.activeDojutsu = dojutsuId.isEmpty() ? null : dojutsuId;
+            });
+        });
+        ClientPlayNetworking.registerGlobalReceiver(S06NetworkLayer.KAWARIMI_FX_ID, (client, handler, buf, responseSender) -> {
+            double x = buf.readDouble(); double y = buf.readDouble(); double z = buf.readDouble();
+            client.execute(() -> NetworkDebugLogger.logPacket("kawarimi_fx", "S2C", client.player != null ? client.player.getName().getString() : "?"));
+        });
+        ClientPlayNetworking.registerGlobalReceiver(S06NetworkLayer.CLONE_SPAWN_ID, (client, handler, buf, responseSender) -> {
+            int ownerId = buf.readVarInt(); int cloneId = buf.readVarInt();
+            double x = buf.readDouble(); double y = buf.readDouble(); double z = buf.readDouble();
+            client.execute(() -> NetworkDebugLogger.logPacket("clone_spawn", "S2C", client.player != null ? client.player.getName().getString() : "?", "clone=" + cloneId));
+        });
+        ClientPlayNetworking.registerGlobalReceiver(S06NetworkLayer.CLONE_DESPAWN_ID, (client, handler, buf, responseSender) -> {
+            int cloneId = buf.readVarInt();
+            client.execute(() -> NetworkDebugLogger.logPacket("clone_despawn", "S2C", client.player != null ? client.player.getName().getString() : "?", "clone=" + cloneId));
+        });
+        ClientPlayNetworking.registerGlobalReceiver(S06NetworkLayer.CAST_COMPLETE_ID, (client, handler, buf, responseSender) -> {
+            String jutsuId = buf.readString();
+            client.execute(() -> NetworkDebugLogger.logPacket("cast_complete", "S2C", client.player != null ? client.player.getName().getString() : "?", "jutsu=" + jutsuId));
+        });
+        ClientPlayNetworking.registerGlobalReceiver(S06NetworkLayer.SENSORY_STATE_ID, (client, handler, buf, responseSender) -> {
+            int tier = buf.readByte(); int radius = buf.readVarInt(); boolean active = buf.readBoolean();
+            client.execute(() -> NetworkDebugLogger.logPacket("sensory_state", "S2C", client.player != null ? client.player.getName().getString() : "?", "tier=" + tier + " radius=" + radius));
+        });
+        
+        ShinobiCore.LOGGER.info("[S0-06] Network layer client receivers registered");
     }
 }

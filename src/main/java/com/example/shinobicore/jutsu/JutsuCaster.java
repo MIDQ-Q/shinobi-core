@@ -311,7 +311,7 @@ public class JutsuCaster {
         // === ЗВУК НАЧАЛА ЗАРЯДКИ ===
         JutsuSoundHelper.playChargeStartSound(player, def);
 
-        com.example.shinobicore.combat.CastingServerState.startCast(player, jutsuId, castTimeTicks, cost);
+        com.example.shinobicore.combat.CastingServerState.startCast(player, jutsuId, castTimeTicks, cost, def.chargeable(), def.chargeMax());
         ShinobiCore.broadcastCastStart(player, jutsuId, castTimeTicks);
         JutsuLogger.logBehavior("hand_signs", String.format(
             "START: player=%s, jutsu=%s, castTime=%dticks, cost=%.1f",
@@ -320,6 +320,10 @@ public class JutsuCaster {
     }
 
     public static boolean executeCast(ServerPlayerEntity player, String jutsuId) {
+        return executeCast(player, jutsuId, 1.0f);
+    }
+
+    public static boolean executeCast(ServerPlayerEntity player, String jutsuId, float chargeLevel) {
         NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
         TreePassives.Bonuses pbs = TreePassives.collectServer(data);
         com.example.shinobicore.jutsu.JutsuDefinition def = com.example.shinobicore.jutsu.JutsuRegistry.get(jutsuId);

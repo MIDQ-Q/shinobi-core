@@ -1,1 +1,3 @@
-{"id":"shinobicore:chidori","name":"Chidori","category":"elemental_ninjutsu","nature":"lightning","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.ChidoriBehavior","params":{"dashDistance":8,"hitRadius":2},"baseCost":60,"baseDamage":22,"strain":16,"requiredUsesForFullProficiency":80,"requirements":{"control":35,"nature_lightning":40,"ninjutsu":30}}
+{"id":"shinobicore:chidori",
+  "tier": 4,
+  "cast_time": 2.5,"name":"Chidori","category":"elemental_ninjutsu","nature":"lightning","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.ChidoriBehavior","params":{"dashDistance":8,"hitRadius":2},"baseCost":60,"baseDamage":22,"strain":16,"requiredUsesForFullProficiency":80,"requirements":{"control":35,"nature_lightning":40,"ninjutsu":30}}

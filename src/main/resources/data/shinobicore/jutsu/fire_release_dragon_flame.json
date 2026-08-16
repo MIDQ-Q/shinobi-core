@@ -1,6 +1,8 @@
 {
   "model": "fireball",
   "id": "shinobicore:fire_release_dragon_flame",
+  "tier": 2,
+  "cast_time": 1,
   "name": "Fire Release: Dragon Flame Jutsu",
   "category": "elemental_ninjutsu",
   "nature": "fire",

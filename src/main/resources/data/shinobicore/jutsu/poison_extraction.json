@@ -1,5 +1,7 @@
 {
   "id": "shinobicore:poison_extraction",
+  "tier": 1,
+  "cast_time": 0.5,
   "name": "Poison Extraction Jutsu",
   "category": "medical",
   "type": "utility",

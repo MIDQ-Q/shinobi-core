@@ -1,5 +1,7 @@
 {
   "id": "shinobicore:genjutsu_mirage",
+  "tier": 2,
+  "cast_time": 1,
   "name": "Genjutsu: Mirage",
   "category": "genjutsu",
   "type": "custom",

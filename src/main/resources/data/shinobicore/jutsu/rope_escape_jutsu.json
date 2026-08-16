@@ -1,5 +1,7 @@
 {
   "id": "shinobicore:rope_escape_jutsu",
+  "tier": 1,
+  "cast_time": 0.5,
   "name": "Rope Escape Jutsu",
   "category": "shape_ninjutsu",
   "type": "utility",

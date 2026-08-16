@@ -19,6 +19,8 @@ public class ClientInputHandler {
     private static boolean prevDeflectDown = false;
     private static boolean prevRmbDown = false;
     private static boolean prevLmbDown = false;
+    private static boolean prevCastAHeld = false;
+    private static boolean prevCastBHeld = false;
     public static void register() {
         ClientTickEvents.END_CLIENT_TICK.register(ClientInputHandler::onClientTick);
     }
@@ -101,6 +103,19 @@ public class ClientInputHandler {
         }
         if (KeyBindings.CAST_A.wasPressed()) ClientNinjaState.castActiveJutsu(0);
         if (KeyBindings.CAST_B.wasPressed()) ClientNinjaState.castActiveJutsu(1);
+        // S1-05: Track cast key release for chargeable jutsu
+        boolean castAHeld = KeyBindings.CAST_A.isPressed();
+        if (!castAHeld && prevCastAHeld && client.getNetworkHandler() != null) {
+            PacketByteBuf releaseBuf = new PacketByteBuf(Unpooled.buffer());
+            ClientPlayNetworking.send(ModPackets.RELEASE_CAST_ID, releaseBuf);
+        }
+        prevCastAHeld = castAHeld;
+        boolean castBHeld = KeyBindings.CAST_B.isPressed();
+        if (!castBHeld && prevCastBHeld && client.getNetworkHandler() != null) {
+            PacketByteBuf releaseBuf2 = new PacketByteBuf(Unpooled.buffer());
+            ClientPlayNetworking.send(ModPackets.RELEASE_CAST_ID, releaseBuf2);
+        }
+        prevCastBHeld = castBHeld;
         if (KeyBindings.CYCLE_A.wasPressed()) ClientNinjaState.cycleLoadout(0);
         if (KeyBindings.CYCLE_B.wasPressed()) ClientNinjaState.cycleLoadout(1);
         if (KeyBindings.PROGRESSION.wasPressed()) client.setScreen(new ProgressionScreen());
@@ -126,6 +141,17 @@ public class ClientInputHandler {
             } else {
             }
         }
+        // === S2-03: BLOCK STATE ===
+        boolean handEmpty = client.player.getMainHandStack().isEmpty();
+        hasKatana = client.player.getMainHandStack().getItem() instanceof com.example.shinobicore.item.KatanaItem;
+        boolean wantBlock = rmbDown && (handEmpty || hasKatana);
+        if (wantBlock != ClientNinjaState.isBlockingClient) {
+            ClientNinjaState.isBlockingClient = wantBlock;
+            PacketByteBuf blockBuf = new PacketByteBuf(Unpooled.buffer());
+            blockBuf.writeBoolean(wantBlock);
+            ClientPlayNetworking.send(ModPackets.BLOCK_STATE_ID, blockBuf);
+        }
+
         prevRmbDown = rmbDown;
 
         // === LMB: rasengan strike ===
@@ -151,6 +177,13 @@ public class ClientInputHandler {
         }
         prevLmbDown = lmbDown;
         if (KeyBindings.CRAWL.wasPressed()) ShinobiCore.LOGGER.info("[INPUT] CRAWL (N) pressed");
+        if (KeyBindings.KAWARIMI.wasPressed()) {
+            net.minecraft.network.PacketByteBuf buf = new net.minecraft.network.PacketByteBuf(io.netty.buffer.Unpooled.buffer());
+            net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking.send(com.example.shinobicore.network.S06NetworkLayer.KAWARIMI_ID, buf);
+        }
+        if (KeyBindings.DEBUG_OVERLAY.wasPressed()) {
+            com.example.shinobicore.client.debug.DebugProfiler.toggle();
+        }
 
         if (KeyBindings.TOGGLE_SCABBARD.wasPressed()) {
             net.minecraft.item.ItemStack mainHand = client.player.getMainHandStack();

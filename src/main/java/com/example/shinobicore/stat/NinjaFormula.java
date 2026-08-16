@@ -5,26 +5,36 @@ import com.example.shinobicore.clan.ClanRegistry;
 import com.example.shinobicore.config.ModConfig;
 import com.example.shinobicore.jutsu.JutsuDefinition;
 import com.example.shinobicore.tree.TreePassives;
-
 import java.util.Map;
 
 public class NinjaFormula {
     private static ModConfig cfg() { return ModConfig.instance; }
 
+    // === S1-01: Chakra Limit with clan cap + mode buffer ===
     public static float maxChakra(NinjaPlayerData data) {
-        return cfg().chakra.baseChakra
-                + (data.getReserveLevel() - 1) * cfg().chakra.chakraPerReserveLevel
-                + getClanReserveBonus(data.getClanId());
+        float cap = cfg().chakra.baseChakra;
+        ClanDefinition clan = ClanRegistry.get(data.getClanId());
+        if (clan != null && clan.chakraCap() > 0) {
+            cap = clan.chakraCap();
+        }
+        cap += (data.getReserveLevel() - 1) * cfg().chakra.chakraPerReserveLevel;
+        cap += data.getModeBuffer();
+        return cap;
     }
 
+    // === S1-02: Stamina factor affects chakra regen ===
     public static float regenPerSecond(NinjaPlayerData data) {
         float regen = cfg().chakra.baseRegen
-                + data.getReserveLevel() * cfg().chakra.regenPerReserveLevel
-                + data.getStatLevel(StatType.CONTROL) * cfg().chakra.regenPerControlLevel;
+            + data.getReserveLevel() * cfg().chakra.regenPerReserveLevel
+            + data.getStatLevel(StatType.CONTROL) * cfg().chakra.regenPerControlLevel;
         if (data.getFatigue() > cfg().fatigue.hardThreshold)
             regen *= cfg().chakra.regenHardFatigueMultiplier;
         if (data.isExhausted())
             regen *= cfg().chakra.regenExhaustedMultiplier;
+
+        float staminaFactor = 0.3f + 0.7f * (data.getCurrentStamina() / Math.max(1f, data.getMaxStamina()));
+        regen *= staminaFactor;
+
         return regen;
     }
 
@@ -34,8 +44,7 @@ public class NinjaFormula {
 
     public static float characterScore(JutsuDefinition def, NinjaPlayerData data) {
         Map<String, Float> weights = cfg().combat.categoryWeights.get(def.category());
-        if (weights == null)
-            weights = cfg().combat.categoryWeights.get("elemental_ninjutsu");
+        if (weights == null) weights = cfg().combat.categoryWeights.get("elemental_ninjutsu");
         float score = 0f;
         for (Map.Entry<String, Float> e : weights.entrySet()) {
             score += statValue(e.getKey(), def, data) * e.getValue();
@@ -71,21 +80,16 @@ public class NinjaFormula {
         float natureRed = 0f;
         if (def.hasNature()) {
             natureRed = data.getNatureLevel(def.nature()) / 100f * cfg().combat.costNatureReductionMax;
-            if (data.getAffinity() == def.nature()) {
-                cost *= cfg().combat.affinityCostMultiplier;
-            }
+            if (data.getAffinity() == def.nature()) cost *= cfg().combat.affinityCostMultiplier;
         }
         float masteryRed = m * cfg().combat.costMasteryReductionMax;
         float totalRed = Math.min(0.8f, controlRed + natureRed + masteryRed);
         cost *= (1f - totalRed);
 
-        // === НОВОЕ: costMultiplier клана ===
         ClanDefinition clan = ClanRegistry.get(data.getClanId());
         if (clan != null && def.hasNature()) {
             Float mult = clan.costMultiplier().get(def.nature().getId());
-            if (mult != null) {
-                cost *= mult;
-            }
+            if (mult != null) cost *= mult;
         }
 
         float soft = cfg().fatigue.softThreshold;
@@ -99,9 +103,7 @@ public class NinjaFormula {
     public static float damageMultiplier(NinjaPlayerData data, JutsuDefinition def) {
         float m = mastery(def, data) / 100f;
         float mult = cfg().combat.damageBaseMultiplier + m * cfg().combat.damageMasteryScale;
-        if (def.hasNature() && data.getAffinity() == def.nature()) {
-            mult *= cfg().combat.affinityDamageMultiplier;
-        }
+        if (def.hasNature() && data.getAffinity() == def.nature()) mult *= cfg().combat.affinityDamageMultiplier;
         return mult;
     }
 
@@ -132,23 +134,20 @@ public class NinjaFormula {
     public static int meditationControlXpPerSecond() { return cfg().meditation.controlXpPerSecond; }
 
     public static int xpToNextLevel(int level) {
-        return cfg().progression.xpBase
-                + level * cfg().progression.xpPerLevel
-                + level * level * cfg().progression.xpSquared;
+        return cfg().progression.xpBase + level * cfg().progression.xpPerLevel + level * level * cfg().progression.xpSquared;
     }
 
     public static int spCostForLevel(int level) {
         return cfg().progression.spBaseCost + (level / 10) * cfg().progression.spExtraCostEvery10;
     }
 
-    public static int maxHealth(int hpLevel) {
-        return 20 + hpLevel * 20;
-    }
+    public static int maxHealth(int hpLevel) { return 20 + hpLevel * 20; }
 
     public static float speedMultiplier(int speedLevel, boolean chakraMode) {
-        float base = 1.0f + speedLevel * 0.125f;
-        if (chakraMode) base *= 2.0f;
-        return Math.min(base, chakraMode ? 4.0f : 2.0f);
+        float base = 1.0f + speedLevel * 0.03f;
+        if (chakraMode) base *= 1.2f;
+        float cap = chakraMode ? cfg().movement.speedCapChakra : cfg().movement.speedCapNormal;
+        return Math.min(base, cap);
     }
 
     public static float jumpMultiplier(int jumpLevel, boolean chakraMode) {
@@ -158,27 +157,24 @@ public class NinjaFormula {
     }
 
     public static float jumpHorizontalMultiplier(int jumpLevel, boolean chakraMode) {
-        if (!chakraMode) return 1.0f + jumpLevel * 0.125f;
-        return 2.0f + jumpLevel * 0.5f;
+        float base = chakraMode ? 1.2f + jumpLevel * 0.06f : 1.0f + jumpLevel * 0.02f;
+        return Math.min(base, cfg().movement.jumpHorizCap);
     }
 
     public static float jumpVerticalMultiplier(int jumpLevel, boolean chakraMode) {
         if (!chakraMode) return 1.0f;
-        return 1.5f + jumpLevel * 0.15f;
+        float base = 1.1f + jumpLevel * 0.03f;
+        return Math.min(base, cfg().movement.jumpVertCap);
     }
 
-    public static int bodySpCost() {
-        return cfg().progression.spBaseCost * 2;
-    }
+    public static int bodySpCost() { return cfg().progression.spBaseCost * 2; }
 
     public static float chakraModeDrainPerSecond(NinjaPlayerData data) {
         float controlReduction = data.getStatLevel(StatType.CONTROL) / 100f * 0.9f;
         return 2.0f * (1.0f - controlReduction);
     }
 
-    public static float chakraModeRegenMultiplier() {
-        return 0.2f;
-    }
+    public static float chakraModeRegenMultiplier() { return 0.2f; }
 
     public static boolean addStatXp(NinjaPlayerData data, StatType stat, int amount) {
         int startLevel = data.getStatLevel(stat);
@@ -192,9 +188,7 @@ public class NinjaFormula {
         }
         data.setStatLevel(stat, level);
         data.setStatXp(stat, currentXp);
-        if (leveled) {
-            data.addSkillPoints((level - startLevel) * cfg().progression.spPerLevelUp);
-        }
+        if (leveled) data.addSkillPoints((level - startLevel) * cfg().progression.spPerLevelUp);
         return leveled;
     }
 
@@ -210,9 +204,7 @@ public class NinjaFormula {
         }
         data.setReserveLevel(level);
         data.setReserveXp(currentXp);
-        if (leveled) {
-            data.addSkillPoints((level - startLevel) * cfg().progression.spPerLevelUp);
-        }
+        if (leveled) data.addSkillPoints((level - startLevel) * cfg().progression.spPerLevelUp);
         return leveled;
     }
 
@@ -228,9 +220,7 @@ public class NinjaFormula {
         }
         data.setNatureLevel(element, level);
         data.setNatureXp(element, currentXp);
-        if (leveled) {
-            data.addSkillPoints((level - startLevel) * cfg().progression.spPerLevelUp);
-        }
+        if (leveled) data.addSkillPoints((level - startLevel) * cfg().progression.spPerLevelUp);
         return leveled;
     }
 
@@ -260,5 +250,13 @@ public class NinjaFormula {
         ClanDefinition clan = ClanRegistry.get(clanId);
         if (clan == null) return 0f;
         return clan.reserveBonus();
+    }
+
+    // === S1-08: РџР°СЃСЃРёРІРЅС‹Р№ РґСЂРµР№С„ РѕРїС‹С‚Р° ===
+    public static void grantPassiveXp(NinjaPlayerData data) {
+        // РџР°СЃСЃРёРІРЅС‹Р№ РїСЂРёСЂРѕСЃС‚: 1 XP СЂРµР·РµСЂРІР° Р·Р° РІС‹Р·РѕРІ (NinjaTickHandler РІС‹Р·С‹РІР°РµС‚ СЌС‚Рѕ СЂР°Р· РІ СЃРµРєСѓРЅРґСѓ).
+        // Р’СЃС‚СЂРѕРµРЅРЅР°СЏ СЃРёСЃС‚РµРјР° Р±СЋРґР¶РµС‚РѕРІ (tryConsumeXpBudget РІРЅСѓС‚СЂРё grantReserveXp) 
+        // СЃР°РјР° РѕРіСЂР°РЅРёС‡РёС‚ Р±РµСЃРєРѕРЅРµС‡РЅС‹Р№ С„Р°СЂРј Р»РёРјРёС‚РѕРј maxXpPerMinute РёР· РєРѕРЅС„РёРіР°.
+        grantReserveXp(data, 1);
     }
 }

@@ -1,5 +1,7 @@
-﻿{
+{
   "id": "shinobicore:wind_release_gale_palm",
+  "tier": 1,
+  "cast_time": 0.5,
   "name": "Wind Release: Gale Palm",
   "category": "elemental_ninjutsu",
   "nature": "wind",

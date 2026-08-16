@@ -1,6 +1,8 @@
 {
   "model": "sphere",
   "id": "shinobicore:lightning_release_false_darkness",
+  "tier": 2,
+  "cast_time": 1,
   "name": "Lightning Release: False Darkness",
   "category": "elemental_ninjutsu",
   "nature": "lightning",

@@ -13,11 +13,11 @@ import net.minecraft.util.Identifier;
 
 public class ModItems {
     public static final Item KATANA_IRON = Registry.register(Registries.ITEM,
-            new Identifier(ShinobiCore.MOD_ID, "katana_iron"), new KatanaItem(ToolMaterials.IRON, new Item.Settings().maxCount(1)));
+            new Identifier(ShinobiCore.MOD_ID, "katana_iron"), new KatanaItem(ToolMaterials.IRON, new Item.Settings().maxCount(1).maxDamage(0)));
     public static final Item KATANA_DIAMOND = Registry.register(Registries.ITEM,
-            new Identifier(ShinobiCore.MOD_ID, "katana_diamond"), new KatanaItem(ToolMaterials.DIAMOND, new Item.Settings().maxCount(1)));
+            new Identifier(ShinobiCore.MOD_ID, "katana_diamond"), new KatanaItem(ToolMaterials.DIAMOND, new Item.Settings().maxCount(1).maxDamage(0)));
     public static final Item KATANA_NETHERITE = Registry.register(Registries.ITEM,
-            new Identifier(ShinobiCore.MOD_ID, "katana_netherite"), new KatanaItem(ToolMaterials.NETHERITE, new Item.Settings().maxCount(1).fireproof()));
+            new Identifier(ShinobiCore.MOD_ID, "katana_netherite"), new KatanaItem(ToolMaterials.NETHERITE, new Item.Settings().maxCount(1).maxDamage(0).fireproof()));
     public static final Item KATANA = KATANA_IRON; // Alias for backwards compatibility
     public static final Item FLAK_VEST = Registry.register(Registries.ITEM,
             new Identifier(ShinobiCore.MOD_ID, "flak_vest"), new ArmorItem(ModArmorMaterials.NARUTO_FLAK, ArmorItem.Type.CHESTPLATE, new Item.Settings()));

@@ -1,1 +1,3 @@
-{"id":"shinobicore:kenjutsu_blade_dance","name":"Kenjutsu: Blade Dance","category":"taijutsu","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.ChainMeleeBehavior","params":{"range":4.0,"hits":8,"coneAngle":180},"baseCost":30,"baseDamage":22,"strain":9,"requiredUsesForFullProficiency":50,"requirements":{"taijutsu":30,"control":20}}
+{"id":"shinobicore:kenjutsu_blade_dance",
+  "tier": 2,
+  "cast_time": 1,"name":"Kenjutsu: Blade Dance","category":"taijutsu","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.ChainMeleeBehavior","params":{"range":4.0,"hits":8,"coneAngle":180},"baseCost":30,"baseDamage":22,"strain":9,"requiredUsesForFullProficiency":50,"requirements":{"taijutsu":30,"control":20}}

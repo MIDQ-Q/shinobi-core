@@ -1,5 +1,7 @@
 {
   "id": "shinobicore:medical_poison_mist",
+  "tier": 2,
+  "cast_time": 1,
   "name": "Medical: Poison Mist",
   "category": "medical",
   "type": "aoe",

@@ -1,5 +1,7 @@
 {
   "id": "shinobicore:uzumaki_chains",
+  "tier": 4,
+  "cast_time": 2.5,
   "name": "Adamantine Chains",
   "category": "shape_ninjutsu",
   "type": "custom",

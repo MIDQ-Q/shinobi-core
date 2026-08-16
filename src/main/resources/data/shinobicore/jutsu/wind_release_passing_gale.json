@@ -1,5 +1,7 @@
 {
   "id": "shinobicore:wind_release_passing_gale",
+  "tier": 1,
+  "cast_time": 0.5,
   "name": "Wind Release: Passing Gale",
   "category": "elemental_ninjutsu",
   "nature": "wind",

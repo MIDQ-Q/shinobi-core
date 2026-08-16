@@ -17,8 +17,10 @@ import java.util.List;
 
 public class ChakraHudRenderer {
 
-    public static float currentChakra = 100f;
-    public static float maxChakra = 100f;
+    public static float currentChakra = 2000f;
+    public static float maxChakra = 2000f;
+    public static float currentStamina = 100f;
+    public static float maxStamina = 100f;
     public static float fatigue = 0f;
     public static boolean exhausted = false;
 
@@ -55,6 +57,9 @@ public class ChakraHudRenderer {
         float chakraRatio = maxChakra > 0 ? currentChakra / maxChakra : 0;
         bars.add(new BarSpec(chakraRatio, CHAKRA_LIGHT, CHAKRA_DARK, chakraRatio < 0.25f && !exhausted,
             "CH", (int) currentChakra + "/" + (int) maxChakra));
+        float stamRatio = maxStamina > 0 ? currentStamina / maxStamina : 0;
+        bars.add(new BarSpec(stamRatio, 0xFF44EE44, 0xFF22AA22, stamRatio < 0.25f,
+                "ST", (int) currentStamina + "/" + (int) maxStamina));
         if (fatigue > 0)
             bars.add(new BarSpec(fatigue / 100f, FATIGUE_LIGHT, FATIGUE_DARK, exhausted, "FT", (int) fatigue + "%"));
         if (client.player.getAir() < client.player.getMaxAir())

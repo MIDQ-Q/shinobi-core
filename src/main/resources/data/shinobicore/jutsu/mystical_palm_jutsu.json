@@ -1,5 +1,7 @@
 {
   "id": "shinobicore:mystical_palm_jutsu",
+  "tier": 2,
+  "cast_time": 1,
   "name": "Mystical Palm Jutsu",
   "category": "medical",
   "type": "utility",

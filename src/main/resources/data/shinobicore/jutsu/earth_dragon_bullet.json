@@ -1,1 +1,3 @@
-{"id":"shinobicore:earth_dragon_bullet","name":"Earth Release: Earth Dragon Bullet","category":"elemental_ninjutsu","nature":"earth","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.DragonProjectileBehavior","params":{"speed":1.5,"radius":4.0,"model":"earth_dragon","particle":"earth"},"baseCost":40,"baseDamage":16,"strain":11,"requiredUsesForFullProficiency":55,"requirements":{"control":26,"nature_earth":32,"ninjutsu":22}}
+{"id":"shinobicore:earth_dragon_bullet",
+  "tier": 3,
+  "cast_time": 1.5,"name":"Earth Release: Earth Dragon Bullet","category":"elemental_ninjutsu","nature":"earth","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.DragonProjectileBehavior","params":{"speed":1.5,"radius":4.0,"model":"earth_dragon","particle":"earth"},"baseCost":40,"baseDamage":16,"strain":11,"requiredUsesForFullProficiency":55,"requirements":{"control":26,"nature_earth":32,"ninjutsu":22}}

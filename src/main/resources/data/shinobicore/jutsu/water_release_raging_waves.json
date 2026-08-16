@@ -1,5 +1,7 @@
 {
   "id": "shinobicore:water_release_raging_waves",
+  "tier": 1,
+  "cast_time": 0.5,
   "name": "Water Release: Raging Waves",
   "category": "elemental_ninjutsu",
   "nature": "water",

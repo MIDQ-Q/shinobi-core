@@ -1,1 +1,3 @@
-{"id":"shinobicore:smoke_bomb","name":"Tool: Smoke Bomb","category":"shape_ninjutsu","type":"aoe","params":{"radius":4,"particle":"smoke","particleCount":250,"statusEffect":"blindness","statusDuration":60},"baseCost":15,"baseDamage":0,"strain":4,"requiredUsesForFullProficiency":25,"requirements":{"control":12,"perception":10}}
+{"id":"shinobicore:smoke_bomb",
+  "tier": 1,
+  "cast_time": 0.5,"name":"Tool: Smoke Bomb","category":"shape_ninjutsu","type":"aoe","params":{"radius":4,"particle":"smoke","particleCount":250,"statusEffect":"blindness","statusDuration":60},"baseCost":15,"baseDamage":0,"strain":4,"requiredUsesForFullProficiency":25,"requirements":{"control":12,"perception":10}}

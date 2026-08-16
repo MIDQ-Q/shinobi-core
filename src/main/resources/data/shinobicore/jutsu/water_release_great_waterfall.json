@@ -1,5 +1,7 @@
 {
   "id": "shinobicore:water_release_great_waterfall",
+  "tier": 2,
+  "cast_time": 1,
   "name": "Water Release: Great Waterfall Jutsu",
   "category": "elemental_ninjutsu",
   "nature": "water",
