@@ -36,6 +36,8 @@ public class NinjaPlayerData {
     private boolean rasenganReady = false;
     private int rasenganReadyTicks = 0;
     private boolean lastDangerState = false;
+    private com.example.shinobicore.dojutsu.SharinganComponent sharinganComponent = new com.example.shinobicore.dojutsu.SharinganComponent();
+    private com.example.shinobicore.sensory.SensoryComponent sensoryComponent = new com.example.shinobicore.sensory.SensoryComponent();
     // === S1-08: PASSIVE DRIFT ===
     private int passiveXpToday = 0;
     private long lastPassiveDay = 0;
@@ -132,6 +134,8 @@ public class NinjaPlayerData {
     public int getRasenganReadyTicks() { return rasenganReadyTicks; }
     public void setRasenganReadyTicks(int v) { this.rasenganReadyTicks = v; }
     public boolean getLastDangerState() { return lastDangerState; }
+    public com.example.shinobicore.dojutsu.SharinganComponent getSharinganComponent() { return sharinganComponent; }
+    public com.example.shinobicore.sensory.SensoryComponent getSensoryComponent() { return sensoryComponent; }
     public void setLastDangerState(boolean v) { this.lastDangerState = v; }
 
     public float getRasenganChargeProgress() {

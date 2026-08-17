@@ -51,6 +51,32 @@ public class ModEntities {
             .build()
     );
 
+    public static final EntityType<com.example.shinobicore.entity.VoxelProjectileEntity> VOXEL_PROJECTILE = Registry.register(
+        Registries.ENTITY_TYPE, new Identifier(ShinobiCore.MOD_ID, "voxel_projectile"),
+        FabricEntityTypeBuilder.<com.example.shinobicore.entity.VoxelProjectileEntity>create(SpawnGroup.MISC, com.example.shinobicore.entity.VoxelProjectileEntity::new)
+            .dimensions(EntityDimensions.fixed(0.5f, 0.5f)).trackRangeChunks(64).trackedUpdateRate(2).build());
+
+    
+    public static final EntityType<com.example.shinobicore.entity.DotZoneEntity> DOT_ZONE = Registry.register(
+            Registries.ENTITY_TYPE,
+            new Identifier(ShinobiCore.MOD_ID, "dot_zone"),
+            FabricEntityTypeBuilder.<com.example.shinobicore.entity.DotZoneEntity>create(SpawnGroup.MISC, com.example.shinobicore.entity.DotZoneEntity::new)
+                .dimensions(EntityDimensions.fixed(1.0f, 1.0f))
+                .trackRangeChunks(64)
+                .trackedUpdateRate(4)
+                .build()
+    );
+
+    public static final EntityType<DragonEntity> DRAGON = Registry.register(
+        Registries.ENTITY_TYPE,
+        new Identifier(ShinobiCore.MOD_ID, "dragon"),
+        FabricEntityTypeBuilder.<DragonEntity>create(SpawnGroup.MISC, DragonEntity::new)
+            .dimensions(EntityDimensions.fixed(1.0f, 1.0f))
+            .trackRangeChunks(64)
+            .trackedUpdateRate(2)
+            .build()
+    );
+
     public static void register() {
         ShinobiCore.LOGGER.info("Registered entities");
     }

@@ -23,6 +23,20 @@ public abstract class PlayerParryMixin {
         if (amount <= 0) return;
         NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
         TreePassives.Bonuses b = TreePassives.collectServer(data);
+        // Sharingan 3 tomoe: 35% auto-parry for melee
+        var sharinganData = ((com.example.shinobicore.stat.NinjaDataHolder) self).shinobicore_getData();
+        var sharinganComp = sharinganData.getSharinganComponent();
+        if (sharinganComp != null && sharinganComp.checkAutoParry(
+                (ServerPlayerEntity) self, amount)) {
+            if (self.getWorld() instanceof net.minecraft.server.world.ServerWorld sw) {
+                sw.spawnParticles(net.minecraft.particle.ParticleTypes.CRIT,
+                    self.getX(), self.getY() + 1, self.getZ(),
+                    15, 0.4, 0.4, 0.4, 0.08);
+            }
+            player.sendMessage(net.minecraft.text.Text.literal("\u00a7eSHARINGAN PARRY!"), false);
+            cir.setReturnValue(false);
+            return;
+        }
         if (b.autoParryChance <= 0) return;
         if (player.getWorld().getRandom().nextFloat() < b.autoParryChance) {
             if (player.getWorld() instanceof ServerWorld sw) {

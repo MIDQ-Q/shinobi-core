@@ -7,9 +7,12 @@ import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import java.util.*;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.ButtonWidget;
 
 public class SkillTreeScreen extends Screen {
 
@@ -34,13 +37,83 @@ public class SkillTreeScreen extends Screen {
 
     private double viewX, viewY;
     private float zoom = 1.0f;
+    private net.minecraft.client.gui.widget.TextFieldWidget searchBox;
+    private String searchQuery = "";
+    private String filterMode = "all";
     private boolean dragging = false;
     private int dragStartX, dragStartY;
     private double dragViewX, dragViewY;
     private SkillTreeNode hovered = null;
+    
     private boolean centered = false;
 
+    private boolean filterAvailable = false;
+    private boolean filterLearned = false;
+    private boolean filterLocked = false;
+    private String filterBranch = "all";
+    // S3-08: Search and filter state
+
+
+    private boolean filterUnlocked = false;
+
+
     public SkillTreeScreen() { super(Text.literal("Skill Tree")); }
+
+    @Override
+    protected void init() {
+        super.init();
+        searchBox = new TextFieldWidget(textRenderer, width / 2 - 100, 26, 200, 14, Text.literal("Search"));
+        searchBox.setMaxLength(50);
+        addDrawableChild(searchBox);
+        
+        int bx = 10;
+        int by = 26;
+        addDrawableChild(ButtonWidget.builder(Text.literal("Avail"), b -> { filterAvailable = !filterAvailable; })
+            .dimensions(bx, by, 40, 14).build());
+        bx += 42;
+        addDrawableChild(ButtonWidget.builder(Text.literal("Learned"), b -> { filterLearned = !filterLearned; })
+            .dimensions(bx, by, 50, 14).build());
+        bx += 52;
+        addDrawableChild(ButtonWidget.builder(Text.literal("Locked"), b -> { filterLocked = !filterLocked; })
+            .dimensions(bx, by, 46, 14).build());
+        bx += 48;
+        addDrawableChild(ButtonWidget.builder(Text.literal("Branch: All"), b -> {
+            cycleBranch();
+            b.setMessage(Text.literal("Branch: " + filterBranch));
+        }).dimensions(bx, by, 80, 14).build());
+    }
+
+    private void cycleBranch() {
+        List<String> branches = new ArrayList<>(SkillTreeRegistry.getAllBranches().stream().map(SkillTreeRegistry.BranchDef::id).toList());
+        branches.add(0, "all");
+        int idx = branches.indexOf(filterBranch);
+        filterBranch = branches.get((idx + 1) % branches.size());
+    }
+
+    private boolean matchesSearch(SkillTreeNode n) {
+        if (searchBox == null || searchBox.getText().isEmpty()) return true;
+        String q = searchBox.getText().toLowerCase();
+        if (n.displayName().toLowerCase().contains(q)) return true;
+        if (n.id().toLowerCase().contains(q)) return true;
+        if (n.branch().toLowerCase().contains(q)) return true;
+        if (n.jutsuId() != null) {
+            String jutsuName = ClientNinjaState.name(n.jutsuId());
+            if (jutsuName.toLowerCase().contains(q)) return true;
+        }
+        return false;
+    }
+
+    private boolean matchesFilters(SkillTreeNode n) {
+        boolean unlocked = ClientNinjaState.unlockedNodes.contains(n.id());
+        boolean available = canUnlock(n);
+        
+        if (filterAvailable && !available) return false;
+        if (filterLearned && !unlocked) return false;
+        if (filterLocked && unlocked) return false;
+        if (!filterBranch.equals("all") && !n.branch().equals(filterBranch)) return false;
+        
+        return true;
+    }
 
     private List<String> branchOrder() {
         List<String> order = new ArrayList<>(Arrays.asList(BASE_ORDER));
@@ -85,6 +158,7 @@ public class SkillTreeScreen extends Screen {
         for (String b : order) {
             BranchDef def = SkillTreeRegistry.getBranch(b);
             if (def == null || !isBranchVisible(def)) continue;
+            if (!filterBranch.equals("all") && !b.equals(filterBranch)) continue;
             int x = sx(colX(b));
             int y = sy(TOP - 50);
             if (x < -100 || x > width + 100) continue;
@@ -98,7 +172,39 @@ public class SkillTreeScreen extends Screen {
 
         // === РљРћРќРќР•РљРўРћР Р« (СѓРіР»РѕРІР°С‚С‹Рµ, РєР°Рє РІ РґРѕСЃС‚РёР¶РµРЅРёСЏС…) ===
         for (SkillTreeNode n : SkillTreeRegistry.getAll()) {
-            if (!SkillTreeRegistry.isVisibleClient(n)) continue;
+                                    if (!SkillTreeRegistry.isVisibleClient(n)) continue;
+            
+            // === S3-08: Search & Filter ===
+            if (searchQuery != null && !searchQuery.isEmpty()) {
+                boolean matches = n.id().toLowerCase().contains(searchQuery) || 
+                                  n.displayName().toLowerCase().contains(searchQuery) ||
+                                  (n.description() != null && n.description().toLowerCase().contains(searchQuery));
+                if (!matches) continue;
+            }
+            if (filterMode != null && !filterMode.equals("all")) {
+                boolean unlocked = ClientNinjaState.unlockedNodes.contains(n.id());
+                boolean available = canUnlock(n);
+                if (filterMode.equals("available") && !available) continue;
+                if (filterMode.equals("unlocked") && !unlocked) continue;
+                if (filterMode.equals("locked") && (unlocked || available)) continue;
+            }
+            
+            // === S3-08: Search & Filter ===
+            if (searchQuery != null && !searchQuery.isEmpty()) {
+                boolean matches = n.id().toLowerCase().contains(searchQuery) || 
+                                  n.displayName().toLowerCase().contains(searchQuery) ||
+                                  (n.description() != null && n.description().toLowerCase().contains(searchQuery));
+                if (!matches) continue;
+            }
+            if (filterMode != null && !filterMode.equals("all")) {
+                boolean unlocked = ClientNinjaState.unlockedNodes.contains(n.id());
+                boolean available = canUnlock(n);
+                if (filterMode.equals("available") && !available) continue;
+                if (filterMode.equals("unlocked") && !unlocked) continue;
+                if (filterMode.equals("locked") && (unlocked || available)) continue;
+            }
+            // S3-08: Apply search and filters
+            if (!matchesFilter(n)) continue;
             int[] c = worldPos(n);
             for (String req : n.requires()) {
                 SkillTreeNode p = SkillTreeRegistry.get(req);
@@ -124,7 +230,40 @@ public class SkillTreeScreen extends Screen {
 
         // === РЈР—Р›Р«-РЎР›РћРўР« ===
         for (SkillTreeNode n : SkillTreeRegistry.getAll()) {
-            if (!SkillTreeRegistry.isVisibleClient(n)) continue;
+                                    if (!SkillTreeRegistry.isVisibleClient(n)) continue;
+            
+            // === S3-08: Search & Filter ===
+            if (searchQuery != null && !searchQuery.isEmpty()) {
+                boolean matches = n.id().toLowerCase().contains(searchQuery) || 
+                                  n.displayName().toLowerCase().contains(searchQuery) ||
+                                  (n.description() != null && n.description().toLowerCase().contains(searchQuery));
+                if (!matches) continue;
+            }
+            if (filterMode != null && !filterMode.equals("all")) {
+                boolean unlocked = ClientNinjaState.unlockedNodes.contains(n.id());
+                boolean available = canUnlock(n);
+                if (filterMode.equals("available") && !available) continue;
+                if (filterMode.equals("unlocked") && !unlocked) continue;
+                if (filterMode.equals("locked") && (unlocked || available)) continue;
+            }
+            
+            // === S3-08: Search & Filter ===
+            if (searchQuery != null && !searchQuery.isEmpty()) {
+                boolean matches = n.id().toLowerCase().contains(searchQuery) || 
+                                  n.displayName().toLowerCase().contains(searchQuery) ||
+                                  (n.description() != null && n.description().toLowerCase().contains(searchQuery));
+                if (!matches) continue;
+            }
+            if (filterMode != null && !filterMode.equals("all")) {
+                boolean unlocked = ClientNinjaState.unlockedNodes.contains(n.id());
+                boolean available = canUnlock(n);
+                if (filterMode.equals("available") && !available) continue;
+                if (filterMode.equals("unlocked") && !unlocked) continue;
+                if (filterMode.equals("locked") && (unlocked || available)) continue;
+            }
+            if (!matchesSearch(n) || !matchesFilters(n)) continue;
+            // S3-08: Apply search and filters
+            if (!matchesFilter(n)) continue;
             int[] w = worldPos(n);
             int x = sx(w[0]), y = sy(w[1]);
             if (x < -40 || x > width + 40 || y < -40 || y > height + 40) continue;
@@ -233,6 +372,19 @@ public class SkillTreeScreen extends Screen {
         return true;
     }
 
+    // S3-08: Filter matching
+    private boolean matchesFilter(SkillTreeNode n) {
+        if (!searchQuery.isEmpty()) {
+            String name = n.displayName().toLowerCase();
+            String id = n.id().toLowerCase();
+            if (!name.contains(searchQuery) && !id.contains(searchQuery)) return false;
+        }
+        if (!filterBranch.equals("all") && !n.branch().equals(filterBranch)) return false;
+        if (filterUnlocked && !ClientNinjaState.unlockedNodes.contains(n.id())) return false;
+        if (filterAvailable && !canUnlock(n)) return false;
+        return true;
+    }
+    
     private boolean canUnlock(SkillTreeNode node) {
         if (SkillTreeRegistry.isInvalid(node.id())) return false;
         if (ClientNinjaState.unlockedNodes.contains(node.id())) return false;

@@ -194,6 +194,7 @@ public class ModConfig {
         public float tier4Time = 3.0f;
         public float tier5Time = 5.0f;
         public float maxReduction = 0.4f;
+        public boolean showCastBar = true;
         public float controlBonusPerLevel = 0.003f;
         public float masteryBonusFactor = 0.1f;
     }

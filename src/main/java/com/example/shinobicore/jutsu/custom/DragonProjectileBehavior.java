@@ -17,9 +17,10 @@ public class DragonProjectileBehavior implements JutsuBehavior {
         String particle = params.has("particle") ? params.get("particle").getAsString() : "water";
         Vec3d eye = player.getEyePos();
         Vec3d look = player.getRotationVector();
-        NinjaProjectileEntity proj = new NinjaProjectileEntity(world, player, look.multiply(speed), damage, radius, particle, model, 120);
-        proj.setPosition(eye.x, eye.y, eye.z);
-        proj.setPierceCount(2);
-        world.spawnEntity(proj);
+        // S5-04: Use segmented DragonEntity instead of flat NinjaProjectileEntity
+        com.example.shinobicore.entity.DragonEntity dragon = new com.example.shinobicore.entity.DragonEntity(
+            world, player, look.multiply(speed), model.replace("_dragon", ""), damage, radius, 8
+        );
+        world.spawnEntity(dragon);
     }
 }

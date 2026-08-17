@@ -54,6 +54,11 @@ public class ModPackets {
     public static final Identifier UNLOCK_NODE_ID = new Identifier("shinobicore", "unlock_node");
     public static final Identifier CONTROL_TRAIN_ID = new Identifier("shinobicore", "control_train");
     public static final Identifier DANGER_SYNC_ID = new Identifier("shinobicore", "danger_sync");
+    public static final Identifier SENSORY_DIRECTION_ID = new Identifier("shinobicore", "sensory_direction");
+    public static final Identifier SENSORY_SCAN_ID = new Identifier("shinobicore", "sensory_scan");
+    public static final Identifier SENSORY_READING_ID = new Identifier("shinobicore", "sensory_reading");
+    public static final Identifier SENSORY_ACTIVATE_SCAN_ID = new Identifier("shinobicore", "sensory_activate_scan");
+    public static final Identifier SENSORY_READ_REQUEST_ID = new Identifier("shinobicore", "sensory_read_request");
     public static final Identifier SENSORY_TOGGLE_ID = new Identifier("shinobicore", "sensory_toggle");
     public static final Identifier CAST_START_ID = new Identifier("shinobicore", "cast_start");
     public static final Identifier CAST_INTERRUPT_ID = new Identifier("shinobicore", "cast_interrupt");
@@ -63,6 +68,8 @@ public class ModPackets {
     public static final Identifier PREDICTION_CORRECTION_ID = new Identifier("shinobicore", "prediction_correction");
     public static final Identifier BLOCK_STATE_ID = new Identifier("shinobicore", "block_state");
     public static final Identifier RELEASE_CAST_ID = new Identifier("shinobicore", "release_cast");
+    public static final Identifier SHARINGAN_SYNC_ID = new Identifier("shinobicore", "sharingan_sync");
+    public static final Identifier SHARINGAN_TOGGLE_ID = new Identifier("shinobicore", "sharingan_toggle");
     
     public static void register() {
         S06NetworkLayer.register(); // S0-06

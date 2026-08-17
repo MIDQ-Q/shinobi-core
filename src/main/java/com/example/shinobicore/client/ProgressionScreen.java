@@ -61,7 +61,7 @@ public class ProgressionScreen extends Screen {
         drawCentered(context, clanText + "  |  " + affText + "  |  SP: " + ClientNinjaState.skillPoints,
                 x0 + w / 2, y0 + 8, INK);
 
-        // === Р’РєР»Р°РґРєРё (5 С€С‚СѓРє, СѓРјРµРЅСЊС€РµРЅРЅР°СЏ С€РёСЂРёРЅР°) ===
+        // === Вкладки (5 штук, уменьшенная ширина) ===
         int tabW = 54, tabH = 14, tabY = y0 + 22;
         drawSealTab(context, x0 + 8,                  tabY, tabW, tabH, 0, "Stats");
         drawSealTab(context, x0 + 8 + (tabW + 6),     tabY, tabW, tabH, 1, "Nature");
@@ -92,7 +92,7 @@ public class ProgressionScreen extends Screen {
                     context.drawText(textRenderer, Text.literal("[+" + row.cost() + "]"),
                             x0 + w - 44, y + 2, afford ? ACCENT : INK_LIGHT, false);
                 } else if (tab == 1) {
-                    // Р—Р°Р±Р»РѕРєРёСЂРѕРІР°РЅРЅР°СЏ СЃС‚РёС…РёСЏ -> РєРЅРѕРїРєР° Attune
+                    // Заблокированная стихия -> кнопка Attune
                     int attuneCost = getAttuneCost();
                     boolean afford = ClientNinjaState.skillPoints >= attuneCost;
                     context.drawText(textRenderer, Text.literal("[Attune " + attuneCost + "]"),
@@ -103,7 +103,7 @@ public class ProgressionScreen extends Screen {
         } else if (tab == 3) {
             renderLoadouts(context, x0, y0, w, y);
         } else if (tab == 4) {
-            // === Р”Р Р•Р’Рћ РџР РћРљРђР§РљР: РїРѕРґСЃРєР°Р·РєР° ===
+            // === ДРЕВО ПРОКАЧКИ: подсказка ===
             drawCentered(context, "Skill Tree", x0 + w / 2, y + 10, INK);
             drawCentered(context, "Press [J] to open full tree view", x0 + w / 2, y + 26, INK_LIGHT);
             drawCentered(context, "Unlocked nodes: " + ClientNinjaState.unlockedNodes.size(),
@@ -229,7 +229,7 @@ public class ProgressionScreen extends Screen {
         int w = 300, h = 260;
         int x0 = (width - w) / 2, y0 = (height - h) / 2;
 
-        // Р’РєР»Р°РґРєРё (5 С€С‚СѓРє)
+        // Вкладки (5 штук)
         int tabW = 54, tabH = 14, tabY = y0 + 22;
         for (int i = 0; i < 5; i++) {
             if (inRect(mouseX, mouseY, x0 + 8 + (tabW + 6) * i, tabY, tabW, tabH)) {
@@ -275,17 +275,17 @@ public class ProgressionScreen extends Screen {
         }
 
         if (tab == 4) {
-            // Р”СЂРµРІРѕ: РєР»РёРє РѕС‚РєСЂС‹РІР°РµС‚ РїРѕР»РЅС‹Р№ СЌРєСЂР°РЅ
+            // Древо: клик открывает полный экран
             if (this.client != null) {
                 this.client.setScreen(new SkillTreeScreen());
             }
             return true;
         }
 
-        // РџСЂРѕРєР°С‡РєР° Рё Р°С‚С‚СЋРЅРјРµРЅС‚ (С‚Р°Р±С‹ 0-2)
+        // Прокачка и аттюнмент (табы 0-2)
         int y = y0 + 44;
         for (Row row : buildRows()) {
-            // РљРЅРѕРїРєР° РїСЂРѕРєР°С‡РєРё
+            // Кнопка прокачки
             if (tab == 0 && row.id().equals("control") && inRect(mouseX, mouseY, x0 + w - 80, y, 36, 12)) {
                 if (this.client != null) this.client.setScreen(new ControlTrainingScreen());
                 return true;
@@ -294,7 +294,7 @@ public class ProgressionScreen extends Screen {
                 sendSpend(row.type(), row.id());
                 return true;
             }
-            // РљРЅРѕРїРєР° Attune РґР»СЏ Р·Р°Р±Р»РѕРєРёСЂРѕРІР°РЅРЅС‹С… СЃС‚РёС…РёР№
+            // Кнопка Attune для заблокированных стихий
             if (row.locked() && tab == 1 && inRect(mouseX, mouseY, x0 + w - 80, y, 76, 12)) {
                 int attuneCost = getAttuneCost();
                 if (ClientNinjaState.skillPoints >= attuneCost) {

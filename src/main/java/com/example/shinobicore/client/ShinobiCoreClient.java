@@ -1,7 +1,20 @@
 package com.example.shinobicore.client;
 
 import com.example.shinobicore.client.RasenganClientState;
+import com.example.shinobicore.client.dojutsu.SharinganClientState;
+import com.example.shinobicore.client.dojutsu.SharinganOverlayRenderer;
+import com.example.shinobicore.client.sensory.SensoryClientState;
+import com.example.shinobicore.client.sensory.SensoryHudRenderer;
+import com.example.shinobicore.client.sensory.SensoryScanRenderer;
+import com.example.shinobicore.client.sensory.SensoryReadingHud;
+import com.example.shinobicore.client.ui.HudConfig;
+import com.example.shinobicore.client.ui.HudWidgetManager;
+import com.example.shinobicore.client.ui.widgets.ResourceBarWidget;
+import com.example.shinobicore.client.ui.widgets.CastBarWidget;
+import com.example.shinobicore.client.ui.widgets.StatusIconWidget;
 import com.example.shinobicore.client.RasenganClientVisual;
+import com.example.shinobicore.client.render.ShaderCompatibilityManager;
+import com.example.shinobicore.client.vfx.VoxelPerformanceOptimizer;
 import com.example.shinobicore.client.combat.TaijutsuClientHandler;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import com.example.shinobicore.client.combat.TaijutsuSounds;
@@ -46,6 +59,16 @@ public class ShinobiCoreClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         KeyBindings.register();
+        // S5-07: Initialize shader compatibility detection
+        ShaderCompatibilityManager.init();
+        // S4-09: Load voxel quality settings
+        com.example.shinobicore.client.vfx.VoxelQualityConfig.load();
+
+        // S3-01: Load HUD config and register UI widgets
+        HudWidgetManager.register(new ResourceBarWidget());
+        HudWidgetManager.register(new CastBarWidget());
+        HudWidgetManager.register(new StatusIconWidget());
+        ShinobiCore.LOGGER.info("[UI] S3 widgets registered");
         ClientInputHandler.register();
         ChakraPhysicsClient.register();
         ParkourManager.register();
@@ -54,6 +77,10 @@ public class ShinobiCoreClient implements ClientModInitializer {
         RasenshurikenClientVisual.register();
         com.example.shinobicore.client.ChakraAuraVisual.register();
         HudRenderCallback.EVENT.register(ChakraHudRenderer::render);
+        CastBarHudRenderer.register(); // S3-03
+        StatusIconsRenderer.register(); // S3-04
+        HudSettings.load(); // S3-05
+        HudRenderCallback.EVENT.register(HudWidgetManager::render);
         com.example.shinobicore.client.TargetFrameHud.register();
         com.example.shinobicore.client.RpgCameraKeybind.register(); // PHASE_H_CAMERA // BATCH3_AURA
         com.example.shinobicore.client.LandingAnimations.register();
@@ -61,8 +88,13 @@ public class ShinobiCoreClient implements ClientModInitializer {
         // === РЕГИСТРАЦИЯ РЕНДЕРЕРОВ (было потеряно!) ===
         EntityRendererRegistry.register(ModEntities.NINJA_PROJECTILE, NinjaProjectileRenderer::new);
         EntityRendererRegistry.register(ModEntities.SHURIKEN, ShurikenRenderer::new);
+        EntityRendererRegistry.register(ModEntities.VOXEL_PROJECTILE, com.example.shinobicore.entity.VoxelProjectileRenderer::new);
         EntityRendererRegistry.register(ModEntities.RASENSHURIKEN, com.example.shinobicore.entity.RasenshurikenRenderer::new);
         EntityRendererRegistry.register(ModEntities.RASENGAN_HAND, com.example.shinobicore.entity.RasenganHandRenderer::new);
+        EntityRendererRegistry.register(ModEntities.DRAGON, com.example.shinobicore.entity.DragonRenderer::new);
+        // S5-05: Register custom particle system
+        com.example.shinobicore.client.vfx.particles.VoxelParticleRenderer.register();
+        EntityRendererRegistry.register(ModEntities.DOT_ZONE, com.example.shinobicore.entity.DotZoneRenderer::new);
         // PHASE_K3_KATANA_RENDERER_REGISTERED
         BuiltinItemRendererRegistry.INSTANCE.register(com.example.shinobicore.item.ModItems.KATANA, com.example.shinobicore.client.render.KatanaBuiltinRenderer::render);
         
@@ -76,6 +108,9 @@ public class ShinobiCoreClient implements ClientModInitializer {
 
         // === РЕГИСТРАЦИЯ КИНЕМАТОГРАФИЧНОЙ КАМЕРЫ ===
         ClientTickEvents.END_CLIENT_TICK.register(CinematicCamera::tick);
+        // S5-08: Reset performance counters each frame
+        ClientTickEvents.END_CLIENT_TICK.register(client -> VoxelPerformanceOptimizer.resetFrame());
+        ClientTickEvents.END_CLIENT_TICK.register(HudWidgetManager::tick);
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (client.player != null) {
                 com.example.shinobicore.client.prediction.ClientPredictionManager.tick(client.player);
@@ -200,6 +235,63 @@ public class ShinobiCoreClient implements ClientModInitializer {
             });
         });
 
+        // S6-03: Direction sense receiver
+        ClientPlayNetworking.registerGlobalReceiver(ModPackets.SENSORY_DIRECTION_ID, (client, handler, buf, responseSender) -> {
+            boolean active = buf.readBoolean();
+            float dirX = buf.readFloat();
+            float dirZ = buf.readFloat();
+            client.execute(() -> {
+                SensoryClientState.directionActive = active;
+                SensoryClientState.directionX = dirX;
+                SensoryClientState.directionZ = dirZ;
+            });
+        });
+        // S6-04: Scan results receiver
+        ClientPlayNetworking.registerGlobalReceiver(ModPackets.SENSORY_SCAN_ID, (client, handler, buf, responseSender) -> {
+            int count = buf.readInt();
+            java.util.List<SensoryClientState.ScanEntity> entities = new java.util.ArrayList<>();
+            for (int i = 0; i < count; i++) {
+                int eid = buf.readInt();
+                double x = buf.readDouble();
+                double y = buf.readDouble();
+                double z = buf.readDouble();
+                float height = buf.readFloat();
+                boolean hostile = buf.readBoolean();
+                entities.add(new SensoryClientState.ScanEntity(eid, x, y, z, height, hostile));
+            }
+            client.execute(() -> {
+                SensoryClientState.scanEntities = entities;
+                SensoryClientState.scanTimestamp = System.currentTimeMillis();
+            });
+        });
+        // S6-06: Chakra reading receiver
+        ClientPlayNetworking.registerGlobalReceiver(ModPackets.SENSORY_READING_ID, (client, handler, buf, responseSender) -> {
+            int eid = buf.readInt();
+            String name = buf.readString();
+            float chakraRatio = buf.readFloat();
+            boolean chakraMode = buf.readBoolean();
+            int reserve = buf.readInt();
+            boolean hasDojutsu = buf.readBoolean();
+            String dojutsuId = buf.readString();
+            client.execute(() -> {
+                SensoryClientState.lastReading = new SensoryClientState.ReadingData(
+                    eid, name, chakraRatio, chakraMode, reserve, hasDojutsu, dojutsuId);
+                SensoryClientState.readingTimestamp = System.currentTimeMillis();
+            });
+        });
+        // Sharingan sync receiver
+        ClientPlayNetworking.registerGlobalReceiver(ModPackets.SHARINGAN_SYNC_ID, (client, handler, buf, responseSender) -> {
+            int stage = buf.readInt();
+            boolean active = buf.readBoolean();
+            int usage = buf.readInt();
+            int stress = buf.readInt();
+            client.execute(() -> {
+                SharinganClientState.stageLevel = stage;
+                SharinganClientState.active = active;
+                SharinganClientState.usageProgress = usage;
+                SharinganClientState.stressCount = stress;
+            });
+        });
         ClientPlayNetworking.registerGlobalReceiver(ModPackets.DANGER_SYNC_ID, (client, handler, buf, responseSender) -> {
             boolean danger = buf.readBoolean();
             client.execute(() -> ClientNinjaState.dangerSense = danger);
@@ -239,6 +331,9 @@ public class ShinobiCoreClient implements ClientModInitializer {
             CastingClientState.clear();
             HitStopManager.clear();
             HandSignsClientState.clear();
+        SharinganClientState.clear();
+        SensoryClientState.clear();
+        com.example.shinobicore.client.vfx.particles.VoxelParticleManager.clear();
         });
                         // === PHASE5 HAND SIGNS ===
         ClientPlayNetworking.registerGlobalReceiver(ModPackets.CAST_START_ID, (client, handler, buf, responseSender) -> {
@@ -265,6 +360,12 @@ public class ShinobiCoreClient implements ClientModInitializer {
         });
 
         NarutoArmorRenderer.register();
+        // Sharingan overlay renderer
+        SharinganOverlayRenderer.register();
+        // S6: Sensory system renderers
+        SensoryHudRenderer.register();
+        SensoryScanRenderer.register();
+        SensoryReadingHud.register();
         LivingEntityFeatureRendererRegistrationCallback.EVENT.register((entityType, entityRenderer, registrationHelper, context) -> {
             if (entityRenderer instanceof net.minecraft.client.render.entity.PlayerEntityRenderer playerRenderer) {
                 registrationHelper.register(new BackKatanaRenderer(playerRenderer));

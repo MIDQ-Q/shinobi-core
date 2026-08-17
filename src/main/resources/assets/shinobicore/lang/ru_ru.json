@@ -32,4 +32,24 @@
   "key.categories.shinobicore": "ShinobiCore",
   "key.shinobicore.debug_overlay": "Debug Overlay (F6)",
   "key.categories.shinobicore.combat": "ShinobiCore - Р‘РѕР№"
+    "key.shinobicore.sensory_scan": "Сенсорный скан (U)",
+
+  "subtitle.shinobicore.cast_start": "РљР°СЃС‚ РґР·СЋС†Сѓ",
+  "subtitle.shinobicore.cast_complete": "Р”Р·СЋС†Сѓ Р·Р°РІРµСЂС€РµРЅРѕ",
+  "subtitle.shinobicore.charge_loop": "Р—Р°СЂСЏРґРєР° С‡Р°РєСЂС‹",
+  "subtitle.shinobicore.charge_ready": "РўРµС…РЅРёРєР° Р·Р°СЂСЏР¶РµРЅР°",
+  "subtitle.shinobicore.shot_fire": "РћРіРЅРµРЅРЅРѕРµ РґР·СЋС†Сѓ",
+  "subtitle.shinobicore.shot_water": "Р’РѕРґСЏРЅРѕРµ РґР·СЋС†Сѓ",
+  "subtitle.shinobicore.shot_wind": "Р’РµС‚СЂСЏРЅРѕРµ РґР·СЋС†Сѓ",
+  "subtitle.shinobicore.shot_lightning": "РњРѕР»РЅРёРµРІРѕРµ РґР·СЋС†Сѓ",
+  "subtitle.shinobicore.shot_earth": "Р—РµРјР»СЏРЅРѕРµ РґР·СЋС†Сѓ",
+  "subtitle.shinobicore.hit_impact": "РЈРґР°СЂ",
+  "subtitle.shinobicore.explosion_small": "Р’Р·СЂС‹РІ",
+  "subtitle.shinobicore.explosion_large": "РњРѕС‰РЅС‹Р№ РІР·СЂС‹РІ",
+  "subtitle.shinobicore.clone_disperse": "РљР»РѕРЅ СЂР°СЃСЃРµРёРІР°РµС‚СЃСЏ",
+  "subtitle.shinobicore.kawarimi": "РџРѕРґРјРµРЅР°",
+  "subtitle.shinobicore.telegraph_melee": "Р’СЂР°Рі Р°С‚Р°РєСѓРµС‚",
+  "subtitle.shinobicore.telegraph_ranged": "Р’СЂР°Рі СЃС‚СЂРµР»СЏРµС‚"
+,
+    "key.shinobicore.toggle_sharingan": "Sharingan (P)"
 }

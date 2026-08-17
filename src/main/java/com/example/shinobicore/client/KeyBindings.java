@@ -26,8 +26,10 @@ public class KeyBindings {
     public static KeyBinding KATANA_DEFLECT;
     public static KeyBinding IAI_DASH;
     public static KeyBinding TOGGLE_SENSORY;
+    public static KeyBinding SENSORY_SCAN;
     public static KeyBinding DEBUG_OVERLAY;
     public static KeyBinding TOGGLE_SCABBARD;
+    public static KeyBinding TOGGLE_SHARINGAN;
 
     public static void register() {
         MEDITATE = KeyBindingHelper.registerKeyBinding(new KeyBinding(
@@ -58,6 +60,8 @@ public class KeyBindings {
             "key.shinobicore.switch_stance", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F, COMBAT_CATEGORY));
         KATANA_DEFLECT = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "key.shinobicore.katana_deflect", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_X, COMBAT_CATEGORY));
+        TOGGLE_SHARINGAN = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.shinobicore.toggle_sharingan", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_P, CATEGORY));
         TOGGLE_SCABBARD = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "key.shinobicore.toggle_scabbard", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_O, COMBAT_CATEGORY));
         KAWARIMI = KeyBindingHelper.registerKeyBinding(new KeyBinding(
@@ -69,6 +73,8 @@ public class KeyBindings {
             
         TOGGLE_SENSORY = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "key.shinobicore.toggle_sensory", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_Y, CATEGORY));
+        SENSORY_SCAN = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.shinobicore.sensory_scan", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_U, CATEGORY));
 
         // ✅ ИСПРАВЛЕНИЕ: Регистрируем DEBUG_OVERLAY (F6)
         DEBUG_OVERLAY = KeyBindingHelper.registerKeyBinding(new KeyBinding(

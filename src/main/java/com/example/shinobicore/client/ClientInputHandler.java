@@ -91,6 +91,13 @@ public class ClientInputHandler {
                 }
             }
         }
+        if (KeyBindings.SENSORY_SCAN.wasPressed()) {
+            // Send scan activation request to server
+            if (client.getNetworkHandler() != null) {
+                PacketByteBuf scanBuf = new PacketByteBuf(Unpooled.buffer());
+                ClientPlayNetworking.send(ModPackets.SENSORY_ACTIVATE_SCAN_ID, scanBuf);
+            }
+        }
         if (KeyBindings.TOGGLE_SENSORY.wasPressed()) {
             boolean newState = !ClientNinjaState.sensoryEnabled;
             ClientNinjaState.sensoryEnabled = newState;
@@ -185,6 +192,12 @@ public class ClientInputHandler {
             com.example.shinobicore.client.debug.DebugProfiler.toggle();
         }
 
+        if (KeyBindings.TOGGLE_SHARINGAN.wasPressed()) {
+            if (client.getNetworkHandler() != null) {
+                PacketByteBuf sharinganBuf = new PacketByteBuf(Unpooled.buffer());
+                ClientPlayNetworking.send(ModPackets.SHARINGAN_TOGGLE_ID, sharinganBuf);
+            }
+        }
         if (KeyBindings.TOGGLE_SCABBARD.wasPressed()) {
             net.minecraft.item.ItemStack mainHand = client.player.getMainHandStack();
             if (mainHand.getItem() instanceof com.example.shinobicore.item.KatanaItem) {

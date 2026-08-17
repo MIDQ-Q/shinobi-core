@@ -2043,6 +2043,65 @@
                       "description":  "Oversized Rasengan"
                   },
                   {
+"id":  "sen_direction",
+"branch":  "sensory",
+"distance":  3,
+"type":  "passive",
+"effect":  "sensory_direction",
+"value":  1,
+"spCost":  5,
+"requires":  [
+"sen_danger"
+],
+"icon":  "\u003e",
+"name":  "Presence Direction",
+"description":  "Sense the direction of the nearest threat",
+"visibilityCondition":  {
+"type":  "stat_level",
+"key":  "perception",
+"value":  25
+}
+},
+{
+"id":  "sen_scan",
+"branch":  "sensory",
+"distance":  4,
+"type":  "passive",
+"effect":  "sensory_scan",
+"value":  1,
+"spCost":  7,
+"requires":  [
+"sen_direction"
+],
+"icon":  "O",
+"name":  "Scan Pulse",
+"description":  "Active scan reveals silhouettes for 3 seconds (U key)",
+"visibilityCondition":  {
+"type":  "stat_level",
+"key":  "perception",
+"value":  30
+}
+},
+{
+"id":  "sen_reading",
+"branch":  "sensory",
+"distance":  5,
+"type":  "passive",
+"effect":  "sensory_reading",
+"value":  1,
+"spCost":  10,
+"requires":  [
+"sen_glow"
+],
+"icon":  "R",
+"name":  "Chakra Reading",
+"description":  "Read chakra level, mode, and dojutsu of nearby entities",
+"visibilityCondition":  {
+"type":  "stat_level",
+"key":  "perception",
+"value":  40
+}
+},{
                       "id":  "phoenix_fire_n",
                       "branch":  "fire",
                       "distance":  7,

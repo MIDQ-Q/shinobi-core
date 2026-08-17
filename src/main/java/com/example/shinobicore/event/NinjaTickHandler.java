@@ -142,6 +142,17 @@ public class NinjaTickHandler {
                 }
             }
 
+            // === S6: Sensory component tick ===
+            var sensoryComp = data.getSensoryComponent();
+            if (sensoryComp != null) {
+                sensoryComp.setTier(com.example.shinobicore.sensory.SensoryComponent.determineTier(data));
+                sensoryComp.tick(player);
+            }
+            // === S6: Sharingan component tick ===
+            var sharinganComp = data.getSharinganComponent();
+            if (sharinganComp != null) {
+                sharinganComp.tick(player);
+            }
             // === PHASE_FIX2_TICK: sensory glow + danger sense + rasengan dissipate ===
     TreePassives.Bonuses b2 = TreePassives.collectServer(data);
     int sensoryTick = (int)(player.getWorld().getTime() % 5);

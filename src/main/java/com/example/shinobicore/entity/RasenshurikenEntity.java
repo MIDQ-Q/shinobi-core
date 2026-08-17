@@ -146,6 +146,14 @@ public class RasenshurikenEntity extends Entity {
 
     private void createExpandingSphere() {
         if (!(this.getWorld() instanceof ServerWorld world)) return;
+
+        // S5-03: Spawn DoT zone at impact point
+        com.example.shinobicore.entity.DotZoneEntity zone = new com.example.shinobicore.entity.DotZoneEntity(
+            world, (net.minecraft.entity.LivingEntity) this.getOwner(),
+            this.getX(), this.getY(), this.getZ(),
+            8.0f, 3.0f, 100, "wind"
+        );
+        world.spawnEntity(zone);
         final Vec3d center = this.getPos();
         final float damage = this.dataTracker.get(DAMAGE);
         final float maxRadius = 10f;

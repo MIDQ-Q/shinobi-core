@@ -133,6 +133,25 @@ CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environm
             }
         });
         ModPackets.register();
+        // S6-04: Sensory scan activation (C2S)
+        net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.registerGlobalReceiver(
+            ModPackets.SENSORY_ACTIVATE_SCAN_ID, (server, player, handler, buf, responseSender) -> {
+            server.execute(() -> {
+                var data = ((com.example.shinobicore.stat.NinjaDataHolder) player).shinobicore_getData();
+                var component = data.getSensoryComponent();
+                if (component != null) component.activateScan(player);
+            });
+        });
+        // S6-06: Chakra reading request (C2S)
+        net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.registerGlobalReceiver(
+            ModPackets.SENSORY_READ_REQUEST_ID, (server, player, handler, buf, responseSender) -> {
+            int targetId = buf.readInt();
+            server.execute(() -> {
+                var data = ((com.example.shinobicore.stat.NinjaDataHolder) player).shinobicore_getData();
+                var component = data.getSensoryComponent();
+                if (component != null) component.readChakra(player, targetId);
+            });
+        });
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerPlayerEntity player = handler.getPlayer();
@@ -185,6 +204,17 @@ CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environm
                 sendTreeSync(player);
         });
 
+        // Sharingan toggle handler (C2S)
+        net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.registerGlobalReceiver(
+            ModPackets.SHARINGAN_TOGGLE_ID, (server, player, handler, buf, responseSender) -> {
+            server.execute(() -> {
+                var data = ((com.example.shinobicore.stat.NinjaDataHolder) player).shinobicore_getData();
+                var sharingan = data.getSharinganComponent();
+                if (sharingan != null) {
+                    sharingan.toggle(player);
+                }
+            });
+        });
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             JutsuRegistry.reload(server.getResourceManager());
             ClanRegistry.reload(server.getResourceManager());

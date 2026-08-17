@@ -21,11 +21,10 @@ public class ExplodingProjectileBehavior implements JutsuBehavior {
         Vec3d eye = player.getEyePos();
         Vec3d look = player.getRotationVector();
         
-        NinjaProjectileEntity proj = new NinjaProjectileEntity(
-            world, player, look.multiply(speed), damage, radius, "fire", "default", 100
+        // S4-06: Replaced with Voxel Projectile
+        com.example.shinobicore.entity.VoxelProjectileEntity proj = new com.example.shinobicore.entity.VoxelProjectileEntity(
+            world, player, look.multiply(speed), "sphere", 0xFFFF6600, radius, damage, true
         );
-        proj.setPosition(eye.x, eye.y - 0.2, eye.z);
-        proj.setHasGravity(true);
         world.spawnEntity(proj);
     }
 }
