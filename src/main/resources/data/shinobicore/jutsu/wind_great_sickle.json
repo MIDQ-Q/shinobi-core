@@ -1,3 +1,3 @@
 {"id":"shinobicore:wind_great_sickle",
-  "tier": 2,
-  "cast_time": 1,"name":"Wind Release: Great Sickle Weasel","category":"elemental_ninjutsu","nature":"wind","type":"dash","params":{"distance":9,"knockback":1.5,"hitRadius":2.5,"particle":"wind","particleCount":50,"statusEffect":"slowness","statusDuration":40},"baseCost":32,"baseDamage":9,"strain":8,"requiredUsesForFullProficiency":50,"requirements":{"control":22,"nature_wind":28,"ninjutsu":20}}
+  "tier": 3,
+  "cast_time": 1.2,"name":"Wind Release: Great Sickle Weasel","category":"elemental_ninjutsu","nature":"wind","type":"projectile","behaviorClass":"com.example.shinobicore.jutsu.custom.SickleWeaselBehavior","params":{"speed":3.0,"radius":2.5,"particle":"wind","lifetime":80,"pierce":3},"baseCost":38,"baseDamage":11,"strain":10,"requiredUsesForFullProficiency":60,"requirements":{"control":28,"nature_wind":35,"ninjutsu":25}}
