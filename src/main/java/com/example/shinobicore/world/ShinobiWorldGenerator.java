@@ -1,6 +1,6 @@
 package com.example.shinobicore.world;
 
-import com.example.shinobicore.ShibuCore;
+import com.example.shinobicore.ShinobiCore;
 import com.example.shinobicore.world.config.WorldGenConfig;
 import com.example.shinobicore.world.features.*;
 import com.example.shinobicore.world.structures.*;
