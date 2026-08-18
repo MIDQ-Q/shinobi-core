@@ -1,0 +1,11 @@
+{
+    "id": "aburame_spore_cloud",
+    "name": "Spore Cloud",
+    "nature": "none",
+    "tier": 3,
+    "castTime": 25,
+    "cooldown": 100,
+    "chakraCost": 35,
+    "behavior": "SporeCloudBehavior",
+    "tags": ["dot", "clan:aburame"]
+}

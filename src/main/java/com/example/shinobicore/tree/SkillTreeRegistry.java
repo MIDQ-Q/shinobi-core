@@ -21,6 +21,19 @@ import java.util.*;
 * Invalid nodes are marked and cannot be unlocked.
 */
 public class SkillTreeRegistry {
+
+    public static boolean canUnlockWithClanCheck(
+            com.example.shinobicore.stat.NinjaPlayerData data,
+            com.example.shinobicore.tree.SkillTreeNode node) {
+        // S12-10: Clan restriction check using clanRequired field
+        if (node.hasClanRestriction()) {
+            String requiredClan = node.clanRequired();
+            if (data.getClanId() == null || !data.getClanId().equals(requiredClan)) {
+                return false; // Non-clan member cannot unlock clan techniques
+            }
+        }
+        return true;
+    }
     private static final Map<String, SkillTreeNode> NODES = new LinkedHashMap<>();
     private static final Map<String, BranchDef> BRANCHES = new LinkedHashMap<>();
     // S0-04: Validation state

@@ -13,6 +13,11 @@ import java.util.Map;
 import java.util.Set;
 
 public class ClientNinjaState {
+
+    public static String getClanId() { return clanId; }
+    public static void setClanId(String id) { clanId = id; }
+
+    public static boolean isChakraMode() { return chakraMode; }
     public static final String[] loadoutA = new String[5];
     public static final String[] loadoutB = new String[5];
     public static int activeA = 0;

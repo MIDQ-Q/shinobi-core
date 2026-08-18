@@ -13,6 +13,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class ModConfig {
+    // S9-10: Enemy difficulty settings
+    public float enemyDamageMultiplier = 1.0f;
+    public float enemyKawarimiChanceMultiplier = 1.0f;
+    public float enemyAggressionMultiplier = 1.0f;
+    public float enemyCooldownMultiplier = 1.0f;
+    public float lootQualityMultiplier = 1.0f;
 
     public static class Chakra {
         public float baseChakra = 2000f;

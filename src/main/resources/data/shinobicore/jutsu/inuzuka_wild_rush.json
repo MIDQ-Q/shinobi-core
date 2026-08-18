@@ -1,0 +1,11 @@
+{
+    "id": "inuzuka_wild_rush",
+    "name": "Wild Rush",
+    "nature": "none",
+    "tier": 2,
+    "castTime": 10,
+    "cooldown": 50,
+    "chakraCost": 15,
+    "behavior": "WildRushBehavior",
+    "tags": ["mobility", "clan:inuzuka"]
+}

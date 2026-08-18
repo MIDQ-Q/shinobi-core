@@ -1,0 +1,11 @@
+{
+    "id": "uzumaki_suppression",
+    "name": "Suppression Seal",
+    "nature": "none",
+    "tier": 4,
+    "castTime": 40,
+    "cooldown": 160,
+    "chakraCost": 60,
+    "behavior": "SuppressionSealBehavior",
+    "tags": ["control", "clan:uzumaki"]
+}

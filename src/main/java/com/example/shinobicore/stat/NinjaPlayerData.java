@@ -36,6 +36,8 @@ public class NinjaPlayerData {
     private boolean rasenganReady = false;
     private int rasenganReadyTicks = 0;
     private boolean lastDangerState = false;
+    private net.minecraft.util.math.BlockPos boundAltarPos = null;
+    private boolean teacherInteracted = false;
     private com.example.shinobicore.dojutsu.SharinganComponent sharinganComponent = new com.example.shinobicore.dojutsu.SharinganComponent();
     private com.example.shinobicore.sensory.SensoryComponent sensoryComponent = new com.example.shinobicore.sensory.SensoryComponent();
     // === S1-08: PASSIVE DRIFT ===
@@ -85,6 +87,10 @@ public class NinjaPlayerData {
     private boolean statsDirty = true;
     private boolean wasOnGround = true;
     private final Set<String> unlockedNodes = new HashSet<>();
+    private int activeGate = 0;
+    private int gate8RemainingTicks = 0;
+    private int gateCooldownTicks = 0;
+    private java.util.Map<String, Integer> clanReputation = new java.util.HashMap<>();
 
     public NinjaPlayerData() {
         for (StatType s : StatType.values()) { statLevels.put(s, 0); statXp.put(s, 0); }
@@ -107,6 +113,14 @@ public class NinjaPlayerData {
     public boolean isExhausted() { return exhausted; }
     public boolean isMeditating() { return meditating; }
     public String getClanId() { return clanId; }
+
+    public float getClanBonus(String key) {
+        var clan = com.example.shinobicore.clan.ClanRegistry.get(this.clanId);
+        if (clan != null && clan.bonuses() != null) {
+            return clan.bonuses().getOrDefault(key, 1.0f);
+        }
+        return 1.0f;
+    }
     public ElementType getAffinity() { return affinity; }
     public boolean isClanChosen() { return clanChosen; }
     public int getSkillPoints() { return skillPoints; }
@@ -134,6 +148,10 @@ public class NinjaPlayerData {
     public int getRasenganReadyTicks() { return rasenganReadyTicks; }
     public void setRasenganReadyTicks(int v) { this.rasenganReadyTicks = v; }
     public boolean getLastDangerState() { return lastDangerState; }
+    public net.minecraft.util.math.BlockPos getBoundAltarPos() { return boundAltarPos; }
+    public void setBoundAltarPos(net.minecraft.util.math.BlockPos pos) { this.boundAltarPos = pos; statsDirty = true; }
+    public boolean isTeacherInteracted() { return teacherInteracted; }
+    public void setTeacherInteracted(boolean v) { this.teacherInteracted = v; statsDirty = true; }
     public com.example.shinobicore.dojutsu.SharinganComponent getSharinganComponent() { return sharinganComponent; }
     public com.example.shinobicore.sensory.SensoryComponent getSensoryComponent() { return sensoryComponent; }
     public void setLastDangerState(boolean v) { this.lastDangerState = v; }
@@ -158,6 +176,15 @@ public class NinjaPlayerData {
     public long getLastAttackTimeMs() { return lastAttackTimeMs; }
     public String getCurrentStyleId() { return currentStyleId; }
     public Set<String> getUnlockedNodes() { return unlockedNodes; }
+
+    public int getActiveGate() { return activeGate; }
+    public void setActiveGate(int v) { this.activeGate = v; }
+    public int getGate8RemainingTicks() { return gate8RemainingTicks; }
+    public void setGate8RemainingTicks(int v) { this.gate8RemainingTicks = v; }
+    public int getGateCooldownTicks() { return gateCooldownTicks; }
+    public void setGateCooldownTicks(int v) { this.gateCooldownTicks = v; }
+    public java.util.Map<String, Integer> getClanReputation() { return clanReputation; }
+    public void setClanReputation(java.util.Map<String, Integer> rep) { this.clanReputation = rep; }
     public boolean isNodeUnlocked(String nodeId) { return unlockedNodes.contains(nodeId); }
     public void unlockNode(String nodeId) { unlockedNodes.add(nodeId); statsDirty = true; }
 

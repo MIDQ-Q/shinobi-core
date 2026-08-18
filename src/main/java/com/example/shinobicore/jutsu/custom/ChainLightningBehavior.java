@@ -58,9 +58,13 @@ public class ChainLightningBehavior implements JutsuBehavior {
     private void spawnBolt(ServerWorld world, Vec3d from, Vec3d to) {
         Vec3d dir = to.subtract(from).normalize();
         double dist = from.distanceTo(to);
-        for (double d = 0; d < dist; d += 0.3) {
+        for (double d = 0; d < dist; d += 0.2) {
             Vec3d p = from.add(dir.multiply(d));
-            world.spawnParticles(ParticleTypes.ELECTRIC_SPARK, p.x, p.y, p.z, 1, 0, 0, 0, 0);
+            double jitterX = (world.getRandom().nextDouble() - 0.5) * 0.3;
+            double jitterY = (world.getRandom().nextDouble() - 0.5) * 0.3;
+            double jitterZ = (world.getRandom().nextDouble() - 0.5) * 0.3;
+            world.spawnParticles(ParticleTypes.ELECTRIC_SPARK, p.x + jitterX, p.y + jitterY, p.z + jitterZ, 3, 0.1, 0.1, 0.1, 0.05);
         }
+        world.spawnParticles(ParticleTypes.FLASH, to.x, to.y, to.z, 1, 0, 0, 0, 0);
     }
 }

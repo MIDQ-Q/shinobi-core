@@ -2116,5 +2116,314 @@
                       "name":  "Phoenix Sage",
                       "description":  "6 homing fireballs"
                   }
-              ]
+              ,
+                  {
+                      "id":  "susanoo",
+                      "branch":  "fire",
+                      "distance":  5,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:susanoo",
+                      "spCost":  25,
+                      "requires":  [ "fire_dragon", "fire_release_great_fireball" ],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "uchiha"
+                  },
+                  {
+                      "id":  "fire_sphere_v2",
+                      "branch":  "fire",
+                      "distance":  3,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:fire_sphere_v2",
+                      "spCost":  15,
+                      "requires":  [ "fire_release_flame_bullet" ],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "uchiha"
+                  },
+                  {
+                      "id":  "genjutsu_coma",
+                      "branch":  "general",
+                      "distance":  4,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:genjutsu_coma",
+                      "spCost":  20,
+                      "requires":  [ "genjutsu_paralysis" ],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "uchiha"
+                  },
+                  {
+                      "id":  "sharingan_foresight",
+                      "branch":  "general",
+                      "distance":  3,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:sharingan_foresight",
+                      "spCost":  15,
+                      "requires":  [],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "uchiha"
+                  },
+                  {
+                      "id":  "hyu_sky_vortex",
+                      "branch":  "general",
+                      "distance":  3,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:hyu_sky_vortex",
+                      "spCost":  15,
+                      "requires":  [ "hyuga_rotation" ],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "hyuga"
+                  },
+                  {
+                      "id":  "hyu_hakke_shield",
+                      "branch":  "general",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:hyu_hakke_shield",
+                      "spCost":  12,
+                      "requires":  [ "hyuga_rotation" ],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "hyuga"
+                  },
+                  {
+                      "id":  "hyu_pressure_point",
+                      "branch":  "general",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:hyu_pressure_point",
+                      "spCost":  10,
+                      "requires":  [],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "hyuga"
+                  },
+                  {
+                      "id":  "uzumaki_chains",
+                      "branch":  "general",
+                      "distance":  3,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:uzumaki_chains",
+                      "spCost":  15,
+                      "requires":  [ "gen_chakra_surge" ],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "uzumaki"
+                  },
+                  {
+                      "id":  "uzumaki_barrier",
+                      "branch":  "general",
+                      "distance":  3,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:uzumaki_barrier",
+                      "spCost":  15,
+                      "requires":  [ "sealing_bind" ],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "uzumaki"
+                  },
+                  {
+                      "id":  "uzumaki_chakra_vortex",
+                      "branch":  "general",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:uzumaki_chakra_vortex",
+                      "spCost":  12,
+                      "requires":  [],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "uzumaki"
+                  },
+                  {
+                      "id":  "senju_wood_dragon",
+                      "branch":  "earth",
+                      "distance":  5,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:senju_wood_dragon",
+                      "spCost":  25,
+                      "requires":  [ "earth_golem", "water_dragon_bullet" ],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "senju"
+                  },
+                  {
+                      "id":  "senju_regeneration",
+                      "branch":  "general",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:senju_regeneration",
+                      "spCost":  12,
+                      "requires":  [],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "senju"
+                  },
+                  {
+                      "id":  "senju_wood_wall",
+                      "branch":  "earth",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:senju_wood_wall",
+                      "spCost":  12,
+                      "requires":  [ "earth_release_earth_wall" ],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "senju"
+                  },
+                  {
+                      "id":  "nara_shadow_grab",
+                      "branch":  "general",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:nara_shadow_grab",
+                      "spCost":  10,
+                      "requires":  [],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "nara"
+                  },
+                  {
+                      "id":  "nara_shadow_loop",
+                      "branch":  "general",
+                      "distance":  3,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:nara_shadow_loop",
+                      "spCost":  15,
+                      "requires":  [ "nara_shadow_grab" ],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "nara"
+                  },
+                  {
+                      "id":  "nara_shadow_spike",
+                      "branch":  "general",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:nara_shadow_spike",
+                      "spCost":  12,
+                      "requires":  [ "nara_shadow_grab" ],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "nara"
+                  },
+                  {
+                      "id":  "aburame_swarm",
+                      "branch":  "general",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:aburame_swarm",
+                      "spCost":  10,
+                      "requires":  [],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "aburame"
+                  },
+                  {
+                      "id":  "aburame_bug_shield",
+                      "branch":  "general",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:aburame_bug_shield",
+                      "spCost":  10,
+                      "requires":  [],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "aburame"
+                  },
+                  {
+                      "id":  "aburame_bug_bomb",
+                      "branch":  "general",
+                      "distance":  3,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:aburame_bug_bomb",
+                      "spCost":  15,
+                      "requires":  [ "aburame_swarm" ],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "aburame"
+                  },
+                  {
+                      "id":  "inuzuka_wolf_fang",
+                      "branch":  "general",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:inuzuka_wolf_fang",
+                      "spCost":  10,
+                      "requires":  [],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "inuzuka"
+                  },
+                  {
+                      "id":  "inuzuka_beast_sense",
+                      "branch":  "general",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:inuzuka_beast_sense",
+                      "spCost":  10,
+                      "requires":  [],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "inuzuka"
+                  },
+                  {
+                      "id":  "inuzuka_spin_fang",
+                      "branch":  "general",
+                      "distance":  3,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:inuzuka_spin_fang",
+                      "spCost":  15,
+                      "requires":  [ "inuzuka_wolf_fang" ],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "inuzuka"
+                  },
+                  {
+                      "id":  "akimichi_expansion",
+                      "branch":  "general",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:akimichi_expansion",
+                      "spCost":  12,
+                      "requires":  [],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "akimichi"
+                  },
+                  {
+                      "id":  "akimichi_stone_fist",
+                      "branch":  "general",
+                      "distance":  3,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:akimichi_stone_fist",
+                      "spCost":  15,
+                      "requires":  [ "akimichi_expansion" ],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "akimichi"
+                  },
+                  {
+                      "id":  "akimichi_butterfly",
+                      "branch":  "general",
+                      "distance":  5,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:akimichi_butterfly",
+                      "spCost":  25,
+                      "requires":  [ "akimichi_expansion", "akimichi_stone_fist" ],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "akimichi"
+                  },
+                  {
+                      "id":  "hatake_lightning_blade",
+                      "branch":  "lightning",
+                      "distance":  3,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:hatake_lightning_blade",
+                      "spCost":  15,
+                      "requires":  [ "lightning_release_shock" ],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "hatake"
+                  },
+                  {
+                      "id":  "hatake_shadow_step",
+                      "branch":  "general",
+                      "distance":  2,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:hatake_shadow_step",
+                      "spCost":  12,
+                      "requires":  [ "shunshin_no_jutsu" ],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "hatake"
+                  },
+                  {
+                      "id":  "hatake_raikiri",
+                      "branch":  "lightning",
+                      "distance":  5,
+                      "type":  "jutsu",
+                      "jutsuId":  "shinobicore:hatake_raikiri",
+                      "spCost":  25,
+                      "requires":  [ "hatake_lightning_blade", "lightning_release_kirin" ],
+                      "icon":  "\u25C6",
+                      "clanRequired":  "hatake"
+                  }
+    ]
 }

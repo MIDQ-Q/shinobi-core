@@ -1,0 +1,11 @@
+{
+    "id": "senju_forest_march",
+    "name": "Forest March",
+    "nature": "earth",
+    "tier": 3,
+    "castTime": 25,
+    "cooldown": 100,
+    "chakraCost": 35,
+    "behavior": "ForestMarchBehavior",
+    "tags": ["earth", "utility", "clan:senju"]
+}

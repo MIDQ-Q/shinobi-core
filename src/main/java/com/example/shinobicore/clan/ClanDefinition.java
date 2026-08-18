@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public record ClanDefinition(
+    java.util.Map<String, Float> bonuses,
     String id,
     String name,
     ElementType affinity,

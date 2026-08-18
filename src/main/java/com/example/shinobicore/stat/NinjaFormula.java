@@ -163,8 +163,8 @@ public class NinjaFormula {
 
     public static float jumpVerticalMultiplier(int jumpLevel, boolean chakraMode) {
         if (!chakraMode) return 1.0f;
-        float base = 1.1f + jumpLevel * 0.03f;
-        return Math.min(base, cfg().movement.jumpVertCap);
+        float base = 1.05f + jumpLevel * 0.025f;  // S13-05: reduced growth
+        return Math.min(Math.min(base, cfg().movement.jumpVertCap), 1.35f);  // S13-05: hard cap
     }
 
     public static int bodySpCost() { return cfg().progression.spBaseCost * 2; }

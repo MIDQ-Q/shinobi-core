@@ -1,5 +1,9 @@
 {
   "id": "uchiha",
+    "bonuses": {
+      "fire_damage_mult": 1.1,
+      "genjutsu_resist": 1.15
+    },
   "name": "Uchiha Clan",
   "affinity": "fire",
   "extraAffinityCount": 0,

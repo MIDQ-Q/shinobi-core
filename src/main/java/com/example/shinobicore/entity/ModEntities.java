@@ -77,6 +77,23 @@ public class ModEntities {
             .build()
     );
 
+    public static final EntityType<com.example.shinobicore.entity.SamuraiTeacherEntity> SAMURAI_TEACHER = Registry.register(
+        Registries.ENTITY_TYPE,
+        new Identifier(ShinobiCore.MOD_ID, "samurai_teacher"),
+        FabricEntityTypeBuilder.<com.example.shinobicore.entity.SamuraiTeacherEntity>create(SpawnGroup.CREATURE, com.example.shinobicore.entity.SamuraiTeacherEntity::new)
+            .dimensions(EntityDimensions.fixed(0.6f, 1.8f))
+            .trackRangeChunks(10)
+            .build());
+
+    public static final EntityType<com.example.shinobicore.entity.enemy.NinjaEnemyEntity> NINJA_ENEMY = Registry.register(
+        Registries.ENTITY_TYPE,
+        new Identifier(ShinobiCore.MOD_ID, "ninja_enemy"),
+        FabricEntityTypeBuilder.<com.example.shinobicore.entity.enemy.NinjaEnemyEntity>create(SpawnGroup.MONSTER, com.example.shinobicore.entity.enemy.NinjaEnemyEntity::new)
+            .dimensions(EntityDimensions.fixed(0.6f, 1.8f))
+            .trackRangeChunks(64)
+            .trackedUpdateRate(3)
+            .build());
+
     public static void register() {
         ShinobiCore.LOGGER.info("Registered entities");
     }

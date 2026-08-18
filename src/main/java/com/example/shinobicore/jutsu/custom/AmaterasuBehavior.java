@@ -20,13 +20,20 @@ public class AmaterasuBehavior implements JutsuBehavior {
 public void cast(ServerPlayerEntity player, JutsuDefinition def, NinjaPlayerData data,
 JsonObject params, float damage) {
 if (!(player.getWorld() instanceof ServerWorld world)) return;
+// S5-06 FIX: Require Sharingan
+if (data.getActiveDojutsu() == null || !data.getActiveDojutsu().equals("sharingan")) {
+player.sendMessage(net.minecraft.text.Text.literal("В§cRequires Sharingan!"), false);
+return;
+}
 float speed = params.has("speed") ? params.get("speed").getAsFloat() : 2.0f;
 float radius = params.has("radius") ? params.get("radius").getAsFloat() : 2f;
-int lifetime = params.has("lifetime") ? params.get("lifetime").getAsInt() : 60;
+int lifetime = params.has("lifetime") ? params.get("lifetime").getAsInt() : 120;
 Vec3d eye = player.getEyePos();
 Vec3d look = player.getRotationVector();
+// Triple damage for Amaterasu
+float amaterasuDamage = damage * 3.0f;
 NinjaProjectileEntity proj = new NinjaProjectileEntity(
-world, player, look.multiply(speed), damage, radius, "smoke", "amaterasu", lifetime
+world, player, look.multiply(speed), amaterasuDamage, radius, "smoke", "amaterasu", lifetime
 );
 proj.setPosition(eye.x, eye.y - 0.2, eye.z);
 proj.setHasGravity(false);

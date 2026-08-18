@@ -36,7 +36,7 @@ public class KirinBehavior implements JutsuBehavior {
             double oz = (Math.random() - 0.5) * radius;
             LightningEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
             if (bolt != null) {
-                bolt.setPosition(center.x + ox, world.getTopY(), center.z + oz);
+                bolt.setPosition(center.x + ox, center.y + 50, center.z + oz);
                 world.spawnEntity(bolt);
             }
         }

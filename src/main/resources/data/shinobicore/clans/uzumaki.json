@@ -1,5 +1,9 @@
 {
   "id": "uzumaki",
+    "bonuses": {
+      "regen_mult": 1.1,
+      "max_chakra_mult": 1.2
+    },
   "name": "Uzumaki Clan",
   "affinity": "water",
   "extraAffinityCount": 0,

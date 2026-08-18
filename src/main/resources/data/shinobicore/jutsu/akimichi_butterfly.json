@@ -1,0 +1,11 @@
+{
+    "id": "akimichi_butterfly",
+    "name": "Butterfly Mode",
+    "nature": "none",
+    "tier": 4,
+    "castTime": 35,
+    "cooldown": 160,
+    "chakraCost": 50,
+    "behavior": "ButterflyBehavior",
+    "tags": ["buff", "clan:akimichi"]
+}

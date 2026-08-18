@@ -6,6 +6,8 @@ import com.example.shinobicore.clan.ClanDefinition;
 import com.example.shinobicore.clan.ClanRegistry;
 import com.example.shinobicore.command.NinjaCommand;
 import com.example.shinobicore.config.ModConfig;
+import com.example.shinobicore.config.RoadConfig;
+import com.example.shinobicore.world.feature.ClanVillageFeature;
 import com.example.shinobicore.entity.ModEntities;
 import com.example.shinobicore.item.ModItems;
 import com.example.shinobicore.event.NinjaTickHandler;
@@ -58,6 +60,7 @@ public class ShinobiCore implements ModInitializer {
     public void onInitialize() {
         LOGGER.info("Shinobi Core загружается...");
         ModConfig.load();
+        RoadConfig.load();
         // === RASENSHURIKEN THROW HANDLER ===
         ServerPlayNetworking.registerGlobalReceiver(ModPackets.THROW_RASENSHURIKEN_ID,
         (server, player, handler, buf, responseSender) -> {
@@ -111,6 +114,8 @@ public class ShinobiCore implements ModInitializer {
         });
         JutsuLogger.init();
         ModEntities.register();
+        com.example.shinobicore.block.ModBlocks.register();
+        com.example.shinobicore.block.entity.ModBlockEntities.register();
         ModItems.register();
 
         BehaviorRegistry.register("projectile", new ProjectileBehavior());
@@ -123,7 +128,9 @@ public class ShinobiCore implements ModInitializer {
 
 CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
     NinjaCommand.register(dispatcher);
-    com.example.shinobicore.command.TestAllCommand.register(dispatcher);
+    com.example.shinobicore.command.ShinobicoreTestCommand.register(
+            dispatcher);
+        com.example.shinobicore.command.TestAllCommand.register(dispatcher);
 });
         ServerTickEvents.END_SERVER_TICK.register(NinjaTickHandler::onServerTick);
         // === PHASE5_CAST_TICK ===
@@ -215,6 +222,13 @@ CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environm
                 }
             });
         });
+        // S12-04: Register clan village feature
+        net.minecraft.registry.Registries.FEATURE.getClass(); // ensure registry loaded
+        // Feature registration happens via ModFeatures
+        ModFeatures.register();
+        // S9-01: Register enemy entity attributes
+        net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry.register(ModEntities.NINJA_ENEMY,
+            com.example.shinobicore.entity.enemy.NinjaEnemyEntity.createNinjaEnemyAttributes());
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             JutsuRegistry.reload(server.getResourceManager());
             ClanRegistry.reload(server.getResourceManager());

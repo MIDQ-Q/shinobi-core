@@ -245,4 +245,20 @@ public class NinjaProjectileEntity extends Entity {
         nbt.putInt("BounceCount", this.dataTracker.get(BOUNCE_COUNT));
         if (ownerId != null) nbt.putUuid("OwnerUUID", ownerId);
     }
+
+    /**
+     * S13-01: Returns correct particle type based on jutsu nature.
+     */
+    private net.minecraft.particle.ParticleEffect getParticleForNature() {
+        String pType = this.dataTracker.get(PARTICLE_TYPE);
+        if (pType == null || pType.isEmpty()) return net.minecraft.particle.ParticleTypes.POOF;
+        switch (pType) {
+            case "fire": return net.minecraft.particle.ParticleTypes.FLAME;
+            case "water": return net.minecraft.particle.ParticleTypes.SPLASH;
+            case "wind": return net.minecraft.particle.ParticleTypes.CLOUD;
+            case "lightning": return net.minecraft.particle.ParticleTypes.ELECTRIC_SPARK;
+            case "earth": return net.minecraft.particle.ParticleTypes.CRIT;
+            default: return net.minecraft.particle.ParticleTypes.POOF;
+        }
+    }
 }

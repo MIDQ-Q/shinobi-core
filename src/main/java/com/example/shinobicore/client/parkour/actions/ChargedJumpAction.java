@@ -15,6 +15,7 @@ public class ChargedJumpAction implements ParkourAction {
     private static final int MAX_CHARGE_TICKS = 60;
     private static final int MIN_CHARGE_TICKS = 5;  // 0.25 сек до появления бара
     private static final float CHARGE_MULTIPLIER = 2.0f;
+    private static final float MAX_VERTICAL_VELOCITY = 1.2f;  // S13-05: hard cap
 
     private int chargeTicks = 0;
     private boolean charging = false;
@@ -67,7 +68,7 @@ public class ChargedJumpAction implements ParkourAction {
                     
                     // Умножаем вертикальную скорость на множитель заряда
                     Vec3d v = player.getVelocity();
-                    player.setVelocity(v.x, v.y * chargeMultiplier, v.z);
+                    player.setVelocity(v.x, Math.min(v.y * chargeMultiplier, 1.5), v.z);  // S13-05: hard cap
                     player.velocityModified = true;
                     
                     ParkourSounds.playChargedJump();

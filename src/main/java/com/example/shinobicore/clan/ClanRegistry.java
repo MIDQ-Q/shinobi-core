@@ -80,6 +80,15 @@ public class ClanRegistry {
                 ? json.get("dojutsuHook").getAsString() : null;
         int chakraCap = json.has("chakraCap") ? json.get("chakraCap").getAsInt() : 2000;
 
+        // S12-01: Parse clan bonuses
+        java.util.Map<String, Float> bonuses = new java.util.HashMap<>();
+        if (json.has("bonuses")) {
+            com.google.gson.JsonObject bonusesObj = json.getAsJsonObject("bonuses");
+            for (String bKey : bonusesObj.keySet()) {
+                bonuses.put(bKey, bonusesObj.get(bKey).getAsFloat());
+            }
+        }
+
                 List<String> startingJutsu = new java.util.ArrayList<>();
         if (json.has("starting_jutsu") && json.get("starting_jutsu").isJsonArray()) {
             com.google.gson.JsonArray arr = json.getAsJsonArray("starting_jutsu");
@@ -87,7 +96,7 @@ public class ClanRegistry {
                 startingJutsu.add(arr.get(i).getAsString());
             }
         }
-        return new ClanDefinition(id, name, affinity, extraAffinityCount,
+        return new ClanDefinition(bonuses, id, name, affinity, extraAffinityCount,
                 statBonuses, natureBonuses, costMultiplier, fatigueMultiplier, reserveBonus, dojutsuHook, chakraCap, startingJutsu);
     }
 

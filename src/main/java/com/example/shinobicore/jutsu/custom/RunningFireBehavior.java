@@ -23,7 +23,7 @@ public class RunningFireBehavior implements JutsuBehavior {
                      JsonObject params, float damage) {
         if (!(player.getWorld() instanceof ServerWorld world)) return;
         float distance = params.has("distance") ? params.get("distance").getAsFloat() : 8f;
-        Vec3d start = player.getPos();
+        Vec3d start = player.getPos().add(player.getRotationVector().multiply(2.0));
         Vec3d dir = player.getRotationVector().multiply(0.5);
         List<BlockPos> fireBlocks = new ArrayList<>();
         int steps = (int)(distance / 0.5);
@@ -32,6 +32,7 @@ public class RunningFireBehavior implements JutsuBehavior {
             TickScheduler.schedule(world, i * 2, 2, 1, w -> {
                 Vec3d pos = start.add(dir.multiply(step));
                 BlockPos bp = BlockPos.ofFloored(pos);
+                if (bp.getX() == player.getBlockPos().getX() && bp.getZ() == player.getBlockPos().getZ()) return;
                 if (w.getBlockState(bp).isAir()) {
                     w.setBlockState(bp, Blocks.FIRE.getDefaultState(), 3);
                     fireBlocks.add(bp);

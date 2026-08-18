@@ -23,7 +23,7 @@ public class ExplodingProjectileBehavior implements JutsuBehavior {
         
         // S4-06: Replaced with Voxel Projectile
         com.example.shinobicore.entity.VoxelProjectileEntity proj = new com.example.shinobicore.entity.VoxelProjectileEntity(
-            world, player, look.multiply(speed), "sphere", 0xFFFF6600, radius, damage, true
+            world, player, look.multiply(speed), "sphere", 0xFFFF6600, radius, damage, false
         );
         world.spawnEntity(proj);
     }

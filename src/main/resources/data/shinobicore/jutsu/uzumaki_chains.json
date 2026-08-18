@@ -1,13 +1,11 @@
 {
-  "id": "shinobicore:uzumaki_chains",
-  "tier": 4,
-  "cast_time": 2.5,
-  "name": "Adamantine Chains",
-  "category": "shape_ninjutsu",
-  "type": "custom",
-  "behaviorClass": "com.example.shinobicore.jutsu.custom.RootBehavior",
-  "params": {"range": 10, "radius": 6, "duration": 100, "fromTarget": false},
-  "baseCost": 55, "baseDamage": 4, "strain": 14,
-  "requiredUsesForFullProficiency": 70,
-  "requirements": {"control": 35, "ninjutsu": 30}
+    "id": "uzumaki_chains",
+    "name": "Chakra Chains",
+    "nature": "none",
+    "tier": 3,
+    "castTime": 25,
+    "cooldown": 100,
+    "chakraCost": 40,
+    "behavior": "ChakraChainsBehavior",
+    "tags": ["control", "clan:uzumaki"]
 }

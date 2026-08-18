@@ -1,5 +1,9 @@
 {
   "id": "nara",
+    "bonuses": {
+      "cast_speed_mult": 1.1,
+      "control_mult": 1.15
+    },
   "name": "Nara Clan",
   "affinity": "earth",
   "extraAffinityCount": 0,

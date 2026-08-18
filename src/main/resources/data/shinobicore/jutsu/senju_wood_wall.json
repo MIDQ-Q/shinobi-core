@@ -1,0 +1,11 @@
+{
+    "id": "senju_wood_wall",
+    "name": "Wood Wall",
+    "nature": "earth",
+    "tier": 2,
+    "castTime": 15,
+    "cooldown": 60,
+    "chakraCost": 20,
+    "behavior": "WoodWallBehavior",
+    "tags": ["earth", "defense", "clan:senju"]
+}

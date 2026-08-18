@@ -1,0 +1,11 @@
+{
+    "id": "nara_shadow_control",
+    "name": "Shadow Control",
+    "nature": "none",
+    "tier": 4,
+    "castTime": 35,
+    "cooldown": 140,
+    "chakraCost": 50,
+    "behavior": "ShadowControlBehavior",
+    "tags": ["control", "clan:nara"]
+}

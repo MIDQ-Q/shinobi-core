@@ -31,7 +31,7 @@ public class PullBehavior implements JutsuBehavior {
         TickScheduler.schedule(world, 1, 5, ticks, w -> {
             for (Entity e : w.getOtherEntities(player, box)) {
                 if (e instanceof LivingEntity liv && !liv.equals(player)) {
-                    Vec3d to = center.subtract(liv.getPos());
+                    Vec3d to = player.getPos().subtract(liv.getPos());
                     double dist = to.length();
                     if (dist > 0.5) {
                         Vec3d pull = to.normalize().multiply(pullStrength);

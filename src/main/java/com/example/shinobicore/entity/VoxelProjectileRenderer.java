@@ -38,13 +38,13 @@ public class VoxelProjectileRenderer extends EntityRenderer<VoxelProjectileEntit
         
         // Generate model procedurally (cached internally by VoxelMeshCache ideally, 
         // but here we generate simple sphere for fallback)
-        VoxelModel model = VoxelShapeGenerators.sphere(0.5f, 8, r, g, b, a);
+        VoxelModel model = VoxelShapeGenerators.sphere(0.5f, 12, r, g, b, a);
         
         matrices.push();
         matrices.scale(scale, scale, scale);
         
         // FIX: Accessing public field 'age' directly
-        float rotation = (entity.age + tickDelta) * 10f;
+        float rotation = (entity.age + tickDelta) * 3f;
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotation));
         
         VertexConsumer vc = vcp.getBuffer(RenderLayer.getEntityTranslucent(TEX));

@@ -1,5 +1,9 @@
 {
   "id": "hyuga",
+    "bonuses": {
+      "accuracy_mult": 1.1,
+      "melee_damage_mult": 1.15
+    },
   "name": "Hyuga Clan",
   "affinity": "earth",
   "extraAffinityCount": 0,

@@ -1,0 +1,11 @@
+{
+    "id": "uzumaki_barrier",
+    "name": "Barrier Seal",
+    "nature": "none",
+    "tier": 3,
+    "castTime": 30,
+    "cooldown": 120,
+    "chakraCost": 45,
+    "behavior": "BarrierSealBehavior",
+    "tags": ["defense", "clan:uzumaki"]
+}
