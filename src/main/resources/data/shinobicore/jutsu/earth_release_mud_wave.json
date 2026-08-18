@@ -5,15 +5,14 @@
   "name": "Earth Release: Mud Wave",
   "category": "elemental_ninjutsu",
   "nature": "earth",
-  "type": "aoe",
+  "type": "custom",
+  "behaviorClass": "com.example.shinobicore.jutsu.custom.MudWaveBehavior",
   "params": {
-    "radius": 5.0,
-    "particle": "earth",
-    "particleCount": 50,
-    "knockback": 0.8,
-    "statusEffect": "slowness",
-    "statusDuration": 60,
-    "statusAmplifier": 2
+    "range": 8.0,
+    "size": 5,
+    "duration": 100,
+    "slownessDuration": 60,
+    "slownessAmplifier": 2
   },
   "baseCost": 28,
   "baseDamage": 5,

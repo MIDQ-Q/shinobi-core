@@ -5,15 +5,16 @@
   "name": "Water Release: Raging Waves",
   "category": "elemental_ninjutsu",
   "nature": "water",
-  "type": "aoe",
+  "type": "custom",
+  "behaviorClass": "com.example.shinobicore.jutsu.custom.RagingWavesBehavior",
   "params": {
-    "radius": 5.0,
-    "particle": "water",
-    "particleCount": 50,
-    "knockback": 1.2
+    "width": 3,
+    "height": 3,
+    "travelDistance": 3,
+    "knockback": 3.0
   },
   "baseCost": 20,
-  "baseDamage": 0,
+  "baseDamage": 5,
   "strain": 5,
   "requiredUsesForFullProficiency": 30,
   "requirements": {

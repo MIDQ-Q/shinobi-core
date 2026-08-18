@@ -1,4 +1,26 @@
 {
-  "model": "shuriken","id":"shinobicore:wind_sickle",
+  "model": "shuriken",
+  "id": "shinobicore:wind_sickle",
   "tier": 2,
-  "cast_time": 1,"name":"Wind Release: Wind Sickle","category":"elemental_ninjutsu","nature":"wind","type":"projectile","params":{"speed":2.4,"radius":1,"particle":"wind","lifetime":60,"pierce":2},"baseCost":26,"baseDamage":7,"strain":7,"requiredUsesForFullProficiency":45,"requirements":{"control":20,"nature_wind":25,"ninjutsu":15}}
+  "cast_time": 1,
+  "name": "Wind Release: Wind Sickle",
+  "category": "elemental_ninjutsu",
+  "nature": "wind",
+  "type": "projectile",
+  "params": {
+    "speed": 2.4,
+    "radius": 1,
+    "particle": "wind",
+    "lifetime": 60,
+    "pierce": 2
+  },
+  "baseCost": 26,
+  "baseDamage": 7,
+  "strain": 7,
+  "requiredUsesForFullProficiency": 45,
+  "requirements": {
+    "control": 20,
+    "nature_wind": 25,
+    "ninjutsu": 15
+  }
+}

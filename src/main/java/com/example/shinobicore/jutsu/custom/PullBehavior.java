@@ -23,15 +23,26 @@ public class PullBehavior implements JutsuBehavior {
         if (!(player.getWorld() instanceof ServerWorld world)) return;
         float range = params.has("range") ? params.get("range").getAsFloat() : 12f;
         float radius = params.has("radius") ? params.get("radius").getAsFloat() : 6f;
+        // pullStrength > 0 = притягивание, < 0 = отталкивание
         float pullStrength = params.has("pullStrength") ? params.get("pullStrength").getAsFloat() : 0.35f;
         int duration = params.has("duration") ? params.get("duration").getAsInt() : 60;
+        boolean isFireVacuum = params.has("isFireVacuum") && params.get("isFireVacuum").getAsBoolean();
+        
         Vec3d center = player.getPos().add(player.getRotationVector().multiply(range));
         Box box = new Box(center, center).expand(radius);
         int ticks = Math.max(1, duration / 5);
+        
         TickScheduler.schedule(world, 1, 5, ticks, w -> {
             for (Entity e : w.getOtherEntities(player, box)) {
                 if (e instanceof LivingEntity liv && !liv.equals(player)) {
-                    Vec3d to = player.getPos().subtract(liv.getPos());
+                    Vec3d to;
+                    if (isFireVacuum) {
+                        // Для Fire Vacuum - притягиваем К ИГРОКУ
+                        to = player.getPos().subtract(liv.getPos());
+                    } else {
+                        // Для других техник - притягиваем К ЦЕНТРУ
+                        to = center.subtract(liv.getPos());
+                    }
                     double dist = to.length();
                     if (dist > 0.5) {
                         Vec3d pull = to.normalize().multiply(pullStrength);
@@ -39,16 +50,25 @@ public class PullBehavior implements JutsuBehavior {
                         liv.velocityModified = true;
                     }
                     liv.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 20, 1, false, false));
+                    
+                    // Поджигание для Fire Vacuum
+                    if (isFireVacuum) {
+                        liv.setOnFireFor(3);
+                    }
+                    
                     if (damage > 0) liv.damage(player.getDamageSources().magic(), damage * 0.2f);
                 }
             }
+            // Частицы
+            net.minecraft.particle.DefaultParticleType particleType = isFireVacuum ? 
+                net.minecraft.particle.ParticleTypes.FLAME : net.minecraft.particle.ParticleTypes.PORTAL;
             for (int i = 0; i < 20; i++) {
                 double a = (i / 20.0) * Math.PI * 2;
-                w.spawnParticles(ParticleTypes.PORTAL,
+                w.spawnParticles(particleType,
                     center.x + Math.cos(a) * radius, center.y + 0.5, center.z + Math.sin(a) * radius,
                     1, -Math.cos(a) * 0.15, 0.05, -Math.sin(a) * 0.15, 0.03);
             }
         });
-        JutsuLogger.logBehavior("pull", "radius=" + radius + " ticks=" + ticks);
+        JutsuLogger.logBehavior("pull", "radius=" + radius + " ticks=" + ticks + " fireVacuum=" + isFireVacuum);
     }
 }
