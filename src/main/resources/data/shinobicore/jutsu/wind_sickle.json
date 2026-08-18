@@ -7,6 +7,7 @@
   "category": "elemental_ninjutsu",
   "nature": "wind",
   "type": "projectile",
+  "behaviorClass": "com.example.shinobicore.jutsu.custom.SickleWeaselBehavior",
   "params": {
     "speed": 2.4,
     "radius": 1,
