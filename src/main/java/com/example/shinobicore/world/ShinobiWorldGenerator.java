@@ -196,7 +196,7 @@ public class ShinobiWorldGenerator {
         ));
     
     // Модификатор для всех биомов (добавляет тренировочные полигоны)
-    public static final RegistryObject<BiomeModifier> ADD_TRAINING GROUNDS = BIOME_MODIFIERS.register("add_training_grounds",
+    public static final RegistryObject<BiomeModifier> ADD_TRAINING_GROUNDS = BIOME_MODIFIERS.register("add_training_grounds",
         () -> new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
             BiomeTagProvider.ALL_BIOMES,
             ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(MOD_ID, "training_ground_placed")),
