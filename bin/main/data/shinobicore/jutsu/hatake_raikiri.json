@@ -1,0 +1,11 @@
+{
+    "id": "hatake_raikiri",
+    "name": "Raikiri",
+    "nature": "lightning",
+    "tier": 4,
+    "castTime": 35,
+    "cooldown": 140,
+    "chakraCost": 50,
+    "behavior": "RaikiriBehavior",
+    "tags": ["lightning", "melee", "clan:hatake"]
+}

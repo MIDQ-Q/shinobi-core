@@ -1,0 +1,55 @@
+{
+    "description": "S12-01: Clan balance configuration. All multipliers are applied to base values.",
+    "clans": {
+        "uchiha": {
+            "fire_damage_mult": 1.10,
+            "genjutsu_resist": 1.15,
+            "chakra_cost_mult": 0.95
+        },
+        "hyuga": {
+            "melee_damage_mult": 1.15,
+            "accuracy_mult": 1.10,
+            "byakugan_range_mult": 1.20
+        },
+        "uzumaki": {
+            "max_chakra_mult": 1.20,
+            "regen_mult": 1.10,
+            "seal_duration_mult": 1.30
+        },
+        "senju": {
+            "regen_mult": 1.10,
+            "max_health_mult": 1.15,
+            "wood_release_mult": 1.25
+        },
+        "nara": {
+            "control_mult": 1.15,
+            "cast_speed_mult": 1.10,
+            "shadow_duration_mult": 1.40
+        },
+        "aburame": {
+            "dot_damage_mult": 1.10,
+            "poison_resist": 1.15,
+            "insect_swarm_mult": 1.20
+        },
+        "inuzuka": {
+            "move_speed_mult": 1.15,
+            "dodge_mult": 1.10,
+            "beast_sense_range_mult": 1.30
+        },
+        "akimichi": {
+            "max_health_mult": 1.20,
+            "melee_damage_mult": 1.10,
+            "expansion_duration_mult": 1.25
+        },
+        "hatake": {
+            "attack_speed_mult": 1.10,
+            "lightning_damage_mult": 1.15,
+            "copy_chance_mult": 1.20
+        }
+    },
+    "global_balance": {
+        "max_clan_bonus_stack": 3,
+        "clan_technique_cost_reduction": 0.15,
+        "universal_technique_cost_mult": 1.0
+    }
+}

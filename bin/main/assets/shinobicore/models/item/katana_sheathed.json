@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "shinobicore:item/empty"
+                 },
+    "parent":  "item/generated"
+}

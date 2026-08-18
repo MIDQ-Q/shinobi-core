@@ -1,0 +1,181 @@
+{
+  "enemyDamageMultiplier": 1.0,
+  "enemyKawarimiChanceMultiplier": 1.0,
+  "enemyAggressionMultiplier": 1.0,
+  "enemyCooldownMultiplier": 1.0,
+  "lootQualityMultiplier": 1.0,
+  "parkour": {
+    "doubleJumpFatigue": 0.5,
+    "wallJumpFatigue": 0.5,
+    "vaultFatigue": 0.3,
+    "slideFatigue": 0.3,
+    "wallRunFatiguePerTick": 0.02,
+    "wallRunMaxTicks": 40,
+    "edgeGrabFatigue": 0.5,
+    "rollFatigue": 1.0,
+    "chargedJumpFatiguePerCharge": 2.0,
+    "dodgeFatigue": 2.0
+  },
+  "taijutsu": {
+    "baseDamage": 2.0,
+    "damagePerLevel": 0.3,
+    "chakraModeDamageMult": 1.5,
+    "chakraModeSpeedMult": 1.3,
+    "strongFistUnlockLevel": 50,
+    "range": 3.0,
+    "coneAngle": 120.0
+  },
+  "kenjutsu": {
+    "baseDamage": 6.0,
+    "damagePerLevel": 0.35,
+    "jumpAttackMult": 2.5,
+    "sprintAttackMult": 1.6,
+    "chakraModeDamageMult": 1.3,
+    "chakraCostPerHit": 0.5,
+    "chakraCostJump": 3.0,
+    "chakraCostSprint": 1.5,
+    "parryChakraGainSeigan": 2.5,
+    "iaiDashDamageMult": 3.0,
+    "iaiDashChakraCost": 5.0,
+    "maxComboSteps": 6,
+    "comboChakraScaling": 0.05,
+    "maxComboChakraBonus": 0.5
+  },
+  "chakra": {
+    "baseChakra": 100.0,
+    "chakraPerReserveLevel": 12.0,
+    "baseRegen": 1.0,
+    "regenPerReserveLevel": 0.03,
+    "regenPerControlLevel": 0.02,
+    "regenHardFatigueMultiplier": 0.35,
+    "regenExhaustedMultiplier": 0.2
+  },
+  "fatigue": {
+    "decayPerSecond": 2.0,
+    "softThreshold": 50.0,
+    "hardThreshold": 70.0,
+    "costPenaltyMax": 1.0
+  },
+  "meditation": {
+    "regenMultiplier": 4.0,
+    "fatigueDecayMultiplier": 2.0,
+    "reserveXpPerSecond": 2,
+    "controlXpPerSecond": 1,
+    "slownessBase": 3,
+    "slownessControlReduction": 2.5
+  },
+  "progression": {
+    "xpBase": 100,
+    "xpPerLevel": 25,
+    "xpSquared": 5,
+    "spPerLevelUp": 1,
+    "spBaseCost": 1,
+    "spExtraCostEvery10": 1,
+    "maxXpPerMinute": 500,
+    "maxUsagePerMinute": 10
+  },
+  "combat": {
+    "masteryUsageWeight": 0.25,
+    "masteryStatWeight": 0.75,
+    "damageBaseMultiplier": 0.6,
+    "damageMasteryScale": 0.8,
+    "costControlReductionMax": 0.2,
+    "costNatureReductionMax": 0.15,
+    "affinityCostMultiplier": 0.85,
+    "affinityDamageMultiplier": 1.1,
+    "affinityXpMultiplier": 1.25,
+    "costMasteryReductionMax": 0.25,
+    "categoryWeights": {
+      "taijutsu": {
+        "taijutsu": 0.55,
+        "space_time": 0.1,
+        "reserve": 0.15,
+        "control": 0.2
+      },
+      "medical": {
+        "medical": 0.4,
+        "reserve": 0.15,
+        "control": 0.35,
+        "perception": 0.1
+      },
+      "space_time": {
+        "space_time": 0.45,
+        "reserve": 0.15,
+        "ninjutsu": 0.1,
+        "control": 0.3
+      },
+      "sensory": {
+        "reserve": 0.1,
+        "control": 0.25,
+        "genjutsu": 0.15,
+        "perception": 0.5
+      },
+      "elemental_ninjutsu": {
+        "nature": 0.4,
+        "reserve": 0.1,
+        "ninjutsu": 0.25,
+        "control": 0.25
+      },
+      "genjutsu": {
+        "reserve": 0.1,
+        "control": 0.25,
+        "genjutsu": 0.45,
+        "perception": 0.2
+      },
+      "shape_ninjutsu": {
+        "reserve": 0.15,
+        "ninjutsu": 0.3,
+        "control": 0.45,
+        "perception": 0.1
+      }
+    }
+  },
+  "hud": {
+    "x": 10,
+    "y": 10,
+    "width": 180,
+    "height": 14
+  },
+  "movement": {
+    "speedCapNormal": 1.3,
+    "speedCapChakra": 1.6,
+    "jumpHorizCap": 1.8,
+    "jumpVertCap": 1.4
+  },
+  "stamina": {
+    "baseStamina": 100.0,
+    "baseRegen": 5.0,
+    "sprintCostPerSecond": 2.0
+  },
+  "kawarimi": {
+    "windowDuration": 3.0,
+    "cooldown": 15.0,
+    "lethalCooldown": 60.0,
+    "chakraCost": 50.0,
+    "staminaCost": 30.0
+  },
+  "passiveDrift": {
+    "xpPerMinute": 5,
+    "dailyXpCap": 500,
+    "diminishingThreshold": 0.5,
+    "controlXpRatio": 0.2
+  },
+  "tiers": {
+    "t1CooldownTicks": 0,
+    "t2CooldownTicks": 20,
+    "t3CooldownTicks": 40,
+    "t4CooldownTicks": 60,
+    "t5CooldownTicks": 100
+  },
+  "castTime": {
+    "tier1Time": 0.5,
+    "tier2Time": 1.0,
+    "tier3Time": 2.0,
+    "tier4Time": 3.0,
+    "tier5Time": 5.0,
+    "maxReduction": 0.4,
+    "showCastBar": true,
+    "controlBonusPerLevel": 0.003,
+    "masteryBonusFactor": 0.1
+  }
+}

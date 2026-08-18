@@ -1,0 +1,11 @@
+{
+    "id": "inuzuka_spin_fang",
+    "name": "Spinning Fang",
+    "nature": "none",
+    "tier": 3,
+    "castTime": 20,
+    "cooldown": 70,
+    "chakraCost": 25,
+    "behavior": "SpinFangBehavior",
+    "tags": ["melee", "clan:inuzuka"]
+}

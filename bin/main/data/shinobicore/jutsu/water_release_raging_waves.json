@@ -1,0 +1,25 @@
+{
+  "id": "shinobicore:water_release_raging_waves",
+  "tier": 1,
+  "cast_time": 0.5,
+  "name": "Water Release: Raging Waves",
+  "category": "elemental_ninjutsu",
+  "nature": "water",
+  "type": "custom",
+  "behaviorClass": "com.example.shinobicore.jutsu.custom.RagingWavesBehavior",
+  "params": {
+    "width": 3,
+    "height": 3,
+    "travelDistance": 3,
+    "knockback": 3.0
+  },
+  "baseCost": 20,
+  "baseDamage": 5,
+  "strain": 5,
+  "requiredUsesForFullProficiency": 30,
+  "requirements": {
+    "control": 18,
+    "nature_water": 22,
+    "ninjutsu": 12
+  }
+}

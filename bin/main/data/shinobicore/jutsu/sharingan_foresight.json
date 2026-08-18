@@ -1,0 +1,11 @@
+{
+    "id": "sharingan_foresight",
+    "name": "Sharingan Foresight",
+    "nature": "none",
+    "tier": 2,
+    "castTime": 10,
+    "cooldown": 80,
+    "chakraCost": 20,
+    "behavior": "ForesightBehavior",
+    "tags": ["utility", "clan:uchiha"]
+}

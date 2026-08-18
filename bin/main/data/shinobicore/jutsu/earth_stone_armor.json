@@ -1,0 +1,3 @@
+{"id":"shinobicore:earth_stone_armor",
+  "tier": 2,
+  "cast_time": 1,"name":"Earth Release: Stone Armor","category":"elemental_ninjutsu","nature":"earth","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.BuffSelfBehavior","params":{"effect":"resistance","amplifier":1,"duration":400},"baseCost":34,"baseDamage":0,"strain":9,"requiredUsesForFullProficiency":50,"requirements":{"control":24,"nature_earth":30,"ninjutsu":20}}

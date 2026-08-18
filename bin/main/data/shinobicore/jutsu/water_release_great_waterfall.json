@@ -1,0 +1,31 @@
+{
+  "id": "shinobicore:water_release_great_waterfall",
+  "tier": 2,
+  "cast_time": 1,
+  "name": "Water Release: Great Waterfall Jutsu",
+  "category": "elemental_ninjutsu",
+  "nature": "water",
+  "type": "dash",
+  "params": {
+    "distance": 8.0,
+    "knockback": 1.5,
+    "hitRadius": 3.0,
+    "waveWidth": 4.0,
+    "particle": "water",
+    "particleCount": 80,
+    "trailParticle": "water",
+    "trailCount": 50,
+    "splashOnLand": true,
+    "splashRadius": 4.0,
+    "splashDamage": 4.0
+  },
+  "baseCost": 35,
+  "baseDamage": 7,
+  "strain": 10,
+  "requiredUsesForFullProficiency": 55,
+  "requirements": {
+    "control": 30,
+    "nature_water": 35,
+    "ninjutsu": 25
+  }
+}

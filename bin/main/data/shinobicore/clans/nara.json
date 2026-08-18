@@ -1,0 +1,17 @@
+{
+  "id": "nara",
+    "bonuses": {
+      "cast_speed_mult": 1.1,
+      "control_mult": 1.15
+    },
+  "name": "Nara Clan",
+  "affinity": "earth",
+  "extraAffinityCount": 0,
+  "statBonuses": { "control": 8, "perception": 5 },
+  "natureBonuses": { "earth": 5 },
+  "costMultiplier": {},
+  "fatigueMultiplier": 1.1,
+  "reserveBonus": 0,
+  "dojutsuHook": null,
+  "chakraCap": 2000
+}

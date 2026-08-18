@@ -1,0 +1,11 @@
+{
+    "id": "aburame_bug_shield",
+    "name": "Bug Shield",
+    "nature": "none",
+    "tier": 2,
+    "castTime": 15,
+    "cooldown": 60,
+    "chakraCost": 20,
+    "behavior": "BugShieldBehavior",
+    "tags": ["defense", "clan:aburame"]
+}

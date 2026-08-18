@@ -1,0 +1,22 @@
+{
+ "id": "shinobicore:genjutsu_blindness",
+  "tier": 2,
+  "cast_time": 1,
+ "name": "Genjutsu: Darkness",
+ "category": "genjutsu",
+ "type": "genjutsu",
+ "params": {
+   "range": 10.0,
+   "duration": 120,
+   "amplifier": 1,
+   "effect": "blindness"
+ },
+ "baseCost": 25,
+ "baseDamage": 0,
+ "strain": 6,
+ "requiredUsesForFullProficiency": 40,
+ "requirements": {
+   "control": 20,
+   "genjutsu": 20
+ }
+}

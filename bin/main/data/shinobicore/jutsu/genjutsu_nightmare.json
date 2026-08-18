@@ -1,0 +1,22 @@
+{
+ "id": "shinobicore:genjutsu_nightmare",
+  "tier": 2,
+  "cast_time": 1,
+ "name": "Genjutsu: Nightmare",
+ "category": "genjutsu",
+ "type": "genjutsu",
+ "params": {
+   "range": 8.0,
+   "duration": 160,
+   "amplifier": 1,
+   "effect": "nightmare"
+ },
+ "baseCost": 35,
+ "baseDamage": 0,
+ "strain": 10,
+ "requiredUsesForFullProficiency": 50,
+ "requirements": {
+   "control": 30,
+   "genjutsu": 35
+ }
+}

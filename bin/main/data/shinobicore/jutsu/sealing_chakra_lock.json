@@ -1,0 +1,3 @@
+{"id":"shinobicore:sealing_chakra_lock",
+  "tier": 3,
+  "cast_time": 1.5,"name":"Sealing: Chakra Lock","category":"genjutsu","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.GenjutsuBehavior","params":{"range":10,"weaknessDuration":160,"slownessDuration":160,"nauseaDuration":0,"blindnessDuration":0},"baseCost":40,"baseDamage":0,"strain":10,"requiredUsesForFullProficiency":45,"requirements":{"control":25,"genjutsu":25}}

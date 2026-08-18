@@ -1,0 +1,11 @@
+{
+    "id": "hyu_sky_vortex",
+    "name": "Sky Vortex",
+    "nature": "none",
+    "tier": 3,
+    "castTime": 25,
+    "cooldown": 90,
+    "chakraCost": 35,
+    "behavior": "SkyVortexBehavior",
+    "tags": ["melee", "clan:hyuga"]
+}

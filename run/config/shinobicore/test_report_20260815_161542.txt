@@ -1,0 +1,72 @@
+╔══════════════════════════════════════════════════════════╗
+║        SHINOBICORE AUTOMATED TEST REPORT                ║
+╚══════════════════════════════════════════════════════════╝
+
+Date: 2026-08-15T16:15:42.476875600
+Total Tests: 54
+Passed: 51
+Failed: 3
+Skipped: 0
+
+══════════════════════════════════════════════════════════
+
+--- FAILED TESTS ---
+  [FAIL] All node requirements exist | 96 valid refs, 8 broken: kek_ice_n -> kg_ice, fire_dragon_n -> fire_bakuton_n, water_dragon_bullet_n -> water_maelstrom
+  [FAIL] All tree jutsuId refs valid | 93 ok, 2 missing: fire_expl -> shinobicore:fire_explosive_flame, water_prison_n -> shinobicore:water_prison
+  [FAIL] No circular dependencies (max depth < 20) | Max chain depth: 999
+
+--- ALL RESULTS ---
+  [PASS] Base max chakra > 0 | maxChakra=100.0
+  [PASS] Base regen > 0 | regen=1.03
+  [PASS] Fatigue decay > 0 | decay=2.0
+  [PASS] XP curve is increasing | L1=130 L10=850 L50=13850
+  [PASS] SP cost formula works | L1=1 L50=6
+  [PASS] HP scaling works | hp(0)=20 hp(7)=160
+  [PASS] Speed multiplier in bounds | speed(0)=1.0 speed(7,chakra)=3.75
+  [PASS] Jump multiplier in bounds | jump(0)=1.0 jump(7,chakra)=5.5
+  [PASS] Meditation multipliers > 1 | regen=4.0 decay=2.0
+  [PASS] Mastery in [0,100] | mastery=0.112500004
+  [PASS] Jutsu registry loaded | Loaded 164 jutsu
+  [PASS] All jutsu have valid fields | 164 valid, 0 invalid
+  [PASS] No duplicate jutsu IDs | All unique
+  [PASS] All custom behavior classes exist | 84 found, 0 missing
+  [PASS] BehaviorRegistry resolves all jutsu | 164/164
+  [PASS] All requirement keys are valid | 450 valid, 0 unknown keys
+  [PASS] Cost calculation works for all jutsu | 164 ok, 0 errors
+  [PASS] Skill tree loaded | Nodes: 129
+  [PASS] No duplicate tree node IDs | All unique
+  [FAIL] All node requirements exist | 96 valid refs, 8 broken: kek_ice_n -> kg_ice, fire_dragon_n -> fire_bakuton_n, water_dragon_bullet_n -> water_maelstrom
+  [FAIL] All tree jutsuId refs valid | 93 ok, 2 missing: fire_expl -> shinobicore:fire_explosive_flame, water_prison_n -> shinobicore:water_prison
+  [PASS] Branches loaded | Branches: 23
+  [FAIL] No circular dependencies (max depth < 20) | Max chain depth: 999
+  [PASS] TreePassives.collectClient() works | OK
+  [PASS] Clans loaded | Clans: 6
+  [PASS] Clan 'sarutobi' has valid affinity | affinity=fire
+  [PASS] Clan 'nara' has valid affinity | affinity=earth
+  [PASS] Clan 'uchiha' has valid affinity | affinity=fire
+  [PASS] Clan 'hatake' has valid affinity | affinity=lightning
+  [PASS] Clan 'hyuga' has valid affinity | affinity=earth
+  [PASS] Clan 'uzumaki' has valid affinity | affinity=water
+  [PASS] Clan costMultiplier in [0.5, 2.0] | All values in range
+  [PASS] Clan fatigueMultiplier > 0 | All positive
+  [PASS] TaijutsuStyle has 2+ values | Styles: 2
+  [PASS] Combo max steps = 4 | MAX_STEPS=4
+  [PASS] Combo timeout > 0 | timeout=1500
+  [PASS] Taijutsu baseDamage(10) > 0 | dmg=5.0
+  [PASS] computeDamage produces positive | dmg=5.0
+  [PASS] attackCooldownTicks > 0 | cooldown=12
+  [PASS] KenjutsuStance has 3 values | Stances: 3
+  [PASS] MarkTracker class accessible | OK
+  [PASS] Melee range > 0 | range=3.0
+  [PASS] Cone angle > 0 | angle=120.0
+  [PASS] ModConfig.instance loaded | OK
+  [PASS] Chakra config > 0 | baseChakra=100.0
+  [PASS] Taijutsu config > 0 | baseDamage=2.0
+  [PASS] Progression config > 0 | xpBase=100
+  [PASS] Parkour config exists | OK
+  [PASS] CHAKRA_SYNC_ID defined | OK
+  [PASS] CAST_SLOT_ID defined | OK
+  [PASS] SET_SLOT_ID defined | OK
+  [PASS] LOADOUT_SYNC_ID defined | OK
+  [PASS] TAIJUTSU_ATTACK_ID defined | OK
+  [PASS] RASENGAN_SYNC_ID defined | OK

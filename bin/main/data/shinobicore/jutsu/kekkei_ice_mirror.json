@@ -1,0 +1,3 @@
+{"id":"shinobicore:kekkei_ice_mirror",
+  "tier": 3,
+  "cast_time": 1.5,"name":"Ice Release: Ice Mirror","category":"elemental_ninjutsu","nature":"water","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.IceMirrorBehavior","params":{"range":15,"lifetime":200},"baseCost":50,"baseDamage":0,"strain":12,"requiredUsesForFullProficiency":60,"requirements":{"control":30,"nature_water":25,"nature_wind":25,"ninjutsu":30}}

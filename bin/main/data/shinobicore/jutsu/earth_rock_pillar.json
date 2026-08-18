@@ -1,0 +1,3 @@
+{"id":"shinobicore:earth_rock_pillar",
+  "tier": 3,
+  "cast_time": 1.5,"name":"Earth Release: Rock Pillar","category":"elemental_ninjutsu","nature":"earth","type":"aoe","params":{"radius":4,"particle":"earth","particleCount":70,"knockback":2.5,"statusEffect":"levitation","statusDuration":40},"baseCost":38,"baseDamage":8,"strain":10,"requiredUsesForFullProficiency":50,"requirements":{"control":24,"nature_earth":30,"ninjutsu":22}}

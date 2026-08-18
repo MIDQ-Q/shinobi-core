@@ -1,0 +1,13 @@
+{
+  "id": "shinobicore:medical_regeneration",
+  "tier": 3,
+  "cast_time": 1.5,
+  "name": "Strength of a Hundred",
+  "category": "medical",
+  "type": "custom",
+  "behaviorClass": "com.example.shinobicore.jutsu.custom.BuffSelfBehavior",
+  "params": {"effect": "regeneration", "amplifier": 2, "duration": 400, "showParticles": true},
+  "baseCost": 50, "baseDamage": 0, "strain": 12,
+  "requiredUsesForFullProficiency": 60,
+  "requirements": {"control": 30, "medical": 40}
+}

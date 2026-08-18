@@ -1,0 +1,20 @@
+{
+  "id": "shinobicore:mystical_palm_jutsu",
+  "tier": 2,
+  "cast_time": 1,
+  "name": "Mystical Palm Jutsu",
+  "category": "medical",
+  "type": "utility",
+  "params": {
+    "effect": "heal",
+    "healAmount": 10.0
+  },
+  "baseCost": 35,
+  "baseDamage": 0,
+  "strain": 8,
+  "requiredUsesForFullProficiency": 40,
+  "requirements": {
+    "control": 20,
+    "medical": 25
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "enabled": true,
+  "maxRoadLengthChunks": 32,
+  "bridgeMaxWidth": 8,
+  "slopeCost": 5.0,
+  "waterCost": 20.0,
+  "structureAvoidCost": 50.0,
+  "lanternRadiusChunks": 5,
+  "generateFallback": true
+}

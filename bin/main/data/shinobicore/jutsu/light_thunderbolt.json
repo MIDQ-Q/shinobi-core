@@ -1,0 +1,3 @@
+{"id":"shinobicore:light_thunderbolt",
+  "tier": 2,
+  "cast_time": 1,"name":"Lightning Release: Thunderbolt","category":"elemental_ninjutsu","nature":"lightning","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.ChainLightningBehavior","params":{"maxTargets":1,"chainRange":20,"damageFalloff":1.0},"baseCost":30,"baseDamage":14,"strain":8,"requiredUsesForFullProficiency":45,"requirements":{"control":22,"nature_lightning":28,"ninjutsu":20}}

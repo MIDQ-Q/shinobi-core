@@ -1,0 +1,11 @@
+{
+    "id": "senju_regeneration",
+    "name": "Regeneration",
+    "nature": "none",
+    "tier": 2,
+    "castTime": 20,
+    "cooldown": 120,
+    "chakraCost": 30,
+    "behavior": "RegenerationBehavior",
+    "tags": ["heal", "clan:senju"]
+}

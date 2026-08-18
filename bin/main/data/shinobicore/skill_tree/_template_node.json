@@ -1,0 +1,21 @@
+{
+  "__comment": "S0-04: Template for skill tree node. Copy into tree.json nodes array.",
+  "id": "shinobicore:template_node",
+  "branch": "general",
+  "distance": 1,
+  "angleOffset": 0,
+  "type": "jutsu",
+  "jutsuId": "shinobicore:example_jutsu",
+  "effect": null,
+  "value": 0,
+  "spCost": 3,
+  "requires": [],
+  "icon": "?",
+  "name": "Template Node",
+  "description": "Example node for S0-04 schema",
+  "clanRequired": null,
+  "visibilityCondition": null,
+  "requires_teacher": false,
+  "requires_scroll": null,
+  "position": [0, 0]
+}

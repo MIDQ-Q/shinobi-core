@@ -1,0 +1,11 @@
+{
+    "id": "nara_shadow_spike",
+    "name": "Shadow Spike",
+    "nature": "none",
+    "tier": 2,
+    "castTime": 15,
+    "cooldown": 50,
+    "chakraCost": 15,
+    "behavior": "ShadowSpikeBehavior",
+    "tags": ["projectile", "clan:nara"]
+}

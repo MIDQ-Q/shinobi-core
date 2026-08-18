@@ -1,0 +1,11 @@
+{
+    "id": "akimichi_giant_step",
+    "name": "Giant Step",
+    "nature": "none",
+    "tier": 3,
+    "castTime": 20,
+    "cooldown": 80,
+    "chakraCost": 30,
+    "behavior": "GiantStepBehavior",
+    "tags": ["aoe", "clan:akimichi"]
+}

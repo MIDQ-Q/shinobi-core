@@ -1,0 +1,11 @@
+{
+    "id": "inuzuka_pair_attack",
+    "name": "Pair Attack",
+    "nature": "none",
+    "tier": 3,
+    "castTime": 25,
+    "cooldown": 90,
+    "chakraCost": 30,
+    "behavior": "PairAttackBehavior",
+    "tags": ["melee", "clan:inuzuka"]
+}

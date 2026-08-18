@@ -1,0 +1,4 @@
+{
+  "model": "shuriken","id":"shinobicore:shu_triple",
+  "tier": 2,
+  "cast_time": 1,"name":"Shuriken: Triple Throw","category":"shape_ninjutsu","type":"projectile","params":{"speed":2.2,"radius":0.8,"particle":"crit","lifetime":60,"count":3},"baseCost":22,"baseDamage":4,"strain":5,"requiredUsesForFullProficiency":35,"requirements":{"control":20,"perception":18}}

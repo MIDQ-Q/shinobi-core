@@ -1,0 +1,11 @@
+{
+    "id": "hatake_lightning_wall",
+    "name": "Lightning Wall",
+    "nature": "lightning",
+    "tier": 3,
+    "castTime": 25,
+    "cooldown": 100,
+    "chakraCost": 35,
+    "behavior": "LightningWallBehavior",
+    "tags": ["lightning", "defense", "clan:hatake"]
+}
