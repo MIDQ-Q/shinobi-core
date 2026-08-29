@@ -1,0 +1,26 @@
+{
+  "id": "shinobicore:earth_release_mud_wave",
+  "tier": 2,
+  "cast_time": 1,
+  "name": "Earth Release: Mud Wave",
+  "category": "elemental_ninjutsu",
+  "nature": "earth",
+  "type": "custom",
+  "behaviorClass": "com.example.shinobicore.jutsu.custom.MudWaveBehavior",
+  "params": {
+    "range": 8.0,
+    "size": 5,
+    "duration": 100,
+    "slownessDuration": 60,
+    "slownessAmplifier": 2
+  },
+  "baseCost": 28,
+  "baseDamage": 5,
+  "strain": 8,
+  "requiredUsesForFullProficiency": 45,
+  "requirements": {
+    "control": 22,
+    "nature_earth": 28,
+    "ninjutsu": 18
+  }
+}

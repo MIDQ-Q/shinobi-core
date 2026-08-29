@@ -1,0 +1,6 @@
+SHINOBI CORE - SPRINT 11 REPORT
+Generated: 2026-08-28 21:32:01
+
+=== ACTIONS ===
+Created MeditationClient.java
+Rewrote ClientMovementService.java

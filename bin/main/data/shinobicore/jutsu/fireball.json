@@ -1,0 +1,28 @@
+{
+  "id": "shinobicore:fireball",
+  "name": "Fireball",
+  "category": "elemental",
+  "element": "fire",
+  "rank": "C",
+  "behavior": "projectile",
+  "behaviorClass": null,
+  "params": {
+    "speed": 1.5,
+    "radius": 1.5,
+    "particle": "flame",
+    "burn_seconds": 3,
+    "lifetime": 120
+  },
+  "requirements": {
+    "control": 10,
+    "nature_fire": 15
+  },
+  "baseCost": 30.0,
+  "baseDamage": 10.0,
+  "strain": 5.0,
+  "chargeable": false,
+  "visuals": {
+    "color": "#FF6600",
+    "particle_trail": "flame"
+  }
+}

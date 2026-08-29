@@ -1,0 +1,7 @@
+SHINOBI CORE - SPRINT 9 REPORT
+Generated: 2026-08-28 21:22:48
+
+=== ACTIONS ===
+Created ChargedJumpClient.java
+Created DoubleJumpClient.java
+Rewrote ClientMovementService.java

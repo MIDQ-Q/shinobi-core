@@ -528,3 +528,7 @@ src/main/resources/data/shinobicore/dojutsu/
 7. **Активация**: клавиша P, 5% макс. чакры за 10 секунд
 8. **Нет другого визуала**: модели глаз, свечение тела — НЕ добавлять
 9. **Мангекё условие**: квестовая линейка (далёкое будущее), пока boolean-задел
+## ADR-04 v2 (Sprint 2): Combat animation layer
+Epic Fight has no Fabric port for 1.20.1. Replaced by Better Combat
+(soft dependency, datapack-driven weapon attributes for the katana).
+Vanilla fallback remains active when BC jar is absent.

@@ -1,0 +1,27 @@
+{
+  "chakra": {
+    "baseMaxChakra": 2000.0,
+    "chakraRegenPerSec": 2.0,
+    "chakraModeDrainPerSec": 3.0,
+    "waterWalkDrainPerTick": 0.05,
+    "wallWalkDrainPerTick": 0.075,
+    "meditationRegenMultiplier": 3.0
+  },
+  "movement": {
+    "waterWalk": true,
+    "wallRun": true,
+    "slide": true,
+    "crawl": true,
+    "roll": true,
+    "dodge": true,
+    "chargedJump": true,
+    "doubleJump": true,
+    "edgeGrab": true,
+    "meditation": true
+  },
+  "logging": {
+    "chakra": false,
+    "movement": false,
+    "serverMirror": false
+  }
+}

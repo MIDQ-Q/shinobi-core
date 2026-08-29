@@ -1,0 +1,11 @@
+{
+    "id": "hyu_pressure_point",
+    "name": "Pressure Point Strike",
+    "nature": "none",
+    "tier": 2,
+    "castTime": 15,
+    "cooldown": 40,
+    "chakraCost": 15,
+    "behavior": "PressurePointBehavior",
+    "tags": ["melee", "clan:hyuga"]
+}

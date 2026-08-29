@@ -1,0 +1,13 @@
+{
+  "attributes": {
+    "attack_range": 3.0,
+    "two_handed": false,
+    "category": "katana",
+    "attack_speed": 1.6,
+    "attacks": [
+      { "hitbox": "HORIZONTAL_PLANE", "damage_multiplier": 1.0, "angle": 120, "upswing": 0.5, "horizontal_reach": 3.0, "vertical_reach": 1.0 },
+      { "hitbox": "HORIZONTAL_PLANE", "damage_multiplier": 1.0, "angle": 120, "upswing": 0.5, "horizontal_reach": 3.0, "vertical_reach": 1.0 },
+      { "hitbox": "FORWARD_BOX", "damage_multiplier": 1.5, "angle": 0, "upswing": 0.5, "horizontal_reach": 3.5, "vertical_reach": 1.0 }
+    ]
+  }
+}

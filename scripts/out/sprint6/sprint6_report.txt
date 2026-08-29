@@ -1,0 +1,9 @@
+SHINOBI CORE - SPRINT 6 REPORT
+Generated: 2026-08-28 21:09:57
+
+=== ACTIONS ===
+Rewrote ClientMovementState.java
+Rewrote MovementInputService.java
+Rewrote WallDetector.java
+Rewrote WallRunClient.java
+Rewrote ClientMovementService.java

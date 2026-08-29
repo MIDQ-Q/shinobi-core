@@ -1,0 +1,24 @@
+{
+  "id": "shinobicore:lightning_release_kirin",
+  "tier": 4,
+  "cast_time": 2.5,
+  "name": "Lightning Release: Kirin",
+  "category": "elemental_ninjutsu",
+  "nature": "lightning",
+  "type": "custom",
+  "behaviorClass": "com.example.shinobicore.jutsu.custom.KirinBehavior",
+  "params": {
+    "range": 16,
+    "radius": 6,
+    "bolts": 5
+  },
+  "baseCost": 70,
+  "baseDamage": 22,
+  "strain": 15,
+  "requiredUsesForFullProficiency": 80,
+  "requirements": {
+    "control": 35,
+    "nature_lightning": 40,
+    "ninjutsu": 30
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "attack_range": 1.8,
+  "two_handed": false,
+  "category": "dagger",
+  "attack_speed": 2.2,
+  "attacks": [
+    { "hitbox": "FORWARD_BOX", "damage_multiplier": 1.0, "angle": 0, "upswing": 0.3, "horizontal_reach": 1.8, "vertical_reach": 0.8 },
+    { "hitbox": "FORWARD_BOX", "damage_multiplier": 1.2, "angle": 0, "upswing": 0.3, "horizontal_reach": 1.8, "vertical_reach": 0.8 }
+  ]
+}

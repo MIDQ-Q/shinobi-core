@@ -1,0 +1,11 @@
+{
+    "id": "hatake_dog_nose",
+    "name": "Dog Nose",
+    "nature": "none",
+    "tier": 2,
+    "castTime": 10,
+    "cooldown": 80,
+    "chakraCost": 15,
+    "behavior": "DogNoseBehavior",
+    "tags": ["utility", "clan:hatake"]
+}

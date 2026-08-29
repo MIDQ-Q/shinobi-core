@@ -1,0 +1,3 @@
+{"id":"shinobicore:water_dragon_bullet",
+  "tier": 3,
+  "cast_time": 1.5,"name":"Water Release: Water Dragon Bullet","category":"elemental_ninjutsu","nature":"water","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.DragonProjectileBehavior","params":{"speed":1.8,"radius":4.0,"model":"water_dragon","particle":"water"},"baseCost":45,"baseDamage":18,"strain":12,"requiredUsesForFullProficiency":60,"requirements":{"control":28,"nature_water":35,"ninjutsu":24}}

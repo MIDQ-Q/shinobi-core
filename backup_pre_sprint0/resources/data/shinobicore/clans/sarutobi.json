@@ -1,0 +1,13 @@
+{
+  "id": "sarutobi",
+  "name": "Sarutobi Clan",
+  "affinity": "fire",
+  "extraAffinityCount": 1,
+  "statBonuses": { "ninjutsu": 5, "control": 3, "perception": 3 },
+  "natureBonuses": { "fire": 8, "wind": 5 },
+  "costMultiplier": { "fire": 0.95 },
+  "fatigueMultiplier": 1.0,
+  "reserveBonus": 50,
+  "dojutsuHook": null,
+  "chakraCap": 2500
+}

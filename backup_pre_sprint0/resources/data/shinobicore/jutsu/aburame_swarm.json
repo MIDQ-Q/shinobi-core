@@ -1,0 +1,11 @@
+{
+    "id": "aburame_swarm",
+    "name": "Insect Swarm",
+    "nature": "none",
+    "tier": 2,
+    "castTime": 20,
+    "cooldown": 70,
+    "chakraCost": 20,
+    "behavior": "InsectSwarmBehavior",
+    "tags": ["dot", "clan:aburame"]
+}

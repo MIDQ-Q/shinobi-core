@@ -1,0 +1,17 @@
+SHINOBI CORE - SPRINT 1 REPORT
+Generated: 2026-08-28 19:27:16
+Root: E:\Games\mod
+
+=== ACTIONS ===
+Backup created at E:\Games\mod\backup\sprint1_20260828_192716
+Added feature flag: chakraCommands
+Added feature flag: chakraConfig
+Added feature flag: serverChakraMirror
+Wrote ServerChakraMirror.java
+Wrote MovementChakraConfig.java
+Wrote ChakraCommands.java
+Wrote Sprint1Bootstrap.java
+Registered Sprint1Bootstrap in fabric.mod.json
+
+=== ISSUES ===
+No issues detected.

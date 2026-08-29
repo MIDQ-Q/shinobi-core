@@ -1,0 +1,19 @@
+SHINOBI CORE - SPRINT 13/14 REPORT
+Generated: 2026-08-28 21:42:36
+
+=== ACTIONS ===
+Enabled progression and combatV3 flags
+Created ProgressionV3.java
+Created ProgressionV3Commands.java
+Created ProgressionClientState.java
+Created ProgressionV3Screen.java
+Created ProgressionInputHandler.java
+Created CombatCompatibilityChecker.java
+Created CombatFormula.java
+Created ComboTracker.java
+Created CombatV3Commands.java
+Created CombatV3Module.java
+Created Sprint1314Bootstrap.java
+Created Sprint1314ClientBootstrap.java
+Registered Sprint1314Bootstrap (main)
+Registered Sprint1314ClientBootstrap (client)

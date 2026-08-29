@@ -1,0 +1,13 @@
+{
+  "id": "shinobicore:hatake_chidori",
+  "tier": 4,
+  "cast_time": 2.5,
+  "name": "Chidori",
+  "category": "elemental_ninjutsu",
+  "nature": "lightning",
+  "type": "dash",
+  "params": {"distance": 10, "knockback": 2.0, "hitRadius": 1.5, "particle": "lightning", "particleCount": 60, "statusEffect": "slowness", "statusDuration": 40, "statusAmplifier": 2},
+  "baseCost": 60, "baseDamage": 22, "strain": 16,
+  "requiredUsesForFullProficiency": 80,
+  "requirements": {"control": 35, "nature_lightning": 40, "ninjutsu": 30}
+}

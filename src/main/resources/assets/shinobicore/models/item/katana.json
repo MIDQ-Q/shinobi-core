@@ -1,11 +1,6 @@
 {
-    "parent":  "shinobicore:item/katana_iron",
-    "overrides":  [
-                      {
-                          "predicate":  {
-                                            "custom_model_data":  1
-                                        },
-                          "model":  "shinobicore:item/katana_sheathed"
-                      }
-                  ]
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "shinobicore:item/katana"
+  }
 }

@@ -1,0 +1,27 @@
+{
+  "model": "sphere",
+  "id": "shinobicore:lightning_release_false_darkness",
+  "tier": 2,
+  "cast_time": 1,
+  "name": "Lightning Release: False Darkness",
+  "category": "elemental_ninjutsu",
+  "nature": "lightning",
+  "type": "aoe",
+  "params": {
+    "radius": 4.0,
+    "particle": "lightning",
+    "particleCount": 60,
+    "knockback": 0.5,
+    "stun": true,
+    "stunDuration": 20
+  },
+  "baseCost": 30,
+  "baseDamage": 8,
+  "strain": 9,
+  "requiredUsesForFullProficiency": 45,
+  "requirements": {
+    "control": 25,
+    "nature_lightning": 30,
+    "ninjutsu": 20
+  }
+}

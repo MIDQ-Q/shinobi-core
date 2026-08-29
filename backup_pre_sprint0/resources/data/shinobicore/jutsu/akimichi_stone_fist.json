@@ -1,0 +1,11 @@
+{
+    "id": "akimichi_stone_fist",
+    "name": "Stone Fist",
+    "nature": "none",
+    "tier": 3,
+    "castTime": 20,
+    "cooldown": 70,
+    "chakraCost": 25,
+    "behavior": "StoneFistBehavior",
+    "tags": ["melee", "clan:akimichi"]
+}

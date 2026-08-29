@@ -1,0 +1,30 @@
+{
+  "id": "shinobicore:fire_phoenix",
+  "name": "Phoenix Flowers",
+  "category": "elemental",
+  "element": "fire",
+  "rank": "C",
+  "behavior": "projectile",
+  "behaviorClass": null,
+  "params": {
+    "speed": 1.5,
+    "radius": 1.0,
+    "particle": "flame",
+    "burn_seconds": 1,
+    "count": 5,
+    "spread": 0.3,
+    "lifetime": 100
+  },
+  "requirements": {
+    "control": 25,
+    "nature_fire": 10
+  },
+  "baseCost": 40.0,
+  "baseDamage": 6.0,
+  "strain": 4.0,
+  "chargeable": false,
+  "visuals": {
+    "color": "#FFAA00",
+    "particle_trail": "flame"
+  }
+}

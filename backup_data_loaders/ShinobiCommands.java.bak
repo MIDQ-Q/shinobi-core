@@ -1,0 +1,228 @@
+package com.example.shinobicore.command;
+
+import com.example.shinobicore.stat.component.StatType;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.context.CommandContext;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
+import net.minecraft.server.command.CommandManager;
+import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
+
+import java.util.Optional;
+
+public final class ShinobiCommands {
+    private static boolean registered = false;
+
+    private ShinobiCommands() {
+    }
+
+    public static void register() {
+        if (registered) return;
+        registered = true;
+
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
+            dispatcher.register(CommandManager.literal("shinobicore")
+                    .requires(source -> source.hasPermissionLevel(2))
+                    .then(CommandManager.literal("version").executes(ShinobiCommands::cmdVersion))
+                    .then(CommandManager.literal("systems").executes(ShinobiCommands::cmdSystems))
+                    .then(CommandManager.literal("components").executes(ShinobiCommands::cmdComponents))
+                    .then(CommandManager.literal("packets").executes(ShinobiCommands::cmdPackets))
+                    .then(CommandManager.literal("data").then(CommandManager.literal("validate").executes(ShinobiCommands::cmdDataValidate)))
+            );
+        });
+    }
+
+    // === /shinobicore version ===
+    private static int cmdVersion(CommandContext<ServerCommandSource> ctx) {
+        ServerCommandSource src = ctx.getSource();
+        src.sendFeedback(() -> text("=== ShinobiCore Version ===", Formatting.GOLD), false);
+
+        Optional<ModContainer> mod = FabricLoader.getInstance().getModContainer("shinobicore");
+        String version = mod.map(m -> m.getMetadata().getVersion().getFriendlyString()).orElse("UNKNOWN");
+        src.sendFeedback(() -> text("Mod version: " + version, Formatting.WHITE), false);
+
+        String mcVersion = FabricLoader.getInstance().getModContainer("minecraft")
+                .map(m -> m.getMetadata().getVersion().getFriendlyString()).orElse("?");
+        src.sendFeedback(() -> text("Minecraft: " + mcVersion, Formatting.WHITE), false);
+
+        String loaderVersion = FabricLoader.getInstance().getModContainer("fabricloader")
+                .map(m -> m.getMetadata().getVersion().getFriendlyString()).orElse("?");
+        src.sendFeedback(() -> text("Fabric Loader: " + loaderVersion, Formatting.WHITE), false);
+
+        // Optional mods
+        src.sendFeedback(() -> text("--- Optional Mods ---", Formatting.GRAY), false);
+        printModStatus(src, "bettercombat", "Better Combat");
+        printModStatus(src, "geckolib", "GeckoLib");
+        printModStatus(src, "cloth-config", "Cloth Config");
+        printModStatus(src, "player-animator", "Player Animator");
+        printModStatus(src, "irons_spells", "Iron's Spells");
+
+        return 1;
+    }
+
+    // === /shinobicore systems ===
+    private static int cmdSystems(CommandContext<ServerCommandSource> ctx) {
+        ServerCommandSource src = ctx.getSource();
+        src.sendFeedback(() -> text("=== ShinobiCore Systems ===", Formatting.GOLD), false);
+
+        printSystem(src, "Logger", true);
+        printSystem(src, "Commands", true);
+        printSystem(src, "VFX Manager", true);
+        printSystem(src, "Packets", true);
+        printSystem(src, "Components", checkComponents());
+        printSystem(src, "Data Loaders", checkDataLoaders());
+        printSystem(src, "Worldgen", false);
+        printSystem(src, "Legacy Taijutsu", false);
+        printSystem(src, "Legacy Parkour", false);
+        printSystem(src, "Wall Walk", false);
+
+        return 1;
+    }
+
+    // === /shinobicore components ===
+    private static int cmdComponents(CommandContext<ServerCommandSource> ctx) {
+        ServerCommandSource src = ctx.getSource();
+
+        if (!(src.getEntity() instanceof net.minecraft.server.network.ServerPlayerEntity player)) {
+            src.sendError(Text.literal("Must be run by a player"));
+            return 0;
+        }
+
+        src.sendFeedback(() -> text("=== Components for " + player.getName().getString() + " ===", Formatting.GOLD), false);
+
+        // Try to read components via CCA
+        try {
+            var chakraOpt = com.example.shinobicore.stat.component.NinjaComponents.CHAKRA.maybeGet(player);
+            if (chakraOpt.isPresent()) {
+                var chakra = chakraOpt.get();
+                src.sendFeedback(() -> text("[CHAKRA] current=" + chakra.getCurrentChakra()
+                        + " max=" + chakra.getMaxChakra(), Formatting.AQUA), false);
+            } else {
+                src.sendFeedback(() -> text("[CHAKRA] NOT FOUND", Formatting.RED), false);
+            }
+        } catch (Exception e) {
+            src.sendFeedback(() -> text("[CHAKRA] ERROR: " + e.getMessage(), Formatting.RED), false);
+        }
+
+        try {
+            var statsOpt = com.example.shinobicore.stat.component.NinjaComponents.STATS.maybeGet(player);
+            if (statsOpt.isPresent()) {
+                var stats = statsOpt.get();
+                src.sendFeedback(() -> text("[STATS] Found (ninjutsu=" + stats.getStatLevel(StatType.NINJUTSU)
+                        + " taijutsu=" + stats.getStatLevel(StatType.TAIJUTSU)
+                        + " control=" + stats.getStatLevel(StatType.CONTROL) + ")", Formatting.AQUA), false);
+            } else {
+                src.sendFeedback(() -> text("[STATS] NOT FOUND", Formatting.RED), false);
+            }
+        } catch (Exception e) {
+            src.sendFeedback(() -> text("[STATS] ERROR: " + e.getMessage(), Formatting.RED), false);
+        }
+
+        try {
+            var clanOpt = com.example.shinobicore.stat.component.NinjaComponents.CLAN.maybeGet(player);
+            if (clanOpt.isPresent()) {
+                var clan = clanOpt.get();
+                src.sendFeedback(() -> text("[CLAN] id=" + clan.getClanId(), Formatting.AQUA), false);
+            } else {
+                src.sendFeedback(() -> text("[CLAN] NOT FOUND", Formatting.RED), false);
+            }
+        } catch (Exception e) {
+            src.sendFeedback(() -> text("[CLAN] ERROR: " + e.getMessage(), Formatting.RED), false);
+        }
+
+        try {
+            var jutsuOpt = com.example.shinobicore.stat.component.NinjaComponents.JUTSU.maybeGet(player);
+            if (jutsuOpt.isPresent()) {
+                src.sendFeedback(() -> text("[JUTSU] Found", Formatting.AQUA), false);
+            } else {
+                src.sendFeedback(() -> text("[JUTSU] NOT FOUND", Formatting.RED), false);
+            }
+        } catch (Exception e) {
+            src.sendFeedback(() -> text("[JUTSU] ERROR: " + e.getMessage(), Formatting.RED), false);
+        }
+
+        try {
+            var dojutsuOpt = com.example.shinobicore.stat.component.NinjaComponents.DOJUTSU.maybeGet(player);
+            if (dojutsuOpt.isPresent()) {
+                src.sendFeedback(() -> text("[DOJUTSU] Found", Formatting.AQUA), false);
+            } else {
+                src.sendFeedback(() -> text("[DOJUTSU] NOT FOUND", Formatting.RED), false);
+            }
+        } catch (Exception e) {
+            src.sendFeedback(() -> text("[DOJUTSU] ERROR: " + e.getMessage(), Formatting.RED), false);
+        }
+
+        return 1;
+    }
+
+    // === /shinobicore packets ===
+    private static int cmdPackets(CommandContext<ServerCommandSource> ctx) {
+        ServerCommandSource src = ctx.getSource();
+        src.sendFeedback(() -> text("=== Registered Packets ===", Formatting.GOLD), false);
+
+        String[] packets = {
+                "shinobicore:vfx_spawn_v3",
+                "shinobicore:chakra_mode_toggle",
+                "shinobicore:progression_action",
+                "shinobicore:skill_tree_unlock",
+                "shinobicore:cast_request",
+                "shinobicore:component_sync"
+        };
+
+        for (String p : packets) {
+            src.sendFeedback(() -> text("  " + p, Formatting.WHITE), false);
+        }
+
+        src.sendFeedback(() -> text("(Full registry check pending ModPackets unification)", Formatting.GRAY), false);
+        return 1;
+    }
+
+    // === /shinobicore data validate ===
+    private static int cmdDataValidate(CommandContext<ServerCommandSource> ctx) {
+        ServerCommandSource src = ctx.getSource();
+        src.sendFeedback(() -> text("=== Data Validation ===", Formatting.GOLD), false);
+        src.sendFeedback(() -> text("Data validation module not yet implemented.", Formatting.YELLOW), false);
+        src.sendFeedback(() -> text("Next script: make_data_loaders.ps1", Formatting.GRAY), false);
+        return 1;
+    }
+
+    // === Helpers ===
+
+    private static void printModStatus(ServerCommandSource src, String modId, String displayName) {
+        boolean loaded = FabricLoader.getInstance().isModLoaded(modId);
+        Formatting color = loaded ? Formatting.GREEN : Formatting.GRAY;
+        String status = loaded ? "LOADED" : "not found";
+        src.sendFeedback(() -> text("  " + displayName + ": " + status, color), false);
+    }
+
+    private static void printSystem(ServerCommandSource src, String name, boolean active) {
+        Formatting color = active ? Formatting.GREEN : Formatting.RED;
+        String status = active ? "OK" : "DISABLED";
+        src.sendFeedback(() -> text("  " + name + ": " + status, color), false);
+    }
+
+    private static boolean checkComponents() {
+        try {
+            Class.forName("com.example.shinobicore.stat.component.NinjaComponents");
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
+
+    private static boolean checkDataLoaders() {
+        try {
+            Class.forName("com.example.shinobicore.data.JutsuDataLoader");
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
+
+    private static Text text(String msg, Formatting color) {
+        return Text.literal(msg).formatted(color);
+    }
+}

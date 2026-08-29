@@ -1,0 +1,19 @@
+{
+  "id": "shinobicore:poison_extraction",
+  "tier": 1,
+  "cast_time": 0.5,
+  "name": "Poison Extraction Jutsu",
+  "category": "medical",
+  "type": "utility",
+  "params": {
+    "effect": "clear"
+  },
+  "baseCost": 20,
+  "baseDamage": 0,
+  "strain": 5,
+  "requiredUsesForFullProficiency": 20,
+  "requirements": {
+    "control": 15,
+    "medical": 20
+  }
+}

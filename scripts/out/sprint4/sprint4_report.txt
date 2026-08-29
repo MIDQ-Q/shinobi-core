@@ -1,0 +1,11 @@
+SHINOBI CORE - SPRINT 4 REPORT
+Generated: 2026-08-28 20:58:00
+
+=== ACTIONS ===
+Created MovementInputService.java
+Created ClientMovementService.java
+Created WaterWalkClient.java
+Created PlayerWaterWalkMixin.java
+Registered PlayerWaterWalkMixin
+Created Sprint4ClientBootstrap.java
+Registered Sprint4ClientBootstrap

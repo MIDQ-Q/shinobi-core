@@ -1,0 +1,11 @@
+{
+  "attributes": {
+    "attack_range": 2.2,
+    "two_handed": false,
+    "category": "kunai",
+    "attacks": [
+      { "hitbox": "FORWARD_BOX", "damage_multiplier": 0.9, "angle": 30, "animation": "bettercombat:one_handed_stab", "swing_sound": "shinobicore:kunai_stab" },
+      { "hitbox": "HORIZONTAL_PLANE", "damage_multiplier": 0.7, "angle": 90, "animation": "bettercombat:one_handed_slash_horizontal_right", "swing_sound": "shinobicore:kunai_slash" }
+    ]
+  }
+}

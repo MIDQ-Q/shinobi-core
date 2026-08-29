@@ -1,0 +1,24 @@
+{
+  "id": "shinobicore:wind_release_passing_gale",
+  "tier": 1,
+  "cast_time": 0.5,
+  "name": "Wind Release: Passing Gale",
+  "category": "elemental_ninjutsu",
+  "nature": "wind",
+  "type": "utility",
+  "params": {
+    "effect": "speed",
+    "amplifier": 1,
+    "duration": 200,
+    "showParticles": false
+  },
+  "baseCost": 20,
+  "baseDamage": 0,
+  "strain": 4,
+  "requiredUsesForFullProficiency": 25,
+  "requirements": {
+    "control": 12,
+    "nature_wind": 15,
+    "ninjutsu": 8
+  }
+}

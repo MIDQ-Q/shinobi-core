@@ -1,0 +1,17 @@
+{
+  "id": "hyuga",
+    "bonuses": {
+      "accuracy_mult": 1.1,
+      "melee_damage_mult": 1.15
+    },
+  "name": "Hyuga Clan",
+  "affinity": "earth",
+  "extraAffinityCount": 0,
+  "statBonuses": { "taijutsu": 5, "perception": 5 },
+  "natureBonuses": { "earth": 5 },
+  "costMultiplier": {},
+  "fatigueMultiplier": 0.95,
+  "reserveBonus": 50,
+  "dojutsuHook": "byakugan",
+  "chakraCap": 2500
+}

@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "shinobicore:item/shuriken"
+                 },
+    "parent":  "item/generated"
+}

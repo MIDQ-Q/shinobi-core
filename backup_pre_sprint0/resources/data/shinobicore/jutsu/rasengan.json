@@ -1,0 +1,27 @@
+{
+  "model": "rasengan",
+  "id": "shinobicore:rasengan",
+  "tier": 4,
+  "cast_time": 2.5,
+  "name": "Rasengan",
+  "category": "shape_ninjutsu",
+  "type": "custom",
+  "behaviorClass": "com.example.shinobicore.jutsu.custom.RasenganBehavior",
+  "params": {
+    "baseChargeTicks": 60,
+    "minChargeTicks": 4,
+    "dashDistance": 6.0,
+    "hitRadius": 2.5,
+    "knockback": 3.5,
+    "particleCount": 60,
+    "particle": "rasengan"
+  },
+  "baseCost": 80,
+  "baseDamage": 32,
+  "strain": 15,
+  "requiredUsesForFullProficiency": 100,
+  "requirements": {
+    "control": 30,
+    "ninjutsu": 30
+  }
+}

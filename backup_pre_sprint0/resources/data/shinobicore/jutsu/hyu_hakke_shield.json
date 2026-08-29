@@ -1,0 +1,11 @@
+{
+    "id": "hyu_hakke_shield",
+    "name": "Hakke Shield",
+    "nature": "none",
+    "tier": 2,
+    "castTime": 15,
+    "cooldown": 60,
+    "chakraCost": 25,
+    "behavior": "HakkeShieldBehavior",
+    "tags": ["defense", "clan:hyuga"]
+}

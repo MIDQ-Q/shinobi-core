@@ -1,0 +1,11 @@
+{
+    "id": "akimichi_meat_ball",
+    "name": "Meat Ball",
+    "nature": "none",
+    "tier": 3,
+    "castTime": 20,
+    "cooldown": 70,
+    "chakraCost": 25,
+    "behavior": "MeatBallBehavior",
+    "tags": ["projectile", "clan:akimichi"]
+}

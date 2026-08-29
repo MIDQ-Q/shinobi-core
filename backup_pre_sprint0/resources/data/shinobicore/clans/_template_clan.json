@@ -1,0 +1,17 @@
+{
+  "__comment": "S0-05: Template for new clans. Copy to data/shinobicore/clans/<id>.json",
+  "id": "my_clan",
+  "name": "My Clan",
+  "affinity": "fire",
+  "extraAffinityCount": 0,
+  "statBonuses": { "ninjutsu": 5 },
+  "natureBonuses": { "fire": 10 },
+  "costMultiplier": { "fire": 0.90 },
+  "fatigueMultiplier": 1.0,
+  "reserveBonus": 50,
+  "chakra_cap": 3000,
+  "dojutsuHook": null,
+  "branches": ["my_clan_branch"],
+  "starting_jutsu": ["shinobicore:fire_release_flame_bullet"],
+  "visual": "my_clan_visual"
+}

@@ -1,0 +1,21 @@
+{
+    "id": "shinobicore:genjutsu_paralysis",
+  "tier": 3,
+  "cast_time": 1.5,
+    "name": "Genjutsu: Paralysis",
+    "category": "genjutsu",
+    "type": "genjutsu",
+    "params": {
+        "genjutsuType": "paralysis",
+        "range": 5.0,
+        "duration": 60
+    },
+    "baseCost": 40,
+    "baseDamage": 0,
+    "strain": 12,
+    "requiredUsesForFullProficiency": 60,
+    "requirements": {
+        "control": 35,
+        "genjutsu": 30
+    }
+}

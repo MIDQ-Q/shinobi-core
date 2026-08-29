@@ -1,0 +1,64 @@
+SHINOBICORE SYSTEM CHECK REPORT
+Generated: 2026-08-28 22:34:01
+
+============================================================
+ ISSUES (MUST FIX)
+============================================================
+  [KNOWN-BUG] ChargedJumpClient 'teleport up': release() sets Y directly instead of addVelocity()
+  [KNOWN-BUG] Cannot jump from water: mixin says 'not in water' but isOnGround=false
+
+============================================================
+ WARNINGS (CHECK MANUALLY)
+============================================================
+  [WARN] ChargedJumpClient: no hard cap on jump velocity
+  [WARN] ChargedJumpClient: sets absolute Y velocity - may cause teleport feel
+  [WARN] EdgeGrabClient.climbUp() uses setPosition() - causes instant teleport (no smooth climb)
+  [WARN] PlayerWaterWalkMixin bypasses isTouchingWater() - vanilla water jump will NOT work
+  [INFO] ProgressionHubScreen: shows 'No stats yet' if no XP gained
+  [INFO] To see stats: use /shinobicore progressionv3 statxp taijutsu 100 then press K
+
+============================================================
+ OK CHECKS
+============================================================
+  [OK] ClientMovementService exists: movement\client\ClientMovementService.java
+  [OK] MovementInputService exists: movement\client\MovementInputService.java
+  [OK] WaterWalkClient exists: movement\client\WaterWalkClient.java
+  [OK] WallRunClient exists: movement\client\WallRunClient.java
+  [OK] SlideClient exists: movement\client\SlideClient.java
+  [OK] CrawlClient exists: movement\client\CrawlClient.java
+  [OK] RollClient exists: movement\client\RollClient.java
+  [OK] DodgeClient exists: movement\client\DodgeClient.java
+  [OK] ChargedJumpClient exists: movement\client\ChargedJumpClient.java
+  [OK] DoubleJumpClient exists: movement\client\DoubleJumpClient.java
+  [OK] EdgeGrabClient exists: movement\client\EdgeGrabClient.java
+  [OK] MeditationClient exists: movement\client\MeditationClient.java
+  [OK] ChakraClientController exists: chakra\client\ChakraClientController.java
+  [OK] ProgressionV3 exists: progression\v3\ProgressionV3.java
+  [OK] ProgressionHubScreen exists: client\gui\screen\ProgressionHubScreen.java
+  [OK] WaterWalkClient: only cancels falling (vel.y < 0)
+  [OK] WaterWalkClient resets fallDistance
+  [OK] ChargedJumpClient: resets charging state
+  [OK] EdgeGrabClient: zeroes velocity on grab
+  [OK] ClientMovementService: correct tick order (Water -> Wall -> Roll)
+  [OK] ClientMovementService: skips when screen is open
+  [OK] ClientMovementService: skips when dead
+  [OK] ProgressionV3ServerSync: has full sync packet
+  [OK] ProgressionV3ServerSync: sends stat data
+
+============================================================
+ KNOWN BUGS SUMMARY
+============================================================
+  1. TELEPORT UP after charged jump:
+     Cause: ChargedJumpClient.release() uses setVelocity(Y)
+     Fix:   Replace with addVelocity(0, jumpY - 0.42, 0) and let vanilla add base jump
+
+  2. CANNOT JUMP FROM WATER:
+     Cause: PlayerWaterWalkMixin makes isTouchingWater=false
+            but isOnGround is also false, so vanilla won't jump
+     Fix:   Add water-jump mixin or give Y impulse in WaterWalkClient on jump press
+
+  3. STATS NOT VISIBLE IN K SCREEN:
+     Cause: Server only sends stats when XP is gained
+     Test:  /shinobicore progressionv3 statxp taijutsu 100
+            Then /shinobicore progressionv3 sync
+            Then press K

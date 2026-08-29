@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.example.shinobicore.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": ["ChakraFallDamageMixin", "WaterWalkOnGroundMixin", "EntityWaterWalkMixin"],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

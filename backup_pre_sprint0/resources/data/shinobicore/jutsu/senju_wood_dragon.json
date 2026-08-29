@@ -1,0 +1,11 @@
+{
+    "id": "senju_wood_dragon",
+    "name": "Wood Dragon",
+    "nature": "earth",
+    "tier": 4,
+    "castTime": 40,
+    "cooldown": 180,
+    "chakraCost": 70,
+    "behavior": "WoodDragonBehavior",
+    "tags": ["earth", "aoe", "clan:senju"]
+}

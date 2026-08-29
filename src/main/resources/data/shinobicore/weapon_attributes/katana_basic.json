@@ -1,0 +1,12 @@
+{
+  "attributes": {
+    "attack_range": 3.0,
+    "two_handed": false,
+    "category": "katana",
+    "attacks": [
+      { "hitbox": "HORIZONTAL_PLANE", "damage_multiplier": 1.0, "angle": 120, "animation": "bettercombat:one_handed_slash_horizontal_right", "swing_sound": "shinobicore:katana_swing_1" },
+      { "hitbox": "HORIZONTAL_PLANE", "damage_multiplier": 1.0, "angle": 120, "animation": "bettercombat:one_handed_slash_horizontal_left", "swing_sound": "shinobicore:katana_swing_2" },
+      { "hitbox": "FORWARD_BOX", "damage_multiplier": 1.4, "angle": 0, "animation": "bettercombat:one_handed_stab", "swing_sound": "shinobicore:katana_thrust" }
+    ]
+  }
+}

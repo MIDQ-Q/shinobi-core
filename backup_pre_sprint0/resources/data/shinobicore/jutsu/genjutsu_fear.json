@@ -1,0 +1,22 @@
+{
+ "id": "shinobicore:genjutsu_fear",
+  "tier": 1,
+  "cast_time": 0.5,
+ "name": "Genjutsu: Fear",
+ "category": "genjutsu",
+ "type": "genjutsu",
+ "params": {
+   "range": 12.0,
+   "duration": 100,
+   "amplifier": 0,
+   "effect": "fear"
+ },
+ "baseCost": 20,
+ "baseDamage": 0,
+ "strain": 5,
+ "requiredUsesForFullProficiency": 30,
+ "requirements": {
+   "control": 15,
+   "genjutsu": 10
+ }
+}

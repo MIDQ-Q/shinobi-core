@@ -1,0 +1,11 @@
+SHINOBI CORE - SPRINT 8 REPORT
+Generated: 2026-08-28 21:19:34
+
+=== ACTIONS ===
+Rewrote ClientMovementState.java
+Created RollDodgeInputHandler.java
+Created RollClient.java
+Created DodgeClient.java
+Rewrote SlideClient.java
+Rewrote CrawlClient.java
+Rewrote ClientMovementService.java

@@ -1,0 +1,11 @@
+{
+    "id": "uzumaki_life_force",
+    "name": "Life Force",
+    "nature": "none",
+    "tier": 2,
+    "castTime": 20,
+    "cooldown": 100,
+    "chakraCost": 35,
+    "behavior": "LifeForceBehavior",
+    "tags": ["heal", "clan:uzumaki"]
+}

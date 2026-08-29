@@ -1,0 +1,15 @@
+{
+  "structures": [
+    { "structure": "minecraft:pillager_outpost", "weight": 1 }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 165745296,
+    "spacing": 24,
+    "separation": 8,
+    "exclusion_zone": {
+      "other_set": "minecraft:villages",
+      "chunk_count": 10
+    }
+  }
+}

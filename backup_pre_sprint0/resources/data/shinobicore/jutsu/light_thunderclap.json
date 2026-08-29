@@ -1,0 +1,3 @@
+{"id":"shinobicore:light_thunderclap",
+  "tier": 3,
+  "cast_time": 1.5,"name":"Lightning Release: Thunderclap Arrow","category":"elemental_ninjutsu","nature":"lightning","type":"dash","params":{"distance":15,"knockback":2.0,"hitRadius":2,"particle":"lightning","particleCount":60,"statusEffect":"slowness","statusDuration":40},"baseCost":40,"baseDamage":14,"strain":11,"requiredUsesForFullProficiency":55,"requirements":{"control":26,"nature_lightning":34,"ninjutsu":24}}

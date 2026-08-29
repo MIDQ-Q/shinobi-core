@@ -1,0 +1,14 @@
+{
+  "attributes": {
+    "attack_range": 3.2,
+    "two_handed": false,
+    "category": "katana_advanced",
+    "attacks": [
+      { "hitbox": "HORIZONTAL_PLANE", "damage_multiplier": 1.1, "angle": 150, "animation": "bettercombat:one_handed_slash_horizontal_right", "swing_sound": "shinobicore:katana_swing_1" },
+      { "hitbox": "HORIZONTAL_PLANE", "damage_multiplier": 1.1, "angle": 150, "animation": "bettercombat:one_handed_slash_horizontal_left", "swing_sound": "shinobicore:katana_swing_2" },
+      { "hitbox": "VERTICAL_PLANE", "damage_multiplier": 1.3, "angle": 90, "animation": "bettercombat:one_handed_slash_vertical", "swing_sound": "shinobicore:katana_swing_3" },
+      { "hitbox": "HORIZONTAL_PLANE", "damage_multiplier": 1.5, "angle": 180, "animation": "bettercombat:one_handed_slash_horizontal_right", "swing_sound": "shinobicore:katana_swing_4" },
+      { "hitbox": "FORWARD_BOX", "damage_multiplier": 2.0, "angle": 0, "animation": "bettercombat:one_handed_stab", "swing_sound": "shinobicore:katana_finisher" }
+    ]
+  }
+}

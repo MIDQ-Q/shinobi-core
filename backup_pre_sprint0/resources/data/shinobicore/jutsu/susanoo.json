@@ -1,0 +1,11 @@
+{
+    "id": "susanoo",
+    "name": "Susanoo",
+    "nature": "fire",
+    "tier": 4,
+    "castTime": 40,
+    "cooldown": 200,
+    "chakraCost": 80,
+    "behavior": "SusanooBehavior",
+    "tags": ["fire", "defense", "clan:uchiha"]
+}

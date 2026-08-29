@@ -1,0 +1,3 @@
+{"id":"shinobicore:water_hardliner",
+  "tier": 3,
+  "cast_time": 1.5,"name":"Water Release: Hardliner Rain","category":"elemental_ninjutsu","nature":"water","type":"aoe","params":{"radius":8,"particle":"water","particleCount":90,"statusEffect":"weakness","statusDuration":120,"statusAmplifier":1},"baseCost":40,"baseDamage":4,"strain":10,"requiredUsesForFullProficiency":55,"requirements":{"control":26,"nature_water":34,"ninjutsu":24}}

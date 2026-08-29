@@ -1,0 +1,25 @@
+{
+  "model": "fireball",
+  "id": "shinobicore:fire_release_flame_bullet",
+  "tier": 1,
+  "cast_time": 0.5,
+  "name": "Fire Release: Flame Bullet",
+  "category": "elemental_ninjutsu",
+  "nature": "fire",
+  "type": "projectile",
+  "params": {
+    "speed": 3.0,
+    "radius": 0.8,
+    "particle": "flame",
+    "lifetime": 50
+  },
+  "baseCost": 15,
+  "baseDamage": 4,
+  "strain": 3,
+  "requiredUsesForFullProficiency": 30,
+  "requirements": {
+    "control": 10,
+    "nature_fire": 12,
+    "ninjutsu": 5
+  }
+}

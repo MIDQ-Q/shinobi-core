@@ -1,0 +1,11 @@
+{
+    "id": "aburame_bug_bomb",
+    "name": "Bug Bomb",
+    "nature": "none",
+    "tier": 3,
+    "castTime": 25,
+    "cooldown": 90,
+    "chakraCost": 30,
+    "behavior": "BugBombBehavior",
+    "tags": ["aoe", "clan:aburame"]
+}

@@ -1,0 +1,29 @@
+{
+  "model": "fireball",
+  "id": "shinobicore:fire_flower",
+  "tier": 2,
+  "cast_time": 1,
+  "name": "Fire Release: Great Flame Flower",
+  "category": "elemental_ninjutsu",
+  "nature": "fire",
+  "type": "custom",
+  "behaviorClass": "com.example.shinobicore.jutsu.custom.FireFlowerBehavior",
+  "params": {
+    "radius": 4,
+    "distance": 8,
+    "particle": "flame",
+    "particleCount": 60,
+    "knockback": 2.0,
+    "statusEffect": "levitation",
+    "statusDuration": 20
+  },
+  "baseCost": 34,
+  "baseDamage": 8,
+  "strain": 9,
+  "requiredUsesForFullProficiency": 50,
+  "requirements": {
+    "control": 22,
+    "nature_fire": 28,
+    "ninjutsu": 20
+  }
+}

@@ -1,0 +1,68 @@
+{
+    "schemaVersion":  1,
+    "id":  "shinobicore",
+    "version":  "${version}",
+    "name":  "Shinobi Core",
+    "description":  "Full Naruto RPG mod: clans, jutsu, parkour, dojutsu, progression",
+    "authors":  [
+                    "ShinobiCore Team"
+                ],
+    "contact":  {
+
+                },
+    "license":  "MIT",
+    "icon":  "assets/shinobicore/icon.png",
+    "environment":  "*",
+    "entrypoints":  {
+                        "cardinal-components":  [
+                                                    "com.example.shinobicore.stat.component.NinjaComponentInitializer"
+                                                ],
+                        "main":  [
+                                     "com.example.shinobicore.ShinobiCore",
+                                     "com.example.shinobicore.bootstrap.Sprint1Bootstrap",
+                                     "com.example.shinobicore.bootstrap.Sprint3Bootstrap",
+                                     "com.example.shinobicore.bootstrap.Sprint1314Bootstrap",
+                                     "com.example.shinobicore.bootstrap.Sprint1517Bootstrap"
+                                 ],
+                        "client":  [
+                                       "com.example.shinobicore.client.vfx.VfxClientBootstrap",
+                                       "com.example.shinobicore.ShinobiCoreClient",
+                                       "com.example.shinobicore.bootstrap.Sprint2ClientBootstrap",
+                                       "com.example.shinobicore.bootstrap.Sprint3ClientBootstrap",
+                                       "com.example.shinobicore.bootstrap.Sprint4ClientBootstrap",
+                                       "com.example.shinobicore.bootstrap.Sprint12ClientBootstrap",
+                                       "com.example.shinobicore.bootstrap.Sprint1314ClientBootstrap",
+                                       "com.example.shinobicore.bootstrap.Sprint1517ClientBootstrap"
+                                   ],
+                        "geckolib":  [
+                                         "com.example.shinobicore.entity.ShinobiGeckoLibInit"
+                                     ]
+                    },
+    "mixins":  [
+                   "shinobicore.mixins.json"
+               ],
+    "depends":  {
+                    "fabricloader":  "\u003e=0.14.21",
+                    "minecraft":  "~1.20.1",
+                    "java":  "\u003e=17",
+                    "fabric-api":  "*",
+                    "cardinal-components-base":  "\u003e=5.2.0",
+                    "cardinal-components-entity":  "\u003e=5.2.0"
+                },
+    "recommends":  {
+                       "bettercombat":  "\u003e=1.9.0",
+                       "geckolib":  "\u003e=4.4.0",
+                       "cloth-config":  "\u003e=11.0.0"
+                   },
+    "custom":  {
+                   "cardinal-components":  [
+                                               "shinobicore:chakra",
+                                               "shinobicore:stats",
+                                               "shinobicore:clan",
+                                               "shinobicore:jutsu",
+                                               "shinobicore:dojutsu",
+                                               "shinobicore:parkour",
+                                               "shinobicore:combat"
+                                           ]
+               }
+}

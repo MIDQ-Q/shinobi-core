@@ -1,9 +1,8 @@
 {
-    "id": "byakugan",
-    "name": "Byakugan",
-    "clanId": "hyuga",
-    "grantedJutsu": ["shinobicore:hyu_64", "shinobicore:hyu_128"],
-    "damageMultiplier": 1.10,
-    "costReduction": 0.05,
-    "description": "The all-seeing white eye of the Hyuga clan."
+  "id": "byakugan",
+  "name": "Byakugan",
+  "dojutsuType": "byakugan",
+  "clan": "hyuga",
+  "maxStress": 120,
+  "usagePerStage": 60
 }
