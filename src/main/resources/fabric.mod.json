@@ -1,4 +1,4 @@
-{
+﻿{
     "schemaVersion":  1,
     "id":  "shinobicore",
     "version":  "${version}",
@@ -26,7 +26,7 @@
                                      "com.example.shinobicore.bootstrap.Sprint18Bootstrap"
                                  ],
                         "client":  [
-    "com.example.shinobicore.bootstrap.MovementLoggerBootstrap",
+                                       "com.example.shinobicore.bootstrap.MovementLoggerBootstrap",
                                        "com.example.shinobicore.client.vfx.VfxClientBootstrap",
                                        "com.example.shinobicore.ShinobiCoreClient",
                                        "com.example.shinobicore.bootstrap.Sprint2ClientBootstrap",
@@ -34,7 +34,8 @@
                                        "com.example.shinobicore.bootstrap.Sprint4ClientBootstrap",
                                        "com.example.shinobicore.bootstrap.Sprint12ClientBootstrap",
                                        "com.example.shinobicore.bootstrap.Sprint1314ClientBootstrap",
-                                       "com.example.shinobicore.bootstrap.Sprint1517ClientBootstrap"
+                                       "com.example.shinobicore.bootstrap.Sprint1517ClientBootstrap",
+                                       "com.example.shinobicore.movement.client.MovementBootstrap"
                                    ],
                         "geckolib":  [
                                          "com.example.shinobicore.entity.ShinobiGeckoLibInit"

@@ -24,7 +24,7 @@ public final class MovementCommands {
     public static void register() {
         if (registered) return;
         registered = true;
-        if (!FeatureFlags.movementV3) return;
+        // [AUTO-FIX] if (!FeatureFlags.movementV3) return;
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             registerCommands(dispatcher);

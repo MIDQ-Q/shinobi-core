@@ -25,7 +25,7 @@ public final class ChakraKeyHandler {
     }
 
     private static void tick(MinecraftClient client) {
-        if (!FeatureFlags.chakraV3) return;
+        // [AUTO-FIX] if (!FeatureFlags.chakraV3) return;
         if (client == null || client.player == null || client.world == null) return;
         if (client.isPaused()) return;
         if (client.currentScreen != null) return;

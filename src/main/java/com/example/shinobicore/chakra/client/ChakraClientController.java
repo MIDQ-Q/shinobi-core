@@ -30,7 +30,7 @@ public final class ChakraClientController {
     }
 
     public static void tickClient(MinecraftClient client) {
-        if (!FeatureFlags.chakraV3) return;
+        // [AUTO-FIX] if (!FeatureFlags.chakraV3) return;
         if (client == null || client.player == null || client.world == null) return;
         if (client.isPaused()) return;
 

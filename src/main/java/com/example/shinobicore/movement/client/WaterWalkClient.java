@@ -1,87 +1,67 @@
-// SHINOBICORE:SPRINT4:FILE
 package com.example.shinobicore.movement.client;
 
-import com.example.shinobicore.chakra.client.ChakraClientController;
 import com.example.shinobicore.config.FeatureFlags;
-import com.example.shinobicore.config.MovementChakraConfig;
+import com.example.shinobicore.client.ClientNinjaState;
+import com.example.shinobicore.movement.common.ClientMovementState;
 import com.example.shinobicore.movement.common.MovementPhase;
+import com.example.shinobicore.movement.common.MovementInputService;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 
-/**
- * SPRINT 4 water walking subsystem.
- */
 public final class WaterWalkClient {
     private static boolean active = false;
-
-    private WaterWalkClient() {}
-
+    
     public static boolean isActive() { return active; }
-
+    
     public static void tick(ClientPlayerEntity player) {
-        if (!FeatureFlags.waterWalk) {
-            setActive(false);
+        if (!FeatureFlags.waterWalk) { stop(player); return; }
+        
+        boolean chakraMode = ClientNinjaState.chakraMode;
+        boolean hasChakra = ClientNinjaState.currentChakra > 0; // Adjust to your Chakra API
+        
+        if (!chakraMode || !hasChakra || player.isTouchingWater() || player.isSneaking()) {
+            if (active) stop(player);
             return;
         }
-
-        if (!ChakraClientController.isChakraModeActive()) {
-            setActive(false);
-            return;
-        }
-
-        boolean onWaterSurface = isOnWaterSurface(player);
-
-        if (onWaterSurface && !MovementInputService.isSneaking(player)) {
+        
+        BlockPos feet = player.getBlockPos().down();
+        FluidState fs = player.getWorld().getFluidState(feet);
+        boolean onWaterSurface = fs.isIn(FluidTags.WATER) && player.getY() >= feet.getY() + 0.8;
+        
+        if (onWaterSurface) {
             if (!active) {
-                setActive(true);
+                active = true;
                 ClientMovementState.setPhase(MovementPhase.WATER_WALKING);
+                ClientMovementState.setOnWater(true);
+                ClientMovementState.resetAirJumps();
             }
-
-            // Drain chakra
-            MovementChakraConfig config = MovementChakraConfig.getInstance();
-            float drain = config.chakra.waterWalkDrainPerTick;
-            ChakraClientController.consumeChakra(drain);
-
-                        // FIX: Allow jumping from water
-            if (MovementInputService.wasJumpPressed()) {
-                Vec3d jumpVel = player.getVelocity();
-                player.setVelocity(jumpVel.x, 0.42, jumpVel.z);
-                player.velocityModified = true;
-                setActive(false);
-                ClientMovementState.setPhase(MovementPhase.NORMAL);
-                return;
-            }
-// Stabilize: prevent sinking below water surface
-            Vec3d vel = player.getVelocity();
-            if (vel.y < 0.0) {
-                player.setVelocity(vel.x, 0.0, vel.z);
+            
+            Vec3d v = player.getVelocity();
+            if (v.y < 0.0) {
+                player.setVelocity(v.x, 0.0, v.z);
                 player.velocityModified = true;
             }
-
-            // Prevent fall damage
             player.fallDistance = 0.0f;
-        } else {
-            if (active) {
-                setActive(false);
-                ClientMovementState.setPhase(MovementPhase.NORMAL);
+            
+            // Jump from water
+            if (MovementInputService.wasJumpPressed()) {
+                player.setVelocity(v.x, 0.42, v.z);
+                player.velocityModified = true;
+                stop(player);
             }
+        } else {
+            if (active) stop(player);
         }
     }
-
-    private static boolean isOnWaterSurface(ClientPlayerEntity player) {
-        BlockPos pos = player.getBlockPos();
-        BlockPos below = pos.down();
-
-        if (player.getWorld().getFluidState(below).isIn(FluidTags.WATER)) {
-            double playerY = player.getY();
-            double waterSurfaceY = below.getY() + 1.0;
-            return Math.abs(playerY - waterSurfaceY) < 0.3;
+    
+    private static void stop(ClientPlayerEntity player) {
+        active = false;
+        ClientMovementState.setOnWater(false);
+        if (ClientMovementState.getPhase() == MovementPhase.WATER_WALKING) {
+            ClientMovementState.setPhase(MovementPhase.NORMAL);
         }
-
-        return false;
     }
-
-    private static void setActive(boolean value) { active = value; }
 }

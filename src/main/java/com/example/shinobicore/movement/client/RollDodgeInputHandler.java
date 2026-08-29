@@ -1,52 +1,30 @@
-// SHINOBICORE:SPRINT8:FILE
 package com.example.shinobicore.movement.client;
 
-import com.example.shinobicore.client.input.KeyBindings;
+import com.example.shinobicore.movement.common.MovementInputService;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.option.KeyBinding;
 
-/**
- * SPRINT 8 input handler for Roll and Dodge keys.
- */
 public final class RollDodgeInputHandler {
-    private static boolean wasRoll = false;
-    private static boolean rollEdge = false;
-
-    private static boolean wasDodgeLeft = false;
-    private static boolean dodgeLeftEdge = false;
-
-    private static boolean wasDodgeRight = false;
-    private static boolean dodgeRightEdge = false;
-
-    private RollDodgeInputHandler() {}
-
-    public static void update(ClientPlayerEntity player) {
-        boolean roll = isKeyDown(KeyBindings.ROLL);
-        rollEdge = roll && !wasRoll;
-        wasRoll = roll;
-
-        boolean left = isKeyDown(KeyBindings.DODGE_LEFT);
-        dodgeLeftEdge = left && !wasDodgeLeft;
-        wasDodgeLeft = left;
-
-        boolean right = isKeyDown(KeyBindings.DODGE_RIGHT);
-        dodgeRightEdge = right && !wasDodgeRight;
-        wasDodgeRight = right;
-    }
-
-    public static boolean wasRollPressed() {
-        return rollEdge;
-    }
-
-    public static boolean wasDodgeLeftPressed() {
-        return dodgeLeftEdge;
-    }
-
-    public static boolean wasDodgeRightPressed() {
-        return dodgeRightEdge;
-    }
-
-    private static boolean isKeyDown(KeyBinding key) {
-        return key != null && key.isPressed();
+    private static long lastShiftTime = 0;
+    
+    public static void tick(ClientPlayerEntity player) {
+        boolean shift = MovementInputService.isSneaking(player);
+        long now = System.currentTimeMillis();
+        
+        if (shift && (now - lastShiftTime) < 250) {
+            float yaw = player.getYaw();
+            float forward = MovementInputService.getForwardInput(player);
+            float strafe = MovementInputService.getStrafeInput(player);
+            
+            if (forward > 0.1f) yaw += 0;
+            else if (forward < -0.1f) yaw += 180;
+            else if (strafe > 0.1f) yaw += 90;
+            else if (strafe < -0.1f) yaw -= 90;
+            else { lastShiftTime = now; return; }
+            
+            DodgeClient.start(player, yaw);
+            lastShiftTime = 0; // Prevent spam
+        }
+        
+        if (shift) lastShiftTime = now;
     }
 }

@@ -1,6 +1,0 @@
-{
-  "type": "minecraft:crafting_shaped",
-  "pattern": ["I I", "B B"],
-  "key": { "B": { "item": "minecraft:black_wool" }, "I": { "item": "minecraft:iron_ingot" } },
-  "result": { "item": "shinobicore:ninja_sandals", "count": 1 }
-}
