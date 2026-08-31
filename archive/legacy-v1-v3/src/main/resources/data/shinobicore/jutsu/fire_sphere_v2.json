@@ -1,0 +1,11 @@
+{
+    "id": "fire_sphere_v2",
+    "name": "Fire Sphere",
+    "nature": "fire",
+    "tier": 2,
+    "castTime": 20,
+    "cooldown": 60,
+    "chakraCost": 25,
+    "behavior": "FireSphereBehavior",
+    "tags": ["fire", "projectile", "clan:uchiha"]
+}

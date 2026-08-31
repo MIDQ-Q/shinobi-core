@@ -1,0 +1,11 @@
+{
+    "id": "nara_shadow_grab",
+    "name": "Shadow Grab",
+    "nature": "none",
+    "tier": 2,
+    "castTime": 20,
+    "cooldown": 60,
+    "chakraCost": 20,
+    "behavior": "ShadowGrabBehavior",
+    "tags": ["control", "clan:nara"]
+}

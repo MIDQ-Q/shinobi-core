@@ -1,0 +1,4 @@
+{
+  "model": "sphere","id":"shinobicore:wind_vacuum_bullet",
+  "tier": 2,
+  "cast_time": 1,"name":"Wind Release: Vacuum Bullet","category":"elemental_ninjutsu","nature":"wind","type":"projectile","params":{"speed":3.2,"radius":1,"particle":"none","lifetime":60},"baseCost":26,"baseDamage":8,"strain":7,"requiredUsesForFullProficiency":40,"requirements":{"control":20,"nature_wind":25,"ninjutsu":18}}

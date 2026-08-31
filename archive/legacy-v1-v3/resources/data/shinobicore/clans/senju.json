@@ -1,0 +1,29 @@
+{
+    "id": "senju",
+    "bonuses": {
+      "regen_mult": 1.10,
+      "max_health_mult": 1.15
+    },
+    "name": "Senju Clan",
+    "affinity": "earth",
+    "extraAffinityCount": 1,
+    "statBonuses": {
+        "constitution": 2,
+        "chakra_control": 2
+    },
+    "natureBonuses": {
+        "earth": 1,
+        "water": 1
+    },
+    "costMultiplier": {
+        "earth": 0.9,
+        "water": 0.9
+    },
+    "fatigueMultiplier": 0.95,
+    "reserveBonus": 1,
+    "dojutsuHook": "",
+    "chakraCap": 1000,
+    "startingJutsu": [
+        "senju_regeneration"
+    ]
+}

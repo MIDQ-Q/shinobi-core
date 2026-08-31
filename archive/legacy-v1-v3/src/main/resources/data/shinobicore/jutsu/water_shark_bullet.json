@@ -1,0 +1,26 @@
+{
+  "model": "water_shark",
+  "id": "shinobicore:water_shark_bullet",
+  "tier": 2,
+  "cast_time": 1,
+  "name": "Water Release: Water Shark Bullet",
+  "category": "elemental_ninjutsu",
+  "nature": "water",
+  "type": "projectile",
+  "params": {
+    "speed": 2.8,
+    "radius": 2,
+    "particle": "water",
+    "lifetime": 70,
+    "pierce": 1
+  },
+  "baseCost": 32,
+  "baseDamage": 10,
+  "strain": 9,
+  "requiredUsesForFullProficiency": 50,
+  "requirements": {
+    "control": 22,
+    "nature_water": 28,
+    "ninjutsu": 20
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "model": "rasenshuriken","id":"shinobicore:rasenshuriken",
+  "tier": 5,
+  "cast_time": 4,"name":"Wind Release: Rasenshuriken","category":"shape_ninjutsu","nature":"wind","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.RasenshurikenBehavior","params":{"radius":10,"chargeTicks":60,"aoeTicks":60},"baseCost":200,"baseDamage":90,"strain":20,"requiredUsesForFullProficiency":120,"requirements":{"control":40,"nature_wind":45,"ninjutsu":40}}

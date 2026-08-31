@@ -1,0 +1,3 @@
+{"id":"shinobicore:lightning_golem",
+  "tier": 2,
+  "cast_time": 1,"name":"Lightning Release: Lightning Beast","category":"elemental_ninjutsu","nature":"lightning","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.LightningBeastBehavior","params":{"speed":2.2,"radius":2.0},"baseCost":35,"baseDamage":14,"strain":9,"requiredUsesForFullProficiency":50,"requirements":{"control":24,"nature_lightning":30,"ninjutsu":22}}

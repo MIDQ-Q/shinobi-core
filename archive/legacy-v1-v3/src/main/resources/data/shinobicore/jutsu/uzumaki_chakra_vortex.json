@@ -1,0 +1,11 @@
+{
+    "id": "uzumaki_chakra_vortex",
+    "name": "Chakra Vortex",
+    "nature": "none",
+    "tier": 2,
+    "castTime": 20,
+    "cooldown": 80,
+    "chakraCost": 30,
+    "behavior": "ChakraVortexBehavior",
+    "tags": ["aoe", "clan:uzumaki"]
+}

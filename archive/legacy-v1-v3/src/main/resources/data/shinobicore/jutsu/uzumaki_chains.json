@@ -1,0 +1,11 @@
+{
+    "id": "uzumaki_chains",
+    "name": "Chakra Chains",
+    "nature": "none",
+    "tier": 3,
+    "castTime": 25,
+    "cooldown": 100,
+    "chakraCost": 40,
+    "behavior": "ChakraChainsBehavior",
+    "tags": ["control", "clan:uzumaki"]
+}

@@ -1,9 +1,9 @@
-﻿{
+{
     "schemaVersion":  1,
     "id":  "shinobicore",
-    "version":  "${version}",
-    "name":  "Shinobi Core",
-    "description":  "Full Naruto RPG mod: clans, jutsu, parkour, dojutsu, progression",
+    "version":  "4.0.0",
+    "name":  "ShinobiCore",
+    "description":  "Modular shinobi framework - 4.0.0 architecture rewrite",
     "authors":  [
                     "ShinobiCore Team"
                 ],
@@ -14,32 +14,24 @@
     "icon":  "assets/shinobicore/icon.png",
     "environment":  "*",
     "entrypoints":  {
-                        "cardinal-components":  [
-                                                    "com.example.shinobicore.stat.component.NinjaComponentInitializer"
-                                                ],
                         "main":  [
-                                     "com.example.shinobicore.ShinobiCore",
-                                     "com.example.shinobicore.bootstrap.Sprint1Bootstrap",
-                                     "com.example.shinobicore.bootstrap.Sprint3Bootstrap",
-                                     "com.example.shinobicore.bootstrap.Sprint1314Bootstrap",
-                                     "com.example.shinobicore.bootstrap.Sprint1517Bootstrap",
-                                     "com.example.shinobicore.bootstrap.Sprint18Bootstrap"
+                                     "com.example.shinobicore.ShinobiCoreMod"
                                  ],
                         "client":  [
-                                       "com.example.shinobicore.bootstrap.MovementLoggerBootstrap",
-                                       "com.example.shinobicore.client.vfx.VfxClientBootstrap",
-                                       "com.example.shinobicore.ShinobiCoreClient",
-                                       "com.example.shinobicore.bootstrap.Sprint2ClientBootstrap",
-                                       "com.example.shinobicore.bootstrap.Sprint3ClientBootstrap",
-                                       "com.example.shinobicore.bootstrap.Sprint4ClientBootstrap",
-                                       "com.example.shinobicore.bootstrap.Sprint12ClientBootstrap",
-                                       "com.example.shinobicore.bootstrap.Sprint1314ClientBootstrap",
-                                       "com.example.shinobicore.bootstrap.Sprint1517ClientBootstrap",
-                                       "com.example.shinobicore.movement.client.MovementBootstrap"
+                                       "com.example.shinobicore.ShinobiCoreClient"
                                    ],
-                        "geckolib":  [
-                                         "com.example.shinobicore.entity.ShinobiGeckoLibInit"
-                                     ]
+                        "shinobicore:module":  [
+                                                   "com.example.shinobicore.modules.example.ExampleModule",
+                                                   "com.example.shinobicore.modules.clans.ClansModule",
+                                                   "com.example.shinobicore.modules.combat.CombatModule",
+                                                   "com.example.shinobicore.modules.jutsu.JutsuModule",
+                                                   "com.example.shinobicore.modules.movement.MovementModule",
+                                                   "com.example.shinobicore.modules.progression.ProgressionModule",
+                                                   "com.example.shinobicore.modules.visual.VisualModule",
+            "com.example.shinobicore.modules.chakra.ChakraModule",
+            "com.example.shinobicore.modules.chakra.client.ChakraClientModule",
+            "com.example.shinobicore.modules.jutsu.editor.JutsuEditorClientModule"
+                                               ]
                     },
     "mixins":  [
                    "shinobicore.mixins.json"
@@ -63,9 +55,11 @@
                                                "shinobicore:stats",
                                                "shinobicore:clan",
                                                "shinobicore:jutsu",
-                                               "shinobicore:dojutsu",
+                                               "shinobicore:combat",
+                                               "shinobicore:progression",
                                                "shinobicore:parkour",
-                                               "shinobicore:combat"
+                                               "shinobicore:dojutsu",
+                                               "shinobicore:sensory"
                                            ]
                }
 }

@@ -1,0 +1,3 @@
+{"id":"shinobicore:earth_spear",
+  "tier": 2,
+  "cast_time": 1,"name":"Earth Release: Earth Spear","category":"elemental_ninjutsu","nature":"earth","type":"melee","params":{"range":4,"coneAngle":90,"knockback":0.8,"particle":"earth"},"baseCost":26,"baseDamage":9,"strain":7,"requiredUsesForFullProficiency":45,"requirements":{"control":20,"nature_earth":25,"ninjutsu":15}}

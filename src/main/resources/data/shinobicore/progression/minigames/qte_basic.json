@@ -1,0 +1,12 @@
+{
+  "id": "qte_basic",
+  "type": "qte",
+  "params": {
+    "sequenceLength": 5,
+    "maxTicks": 150
+  },
+  "reward": {
+    "xp": 60,
+    "stat": "taijutsu"
+  }
+}

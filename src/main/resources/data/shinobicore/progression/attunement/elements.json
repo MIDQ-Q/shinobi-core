@@ -1,0 +1,13 @@
+[
+  {"id": "fire",      "name": "Fire Release",      "combined": false, "components": []},
+  {"id": "water",     "name": "Water Release",     "combined": false, "components": []},
+  {"id": "wind",      "name": "Wind Release",      "combined": false, "components": []},
+  {"id": "lightning", "name": "Lightning Release", "combined": false, "components": []},
+  {"id": "earth",     "name": "Earth Release",     "combined": false, "components": []},
+  {"id": "scorch",    "name": "Scorch Release",    "combined": true,  "components": ["fire", "wind"]},
+  {"id": "ice",       "name": "Ice Release",       "combined": true,  "components": ["water", "wind"]},
+  {"id": "lava",      "name": "Lava Release",      "combined": true,  "components": ["earth", "fire"]},
+  {"id": "mud",       "name": "Mud Release",       "combined": true,  "components": ["water", "earth"]},
+  {"id": "plasma",    "name": "Plasma Release",    "combined": true,  "components": ["lightning", "fire"]},
+  {"id": "vacuum",    "name": "Vacuum Release",    "combined": true,  "components": ["wind", "lightning"]}
+]

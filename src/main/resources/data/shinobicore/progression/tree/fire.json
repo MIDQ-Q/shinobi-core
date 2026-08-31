@@ -1,0 +1,1 @@
+{"element":"fire","nodes":[{"id":"fire_basic","name":"Fire Release: Basic","description":"Learn basics","x":0,"y":0,"cost":1,"prerequisites":[],"unlocks":["shinobicore:test_projectile"]},{"id":"fire_advanced","name":"Fire Release: Advanced","description":"Master Fire","x":0,"y":1,"cost":3,"prerequisites":["fire_basic"],"unlocks":["shinobicore:test_dash"]}]}

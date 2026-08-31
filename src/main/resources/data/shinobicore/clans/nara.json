@@ -1,17 +1,1 @@
-{
-  "id": "nara",
-    "bonuses": {
-      "cast_speed_mult": 1.1,
-      "control_mult": 1.15
-    },
-  "name": "Nara Clan",
-  "affinity": "earth",
-  "extraAffinityCount": 0,
-  "statBonuses": { "control": 8, "perception": 5 },
-  "natureBonuses": { "earth": 5 },
-  "costMultiplier": {},
-  "fatigueMultiplier": 1.1,
-  "reserveBonus": 0,
-  "dojutsuHook": null,
-  "chakraCap": 2000
-}
+{"id":"nara","name":"Nara Clan","color":"#808080","affinity":"earth","extraAffinityCount":0,"statBonuses":{"control":15,"genjutsu":10,"insight":10},"natureBonuses":{"earth":5},"costMultiplier":{"earth":0.9},"fatigueMultiplier":1.0,"reserveBonus":0,"chakraCap":1600,"dojutsuHook":null,"startingJutsu":["shinobicore:shadow_possession","shinobicore:shadow_necklace"],"passives":[{"id":"shadow_mastery","description":"-10% shadow jutsu cost","effect":"cost_reduction","element":"earth","value":0.10}],"exclusiveJutsu":["shinobicore:shadow_possession","shinobicore:shadow_necklace","shinobicore:shadow_strangle","shinobicore:shadow_decoration"]}

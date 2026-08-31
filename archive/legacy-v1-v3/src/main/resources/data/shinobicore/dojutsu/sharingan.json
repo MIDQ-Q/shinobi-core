@@ -1,0 +1,8 @@
+{
+  "id": "sharingan",
+  "name": "Sharingan",
+  "dojutsuType": "sharingan",
+  "clan": "uchiha",
+  "maxStress": 100,
+  "usagePerStage": 50
+}

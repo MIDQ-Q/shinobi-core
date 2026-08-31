@@ -1,0 +1,36 @@
+{
+  "id": "shinobicore:test_dash",
+  "name": "Test Dash",
+  "element": "none",
+  "behavior": "dash",
+  "baseCost": 5.0,
+  "cooldownTicks": 20,
+  "prepareTicks": 0,
+  "chargeTicks": 0,
+  "releaseTicks": 1,
+  "maxChargeMultiplier": 1.0,
+  "requirements": {
+    "minPlayerLevel": 1,
+    "elements": [],
+    "stats": {},
+    "clanJutsu": false,
+    "treeNode": null,
+    "scroll": null,
+    "dojutsu": null
+  },
+  "behaviorData": {
+    "dashDistance": 5.0,
+    "iFramesTicks": 4
+  },
+  "scaling": {
+    "damagePerLevel": 0.0,
+    "costReductionPerLevel": 0.0,
+    "cooldownReductionPerLevel": 1
+  },
+  "visual": {
+    "castHandSeals": [],
+    "particleColor": "#FFFFFF",
+    "soundCast": "",
+    "soundImpact": ""
+  }
+}

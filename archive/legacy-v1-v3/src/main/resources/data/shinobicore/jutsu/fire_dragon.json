@@ -1,0 +1,21 @@
+{
+  "id": "shinobicore:fire_dragon",
+  "name": "Fire Dragon",
+  "category": "elemental",
+  "element": "fire",
+  "rank": "B",
+  "behavior": "projectile",
+  "behaviorClass": "fire_dragon",
+  "params": {
+    "speed": 2.5,
+    "radius": 3.0,
+    "burn_seconds": 6,
+    "lifetime": 100
+  },
+  "requirements": { "control": 15, "nature_fire": 15 },
+  "baseCost": 140.0,
+  "baseDamage": 15.0,
+  "strain": 8.0,
+  "chargeable": false,
+  "visuals": { "color": "#FF3300", "particle_trail": "flame" }
+}

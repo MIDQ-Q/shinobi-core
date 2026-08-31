@@ -1,17 +1,1 @@
-{
-  "id": "hatake",
-    "bonuses": {
-      "attack_speed_mult": 1.1,
-      "lightning_damage_mult": 1.15
-    },
-  "name": "Hatake Clan",
-  "affinity": "lightning",
-  "extraAffinityCount": 1,
-  "statBonuses": { "ninjutsu": 5, "taijutsu": 3, "control": 3 },
-  "natureBonuses": { "lightning": 8 },
-  "costMultiplier": { "lightning": 0.92 },
-  "fatigueMultiplier": 1.0,
-  "reserveBonus": 30,
-  "dojutsuHook": null,
-  "chakraCap": 2500
-}
+{"id":"hatake","name":"Hatake Clan","color":"#C0C0C0","affinity":"lightning","extraAffinityCount":0,"statBonuses":{"speed":15,"ninjutsu":10,"control":10},"natureBonuses":{"lightning":15},"costMultiplier":{"lightning":0.85},"fatigueMultiplier":0.95,"reserveBonus":0,"chakraCap":1800,"dojutsuHook":null,"startingJutsu":["shinobicore:lightning_blade","shinobicore:chidori_basic"],"passives":[{"id":"attack_speed","description":"+15% attack speed","effect":"speed_bonus","element":"none","value":0.15}],"exclusiveJutsu":["shinobicore:lightning_blade","shinobicore:chidori_basic","shinobicore:lightning_hound","shinobicore:purple_lightning"]}

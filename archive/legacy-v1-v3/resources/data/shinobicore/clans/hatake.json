@@ -1,0 +1,17 @@
+{
+  "id": "hatake",
+    "bonuses": {
+      "attack_speed_mult": 1.1,
+      "lightning_damage_mult": 1.15
+    },
+  "name": "Hatake Clan",
+  "affinity": "lightning",
+  "extraAffinityCount": 1,
+  "statBonuses": { "ninjutsu": 5, "taijutsu": 3, "control": 3 },
+  "natureBonuses": { "lightning": 8 },
+  "costMultiplier": { "lightning": 0.92 },
+  "fatigueMultiplier": 1.0,
+  "reserveBonus": 30,
+  "dojutsuHook": null,
+  "chakraCap": 2500
+}

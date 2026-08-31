@@ -1,0 +1,29 @@
+{
+  "id": "shinobicore:template_jutsu",
+  "name": "Template Jutsu",
+  "tier": 1,
+  "element": "fire",
+  "chakra_cost": 10.0,
+  "stamina_cost": 0.0,
+  "cast_time": 0.5,
+  "chargeable": false,
+  "charge_max": 1.0,
+  "requires": {
+    "control": 10,
+    "nature_fire": 15
+  },
+  "tags": ["projectile", "fire", "basic"],
+  "visual": "fireball",
+  "sfx": "shinobicore:fire_cast",
+  "requires_teacher": false,
+  "requires_scroll": null,
+  
+  "__comment_legacy": "Fields below are kept for internal behavior logic",
+  "category": "elemental_ninjutsu",
+  "type": "projectile",
+  "behaviorClass": "com.example.shinobicore.jutsu.custom.FireballBehavior",
+  "params": { "speed": 1.5, "radius": 1.0 },
+  "baseDamage": 5.0,
+  "strain": 2.0,
+  "requiredUsesForFullProficiency": 50
+}

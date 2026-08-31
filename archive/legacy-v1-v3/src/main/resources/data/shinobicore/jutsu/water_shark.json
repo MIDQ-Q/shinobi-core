@@ -1,0 +1,4 @@
+{
+  "model": "sphere","id":"shinobicore:water_shark",
+  "tier": 2,
+  "cast_time": 1,"name":"Water Release: Water Shark","category":"elemental_ninjutsu","nature":"water","type":"projectile","params":{"speed":2.6,"radius":2,"particle":"water","lifetime":70},"baseCost":30,"baseDamage":8,"strain":8,"requiredUsesForFullProficiency":50,"requirements":{"control":22,"nature_water":28,"ninjutsu":18}}

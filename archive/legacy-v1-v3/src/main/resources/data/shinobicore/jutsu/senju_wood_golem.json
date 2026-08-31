@@ -1,0 +1,11 @@
+{
+    "id": "senju_wood_golem",
+    "name": "Wood Golem",
+    "nature": "earth",
+    "tier": 5,
+    "castTime": 50,
+    "cooldown": 240,
+    "chakraCost": 90,
+    "behavior": "WoodGolemBehavior",
+    "tags": ["earth", "summon", "clan:senju"]
+}

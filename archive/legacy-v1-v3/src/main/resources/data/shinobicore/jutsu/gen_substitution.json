@@ -1,0 +1,3 @@
+{"id":"shinobicore:gen_substitution",
+  "tier": 2,
+  "cast_time": 1,"name":"Substitution Jutsu","category":"shape_ninjutsu","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.SubstitutionBehavior","params":{"distance":8,"invisDuration":40},"baseCost":30,"baseDamage":0,"strain":8,"requiredUsesForFullProficiency":40,"requirements":{"control":22,"ninjutsu":22}}

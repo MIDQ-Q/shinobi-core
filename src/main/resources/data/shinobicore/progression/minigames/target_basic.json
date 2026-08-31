@@ -1,0 +1,12 @@
+{
+  "id": "target_basic",
+  "type": "target",
+  "params": {
+    "hitsRequired": 3,
+    "maxTicks": 200
+  },
+  "reward": {
+    "xp": 75,
+    "stat": "perception"
+  }
+}

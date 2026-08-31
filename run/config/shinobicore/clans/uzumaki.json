@@ -1,0 +1,1 @@
+{"id":"uzumaki","name":"Uzumaki","color":"#FF3300","affinity":"wind","extraAffinityCount":1,"dojutsuHook":null,"startingJutsu":["shinobicore:test_projectile"],"statBonuses":{"vitality":2},"natureBonuses":{"wind":10},"costMultiplier":{"wind":0.9},"fatigueMultiplier":0.95,"chakraCap":150}

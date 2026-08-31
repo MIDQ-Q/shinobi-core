@@ -1,17 +1,1 @@
-{
-  "id": "hyuga",
-    "bonuses": {
-      "accuracy_mult": 1.1,
-      "melee_damage_mult": 1.15
-    },
-  "name": "Hyuga Clan",
-  "affinity": "earth",
-  "extraAffinityCount": 0,
-  "statBonuses": { "taijutsu": 5, "perception": 5 },
-  "natureBonuses": { "earth": 5 },
-  "costMultiplier": {},
-  "fatigueMultiplier": 0.95,
-  "reserveBonus": 50,
-  "dojutsuHook": "byakugan",
-  "chakraCap": 2500
-}
+{"id":"hyuga","name":"Hyuga Clan","color":"#E0E0E0","affinity":"wind","extraAffinityCount":0,"statBonuses":{"taijutsu":15,"perception":10,"control":5},"natureBonuses":{"wind":10},"costMultiplier":{"wind":0.9},"fatigueMultiplier":0.95,"reserveBonus":0,"chakraCap":1800,"dojutsuHook":"byakugan","startingJutsu":["shinobicore:gentle_fist_basic","shinobicore:byakugan_activation"],"passives":[{"id":"precise_strike","description":"+10% melee damage","effect":"damage_bonus","element":"physical","value":0.10}],"exclusiveJutsu":["shinobicore:gentle_fist_basic","shinobicore:eight_trigrams","shinobicore:byakugan_activation","shinobicore:rotation"]}

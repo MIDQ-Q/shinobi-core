@@ -1,0 +1,25 @@
+{
+    "id": "inuzuka",
+    "bonuses": {
+      "move_speed_mult": 1.15,
+      "dodge_mult": 1.10
+    },
+    "name": "Inuzuka Clan",
+    "affinity": "none",
+    "extraAffinityCount": 1,
+    "statBonuses": {
+        "agility": 2,
+        "perception": 1
+    },
+    "natureBonuses": {},
+    "costMultiplier": {
+        "none": 0.95
+    },
+    "fatigueMultiplier": 0.95,
+    "reserveBonus": 0,
+    "dojutsuHook": "",
+    "chakraCap": 500,
+    "startingJutsu": [
+        "inuzuka_wolf_fang"
+    ]
+}

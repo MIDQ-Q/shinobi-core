@@ -1,0 +1,25 @@
+{
+    "id": "aburame",
+    "bonuses": {
+      "dot_damage_mult": 1.10,
+      "poison_resist": 1.15
+    },
+    "name": "Aburame Clan",
+    "affinity": "none",
+    "extraAffinityCount": 1,
+    "statBonuses": {
+        "perception": 2,
+        "constitution": 1
+    },
+    "natureBonuses": {},
+    "costMultiplier": {
+        "none": 0.95
+    },
+    "fatigueMultiplier": 1.0,
+    "reserveBonus": 0,
+    "dojutsuHook": "",
+    "chakraCap": 550,
+    "startingJutsu": [
+        "aburame_swarm"
+    ]
+}

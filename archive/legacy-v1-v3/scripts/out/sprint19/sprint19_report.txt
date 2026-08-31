@@ -1,0 +1,12 @@
+SHINOBI CORE - SPRINT 19 REPORT
+Generated: 2026-08-29 11:29:27
+
+=== ACTIONS ===
+FIX 1: ChargedJumpClient smooth jump
+FIX 2: WaterWalkClient jump from water (regex)
+FIX 3: EdgeGrabClient smooth climb
+
+=== FIXED BUGS ===
+1. Charged jump teleport -> smooth vanilla jump + bonus
+2. Cannot jump from water -> jump handler added to WaterWalkClient
+3. Edge grab teleport -> velocity impulse for smooth climb

@@ -1,0 +1,11 @@
+{
+    "id": "genjutsu_coma",
+    "name": "Genjutsu Coma",
+    "nature": "none",
+    "tier": 3,
+    "castTime": 30,
+    "cooldown": 120,
+    "chakraCost": 40,
+    "behavior": "GenjutsuComaBehavior",
+    "tags": ["genjutsu", "control", "clan:uchiha"]
+}

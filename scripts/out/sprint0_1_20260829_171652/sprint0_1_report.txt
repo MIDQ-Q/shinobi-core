@@ -1,0 +1,33 @@
+SHINOBICORE 4.0.0 - MASTER SPRINT 0+1 REPORT
+Generated: 2026-08-29 17:17:05
+Root:      E:\Games\mod
+
+=== ACTIONS ===
+  - Backed up full src snapshot
+  - Backed up resources snapshot
+  - Archived data/shinobicore JSONs
+  - Reset shinobicore.mixins.json to empty scaffold
+  - Updated gradle.properties: mod_version=4.0.0
+  - Updated fabric.mod.json: version=4.0.0, new entrypoints
+  - Created temporary main classes
+  - Sprint 0 build passed
+  - Created core/api: ShinobiModule, ClientAwareModule, ModuleContext
+  - Created core/module: ModuleState, ModuleEntry, ModuleManager
+  - Created core/event/CoreEvents.java
+  - Created core/view/CoreViews.java
+  - Created core/service/CoreServices.java
+  - Created core/log/ShinobiLogger.java (with 3-file rotation)
+  - Created core/config/ModuleConfigLoader.java
+  - Created core/command/CoreCommands.java
+  - Created core/compat/CompatibilityChecker.java
+  - Created full ShinobiCoreMod.java + ShinobiCoreClient.java
+  - Created modules/example/ExampleModule.java
+
+=== ISSUES ===
+  - Sprint 1 build failed
+
+=== NEXT STEPS ===
+  1. Verify: ./gradlew runClient
+  2. Run in-game: /shinobicore systems
+  3. Check: logs/shinobicore/core-1.log and example-1.log
+  4. Freeze core-api and send to module teams

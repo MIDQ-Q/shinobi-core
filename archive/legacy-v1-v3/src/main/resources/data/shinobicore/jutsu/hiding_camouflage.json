@@ -1,0 +1,3 @@
+{"id":"shinobicore:hiding_camouflage",
+  "tier": 2,
+  "cast_time": 1,"name":"Hiding in Camouflage","category":"shape_ninjutsu","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.BuffSelfBehavior","params":{"effect":"invisibility","amplifier":0,"duration":200},"baseCost":30,"baseDamage":0,"strain":8,"requiredUsesForFullProficiency":35,"requirements":{"control":20,"ninjutsu":15}}

@@ -1,0 +1,13 @@
+{
+  "id": "timing_basic",
+  "type": "timing",
+  "params": {
+    "speed": 1.5,
+    "targetStart": 0.4,
+    "targetEnd": 0.6
+  },
+  "reward": {
+    "xp": 50,
+    "stat": "control"
+  }
+}

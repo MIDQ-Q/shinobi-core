@@ -1,17 +1,1 @@
-{
-  "id": "uchiha",
-    "bonuses": {
-      "fire_damage_mult": 1.1,
-      "genjutsu_resist": 1.15
-    },
-  "name": "Uchiha Clan",
-  "affinity": "fire",
-  "extraAffinityCount": 0,
-  "statBonuses": { "genjutsu": 5, "perception": 5 },
-  "natureBonuses": { "fire": 10 },
-  "costMultiplier": { "fire": 0.90 },
-  "fatigueMultiplier": 1.0,
-  "reserveBonus": 0,
-  "dojutsuHook": "sharingan",
-  "chakraCap": 2500
-}
+{"id":"uchiha","name":"Uchiha Clan","color":"#FF4444","affinity":"fire","extraAffinityCount":0,"statBonuses":{"ninjutsu":10,"genjutsu":15,"control":5},"natureBonuses":{"fire":10},"costMultiplier":{"fire":0.9},"fatigueMultiplier":1.0,"reserveBonus":0,"chakraCap":2000,"dojutsuHook":"sharingan","startingJutsu":["shinobicore:fireball_basic","shinobicore:sharingan_activation"],"passives":[{"id":"fire_resistance","description":"+15% fire resistance","effect":"resistance","element":"fire","value":0.15}],"exclusiveJutsu":["shinobicore:fireball_basic","shinobicore:fire_phoenix","shinobicore:fire_dragon","shinobicore:sharingan_activation","shinobicore:genjutsu_sharingan"]}

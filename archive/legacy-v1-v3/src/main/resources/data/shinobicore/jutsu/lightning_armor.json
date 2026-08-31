@@ -1,0 +1,3 @@
+{"id":"shinobicore:lightning_armor",
+  "tier": 2,
+  "cast_time": 1,"name":"Lightning Release: Armor","category":"elemental_ninjutsu","nature":"lightning","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.BuffSelfBehavior","params":{"effect":"resistance","amplifier":1,"duration":300},"baseCost":35,"baseDamage":0,"strain":9,"requiredUsesForFullProficiency":45,"requirements":{"control":24,"nature_lightning":28,"ninjutsu":18}}

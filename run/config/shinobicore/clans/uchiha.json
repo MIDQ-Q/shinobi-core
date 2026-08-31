@@ -1,0 +1,1 @@
+{"id":"uchiha","name":"Uchiha","color":"#8B0000","affinity":"fire","extraAffinityCount":0,"dojutsuHook":"sharingan","startingJutsu":["shinobicore:test_dash"],"statBonuses":{"genjutsu":3},"natureBonuses":{"fire":15},"costMultiplier":{"fire":0.85},"fatigueMultiplier":1.0,"chakraCap":120}

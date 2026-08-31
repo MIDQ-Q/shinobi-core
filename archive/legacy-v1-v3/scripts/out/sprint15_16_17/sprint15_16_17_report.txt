@@ -1,0 +1,20 @@
+SHINOBI CORE - SPRINT 15/16/17 REPORT
+Generated: 2026-08-28 21:53:34
+
+=== ACTIONS ===
+Rewrote ProgressionV3.java
+Created ProgressionV3Storage.java
+Created ProgressionV3ServerSync.java
+Created ProgressionV3ClientSync.java
+Created ProgressionJoinHandler.java
+Rewrote ProgressionV3Commands.java
+Created XpSourceService.java
+Created BetterCombatAdapter.java
+Created PlayerAnimatorAdapter.java
+Created GeckoLibAdapter.java
+Created ClothConfigAdapter.java
+Created CombatAdapterManager.java
+Created Sprint1517Bootstrap.java
+Created Sprint1517ClientBootstrap.java
+Registered Sprint1517Bootstrap (main)
+Registered Sprint1517ClientBootstrap (client)

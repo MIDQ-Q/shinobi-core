@@ -1,0 +1,3 @@
+{"id":"shinobicore:flying_swallow",
+  "tier": 1,
+  "cast_time": 0.5,"name":"Flying Swallow","category":"taijutsu","type":"melee","params":{"range":5,"coneAngle":60,"knockback":0.6},"baseCost":20,"baseDamage":8,"strain":6,"requiredUsesForFullProficiency":35,"requirements":{"taijutsu":25,"control":15}}

@@ -1,0 +1,3 @@
+{"id":"shinobicore:water_formation",
+  "tier": 2,
+  "cast_time": 1,"name":"Water Release: Water Formation Wall","category":"elemental_ninjutsu","nature":"water","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.WallCreationBehavior","params":{"range":6,"width":5,"height":3,"lifetime":100,"blockType":"water"},"baseCost":32,"baseDamage":0,"strain":8,"requiredUsesForFullProficiency":45,"requirements":{"control":22,"nature_water":28,"ninjutsu":18}}

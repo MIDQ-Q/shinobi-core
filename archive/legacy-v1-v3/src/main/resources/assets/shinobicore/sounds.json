@@ -1,0 +1,110 @@
+{
+  "punch_light": {
+    "sounds": ["minecraft:entity/player/attack/weak1", "minecraft:entity/player/attack/weak2",
+               "minecraft:entity/player/attack/weak3", "minecraft:entity/player/attack/weak4"],
+    "category": "player", "subtitle": "subtitle.shinobicore.punch_light"
+  },
+  "punch_heavy": {
+    "sounds": ["minecraft:entity/player/attack/strong1", "minecraft:entity/player/attack/strong2",
+               "minecraft:entity/player/attack/strong3", "minecraft:entity/player/attack/strong4"],
+    "category": "player", "subtitle": "subtitle.shinobicore.punch_heavy"
+  },
+  "kick": {
+    "sounds": ["minecraft:entity/player/attack/crit1", "minecraft:entity/player/attack/crit2",
+               "minecraft:entity/player/attack/crit3"],
+    "category": "player", "subtitle": "subtitle.shinobicore.kick"
+  },
+  "whoosh": {
+    "sounds": ["minecraft:entity/player/attack/sweep1", "minecraft:entity/player/attack/sweep2",
+               "minecraft:entity/player/attack/sweep3", "minecraft:entity/player/attack/sweep4",
+               "minecraft:entity/player/attack/sweep5", "minecraft:entity/player/attack/sweep6",
+               "minecraft:entity/player/attack/sweep7"],
+    "category": "player", "subtitle": "subtitle.shinobicore.whoosh"
+  },
+  "katana_slash": {
+    "sounds": ["minecraft:entity/player/attack/sweep1", "minecraft:entity/player/attack/sweep2",
+               "minecraft:entity/player/attack/sweep3"],
+    "category": "player", "subtitle": "subtitle.shinobicore.katana_slash"
+  },
+  "katana_deflect": {
+    "sounds": ["minecraft:item/shield/block1", "minecraft:item/shield/block2",
+               "minecraft:item/shield/block3"],
+    "category": "player", "subtitle": "subtitle.shinobicore.katana_deflect"
+  },
+  "genjutsu_cast": {
+    "sounds": ["minecraft:entity/illusioner/cast_spell"],
+    "category": "player", "subtitle": "subtitle.shinobicore.genjutsu_cast"
+  },
+  "genjutsu_ambient": {
+    "sounds": ["minecraft:entity/wandering_trader/disappeared"],
+    "category": "ambient", "subtitle": "subtitle.shinobicore.genjutsu_ambient"
+  },
+  "genjutsu_resist": {
+    "sounds": ["minecraft:entity/enderman/teleport"],
+    "category": "player", "subtitle": "subtitle.shinobicore.genjutsu_resist"
+  },
+  "cast_start": {
+    "sounds": ["minecraft:entity/illusioner/cast_spell"],
+    "category": "player", "subtitle": "subtitle.shinobicore.cast_start"
+  },
+  "cast_complete": {
+    "sounds": ["minecraft:block/beacon/activate"],
+    "category": "player", "subtitle": "subtitle.shinobicore.cast_complete"
+  },
+  "charge_loop": {
+    "sounds": ["minecraft:block/beacon/ambient"],
+    "category": "player", "subtitle": "subtitle.shinobicore.charge_loop"
+  },
+  "charge_ready": {
+    "sounds": ["minecraft:block/beacon/power_select"],
+    "category": "player", "subtitle": "subtitle.shinobicore.charge_ready"
+  },
+  "shot_fire": {
+    "sounds": ["minecraft:entity/blaze/shoot"],
+    "category": "player", "subtitle": "subtitle.shinobicore.shot_fire"
+  },
+  "shot_water": {
+    "sounds": ["minecraft:entity/dolphin/splash"],
+    "category": "player", "subtitle": "subtitle.shinobicore.shot_water"
+  },
+  "shot_wind": {
+    "sounds": ["minecraft:entity/player/attack/sweep1", "minecraft:entity/player/attack/sweep2"],
+    "category": "player", "subtitle": "subtitle.shinobicore.shot_wind"
+  },
+  "shot_lightning": {
+    "sounds": ["minecraft:entity/lightning_bolt/impact"],
+    "category": "player", "subtitle": "subtitle.shinobicore.shot_lightning"
+  },
+  "shot_earth": {
+    "sounds": ["minecraft:block/stone/break1", "minecraft:block/stone/break2"],
+    "category": "player", "subtitle": "subtitle.shinobicore.shot_earth"
+  },
+  "hit_impact": {
+    "sounds": ["minecraft:entity/player/attack/strong1", "minecraft:entity/player/attack/strong2"],
+    "category": "player", "subtitle": "subtitle.shinobicore.hit_impact"
+  },
+  "explosion_small": {
+    "sounds": ["minecraft:entity/generic/explode"],
+    "category": "player", "subtitle": "subtitle.shinobicore.explosion_small"
+  },
+  "explosion_large": {
+    "sounds": ["minecraft:entity/ender_dragon/growl"],
+    "category": "player", "subtitle": "subtitle.shinobicore.explosion_large"
+  },
+  "clone_disperse": {
+    "sounds": ["minecraft:entity/generic/extinguish_fire"],
+    "category": "player", "subtitle": "subtitle.shinobicore.clone_disperse"
+  },
+  "kawarimi": {
+    "sounds": ["minecraft:entity/enderman/teleport"],
+    "category": "player", "subtitle": "subtitle.shinobicore.kawarimi"
+  },
+  "telegraph_melee": {
+    "sounds": ["minecraft:entity/zombie/attack_wooden_door"],
+    "category": "hostile", "subtitle": "subtitle.shinobicore.telegraph_melee"
+  },
+  "telegraph_ranged": {
+    "sounds": ["minecraft:entity/skeleton/shoot"],
+    "category": "hostile", "subtitle": "subtitle.shinobicore.telegraph_ranged"
+  }
+}

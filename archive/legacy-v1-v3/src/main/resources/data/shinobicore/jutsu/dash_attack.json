@@ -1,0 +1,25 @@
+{
+  "id": "shinobicore:dash_attack",
+  "name": "Body Flicker Strike",
+  "category": "taijutsu",
+  "element": "",
+  "rank": "D",
+  "behavior": "dash",
+  "behaviorClass": null,
+  "params": {
+    "distance": 6.0,
+    "hitRadius": 2.0,
+    "knockback": 2.0
+  },
+  "requirements": {
+    "taijutsu": 10
+  },
+  "baseCost": 30.0,
+  "baseDamage": 12.0,
+  "strain": 3.0,
+  "chargeable": false,
+  "visuals": {
+    "color": "#CCCCCC",
+    "particle_trail": "cloud"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "id": "shinobicore:test_projectile",
+  "name": "Test Fireball",
+  "element": "fire",
+  "behavior": "projectile",
+  "baseCost": 10.0,
+  "cooldownTicks": 40,
+  "prepareTicks": 5,
+  "chargeTicks": 15,
+  "releaseTicks": 5,
+  "maxChargeMultiplier": 1.5,
+  "requirements": {
+    "minPlayerLevel": 1,
+    "elements": [],
+    "stats": {},
+    "clanJutsu": false,
+    "treeNode": null,
+    "scroll": null,
+    "dojutsu": null
+  },
+  "behaviorData": {
+    "projectileSpeed": 1.5,
+    "projectileDamage": 4.0,
+    "projectileGravity": 0.02,
+    "projectileLifetimeTicks": 60,
+    "impactRadius": 1.5,
+    "fireTicksOnHit": 0
+  },
+  "scaling": {
+    "damagePerLevel": 0.5,
+    "costReductionPerLevel": 0.01,
+    "cooldownReductionPerLevel": 1
+  },
+  "visual": {
+    "castHandSeals": ["tiger"],
+    "particleColor": "#FF4500",
+    "soundCast": "",
+    "soundImpact": ""
+  }
+}

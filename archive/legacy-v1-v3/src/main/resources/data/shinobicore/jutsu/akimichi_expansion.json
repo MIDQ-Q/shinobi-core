@@ -1,0 +1,11 @@
+{
+    "id": "akimichi_expansion",
+    "name": "Expansion",
+    "nature": "none",
+    "tier": 2,
+    "castTime": 15,
+    "cooldown": 60,
+    "chakraCost": 20,
+    "behavior": "ExpansionBehavior",
+    "tags": ["buff", "clan:akimichi"]
+}

@@ -1,0 +1,78 @@
+{
+  "enabled": true,
+  "debug": false,
+  "waterWalk": {
+    "enabled": true,
+    "drainPerSecond": 1.5,
+    "surfaceOffset": 0.05,
+    "minHorizontalSpeed": 0.02
+  },
+  "wallRun": {
+    "enabled": true,
+    "drainPerSecond": 1.5,
+    "gravityMultiplier": 0.3,
+    "maxDurationTicks": 120,
+    "stickCooldownTicks": 20,
+    "minHorizontalSpeed": 0.1,
+    "raycastDistance": 0.6
+  },
+  "wallJump": {
+    "enabled": true,
+    "pushStrength": 0.6,
+    "upBoost": 0.45,
+    "cooldownTicks": 20
+  },
+  "slide": {
+    "enabled": true,
+    "durationTicks": 20,
+    "minSprintSpeed": 0.18,
+    "friction": 0.92
+  },
+  "roll": {
+    "enabled": true,
+    "durationTicks": 12,
+    "iframeTicks": 8,
+    "cooldownTicks": 40,
+    "distance": 3.0
+  },
+  "dodge": {
+    "enabled": true,
+    "strength": 3.2,
+    "iframeTicks": 4,
+    "cooldownTicks": 30,
+    "chakraCost": 2.0
+  },
+  "doubleJump": {
+    "enabled": true,
+    "boost": 0.42,
+    "maxCharges": 1,
+    "chakraCost": 1.0
+  },
+  "chargedJump": {
+    "enabled": true,
+    "chargeTicks": 30,
+    "maxMultiplier": 2.5,
+    "chakraCost": 3.0
+  },
+  "edgeGrab": {
+    "enabled": true,
+    "reachDistance": 0.6,
+    "chakraCost": 1.0,
+    "climbBoost": 1.0
+  },
+  "narutoRun": {
+    "enabled": true,
+    "minSprintSpeed": 0.18,
+    "maxSprintSpeed": 0.45
+  },
+  "formula": {
+    "jumpGainPerLevel": 0.02,
+    "speedGainPerLevel": 0.015,
+    "chakraModeJumpMultiplier": 1.3,
+    "chakraModeSpeedMultiplier": 1.15
+  },
+  "logging": {
+    "logActions": false,
+    "logDrains": false
+  }
+}

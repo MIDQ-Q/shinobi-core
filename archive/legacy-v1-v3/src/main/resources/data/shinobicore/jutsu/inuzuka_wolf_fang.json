@@ -1,0 +1,11 @@
+{
+    "id": "inuzuka_wolf_fang",
+    "name": "Wolf Fang",
+    "nature": "none",
+    "tier": 2,
+    "castTime": 15,
+    "cooldown": 40,
+    "chakraCost": 15,
+    "behavior": "WolfFangBehavior",
+    "tags": ["melee", "clan:inuzuka"]
+}

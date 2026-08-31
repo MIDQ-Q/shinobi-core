@@ -1,0 +1,95 @@
+{
+  "nodes": {
+    "taijutsu_basic": {
+      "name": "Basic Taijutsu",
+      "description": "Improves unarmed combat damage",
+      "x": 0,
+      "y": 0,
+      "cost": 1,
+      "requirements": {
+        "stats": { "taijutsu": 5 }
+      },
+      "effects": {
+        "unarmed_damage_bonus": 2.0
+      },
+      "icon": "shinobicore:textures/gui/tree/taijutsu_basic.png"
+    },
+    "taijutsu_combo": {
+      "name": "Combo Master",
+      "description": "Unlocks 3-hit combo attacks",
+      "x": 100,
+      "y": 0,
+      "cost": 2,
+      "requirements": {
+        "nodes": ["taijutsu_basic"],
+        "stats": { "taijutsu": 15 }
+      },
+      "effects": {
+        "combo_damage_multiplier": 1.2
+      },
+      "icon": "shinobicore:textures/gui/tree/taijutsu_combo.png"
+    },
+    "kenjutsu_basic": {
+      "name": "Basic Swordsmanship",
+      "description": "Improves sword damage and speed",
+      "x": 0,
+      "y": 100,
+      "cost": 1,
+      "requirements": {
+        "stats": { "kenjutsu": 5 }
+      },
+      "effects": {
+        "sword_damage_bonus": 2.0,
+        "sword_speed_bonus": 0.1
+      },
+      "icon": "shinobicore:textures/gui/tree/kenjutsu_basic.png"
+    },
+    "ninjutsu_efficiency": {
+      "name": "Chakra Efficiency",
+      "description": "Reduces jutsu chakra cost by 10%",
+      "x": -100,
+      "y": 0,
+      "cost": 2,
+      "requirements": {
+        "stats": { "chakra_control": 20 }
+      },
+      "effects": {
+        "jutsu_cost_reduction": 0.1
+      },
+      "icon": "shinobicore:textures/gui/tree/ninjutsu_efficiency.png"
+    },
+    "physical_vitality": {
+      "name": "Vitality",
+      "description": "Increases maximum health by 2 hearts",
+      "x": 0,
+      "y": -100,
+      "cost": 2,
+      "requirements": {
+        "stats": { "physical": 10 }
+      },
+      "effects": {
+        "max_health_bonus": 4.0
+      },
+      "icon": "shinobicore:textures/gui/tree/physical_vitality.png"
+    },
+    "spiritual_reservoir": {
+      "name": "Chakra Reservoir",
+      "description": "Increases maximum chakra by 200",
+      "x": -100,
+      "y": -100,
+      "cost": 2,
+      "requirements": {
+        "stats": { "spiritual": 10 }
+      },
+      "effects": {
+        "max_chakra_bonus": 200.0
+      },
+      "icon": "shinobicore:textures/gui/tree/spiritual_reservoir.png"
+    }
+  },
+  "connections": [
+    { "from": "taijutsu_basic", "to": "taijutsu_combo" },
+    { "from": "taijutsu_basic", "to": "physical_vitality" },
+    { "from": "ninjutsu_efficiency", "to": "spiritual_reservoir" }
+  ]
+}

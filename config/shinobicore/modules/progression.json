@@ -1,0 +1,11 @@
+{
+  "enabled": true,
+  "debug": false,
+  "xp": {
+    "baseXp": 100,
+    "exponent": 1.5
+  },
+  "sp": {
+    "spPerLevelUp": 1
+  }
+}
