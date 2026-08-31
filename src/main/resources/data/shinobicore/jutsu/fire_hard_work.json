@@ -1,0 +1,1 @@
+{"id":"shinobicore:fire_hard_work","name":"Fire Release: Intelligent Hard Work","category":"elemental_ninjutsu","nature":"fire","type":"projectile","params":{"speed":1.2,"radius":6,"particle":"flame","lifetime":100,"pierce":2},"baseCost":45,"baseDamage":16,"strain":12,"requiredUsesForFullProficiency":60,"requirements":{"control":28,"nature_fire":35,"ninjutsu":26}}

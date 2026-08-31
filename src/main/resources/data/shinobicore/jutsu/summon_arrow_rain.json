@@ -1,0 +1,1 @@
+{"id":"shinobicore:summon_arrow_rain","name":"Summoning: Arrow Rain","category":"shape_ninjutsu","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.ArrowRainBehavior","params":{"count":14,"area":6,"arrowDamage":4},"baseCost":50,"baseDamage":0,"strain":12,"requiredUsesForFullProficiency":50,"requirements":{"control":25,"perception":20}}

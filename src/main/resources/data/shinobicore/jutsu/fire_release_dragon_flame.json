@@ -1,0 +1,23 @@
+{
+  "id": "shinobicore:fire_release_dragon_flame",
+  "name": "Fire Release: Dragon Flame Jutsu",
+  "category": "elemental_ninjutsu",
+  "nature": "fire",
+  "type": "projectile",
+  "params": {
+    "speed": 1.2,
+    "radius": 12.0,
+    "particle": "flame",
+    "lifetime": 90,
+    "gravity": false
+  },
+  "baseCost": 35,
+  "baseDamage": 14,
+  "strain": 9,
+  "requiredUsesForFullProficiency": 55,
+  "requirements": {
+    "control": 25,
+    "nature_fire": 30,
+    "ninjutsu": 20
+  }
+}

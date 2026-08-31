@@ -1,0 +1,21 @@
+﻿{
+  "id": "shinobicore:wind_release_gale_palm",
+  "name": "Wind Release: Gale Palm",
+  "category": "elemental_ninjutsu",
+  "nature": "wind",
+  "type": "dash",
+  "params": {
+    "distance": 6.0,
+    "knockback": 0.8,
+    "hitRadius": 1.5
+  },
+  "baseCost": 20,
+  "baseDamage": 3,
+  "strain": 5,
+  "requiredUsesForFullProficiency": 40,
+  "requirements": {
+    "control": 10,
+    "nature_wind": 15,
+    "ninjutsu": 8
+  }
+}

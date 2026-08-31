@@ -1,0 +1,23 @@
+﻿{
+  "id": "shinobicore:fire_release_great_fireball",
+  "name": "Fire Release: Great Fireball Jutsu",
+  "category": "elemental_ninjutsu",
+  "nature": "fire",
+  "type": "projectile",
+  "params": {
+    "speed": 1.5,
+    "radius": 8.0,
+    "particle": "flame",
+    "lifetime": 100,
+    "gravity": false
+  },
+  "baseCost": 30,
+  "baseDamage": 10,
+  "strain": 8,
+  "requiredUsesForFullProficiency": 50,
+  "requirements": {
+    "control": 15,
+    "nature_fire": 20,
+    "ninjutsu": 10
+  }
+}

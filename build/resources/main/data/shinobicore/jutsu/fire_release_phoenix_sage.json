@@ -1,0 +1,24 @@
+{
+  "id": "shinobicore:fire_release_phoenix_sage",
+  "name": "Fire Release: Phoenix Sage Jutsu",
+  "category": "elemental_ninjutsu",
+  "nature": "fire",
+  "type": "projectile",
+  "params": {
+    "speed": 2.0,
+    "radius": 3.0,
+    "particle": "flame",
+    "lifetime": 60,
+    "count": 5,
+    "spread": 12.0
+  },
+  "baseCost": 25,
+  "baseDamage": 5,
+  "strain": 6,
+  "requiredUsesForFullProficiency": 40,
+  "requirements": {
+    "control": 20,
+    "nature_fire": 25,
+    "ninjutsu": 15
+  }
+}

@@ -1,0 +1,1 @@
+{"id":"shinobicore:sum_wolf_contract","name":"Contract: Wolf Pack","category":"shape_ninjutsu","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.SummonBehavior","params":{"entity":"minecraft:wolf","count":3},"baseCost":45,"baseDamage":0,"strain":11,"requiredUsesForFullProficiency":50,"requirements":{"control":25,"ninjutsu":25,"perception":20}}

@@ -1,6 +1,0 @@
-{
-    "textures":  {
-                     "layer0":  "shinobicore:item/ninja_hood"
-                 },
-    "parent":  "item/generated"
-}

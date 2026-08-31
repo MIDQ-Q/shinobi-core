@@ -1,0 +1,122 @@
+{
+  "mappings": {
+    "com/example/shinobicore/mixin/CameraAccessor": {
+      "setPos": "method_19327(DDD)V"
+    },
+    "com/example/shinobicore/mixin/CameraMixin": {
+      "update": "Lnet/minecraft/class_4184;method_19321(Lnet/minecraft/class_1922;Lnet/minecraft/class_1297;ZZF)V"
+    },
+    "com/example/shinobicore/mixin/ChakraWaterTouchMixin": {
+      "isTouchingWater": "Lnet/minecraft/class_1297;method_5799()Z"
+    },
+    "com/example/shinobicore/mixin/ChargedJumpMixin": {
+      "jump": "Lnet/minecraft/class_1309;method_6043()V"
+    },
+    "com/example/shinobicore/mixin/FallDamageMixin": {
+      "handleFallDamage": "Lnet/minecraft/class_1309;method_5747(FFLnet/minecraft/class_1282;)Z"
+    },
+    "com/example/shinobicore/mixin/HideVanillaStatusMixin": {
+      "renderStatusBars": "Lnet/minecraft/class_329;method_1760(Lnet/minecraft/class_332;)V"
+    },
+    "com/example/shinobicore/mixin/InterruptCastMixin": {
+      "damage": "Lnet/minecraft/class_1309;method_5643(Lnet/minecraft/class_1282;F)Z"
+    },
+    "com/example/shinobicore/mixin/KatanaDeflectMixin": {
+      "damage": "Lnet/minecraft/class_1309;method_5643(Lnet/minecraft/class_1282;F)Z"
+    },
+    "com/example/shinobicore/mixin/MobEntityAccessor": {
+      "goalSelector": "field_6201:Lnet/minecraft/class_1355;",
+      "targetSelector": "field_6185:Lnet/minecraft/class_1355;"
+    },
+    "com/example/shinobicore/mixin/PlayerAttackMixin": {
+      "attack": "Lnet/minecraft/class_1657;method_7324(Lnet/minecraft/class_1297;)V"
+    },
+    "com/example/shinobicore/mixin/PlayerCopyMixin": {
+      "copyFrom": "Lnet/minecraft/class_3222;method_14203(Lnet/minecraft/class_3222;Z)V"
+    },
+    "com/example/shinobicore/mixin/PlayerParryMixin": {
+      "damage": "Lnet/minecraft/class_1309;method_5643(Lnet/minecraft/class_1282;F)Z"
+    },
+    "com/example/shinobicore/mixin/PlayerRenderAnimationMixin": {
+      "setAngles": "Lnet/minecraft/class_572;method_17087(Lnet/minecraft/class_1309;FFFFF)V"
+    },
+    "com/example/shinobicore/mixin/RollPoseMixin": {
+      "updatePose": "Lnet/minecraft/class_1657;method_7318()V"
+    },
+    "com/example/shinobicore/mixin/ServerPlayerEntityMixin": {
+      "readCustomDataFromNbt": "Lnet/minecraft/class_1657;method_5749(Lnet/minecraft/class_2487;)V",
+      "writeCustomDataToNbt": "Lnet/minecraft/class_1657;method_5652(Lnet/minecraft/class_2487;)V"
+    },
+    "com/example/shinobicore/mixin/SlideDimensionsMixin": {
+      "getDimensions": "Lnet/minecraft/class_1297;method_18377(Lnet/minecraft/class_4050;)Lnet/minecraft/class_4048;"
+    },
+    "com/example/shinobicore/mixin/SlidePoseMixin": {
+      "Lnet/minecraft/entity/player/PlayerEntity;setPose(Lnet/minecraft/entity/EntityPose;)V": "Lnet/minecraft/class_1657;method_18380(Lnet/minecraft/class_4050;)V",
+      "updatePose": "Lnet/minecraft/class_1657;method_7318()V"
+    },
+    "com/example/shinobicore/mixin/SlideTravelMixin": {
+      "travel": "Lnet/minecraft/class_1309;method_6091(Lnet/minecraft/class_243;)V"
+    }
+  },
+  "data": {
+    "named:intermediary": {
+      "com/example/shinobicore/mixin/CameraAccessor": {
+        "setPos": "method_19327(DDD)V"
+      },
+      "com/example/shinobicore/mixin/CameraMixin": {
+        "update": "Lnet/minecraft/class_4184;method_19321(Lnet/minecraft/class_1922;Lnet/minecraft/class_1297;ZZF)V"
+      },
+      "com/example/shinobicore/mixin/ChakraWaterTouchMixin": {
+        "isTouchingWater": "Lnet/minecraft/class_1297;method_5799()Z"
+      },
+      "com/example/shinobicore/mixin/ChargedJumpMixin": {
+        "jump": "Lnet/minecraft/class_1309;method_6043()V"
+      },
+      "com/example/shinobicore/mixin/FallDamageMixin": {
+        "handleFallDamage": "Lnet/minecraft/class_1309;method_5747(FFLnet/minecraft/class_1282;)Z"
+      },
+      "com/example/shinobicore/mixin/HideVanillaStatusMixin": {
+        "renderStatusBars": "Lnet/minecraft/class_329;method_1760(Lnet/minecraft/class_332;)V"
+      },
+      "com/example/shinobicore/mixin/InterruptCastMixin": {
+        "damage": "Lnet/minecraft/class_1309;method_5643(Lnet/minecraft/class_1282;F)Z"
+      },
+      "com/example/shinobicore/mixin/KatanaDeflectMixin": {
+        "damage": "Lnet/minecraft/class_1309;method_5643(Lnet/minecraft/class_1282;F)Z"
+      },
+      "com/example/shinobicore/mixin/MobEntityAccessor": {
+        "goalSelector": "field_6201:Lnet/minecraft/class_1355;",
+        "targetSelector": "field_6185:Lnet/minecraft/class_1355;"
+      },
+      "com/example/shinobicore/mixin/PlayerAttackMixin": {
+        "attack": "Lnet/minecraft/class_1657;method_7324(Lnet/minecraft/class_1297;)V"
+      },
+      "com/example/shinobicore/mixin/PlayerCopyMixin": {
+        "copyFrom": "Lnet/minecraft/class_3222;method_14203(Lnet/minecraft/class_3222;Z)V"
+      },
+      "com/example/shinobicore/mixin/PlayerParryMixin": {
+        "damage": "Lnet/minecraft/class_1309;method_5643(Lnet/minecraft/class_1282;F)Z"
+      },
+      "com/example/shinobicore/mixin/PlayerRenderAnimationMixin": {
+        "setAngles": "Lnet/minecraft/class_572;method_17087(Lnet/minecraft/class_1309;FFFFF)V"
+      },
+      "com/example/shinobicore/mixin/RollPoseMixin": {
+        "updatePose": "Lnet/minecraft/class_1657;method_7318()V"
+      },
+      "com/example/shinobicore/mixin/ServerPlayerEntityMixin": {
+        "readCustomDataFromNbt": "Lnet/minecraft/class_1657;method_5749(Lnet/minecraft/class_2487;)V",
+        "writeCustomDataToNbt": "Lnet/minecraft/class_1657;method_5652(Lnet/minecraft/class_2487;)V"
+      },
+      "com/example/shinobicore/mixin/SlideDimensionsMixin": {
+        "getDimensions": "Lnet/minecraft/class_1297;method_18377(Lnet/minecraft/class_4050;)Lnet/minecraft/class_4048;"
+      },
+      "com/example/shinobicore/mixin/SlidePoseMixin": {
+        "Lnet/minecraft/entity/player/PlayerEntity;setPose(Lnet/minecraft/entity/EntityPose;)V": "Lnet/minecraft/class_1657;method_18380(Lnet/minecraft/class_4050;)V",
+        "updatePose": "Lnet/minecraft/class_1657;method_7318()V"
+      },
+      "com/example/shinobicore/mixin/SlideTravelMixin": {
+        "travel": "Lnet/minecraft/class_1309;method_6091(Lnet/minecraft/class_243;)V"
+      }
+    }
+  }
+}

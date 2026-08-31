@@ -1,0 +1,11 @@
+{
+  "id": "shinobicore:forbidden_eight_gates",
+  "name": "Eight Gates: Open",
+  "category": "taijutsu",
+  "type": "custom",
+  "behaviorClass": "com.example.shinobicore.jutsu.custom.BuffSelfBehavior",
+  "params": {"effect": "strength", "amplifier": 4, "duration": 300, "showParticles": true},
+  "baseCost": 100, "baseDamage": 0, "strain": 40,
+  "requiredUsesForFullProficiency": 1,
+  "requirements": {"taijutsu": 50, "control": 40}
+}

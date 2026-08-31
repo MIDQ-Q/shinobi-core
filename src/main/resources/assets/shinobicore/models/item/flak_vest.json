@@ -1,6 +1,0 @@
-{
-    "textures":  {
-                     "layer0":  "shinobicore:item/flak_vest"
-                 },
-    "parent":  "item/generated"
-}

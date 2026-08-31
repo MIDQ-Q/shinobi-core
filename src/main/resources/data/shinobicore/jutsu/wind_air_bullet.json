@@ -1,0 +1,1 @@
+{"id":"shinobicore:wind_air_bullet","name":"Wind Release: Air Bullet","category":"elemental_ninjutsu","nature":"wind","type":"projectile","params":{"speed":4.0,"radius":0.8,"particle":"none","lifetime":50},"baseCost":24,"baseDamage":6,"strain":6,"requiredUsesForFullProficiency":40,"requirements":{"control":18,"nature_wind":24,"ninjutsu":16}}

@@ -1,0 +1,1 @@
+{"id":"shinobicore:healing_resuscitation","name":"Medical: Resuscitation","category":"medical","type":"utility","params":{"effect":"heal","healAmount":16},"baseCost":50,"baseDamage":0,"strain":12,"requiredUsesForFullProficiency":50,"requirements":{"control":28,"medical":35}}

@@ -1,0 +1,11 @@
+{
+  "id": "shinobicore:genjutsu_hell_viewing",
+  "name": "Genjutsu: Hell Viewing",
+  "category": "genjutsu",
+  "type": "custom",
+  "behaviorClass": "com.example.shinobicore.jutsu.custom.GenjutsuBehavior",
+  "params": {"range": 12, "slownessDuration": 100, "weaknessDuration": 100, "nauseaDuration": 120, "blindnessDuration": 80},
+  "baseCost": 35, "baseDamage": 3, "strain": 10,
+  "requiredUsesForFullProficiency": 50,
+  "requirements": {"control": 25, "genjutsu": 30}
+}
