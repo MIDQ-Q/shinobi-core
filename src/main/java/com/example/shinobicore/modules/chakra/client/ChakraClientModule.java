@@ -10,7 +10,7 @@ import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
 public final class ChakraClientModule implements ClientAwareModule {
-    public static final String ID = "chakra_client";
+    public static final String ID = "chakra";
     private static KeyBinding CHAKRA_TOGGLE;
 
     @Override public String id() { return ID; }

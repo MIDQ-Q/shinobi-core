@@ -1,0 +1,14 @@
+{
+  "enabled": true,
+  "debug": false,
+  "particles": {
+    "poolSize": 5000,
+    "cooldownMs": 50
+  },
+  "trails": {
+    "poolSize": 1000
+  },
+  "culling": {
+    "distance": 64.0
+  }
+}
