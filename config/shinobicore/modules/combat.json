@@ -1,0 +1,9 @@
+{
+  "enabled": true,
+  "debug": false,
+  "betterCombatRequired": true,
+  "blockEnabled": true,
+  "parryEnabled": true,
+  "comboEnabled": true,
+  "sheathEnabled": true
+}

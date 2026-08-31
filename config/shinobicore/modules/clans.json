@@ -1,0 +1,7 @@
+{
+  "enabled": true,
+  "debug": false,
+  "clanJoinCooldownTicks": 6000,
+  "reputationEnabled": true,
+  "dojutsuEnabled": true
+}

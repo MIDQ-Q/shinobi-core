@@ -1,36 +1,15 @@
 ```
-# Compiled and build artifacts
-*.class
-*.o
-*.obj
-*.out
-build/
-target/
-
 # Dependencies
-.gradle/
-lib/
+libs/
+
+# Compiled and build artifacts
+*.jar
 
 # Logs and temp files
 *.log
 *.tmp
-*.swp
 
 # Editors
 .vscode/
 .idea/
-
-# Environment
-.env
-.env.local
-*.env.*
-
-# Coverage
-coverage/
-htmlcov/
-.coverage
-
-# OS
-.DS_Store
-Thumbs.db
 ```

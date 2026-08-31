@@ -1,0 +1,14 @@
+{
+  "enabled": true,
+  "debug": false,
+  "chakra": {
+    "maxChakra": 100.0,
+    "regenRate": 2.0,
+    "modeDrainRate": 0.5
+  },
+  "chakraMode": {
+    "enabled": true,
+    "damageMultiplier": 1.5,
+    "speedMultiplier": 1.2
+  }
+}

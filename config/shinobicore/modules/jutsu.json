@@ -1,0 +1,8 @@
+{
+  "enabled": true,
+  "debug": false,
+  "slotCount": 4,
+  "castTimeoutTicks": 100,
+  "cooldownMultiplier": 1.0,
+  "chakraCostMultiplier": 1.0
+}
