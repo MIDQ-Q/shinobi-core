@@ -7,6 +7,7 @@ import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.Vec3d;
 import org.joml.Vector3f;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 
 /**
  * Chakra Aura: particles around body in chakra mode.
@@ -32,8 +33,8 @@ public class ChakraAuraRenderer {
             String affinityId = null;
 
             if (isLocal) {
-                hasChakra = ClientNinjaState.chakraMode && ChakraHudRenderer.currentChakra > 0;
-                affinityId = ClientNinjaState.affinityId;
+                hasChakra = ClientNinjaStateHolder.get().isChakraMode() && ChakraHudRenderer.currentChakra > 0;
+                affinityId = ClientNinjaStateHolder.get().getAffinityId();
             } else {
                 // For other players, check their casting state as proxy
                 hasChakra = CastingClientState.isCasting(p);

@@ -10,6 +10,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 
 public class ChakraPhysicsClient {
 
@@ -32,7 +33,7 @@ public class ChakraPhysicsClient {
         ClientPlayerEntity player = client.player;
         if (player == null) return;
 
-        boolean chakraOn = ClientNinjaState.chakraMode && ChakraHudRenderer.currentChakra > 0;
+        boolean chakraOn = ClientNinjaStateHolder.get().isChakraMode() && ChakraHudRenderer.currentChakra > 0;
         boolean canParkour = ChakraHudRenderer.currentChakra > 0 && !ChakraHudRenderer.exhausted;
         boolean doLog = (logTimer == 0);
 

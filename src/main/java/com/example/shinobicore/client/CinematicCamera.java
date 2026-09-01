@@ -7,6 +7,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 
 public class CinematicCamera {
     // === OVER-THE-SHOULDER: НАСТРОЙКИ КАМЕРЫ (как в Gears of War / RE4) ===
@@ -39,7 +40,7 @@ public class CinematicCamera {
         if (!enabled || client.player == null) return;
 
         ClientPlayerEntity player = client.player;
-        boolean chakraMode = ClientNinjaState.chakraMode && ChakraHudRenderer.currentChakra > 0;
+        boolean chakraMode = ClientNinjaStateHolder.get().isChakraMode() && ChakraHudRenderer.currentChakra > 0;
         boolean sprinting = player.isSprinting();
         boolean attacking = TaijutsuClientHandler.isAttacking() || TaijutsuKickHandler.isOnCooldown();
 

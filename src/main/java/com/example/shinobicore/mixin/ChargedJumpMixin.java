@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 
 @Mixin(LivingEntity.class)
 public abstract class ChargedJumpMixin {
@@ -17,7 +18,7 @@ public abstract class ChargedJumpMixin {
         LivingEntity self = (LivingEntity) (Object) this;
         if (!(self instanceof ClientPlayerEntity player)) return;
         
-        if (ClientNinjaState.chakraMode && (player.isOnGround() || ChakraPhysicsClient.standingOnWater)) {
+        if (ClientNinjaStateHolder.get().isChakraMode() && (player.isOnGround() || ChakraPhysicsClient.standingOnWater)) {
             ci.cancel();
         }
     }

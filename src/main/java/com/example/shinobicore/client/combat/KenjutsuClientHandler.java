@@ -13,6 +13,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 public class KenjutsuClientHandler {
     private static int comboStep = 0;
     private static long lastAttack = 0;
@@ -23,7 +24,7 @@ public class KenjutsuClientHandler {
         long now = System.currentTimeMillis();
         if (now < cooldownEnd) return false;
         if (now - lastAttack > 1500) comboStep = 0;
-        String stance = ClientNinjaState.kenjutsuStance;
+        String stance = ClientNinjaStateHolder.get().getKenjutsuStance();
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeInt(comboStep);
         buf.writeString(stance);
@@ -47,16 +48,16 @@ public class KenjutsuClientHandler {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeBoolean(held);
         ClientPlayNetworking.send(ModPackets.KATANA_DEFLECT_ID, buf);
-        ClientNinjaState.deflectHeld = held;
+        ClientNinjaStateHolder.get().setDeflectHeld(held);
         if (held) {
             KenjutsuAnimations.playDeflect(player);
             player.playSound(SoundEvents.ITEM_SHIELD_BLOCK, 0.4f, 1.5f);
         }
     }
     public static void cycleStance(ClientPlayerEntity player) {
-        String cur = ClientNinjaState.kenjutsuStance;
+        String cur = ClientNinjaStateHolder.get().getKenjutsuStance();
         String next = ORDER[(java.util.Arrays.asList(ORDER).indexOf(cur) + 1) % ORDER.length];
-        ClientNinjaState.kenjutsuStance = next;
+        ClientNinjaStateHolder.get().setKenjutsuStance(next);
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeString(next);
         ClientPlayNetworking.send(ModPackets.KATANA_STANCE_ID, buf);

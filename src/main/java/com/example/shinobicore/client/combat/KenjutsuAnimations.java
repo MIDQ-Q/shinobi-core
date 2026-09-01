@@ -1,12 +1,11 @@
 package com.example.shinobicore.client.combat;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
-import java.util.HashMap;
-import java.util.Map;
+import com.example.shinobicore.util.TimedCache;
 import java.util.UUID;
 public class KenjutsuAnimations {
-    private static final Map<UUID, SlashState> SLASHES = new HashMap<>();
-    private static final Map<UUID, Long> DEFLECTS = new HashMap<>();
+    private static final TimedCache<UUID, SlashState> SLASHES = new TimedCache<>(2000);
+    private static final TimedCache<UUID, Long> DEFLECTS = new TimedCache<>(500);
     public static class SlashState {
         public final int step; public final long start;
         public SlashState(int step) { this.step = step; this.start = System.currentTimeMillis(); }
@@ -51,5 +50,14 @@ public class KenjutsuAnimations {
     public static void cleanup(UUID id) {
         SLASHES.remove(id);
         DEFLECTS.remove(id);
+    }
+
+    public static int size() {
+        return SLASHES.size() + DEFLECTS.size();
+    }
+
+    public static void cleanupAll() {
+        SLASHES.clear();
+        DEFLECTS.clear();
     }
 }

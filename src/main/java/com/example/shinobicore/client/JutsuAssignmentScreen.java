@@ -11,6 +11,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 
 import java.util.*;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 
 public class JutsuAssignmentScreen extends Screen {
     private final int loadoutSet;
@@ -62,8 +63,8 @@ public class JutsuAssignmentScreen extends Screen {
 
     private void updateFilteredList() {
         filteredJutsus.clear();
-        for (String id : ClientNinjaState.learned) {
-            String name = ClientNinjaState.name(id).toLowerCase();
+        for (String id : ClientNinjaStateHolder.get().getLearned()) {
+            String name = ClientNinjaStateHolder.get().getName(id).toLowerCase();
             if (!searchQuery.isEmpty() && !name.contains(searchQuery) && !id.toLowerCase().contains(searchQuery)) continue;
             if (!currentCategory.equals("all") && !matchesCategory(id, currentCategory)) continue;
             filteredJutsus.add(id);
@@ -107,7 +108,7 @@ public class JutsuAssignmentScreen extends Screen {
         int shown = 0;
         for (int i = scrollOffset; i < filteredJutsus.size() && shown < VISIBLE_COUNT; i++, shown++) {
             String id = filteredJutsus.get(i);
-            String name = ClientNinjaState.name(id);
+            String name = ClientNinjaStateHolder.get().getName(id);
             int rowY = listY + 2 + shown * ROW_HEIGHT;
             boolean hover = mouseX >= listX && mouseX < listX + listW && mouseY >= rowY && mouseY < rowY + ROW_HEIGHT;
             if (hover) ctx.fill(listX, rowY, listX + listW, rowY + ROW_HEIGHT, 0x44FFFFFF);

@@ -16,6 +16,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Hand;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 public class TaijutsuClientHandler {
     private static int comboStep = 0;
     private static long lastAttackTime = 0;
@@ -66,8 +67,8 @@ public class TaijutsuClientHandler {
             comboStep = 0;
         }
 
-        boolean chakraMode = ClientNinjaState.chakraMode;
-        int taijutsuLevel = ClientNinjaState.statLevels.getOrDefault("taijutsu", 0);
+        boolean chakraMode = ClientNinjaStateHolder.get().isChakraMode();
+        int taijutsuLevel = ClientNinjaStateHolder.get().getStatLevels().getOrDefault("taijutsu", 0);
         int cooldown = TaijutsuFormulas.attackCooldownTicks(currentStyle, chakraMode, taijutsuLevel); // PHASE7_CLIENT
 
         ShinobiCore.LOGGER.debug("[ATTACK] Sending packet: step={}, style={}", comboStep, currentStyle.getId());

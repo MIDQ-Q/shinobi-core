@@ -1,87 +1,178 @@
-$ErrorActionPreference = 'Stop'
+$ErrorActionPreference = "Stop"
 $utf8 = New-Object System.Text.UTF8Encoding($false)
-$root = 'E:\Games\mod'
-$outDir = Join-Path $root 'team_packages'
-$dumpFile = Join-Path $outDir 'CORE_CODE_DUMP.md'
+$root = "E:\Games\mod"
+$srcBase = Join-Path $root "src\main\java\com\example\shinobicore"
+$fixedCount = 0
 
-if (-not (Test-Path $outDir)) { New-Item -ItemType Directory -Path $outDir -Force | Out-Null }
+Write-Host ""
+Write-Host "================================================================" -ForegroundColor Cyan
+Write-Host "  HOTFIX: Fix broken assignments (method() = value)" -ForegroundColor Cyan
+Write-Host "================================================================" -ForegroundColor Cyan
+Write-Host ""
 
-$sb = New-Object System.Text.StringBuilder
-[void]$sb.AppendLine('# SHINOBICORE 4.0.0 - CORE CODE DUMP')
-[void]$sb.AppendLine('')
-[void]$sb.AppendLine('Generated: ' + (Get-Date -Format 'yyyy-MM-dd HH:mm:ss'))
-[void]$sb.AppendLine('This file contains the complete source code of the ShinobiCore kernel.')
-[void]$sb.AppendLine('Teams must use this code as the foundation. Do NOT modify core files.')
-[void]$sb.AppendLine('')
-[void]$sb.AppendLine('---')
-[void]$sb.AppendLine('')
+# Паттерны: сломанное присваивание -> правильный сеттер
+$fixes = @(
+    @{ old = "ClientNinjaStateHolder.get().isDeflectHeld() = held;"; new = "ClientNinjaStateHolder.get().setDeflectHeld(held);" },
+    @{ old = "ClientNinjaStateHolder.get().getKenjutsuStance() = next;"; new = "ClientNinjaStateHolder.get().setKenjutsuStance(next);" },
+    @{ old = "ClientNinjaStateHolder.get().isChakraMode() = !ClientNinjaStateHolder.get().isChakraMode();"; new = "ClientNinjaStateHolder.get().setChakraMode(!ClientNinjaStateHolder.get().isChakraMode());" },
+    @{ old = "ClientNinjaStateHolder.get().isChakraMode() = chakra;"; new = "ClientNinjaStateHolder.get().setChakraMode(chakra);" },
+    @{ old = "ClientNinjaStateHolder.get().isSensoryEnabled() = newState;"; new = "ClientNinjaStateHolder.get().setSensoryEnabled(newState);" },
+    @{ old = "ClientNinjaStateHolder.get().isSensoryEnabled() = sen;"; new = "ClientNinjaStateHolder.get().setSensoryEnabled(sen);" },
+    @{ old = "ClientNinjaStateHolder.get().isMeditating() = packet.meditating();"; new = "ClientNinjaStateHolder.get().setMeditating(packet.meditating());" },
+    @{ old = "ClientNinjaStateHolder.get().isDangerSense() = danger;"; new = "ClientNinjaStateHolder.get().setDangerSense(danger);" },
+    @{ old = "ClientNinjaStateHolder.get().getHpLevel() = hp;"; new = "ClientNinjaStateHolder.get().setHpLevel(hp);" },
+    @{ old = "ClientNinjaStateHolder.get().getSpeedLevel() = speed;"; new = "ClientNinjaStateHolder.get().setSpeedLevel(speed);" },
+    @{ old = "ClientNinjaStateHolder.get().getJumpLevel() = jump;"; new = "ClientNinjaStateHolder.get().setJumpLevel(jump);" },
+    @{ old = "ClientNinjaStateHolder.get().getSkillPoints() = sp;"; new = "ClientNinjaStateHolder.get().setSkillPoints(sp);" },
+    @{ old = "ClientNinjaStateHolder.get().getReserveLevel() = resLvl;"; new = "ClientNinjaStateHolder.get().setReserveLevel(resLvl);" },
+    @{ old = "ClientNinjaStateHolder.get().getReserveXp() = resXp;"; new = "ClientNinjaStateHolder.get().setReserveXp(resXp);" },
+    @{ old = "ClientNinjaStateHolder.get().getClanId() = clan"; new = "ClientNinjaStateHolder.get().setClanId(clan" },
+    @{ old = "ClientNinjaStateHolder.get().getAffinityId() = affinity"; new = "ClientNinjaStateHolder.get().setAffinityId(affinity" }
+)
 
-$filesDumped = 0
-$linesDumped = 0
+# Сканируем все Java файлы
+$allJavaFiles = Get-ChildItem -Path $srcBase -Recurse -Filter "*.java"
 
-function Add-File {
-    param([string]$relPath, [string]$lang = 'java')
-    $full = Join-Path $root $relPath
-    if (-not (Test-Path $full)) {
-        Write-Host (' [SKIP] ' + $relPath) -ForegroundColor Yellow
-        return
+foreach ($file in $allJavaFiles) {
+    $content = [System.IO.File]::ReadAllText($file.FullName, $utf8)
+    $original = $content
+    $content = $content.Replace("`r`n", "`n")
+    $changed = $false
+
+    foreach ($fix in $fixes) {
+        $oldN = $fix.old.Replace("`r`n", "`n")
+        $newN = $fix.new.Replace("`r`n", "`n")
+        if ($content.Contains($oldN)) {
+            $content = $content.Replace($oldN, $newN)
+            $changed = $true
+        }
     }
-    $content = [System.IO.File]::ReadAllText($full, [System.Text.Encoding]::UTF8)
-    $lineCount = ($content -split [char]10).Count
-    $script:filesDumped++
-    $script:linesDumped += $lineCount
 
-    [void]$sb.AppendLine('## FILE: ' + $relPath)
-    [void]$sb.AppendLine('')
-    [void]$sb.AppendLine('```' + $lang)
-    [void]$sb.AppendLine($content)
-    [void]$sb.AppendLine('```')
-    [void]$sb.AppendLine('')
-    Write-Host (' [OK] ' + $relPath + ' - ' + $lineCount + ' lines') -ForegroundColor Green
+    # Дополнительная проверка: ищем общий паттерн "get().is" или "get().get" за которым следует " = "
+    # Это ловит случаи, которые не попали в список выше
+    $regexPattern = 'ClientNinjaStateHolder\.get\(\)\.(is|get)(\w+)\(\)\s*=\s*'
+    $matches = [regex]::Matches($content, $regexPattern)
+    if ($matches.Count -gt 0) {
+        foreach ($m in $matches) {
+            $prefix = $m.Groups[1].Value  # "is" или "get"
+            $propName = $m.Groups[2].Value  # имя свойства
+            # Определяем имя сеттера
+            $setterName = if ($prefix -eq "is") {
+                "set$propName"
+            } else {
+                "set$propName"
+            }
+            # Заменяем паттерн: нужно найти полную строку присваивания
+            $brokenPattern = "ClientNinjaStateHolder.get().$prefix$propName() = "
+            # Это сложнее, пропускаем для безопасности
+        }
+        Write-Host "  [WARN] $($file.Name): found $($matches.Count) potential broken assignments" -ForegroundColor Yellow
+    }
+
+    if ($changed) {
+        [System.IO.File]::WriteAllText($file.FullName, $content, $utf8)
+        Write-Host "  [FIXED] $($file.Name)" -ForegroundColor Green
+        $fixedCount++
+    }
 }
 
-Write-Host ''
-Write-Host '=== DUMPING CORE CODE ===' -ForegroundColor Cyan
-Write-Host ''
+# Специальная обработка KenjutsuClientHandler.java (строка 60)
+Write-Host ""
+Write-Host "  [CHECK] KenjutsuClientHandler.java specific fixes..." -ForegroundColor Yellow
+$kenPath = Join-Path $srcBase "client\combat\KenjutsuClientHandler.java"
+if (Test-Path $kenPath) {
+    $content = [System.IO.File]::ReadAllText($kenPath, $utf8)
+    $content = $content.Replace("`r`n", "`n")
+    $changed = $false
 
-Add-File 'src\main\java\com\example\shinobicore\ShinobiCoreMod.java'
-Add-File 'src\main\java\com\example\shinobicore\ShinobiCoreClient.java'
-Add-File 'src\main\java\com\example\shinobicore\core\api\ShinobiModule.java'
-Add-File 'src\main\java\com\example\shinobicore\core\api\ClientAwareModule.java'
-Add-File 'src\main\java\com\example\shinobicore\core\api\ModuleContext.java'
-Add-File 'src\main\java\com\example\shinobicore\core\module\ModuleState.java'
-Add-File 'src\main\java\com\example\shinobicore\core\module\ModuleEntry.java'
-Add-File 'src\main\java\com\example\shinobicore\core\module\ModuleManager.java'
-Add-File 'src\main\java\com\example\shinobicore\core\event\CoreEvents.java'
-Add-File 'src\main\java\com\example\shinobicore\core\view\CoreViews.java'
-Add-File 'src\main\java\com\example\shinobicore\core\service\CoreServices.java'
-Add-File 'src\main\java\com\example\shinobicore\core\log\ShinobiLogger.java'
-Add-File 'src\main\java\com\example\shinobicore\core\config\ModuleConfigLoader.java'
-Add-File 'src\main\java\com\example\shinobicore\core\command\CoreCommands.java'
-Add-File 'src\main\java\com\example\shinobicore\core\compat\CompatibilityChecker.java'
-Add-File 'src\main\java\com\example\shinobicore\modules\example\ExampleModule.java'
+    # Ищем любые оставшиеся присваивания вызовам методов
+    if ($content -match 'ClientNinjaStateHolder\.get\(\)\.\w+\(\)\s*=') {
+        # Читаем построчно и исправляем
+        $lines = $content.Split("`n")
+        $newLines = [System.Collections.ArrayList]::new()
+        foreach ($line in $lines) {
+            $newLine = $line
+            # Паттерн: что-то = ClientNinjaStateHolder.get().getXxx() = value;
+            if ($line -match '^\s*ClientNinjaStateHolder\.get\(\)\.is(\w+)\(\)\s*=\s*(.+);$') {
+                $prop = $Matches[1]
+                $val = $Matches[2]
+                $newLine = $line -replace "ClientNinjaStateHolder\.get\(\)\.is$prop\(\)\s*=\s*$val;", "ClientNinjaStateHolder.get().set$prop($val);"
+                $changed = $true
+            }
+            elseif ($line -match '^\s*ClientNinjaStateHolder\.get\(\)\.get(\w+)\(\)\s*=\s*(.+);$') {
+                $prop = $Matches[1]
+                $val = $Matches[2]
+                $newLine = $line -replace "ClientNinjaStateHolder\.get\(\)\.get$prop\(\)\s*=\s*$val;", "ClientNinjaStateHolder.get().set$prop($val);"
+                $changed = $true
+            }
+            [void]$newLines.Add($newLine)
+        }
+        if ($changed) {
+            $content = $newLines -join "`n"
+            [System.IO.File]::WriteAllText($kenPath, $content, $utf8)
+            Write-Host "  [FIXED] KenjutsuClientHandler.java (regex pass)" -ForegroundColor Green
+            $fixedCount++
+        }
+    } else {
+        Write-Host "  [OK] KenjutsuClientHandler.java clean" -ForegroundColor Green
+    }
+}
 
-Write-Host ''
-Write-Host '=== DUMPING RESOURCES ===' -ForegroundColor Cyan
-Write-Host ''
+# Аналогично для всех файлов с присваиваниями
+Write-Host ""
+Write-Host "  [CHECK] Global regex pass for broken assignments..." -ForegroundColor Yellow
+$allJavaFiles = Get-ChildItem -Path $srcBase -Recurse -Filter "*.java"
+foreach ($file in $allJavaFiles) {
+    $content = [System.IO.File]::ReadAllText($file.FullName, $utf8)
+    $content = $content.Replace("`r`n", "`n")
+    $changed = $false
 
-Add-File 'src\main\resources\fabric.mod.json' 'json'
-Add-File 'src\main\resources\shinobicore.mixins.json' 'json'
-Add-File 'gradle.properties' 'text'
+    $lines = $content.Split("`n")
+    $newLines = [System.Collections.ArrayList]::new()
+    foreach ($line in $lines) {
+        $newLine = $line
+        if ($line -match 'ClientNinjaStateHolder\.get\(\)\.is(\w+)\(\)\s*=\s*(.+);$') {
+            $prop = $Matches[1]
+            $val = $Matches[2]
+            $newLine = $line -replace "ClientNinjaStateHolder\.get\(\)\.is$prop\(\)\s*=\s*", "ClientNinjaStateHolder.get().set$prop("
+            $newLine = $newLine -replace ";$", ");"
+            $changed = $true
+        }
+        elseif ($line -match 'ClientNinjaStateHolder\.get\(\)\.get(\w+)\(\)\s*=\s*(.+);$') {
+            $prop = $Matches[1]
+            $val = $Matches[2]
+            $newLine = $line -replace "ClientNinjaStateHolder\.get\(\)\.get$prop\(\)\s*=\s*", "ClientNinjaStateHolder.get().set$prop("
+            $newLine = $newLine -replace ";$", ");"
+            $changed = $true
+        }
+        [void]$newLines.Add($newLine)
+    }
+    if ($changed) {
+        $content = $newLines -join "`n"
+        [System.IO.File]::WriteAllText($file.FullName, $content, $utf8)
+        Write-Host "  [FIXED] $($file.Name) (global regex)" -ForegroundColor Green
+        $fixedCount++
+    }
+}
 
-[void]$sb.AppendLine('---')
-[void]$sb.AppendLine('')
-[void]$sb.AppendLine('## DUMP STATISTICS')
-[void]$sb.AppendLine('Total files: ' + $filesDumped)
-[void]$sb.AppendLine('Total lines: ' + $linesDumped)
+# BUILD
+Write-Host ""
+Write-Host "[BUILD] Running gradlew build..." -ForegroundColor Yellow
+Push-Location $root
+try {
+    $out = & ".\gradlew.bat" build 2>&1 | Out-String
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "  [PASS] BUILD SUCCESSFUL!" -ForegroundColor Green
+    } else {
+        Write-Host "  [FAIL] Build failed. Last 30 lines:" -ForegroundColor Red
+        $out -split "`n" | Select-Object -Last 30 | ForEach-Object { Write-Host "  $_" -ForegroundColor Red }
+    }
+} finally {
+    Pop-Location
+}
 
-[System.IO.File]::WriteAllText($dumpFile, $sb.ToString(), $utf8)
-
-Write-Host ''
-Write-Host '============================================================' -ForegroundColor Green
-Write-Host ' CORE DUMP COMPLETE' -ForegroundColor Green
-Write-Host '============================================================' -ForegroundColor Green
-Write-Host ''
-Write-Host (' Output: ' + $dumpFile) -ForegroundColor White
-Write-Host (' Files:  ' + $filesDumped) -ForegroundColor White
-Write-Host (' Lines:  ' + $linesDumped) -ForegroundColor White
+Write-Host ""
+Write-Host "================================================================" -ForegroundColor Green
+Write-Host "  HOTFIX COMPLETE - Fixed $fixedCount files" -ForegroundColor Green
+Write-Host "================================================================" -ForegroundColor Green
+Write-Host ""

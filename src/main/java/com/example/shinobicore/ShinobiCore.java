@@ -42,6 +42,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Random;
+import com.example.shinobicore.command.DiagnosticCommands;
+
+import com.example.shinobicore.core.event.ShinobiEventBus;
 
 public class ShinobiCore implements ModInitializer {
     public static final String MOD_ID = "shinobicore";
@@ -50,6 +53,7 @@ public class ShinobiCore implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        ShinobiEventBus.setEnabled(true);
         LOGGER.info("Shinobi Core загружается...");
         ModConfig.load();
         JutsuLogger.init();
@@ -65,7 +69,15 @@ public class ShinobiCore implements ModInitializer {
         BehaviorRegistry.register("genjutsu", new GenjutsuBehavior());
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> NinjaCommand.register(dispatcher));
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> DiagnosticCommands.register(dispatcher));
         ServerTickEvents.END_SERVER_TICK.register(NinjaTickHandler::onServerTick);
+
+        // Phase 1: Periodic cache cleanup every 200 ticks (10 seconds)
+        ServerTickEvents.END_SERVER_TICK.register(server -> {
+            if (server.getTicks() % 200 == 0) {
+                com.example.shinobicore.combat.MarkTracker.cleanupExpired();
+            }
+        });
         // === PHASE5_CAST_TICK ===
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             for (ServerPlayerEntity p : server.getPlayerManager().getPlayerList()) {
@@ -73,6 +85,13 @@ public class ShinobiCore implements ModInitializer {
             }
         });
         ModPackets.register();
+
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
+            // Phase 2: Clean rate limiter on server side
+            if (handler.player != null) {
+                com.example.shinobicore.network.PacketRateLimiter.removePlayer(handler.player.getUuid());
+            }
+        });
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerPlayerEntity player = handler.getPlayer();
@@ -132,6 +151,7 @@ public class ShinobiCore implements ModInitializer {
             }
         });
 
+        ShinobiEventBus.setEnabled(true);
         LOGGER.info("Shinobi Core загружен!");
     }
 

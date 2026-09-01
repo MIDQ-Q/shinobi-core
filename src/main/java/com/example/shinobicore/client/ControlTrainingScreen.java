@@ -7,6 +7,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 
 public class ControlTrainingScreen extends Screen {
 
@@ -22,7 +23,7 @@ public class ControlTrainingScreen extends Screen {
     public ControlTrainingScreen() {
         super(Text.literal("Chakra Control Training"));
         startTime = System.currentTimeMillis();
-        int control = ClientNinjaState.statLevels.getOrDefault("control", 0);
+        int control = ClientNinjaStateHolder.get().getStatLevels().getOrDefault("control", 0);
         speed = 1.2f + control * 0.012f;
         targetWidth = Math.max(0.12f, 0.3f - control * 0.0018f);
         targetCenter = 0.35f + (float)(Math.random() * 0.3);

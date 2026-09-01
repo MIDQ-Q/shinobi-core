@@ -8,6 +8,7 @@ import com.example.shinobicore.client.parkour.util.ParkourSounds;
 import com.example.shinobicore.stat.NinjaFormula;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.math.Vec3d;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 
 public class ChargedJumpAction implements ParkourAction {
     public static final String ID = "charged_jump";
@@ -34,7 +35,7 @@ public class ChargedJumpAction implements ParkourAction {
 
     @Override
     public void tick(ClientPlayerEntity player, ParkourContext ctx) {
-        if (!ClientNinjaState.chakraMode || ChakraHudRenderer.currentChakra <= 0 || ChakraHudRenderer.exhausted) {
+        if (!ClientNinjaStateHolder.get().isChakraMode() || ChakraHudRenderer.currentChakra <= 0 || ChakraHudRenderer.exhausted) {
             resetCharge();
             return;
         }
@@ -91,7 +92,7 @@ public class ChargedJumpAction implements ParkourAction {
         player.setVelocity(player.getVelocity().x, 0.42, player.getVelocity().z);
         player.velocityModified = true;
 
-        int jumpLevel = ClientNinjaState.jumpLevel;
+        int jumpLevel = ClientNinjaStateHolder.get().getJumpLevel();
         boolean chakraOn = true;  // мы в чакра-режиме
 
         // === Горизонтальный буст (от jumpLevel) ===

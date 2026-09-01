@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 
 @Mixin(Entity.class)
 public abstract class ChakraWaterTouchMixin {
@@ -25,7 +26,7 @@ public abstract class ChakraWaterTouchMixin {
                 cir.setReturnValue(false);
             }
         } else if (self instanceof ClientPlayerEntity) {
-            if (ClientNinjaState.chakraMode && ChakraHudRenderer.currentChakra > 0) {
+            if (ClientNinjaStateHolder.get().isChakraMode() && ChakraHudRenderer.currentChakra > 0) {
                 cir.setReturnValue(false);
             }
         }

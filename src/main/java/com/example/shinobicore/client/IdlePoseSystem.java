@@ -4,11 +4,11 @@ import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.util.math.MathHelper;
-import java.util.HashMap;
-import java.util.Map;
+import com.example.shinobicore.util.TimedCache;
 import java.util.UUID;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 public class IdlePoseSystem {
-    private static final Map<UUID, FidgetState> STATES = new HashMap<>();
+    private static final TimedCache<UUID, FidgetState> STATES = new TimedCache<>(30000);
     private static class FidgetState {
         long nextFidgetAt = 0;
         int fidget = -1;
@@ -18,7 +18,7 @@ public class IdlePoseSystem {
                              float moveAmount, float animProgress) {
         if (moveAmount > 0.1f) return;
         float breath = MathHelper.sin(animProgress * 0.07f) * 0.03f;
-        if (ClientNinjaState.meditating) { applyMeditate(model, breath); return; }
+        if (ClientNinjaStateHolder.get().isMeditating()) { applyMeditate(model, breath); return; }
         if (ChakraPhysicsClient.stickingToWall) { applyWallStick(model); return; }
         ItemStack main = player.getMainHandStack();
         if (main.getItem() instanceof com.example.shinobicore.item.KatanaItem) {
@@ -27,7 +27,7 @@ public class IdlePoseSystem {
         }
         boolean isThrowing = main.getItem() instanceof com.example.shinobicore.item.ThrowingWeaponItem;
         boolean weapon = !main.isEmpty() && (main.getItem() instanceof SwordItem || isThrowing);
-        boolean chakra = ClientNinjaState.chakraMode && ChakraHudRenderer.currentChakra > 0;
+        boolean chakra = ClientNinjaStateHolder.get().isChakraMode() && ChakraHudRenderer.currentChakra > 0;
         if (weapon) applyWeaponStance(model, breath);
         else if (chakra) applyNinjaGuard(model, breath);
         else applyNormalIdle(model, breath, player);
@@ -74,7 +74,7 @@ public class IdlePoseSystem {
         m.head.pitch -= 0.10f;
     }
     private static void applyKatanaStance(BipedEntityModel<?> m, float breath) {
-        String st = ClientNinjaState.kenjutsuStance;
+        String st = ClientNinjaStateHolder.get().getKenjutsuStance();
         switch (st) {
             case "seigan" -> {
                 m.rightArm.pitch = -1.2f + breath;
@@ -138,5 +138,9 @@ public class IdlePoseSystem {
 
     public static void cleanupAll() {
         STATES.clear();
+    }
+
+    public static int size() {
+        return STATES.size();
     }
 }

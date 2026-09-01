@@ -15,6 +15,7 @@ import net.minecraft.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 
 public class ProgressionScreen extends Screen {
 
@@ -56,9 +57,9 @@ public class ProgressionScreen extends Screen {
 
         drawScrollFrame(context, x0, y0, w, h);
 
-        String clanText = ClientNinjaState.clanId.equals("none") ? "No Clan" : ClientNinjaState.clanId;
-        String affText  = ClientNinjaState.affinityId != null ? ClientNinjaState.affinityId : "none";
-        drawCentered(context, clanText + "  |  " + affText + "  |  SP: " + ClientNinjaState.skillPoints,
+        String clanText = ClientNinjaStateHolder.get().getClanId().equals("none") ? "No Clan" : ClientNinjaStateHolder.get().getClanId();
+        String affText  = ClientNinjaStateHolder.get().getAffinityId() != null ? ClientNinjaStateHolder.get().getAffinityId() : "none";
+        drawCentered(context, clanText + "  |  " + affText + "  |  SP: " + ClientNinjaStateHolder.get().getSkillPoints(),
                 x0 + w / 2, y0 + 8, INK);
 
         // === Р’РєР»Р°РґРєРё (5 С€С‚СѓРє, СѓРјРµРЅСЊС€РµРЅРЅР°СЏ С€РёСЂРёРЅР°) ===
@@ -88,13 +89,13 @@ public class ProgressionScreen extends Screen {
                             x0 + w - 80, y + 2, 0xFF1F7A1F, false);
                 }
                 if (!row.locked()) {
-                    boolean afford = ClientNinjaState.skillPoints >= row.cost();
+                    boolean afford = ClientNinjaStateHolder.get().getSkillPoints() >= row.cost();
                     context.drawText(textRenderer, Text.literal("[+" + row.cost() + "]"),
                             x0 + w - 44, y + 2, afford ? ACCENT : INK_LIGHT, false);
                 } else if (tab == 1) {
                     // Р—Р°Р±Р»РѕРєРёСЂРѕРІР°РЅРЅР°СЏ СЃС‚РёС…РёСЏ -> РєРЅРѕРїРєР° Attune
                     int attuneCost = getAttuneCost();
-                    boolean afford = ClientNinjaState.skillPoints >= attuneCost;
+                    boolean afford = ClientNinjaStateHolder.get().getSkillPoints() >= attuneCost;
                     context.drawText(textRenderer, Text.literal("[Attune " + attuneCost + "]"),
                             x0 + w - 80, y + 2, afford ? ATTUNE_COLOR : INK_LIGHT, false);
                 }
@@ -106,7 +107,7 @@ public class ProgressionScreen extends Screen {
             // === Р”Р Р•Р’Рћ РџР РћРљРђР§РљР: РїРѕРґСЃРєР°Р·РєР° ===
             drawCentered(context, "Skill Tree", x0 + w / 2, y + 10, INK);
             drawCentered(context, "Press [J] to open full tree view", x0 + w / 2, y + 26, INK_LIGHT);
-            drawCentered(context, "Unlocked nodes: " + ClientNinjaState.unlockedNodes.size(),
+            drawCentered(context, "Unlocked nodes: " + ClientNinjaStateHolder.get().getUnlockedNodes().size(),
                     x0 + w / 2, y + 42, ACCENT);
         }
 
@@ -116,7 +117,7 @@ public class ProgressionScreen extends Screen {
     private int getAttuneCost() {
         int unlockedCount = 0;
         for (ElementType e : ElementType.values()) {
-            if (ClientNinjaState.natureUnlocked.getOrDefault(e.getId(), false)) unlockedCount++;
+            if (ClientNinjaStateHolder.get().getNatureUnlocked().getOrDefault(e.getId(), false)) unlockedCount++;
         }
         return 10 + unlockedCount * 5;
     }
@@ -169,8 +170,8 @@ public class ProgressionScreen extends Screen {
             context.drawText(textRenderer, Text.literal("Click a slot to assign:"), x0 + 10, y, INK, false);
             y += 12;
             for (int i = 0; i < 5; i++) {
-                String id = ClientNinjaState.loadout(loadoutSet)[i];
-                String name = id == null ? "empty" : ClientNinjaState.name(id);
+                String id = ClientNinjaStateHolder.get().getLoadout(loadoutSet)[i];
+                String name = id == null ? "empty" : ClientNinjaStateHolder.get().getName(id);
                 context.drawText(textRenderer, Text.literal((i + 1) + ": " + name), x0 + 10, y + 2, INK, false);
                 y += 14;
             }
@@ -178,11 +179,11 @@ public class ProgressionScreen extends Screen {
             context.drawText(textRenderer, Text.literal("Assign to slot " + (assignSlot + 1) + " (Esc cancel):"),
                     x0 + 10, y, ACCENT, false);
             y += 12;
-            List<String> learned = new ArrayList<>(ClientNinjaState.learned);
+            List<String> learned = new ArrayList<>(ClientNinjaStateHolder.get().getLearned());
             java.util.Collections.sort(learned);
             int shown = 0;
             for (int i = listOffset; i < learned.size() && shown < 8; i++, shown++) {
-                context.drawText(textRenderer, Text.literal("- " + ClientNinjaState.name(learned.get(i))),
+                context.drawText(textRenderer, Text.literal("- " + ClientNinjaStateHolder.get().getName(learned.get(i))),
                         x0 + 10, y + 2, INK, false);
                 y += 14;
             }
@@ -199,27 +200,27 @@ public class ProgressionScreen extends Screen {
         List<Row> rows = new ArrayList<>();
         if (tab == 0) {
             for (StatType s : StatType.values()) {
-                int lvl = ClientNinjaState.statLevels.getOrDefault(s.getId(), 0);
-                int xp  = ClientNinjaState.statXp.getOrDefault(s.getId(), 0);
+                int lvl = ClientNinjaStateHolder.get().getStatLevels().getOrDefault(s.getId(), 0);
+                int xp  = ClientNinjaStateHolder.get().getStatXp().getOrDefault(s.getId(), 0);
                 rows.add(new Row(s.getId(), "stat", s.getId(), lvl, xp,
                         NinjaFormula.xpToNextLevel(lvl), NinjaFormula.spCostForLevel(lvl)));
             }
             rows.add(new Row("reserve", "reserve", "reserve",
-                    ClientNinjaState.reserveLevel, ClientNinjaState.reserveXp,
-                    NinjaFormula.xpToNextLevel(ClientNinjaState.reserveLevel),
-                    NinjaFormula.spCostForLevel(ClientNinjaState.reserveLevel)));
+                    ClientNinjaStateHolder.get().getReserveLevel(), ClientNinjaStateHolder.get().getReserveXp(),
+                    NinjaFormula.xpToNextLevel(ClientNinjaStateHolder.get().getReserveLevel()),
+                    NinjaFormula.spCostForLevel(ClientNinjaStateHolder.get().getReserveLevel())));
         } else if (tab == 1) {
             for (ElementType e : ElementType.values()) {
-                int lvl = ClientNinjaState.natureLevels.getOrDefault(e.getId(), 0);
-                int xp  = ClientNinjaState.natureXp.getOrDefault(e.getId(), 0);
-                boolean unlocked = ClientNinjaState.natureUnlocked.getOrDefault(e.getId(), false);
+                int lvl = ClientNinjaStateHolder.get().getNatureLevels().getOrDefault(e.getId(), 0);
+                int xp  = ClientNinjaStateHolder.get().getNatureXp().getOrDefault(e.getId(), 0);
+                boolean unlocked = ClientNinjaStateHolder.get().getNatureUnlocked().getOrDefault(e.getId(), false);
                 rows.add(new Row(e.getId(), "nature", e.getId(), lvl, xp,
                         NinjaFormula.xpToNextLevel(lvl), NinjaFormula.spCostForLevel(lvl), !unlocked));
             }
         } else if (tab == 2) {
-            rows.add(new Row("HP (max x8)",   "body", "hp",    ClientNinjaState.hpLevel,    -1, 0, NinjaFormula.bodySpCost()));
-            rows.add(new Row("Speed (max x2)","body", "speed", ClientNinjaState.speedLevel, -1, 0, NinjaFormula.bodySpCost()));
-            rows.add(new Row("Jump (max x2)", "body", "jump",  ClientNinjaState.jumpLevel,  -1, 0, NinjaFormula.bodySpCost()));
+            rows.add(new Row("HP (max x8)",   "body", "hp",    ClientNinjaStateHolder.get().getHpLevel(),    -1, 0, NinjaFormula.bodySpCost()));
+            rows.add(new Row("Speed (max x2)","body", "speed", ClientNinjaStateHolder.get().getSpeedLevel(), -1, 0, NinjaFormula.bodySpCost()));
+            rows.add(new Row("Jump (max x2)", "body", "jump",  ClientNinjaStateHolder.get().getJumpLevel(),  -1, 0, NinjaFormula.bodySpCost()));
         }
         return rows;
     }
@@ -254,7 +255,7 @@ public class ProgressionScreen extends Screen {
                 }
             } else {
                 y += 12;
-                List<String> learned = new ArrayList<>(ClientNinjaState.learned);
+                List<String> learned = new ArrayList<>(ClientNinjaStateHolder.get().getLearned());
                 java.util.Collections.sort(learned);
                 int shown = 0;
                 for (int i = listOffset; i < learned.size() && shown < 8; i++, shown++) {
@@ -297,7 +298,7 @@ public class ProgressionScreen extends Screen {
             // РљРЅРѕРїРєР° Attune РґР»СЏ Р·Р°Р±Р»РѕРєРёСЂРѕРІР°РЅРЅС‹С… СЃС‚РёС…РёР№
             if (row.locked() && tab == 1 && inRect(mouseX, mouseY, x0 + w - 80, y, 76, 12)) {
                 int attuneCost = getAttuneCost();
-                if (ClientNinjaState.skillPoints >= attuneCost) {
+                if (ClientNinjaStateHolder.get().getSkillPoints() >= attuneCost) {
                     ElementType element = null;
                     for (ElementType e : ElementType.values()) {
                         if (e.getId().equals(row.id())) { element = e; break; }

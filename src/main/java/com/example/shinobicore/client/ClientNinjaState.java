@@ -1,120 +1,59 @@
 package com.example.shinobicore.client;
 
-import com.example.shinobicore.ShinobiCore;
-import io.netty.buffer.Unpooled;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
-import net.minecraft.util.Identifier;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
+/**
+ * COMPATIBILITY DELEGATE.
+ * All access goes through ClientNinjaStateHolder.
+ * This class will be removed in a future sprint.
+ * DO NOT add new fields here.
+ */
 public class ClientNinjaState {
-    public static final String[] loadoutA = new String[5];
-    public static final String[] loadoutB = new String[5];
-    public static int activeA = 0;
-    public static int activeB = 0;
+    private static final ClientNinjaStateHolder H = ClientNinjaStateHolder.get();
 
-    public static final Map<String, String> catalog = new HashMap<>();
-    public static final Set<String> learned = new HashSet<>();
+    // === Fields via getters/setters ===
+    public static boolean chakraMode() { return H.isChakraMode(); }
+    public static void setChakraMode(boolean v) { H.setChakraMode(v); }
+    public static boolean dangerSense() { return H.isDangerSense(); }
+    public static void setDangerSense(boolean v) { H.setDangerSense(v); }
+    public static boolean sensoryEnabled() { return H.isSensoryEnabled(); }
+    public static void setSensoryEnabled(boolean v) { H.setSensoryEnabled(v); }
+    public static boolean meditating() { return H.isMeditating(); }
+    public static void setMeditating(boolean v) { H.setMeditating(v); }
+    public static String kenjutsuStance() { return H.getKenjutsuStance(); }
+    public static void setKenjutsuStance(String v) { H.setKenjutsuStance(v); }
+    public static boolean deflectHeld() { return H.isDeflectHeld(); }
+    public static void setDeflectHeld(boolean v) { H.setDeflectHeld(v); }
+    public static String clanId() { return H.getClanId(); }
+    public static void setClanId(String v) { H.setClanId(v); }
+    public static String affinityId() { return H.getAffinityId(); }
+    public static void setAffinityId(String v) { H.setAffinityId(v); }
+    public static int skillPoints() { return H.getSkillPoints(); }
+    public static void setSkillPoints(int v) { H.setSkillPoints(v); }
+    public static int reserveLevel() { return H.getReserveLevel(); }
+    public static void setReserveLevel(int v) { H.setReserveLevel(v); }
+    public static int reserveXp() { return H.getReserveXp(); }
+    public static void setReserveXp(int v) { H.setReserveXp(v); }
+    public static int hpLevel() { return H.getHpLevel(); }
+    public static void setHpLevel(int v) { H.setHpLevel(v); }
+    public static int speedLevel() { return H.getSpeedLevel(); }
+    public static void setSpeedLevel(int v) { H.setSpeedLevel(v); }
+    public static int jumpLevel() { return H.getJumpLevel(); }
+    public static void setJumpLevel(int v) { H.setJumpLevel(v); }
 
-    public static int skillPoints = 0;
-    public static int reserveLevel = 1;
-    public static int reserveXp = 0;
-    public static final Map<String, Integer> statLevels = new HashMap<>();
-    public static final Map<String, Integer> statXp = new HashMap<>();
-    public static final Map<String, Integer> natureLevels = new HashMap<>();
-    public static final Map<String, Integer> natureXp = new HashMap<>();
-    public static final Map<String, Boolean> natureUnlocked = new HashMap<>();
+    // === Collection access ===
+    public static java.util.Map<String, Integer> statLevels() { return H.getStatLevels(); }
+    public static java.util.Map<String, Integer> statXp() { return H.getStatXp(); }
+    public static java.util.Map<String, Integer> natureLevels() { return H.getNatureLevels(); }
+    public static java.util.Map<String, Integer> natureXp() { return H.getNatureXp(); }
+    public static java.util.Map<String, Boolean> natureUnlocked() { return H.getNatureUnlocked(); }
+    public static java.util.Map<String, String> catalog() { return H.getCatalog(); }
+    public static java.util.Set<String> learned() { return H.getLearned(); }
+    public static java.util.Set<String> unlockedNodes() { return H.getUnlockedNodes(); }
 
-    public static int hpLevel = 0;
-    public static int speedLevel = 0;
-    public static int jumpLevel = 0;
-    public static boolean chakraMode = false;
-    public static boolean dangerSense = false;
-    public static boolean sensoryEnabled = true;
-    public static boolean meditating = false;
-    public static String kenjutsuStance = "aggressive";
-    public static boolean deflectHeld = false;
-    public static String clanId = "none";
-    public static String affinityId = null;
-    public static final Set<String> unlockedNodes = new HashSet<>();
-
-    public static String[] loadout(int set) { return set == 0 ? loadoutA : loadoutB; }
-    public static int active(int set) { return set == 0 ? activeA : activeB; }
-    public static String activeJutsuId(int set) { return loadout(set)[active(set)]; }
-
-    public static String name(String id) {
-        if (id == null) return "";
-        return catalog.getOrDefault(id, id);
-    }
-
-    public static void cycleLoadout(int set) {
-        if (set == 0) {
-            int start = activeA;
-            do {
-                activeA = (activeA + 1) % 5;
-                if (loadoutA[activeA] != null) break;
-            } while (activeA != start);
-            ShinobiCore.LOGGER.debug("[JUTSU] Cycled slot A to: {} ({})", activeA, activeJutsuId(0));
-        } else {
-            int start = activeB;
-            do {
-                activeB = (activeB + 1) % 5;
-                if (loadoutB[activeB] != null) break;
-            } while (activeB != start);
-            ShinobiCore.LOGGER.debug("[JUTSU] Cycled slot B to: {} ({})", activeB, activeJutsuId(1));
-        }
-    }
-
-    private static long lastCastMsA = 0;
-    private static long lastCastMsB = 0;
-
-    public static void castActiveJutsu(int set) {
-        long nowMs = System.currentTimeMillis();
-        if (set == 0) { if (nowMs - lastCastMsA < 400) return; lastCastMsA = nowMs; }
-        else { if (nowMs - lastCastMsB < 400) return; lastCastMsB = nowMs; }
-        String jutsuId = activeJutsuId(set);
-        int slotIndex = active(set);
-        
-        ShinobiCore.LOGGER.debug("[CAST-CLIENT] === CAST JUTSU ===");
-        ShinobiCore.LOGGER.debug("[CAST-CLIENT] Set: {} ({}), Slot index: {}", 
-            set, set == 0 ? "A" : "B", slotIndex);
-        ShinobiCore.LOGGER.debug("[CAST-CLIENT] Jutsu ID: {}", jutsuId);
-        ShinobiCore.LOGGER.debug("[CAST-CLIENT] Loadout A: [{}, {}, {}, {}, {}]", 
-            loadoutA[0], loadoutA[1], loadoutA[2], loadoutA[3], loadoutA[4]);
-        ShinobiCore.LOGGER.debug("[CAST-CLIENT] Loadout B: [{}, {}, {}, {}, {}]", 
-            loadoutB[0], loadoutB[1], loadoutB[2], loadoutB[3], loadoutB[4]);
-        ShinobiCore.LOGGER.debug("[CAST-CLIENT] Active A: {}, Active B: {}", activeA, activeB);
-        
-        if (jutsuId == null) {
-            ShinobiCore.LOGGER.debug("[CAST-CLIENT] ✗ No jutsu in slot, aborting");
-            return;
-        }
-        
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client.player == null) {
-            ShinobiCore.LOGGER.debug("[CAST-CLIENT] ✗ Player is null, aborting");
-            return;
-        }
-        if (client.getNetworkHandler() == null) {
-            ShinobiCore.LOGGER.debug("[CAST-CLIENT] ✗ NetworkHandler is null, aborting");
-            return;
-        }
-        
-        ShinobiCore.LOGGER.debug("[CAST-CLIENT] ✓ Sending packet: cast_slot");
-        ShinobiCore.LOGGER.debug("[CAST-CLIENT]   Packet data: set={}, slot={}", set, slotIndex);
-        
-        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        buf.writeInt(set);
-        buf.writeInt(slotIndex);
-        
-        client.getNetworkHandler().sendPacket(new CustomPayloadC2SPacket(
-            new Identifier("shinobicore", "cast_slot"), buf));
-        
-        ShinobiCore.LOGGER.debug("[CAST-CLIENT] ✓ Packet sent successfully");
-    }
+    // === Methods ===
+    public static String[] loadout(int set) { return H.getLoadout(set); }
+    public static int active(int set) { return H.getActive(set); }
+    public static String activeJutsuId(int set) { return H.getActiveJutsuId(set); }
+    public static String name(String id) { return H.getName(id); }
+    public static void cycleLoadout(int set) { H.cycleLoadout(set); }
+    public static void castActiveJutsu(int set) { H.castActiveJutsu(set); }
 }

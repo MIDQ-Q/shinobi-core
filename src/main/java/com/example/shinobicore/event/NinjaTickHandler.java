@@ -27,6 +27,11 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import java.util.UUID;
 import com.example.shinobicore.jutsu.JutsuLogger;
+import com.example.shinobicore.event.tick.ChakraRegenService;
+import com.example.shinobicore.event.tick.FatigueDecayService;
+import com.example.shinobicore.event.tick.MeditationService;
+import com.example.shinobicore.event.tick.ChakraModeDrainService;
+import com.example.shinobicore.event.tick.SpeedModifierService;
 
 public class NinjaTickHandler {
     private static int tickCounter = 0;

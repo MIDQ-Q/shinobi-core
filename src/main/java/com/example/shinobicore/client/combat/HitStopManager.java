@@ -1,7 +1,6 @@
 package com.example.shinobicore.client.combat;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import com.example.shinobicore.util.TimedCache;
 
 /**
  * Hit-Stop: freeze-frame on hit for combat feel.
@@ -9,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * This is NOT stun - just animation pause for impact weight.
  */
 public class HitStopManager {
-    private static final Map<Integer, Long> FROZEN = new ConcurrentHashMap<>();
+    private static final TimedCache<Integer, Long> FROZEN = new TimedCache<>(500);
 
     public static void freeze(int entityId, long ms) {
         long until = System.currentTimeMillis() + ms;
@@ -22,14 +21,18 @@ public class HitStopManager {
     public static boolean isFrozen(int entityId) {
         Long until = FROZEN.get(entityId);
         if (until == null) return false;
-        if (System.currentTimeMillis() >= until) {
-            FROZEN.remove(entityId);
-            return false;
-        }
-        return true;
+        return System.currentTimeMillis() < until;
     }
 
     public static void clear() {
         FROZEN.clear();
+    }
+
+    public static int size() {
+        return FROZEN.size();
+    }
+
+    public static void cleanup() {
+        FROZEN.cleanup();
     }
 }

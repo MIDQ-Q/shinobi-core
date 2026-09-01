@@ -5,14 +5,13 @@ import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.math.MathHelper;
-import java.util.HashMap;
-import java.util.Map;
+import com.example.shinobicore.util.TimedCache;
 import java.util.UUID;
 
 public class LandingAnimations {
-    private static final Map<UUID, Long> LANDINGS = new HashMap<>();
-    private static final Map<UUID, Boolean> PREV_GROUND = new HashMap<>();
-    private static final Map<UUID, Float> LAST_FALL_VEL = new HashMap<>();
+    private static final TimedCache<UUID, Long> LANDINGS = new TimedCache<>(500);
+    private static final TimedCache<UUID, Boolean> PREV_GROUND = new TimedCache<>(30000);
+    private static final TimedCache<UUID, Float> LAST_FALL_VEL = new TimedCache<>(30000);
 
     public static void register() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {

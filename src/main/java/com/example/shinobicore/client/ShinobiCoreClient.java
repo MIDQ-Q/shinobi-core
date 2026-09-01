@@ -33,6 +33,8 @@ import com.example.shinobicore.client.HandSignsHudRenderer;
 import com.example.shinobicore.ShinobiCore;
 import com.example.shinobicore.client.combat.TaijutsuAnimations;
 import com.example.shinobicore.client.combat.HitStopManager;
+import com.example.shinobicore.core.event.ClientEventBus;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 public class ShinobiCoreClient implements ClientModInitializer {
 
     @Override
@@ -73,7 +75,7 @@ public class ShinobiCoreClient implements ClientModInitializer {
                 ChakraHudRenderer.maxChakra = packet.maxChakra();
                 ChakraHudRenderer.fatigue = packet.fatigue();
                 ChakraHudRenderer.exhausted = packet.exhausted();
-                ClientNinjaState.meditating = packet.meditating();
+                ClientNinjaStateHolder.get().setMeditating(packet.meditating());
             });
         });
 
@@ -82,8 +84,8 @@ public class ShinobiCoreClient implements ClientModInitializer {
             int n = buf.readInt();
             for (int i = 0; i < n; i++) cat.put(buf.readString(), buf.readString());
             client.execute(() -> {
-                ClientNinjaState.catalog.clear();
-                ClientNinjaState.catalog.putAll(cat);
+                ClientNinjaStateHolder.get().getCatalog().clear();
+                ClientNinjaStateHolder.get().getCatalog().putAll(cat);
             });
         });
 
@@ -96,10 +98,10 @@ public class ShinobiCoreClient implements ClientModInitializer {
             int lc = buf.readInt();
             for (int i = 0; i < lc; i++) learned.add(buf.readString());
             client.execute(() -> {
-                ClientNinjaState.activeA = aA; ClientNinjaState.activeB = aB;
-                for (int i = 0; i < 5; i++) { ClientNinjaState.loadoutA[i] = la[i]; ClientNinjaState.loadoutB[i] = lb[i]; }
-                ClientNinjaState.learned.clear();
-                ClientNinjaState.learned.addAll(learned);
+                ClientNinjaStateHolder.get().setActiveA(aA); ClientNinjaStateHolder.get().setActiveB(aB);
+                for (int i = 0; i < 5; i++) { ClientNinjaStateHolder.get().getLoadoutA()[i] = la[i]; ClientNinjaStateHolder.get().getLoadoutB()[i] = lb[i]; }
+                ClientNinjaStateHolder.get().getLearned().clear();
+                ClientNinjaStateHolder.get().getLearned().addAll(learned);
             });
         });
 
@@ -123,15 +125,15 @@ public class ShinobiCoreClient implements ClientModInitializer {
             for (ElementType e : ElementType.values()) nu.put(e.getId(), buf.readBoolean());
         boolean sen = buf.readBoolean();
             client.execute(() -> {
-                ClientNinjaState.skillPoints = sp;
-                ClientNinjaState.reserveLevel = resLvl;
-                ClientNinjaState.reserveXp = resXp;
-                ClientNinjaState.statLevels.clear(); ClientNinjaState.statLevels.putAll(sl);
-                ClientNinjaState.statXp.clear(); ClientNinjaState.statXp.putAll(sx);
-                ClientNinjaState.natureLevels.clear(); ClientNinjaState.natureLevels.putAll(nl);
-                ClientNinjaState.natureXp.clear(); ClientNinjaState.natureXp.putAll(nx);
-                ClientNinjaState.natureUnlocked.clear(); ClientNinjaState.natureUnlocked.putAll(nu);
-                ClientNinjaState.sensoryEnabled = sen;
+                ClientNinjaStateHolder.get().setSkillPoints(sp);
+                ClientNinjaStateHolder.get().setReserveLevel(resLvl);
+                ClientNinjaStateHolder.get().setReserveXp(resXp);
+                ClientNinjaStateHolder.get().getStatLevels().clear(); ClientNinjaStateHolder.get().getStatLevels().putAll(sl);
+                ClientNinjaStateHolder.get().getStatXp().clear(); ClientNinjaStateHolder.get().getStatXp().putAll(sx);
+                ClientNinjaStateHolder.get().getNatureLevels().clear(); ClientNinjaStateHolder.get().getNatureLevels().putAll(nl);
+                ClientNinjaStateHolder.get().getNatureXp().clear(); ClientNinjaStateHolder.get().getNatureXp().putAll(nx);
+                ClientNinjaStateHolder.get().getNatureUnlocked().clear(); ClientNinjaStateHolder.get().getNatureUnlocked().putAll(nu);
+                ClientNinjaStateHolder.get().setSensoryEnabled(sen);
             });
         });
 
@@ -139,12 +141,12 @@ public class ShinobiCoreClient implements ClientModInitializer {
             int hp = buf.readInt(); int speed = buf.readInt(); int jump = buf.readInt();
             boolean chakra = buf.readBoolean(); String clan = buf.readString(); String affinity = buf.readString();
             client.execute(() -> {
-                ClientNinjaState.hpLevel = hp;
-                ClientNinjaState.speedLevel = speed;
-                ClientNinjaState.jumpLevel = jump;
-                ClientNinjaState.chakraMode = chakra;
-                ClientNinjaState.clanId = clan.isEmpty() ? "none" : clan;
-                ClientNinjaState.affinityId = affinity.isEmpty() ? null : affinity;
+                ClientNinjaStateHolder.get().setHpLevel(hp);
+                ClientNinjaStateHolder.get().setSpeedLevel(speed);
+                ClientNinjaStateHolder.get().setJumpLevel(jump);
+                ClientNinjaStateHolder.get().setChakraMode(chakra);
+                ClientNinjaStateHolder.get().setClanId(clan.isEmpty() ? "none" : clan);
+                ClientNinjaStateHolder.get().setAffinityId(affinity.isEmpty() ? null : affinity);
             });
         });
 
@@ -153,14 +155,14 @@ public class ShinobiCoreClient implements ClientModInitializer {
             Set<String> nodes = new HashSet<>();
             for (int i = 0; i < count; i++) nodes.add(buf.readString());
             client.execute(() -> {
-                ClientNinjaState.unlockedNodes.clear();
-                ClientNinjaState.unlockedNodes.addAll(nodes);
+                ClientNinjaStateHolder.get().getUnlockedNodes().clear();
+                ClientNinjaStateHolder.get().getUnlockedNodes().addAll(nodes);
             });
         });
 
         ClientPlayNetworking.registerGlobalReceiver(ModPackets.DANGER_SYNC_ID, (client, handler, buf, responseSender) -> {
             boolean danger = buf.readBoolean();
-            client.execute(() -> ClientNinjaState.dangerSense = danger);
+            client.execute(() -> ClientNinjaStateHolder.get().setDangerSense(danger));
         });
 
         ClientPlayNetworking.registerGlobalReceiver(ModPackets.CAST_FX_ID, (client, handler, buf, responseSender) -> {
@@ -181,12 +183,21 @@ public class ShinobiCoreClient implements ClientModInitializer {
             client.execute(() -> HitStopManager.freeze(entityId, durationMs));
         });
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
+            ClientEventBus.clearAll();
+            // Phase 2: Clean rate limiter
+            if (client.player != null) {
+                com.example.shinobicore.network.PacketRateLimiter.removePlayer(client.player.getUuid());
+            }
             IdlePoseSystem.cleanupAll();
-            com.example.shinobicore.client.combat.TaijutsuAnimations.cleanup(client.player.getUuid());
-            com.example.shinobicore.client.combat.KenjutsuAnimations.cleanup(client.player.getUuid());
+            com.example.shinobicore.client.combat.TaijutsuAnimations.cleanupAll();
+            com.example.shinobicore.client.combat.KenjutsuAnimations.cleanupAll();
+            com.example.shinobicore.client.combat.ChakraBurstAnimations.cleanupAll();
             CastingClientState.clear();
             HitStopManager.clear();
             HandSignsClientState.clear();
+            RasenganClientState.reset();
+            com.example.shinobicore.client.combat.TaichiComboVariants.cleanupAll();
+            com.example.shinobicore.client.combat.ThrowAnimations.cleanupAll();
         });
                 // === PHASE5 HAND SIGNS ===
         ClientPlayNetworking.registerGlobalReceiver(ModPackets.CAST_START_ID, (client, handler, buf, responseSender) -> {

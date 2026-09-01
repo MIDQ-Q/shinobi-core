@@ -9,6 +9,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.particle.ParticleTypes;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 
 public class DodgeAction implements ParkourAction {
     public static final String ID = "dodge";
@@ -59,7 +60,7 @@ public class DodgeAction implements ParkourAction {
             return false;
         }
         
-        if (!ClientNinjaState.chakraMode) return false;
+        if (!ClientNinjaStateHolder.get().isChakraMode()) return false;
         if (ChakraHudRenderer.currentChakra <= 0) return false;
         if (ChakraHudRenderer.exhausted) return false;
         

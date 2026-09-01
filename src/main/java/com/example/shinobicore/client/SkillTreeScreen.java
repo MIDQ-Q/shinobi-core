@@ -10,6 +10,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import java.util.*;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 
 public class SkillTreeScreen extends Screen {
 
@@ -44,7 +45,7 @@ public class SkillTreeScreen extends Screen {
 
     private List<String> branchOrder() {
         List<String> order = new ArrayList<>(Arrays.asList(BASE_ORDER));
-        String clan = ClientNinjaState.clanId;
+        String clan = ClientNinjaStateHolder.get().getClanId();
         if (clan != null && !clan.equals("none") && SkillTreeRegistry.getBranch(clan) != null) {
             order.add(clan);
         }
@@ -104,8 +105,8 @@ public class SkillTreeScreen extends Screen {
                 SkillTreeNode p = SkillTreeRegistry.get(req);
                 if (p == null || !SkillTreeRegistry.isVisibleClient(p)) continue;
                 int[] pw = worldPos(p);
-                boolean done = ClientNinjaState.unlockedNodes.contains(n.id())
-                        && ClientNinjaState.unlockedNodes.contains(req);
+                boolean done = ClientNinjaStateHolder.get().getUnlockedNodes().contains(n.id())
+                        && ClientNinjaStateHolder.get().getUnlockedNodes().contains(req);
                 int color = done ? LINE_DONE : LINE_LOCK;
                 int px = sx(pw[0]), py = sy(pw[1]);
                 int cx2 = sx(c[0]), cy2 = sy(c[1]);
@@ -129,7 +130,7 @@ public class SkillTreeScreen extends Screen {
             int x = sx(w[0]), y = sy(w[1]);
             if (x < -40 || x > width + 40 || y < -40 || y > height + 40) continue;
 
-            boolean unlocked = ClientNinjaState.unlockedNodes.contains(n.id());
+            boolean unlocked = ClientNinjaStateHolder.get().getUnlockedNodes().contains(n.id());
             boolean available = canUnlock(n);
             BranchDef def = SkillTreeRegistry.getBranch(n.branch());
             int bc = def != null ? (0xFF000000 | (def.color() & 0xFFFFFF)) : 0xFFAAAAAA;
@@ -171,8 +172,8 @@ public class SkillTreeScreen extends Screen {
         // === Р’Р•Р РҐРќРЇРЇ РџР›РђРЁРљРђ (РІР°Р№Р± РќР°СЂСѓС‚Рѕ) ===
         ctx.fill(0, 0, width, 22, 0xCC000000);
         ctx.fill(0, 22, width, 23, 0xFFB4470F);
-        drawCentered(ctx, "SHINOBI PATH  |  SP: " + ClientNinjaState.skillPoints
-                + "  |  Clan: " + ClientNinjaState.clanId + "  |  ESC - close",
+        drawCentered(ctx, "SHINOBI PATH  |  SP: " + ClientNinjaStateHolder.get().getSkillPoints()
+                + "  |  Clan: " + ClientNinjaStateHolder.get().getClanId() + "  |  ESC - close",
                 width / 2, 7, 0xFFFFAA00);
 
         if (hovered != null) renderTooltip(ctx, hovered, mx, my);
@@ -224,7 +225,7 @@ public class SkillTreeScreen extends Screen {
     }
 
     private boolean isBranchVisible(BranchDef b) {
-        if (b.clan() != null && !b.clan().equals(ClientNinjaState.clanId)) return false;
+        if (b.clan() != null && !b.clan().equals(ClientNinjaStateHolder.get().getClanId())) return false;
         if (b.hidden()) {
             for (SkillTreeNode n : SkillTreeRegistry.getAll()) {
                 if (n.branch().equals(b.id()) && SkillTreeRegistry.isVisibleClient(n)) return true;
@@ -235,10 +236,10 @@ public class SkillTreeScreen extends Screen {
     }
 
     private boolean canUnlock(SkillTreeNode node) {
-        if (ClientNinjaState.unlockedNodes.contains(node.id())) return false;
-        if (ClientNinjaState.skillPoints < node.spCost()) return false;
+        if (ClientNinjaStateHolder.get().getUnlockedNodes().contains(node.id())) return false;
+        if (ClientNinjaStateHolder.get().getSkillPoints() < node.spCost()) return false;
         for (String r : node.requires()) {
-            if (!ClientNinjaState.unlockedNodes.contains(r)) return false;
+            if (!ClientNinjaStateHolder.get().getUnlockedNodes().contains(r)) return false;
         }
         return true;
     }
@@ -248,11 +249,11 @@ public class SkillTreeScreen extends Screen {
         List<String> lines = new ArrayList<>();
         lines.add(node.displayName());
         lines.add("Branch: " + node.branch());
-        if (node.jutsuId() != null) lines.add("Teaches: " + ClientNinjaState.name(node.jutsuId()));
+        if (node.jutsuId() != null) lines.add("Teaches: " + ClientNinjaStateHolder.get().getName(node.jutsuId()));
         if (node.description() != null && !node.description().isEmpty()) lines.add(node.description());
         lines.add("SP: " + node.spCost());
         if (!node.requires().isEmpty()) lines.add("Requires: " + String.join(", ", node.requires()));
-        boolean unlocked = ClientNinjaState.unlockedNodes.contains(node.id());
+        boolean unlocked = ClientNinjaStateHolder.get().getUnlockedNodes().contains(node.id());
         boolean available = canUnlock(node);
         if (unlocked) lines.add("[UNLOCKED]");
         else if (available) lines.add("[Click to unlock]");

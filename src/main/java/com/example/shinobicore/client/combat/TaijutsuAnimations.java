@@ -4,13 +4,12 @@ import com.example.shinobicore.ShinobiCore;
 import com.example.shinobicore.combat.TaijutsuStyle;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.example.shinobicore.util.TimedCache;
 import java.util.UUID;
 
 public class TaijutsuAnimations {
 
-    private static final Map<UUID, AttackAnimationState> activeAnimations = new HashMap<>();
+    private static final TimedCache<UUID, AttackAnimationState> activeAnimations = new TimedCache<>(1000);
 
     public static class AttackAnimationState {
         public final int comboStep;
@@ -109,7 +108,7 @@ public class TaijutsuAnimations {
         boolean result = getAnimationState(player) != null;
         return result;
     }
-    private static final Map<UUID, KickAnimationState> activeKicks = new HashMap<>();
+    private static final TimedCache<UUID, KickAnimationState> activeKicks = new TimedCache<>(1000);
 
     public static class KickAnimationState {
         public final TaijutsuStyle style;
@@ -178,5 +177,14 @@ public class TaijutsuAnimations {
     public static void cleanup(UUID id) {
         activeAnimations.remove(id);
         activeKicks.remove(id);
+    }
+
+    public static int size() {
+        return activeAnimations.size() + activeKicks.size();
+    }
+
+    public static void cleanupAll() {
+        activeAnimations.clear();
+        activeKicks.clear();
     }
 }

@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.Vec3d;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 
 public class ChakraAuraVisual {
     private static int tickCounter = 0;
@@ -16,7 +17,7 @@ public class ChakraAuraVisual {
         if (client.world == null || client.player == null) return;
         tickCounter++;
 
-        boolean chakraOn = ClientNinjaState.chakraMode && ChakraHudRenderer.currentChakra > 0;
+        boolean chakraOn = ClientNinjaStateHolder.get().isChakraMode() && ChakraHudRenderer.currentChakra > 0;
         if (!chakraOn) return;
 
         float chakraRatio = ChakraHudRenderer.maxChakra > 0

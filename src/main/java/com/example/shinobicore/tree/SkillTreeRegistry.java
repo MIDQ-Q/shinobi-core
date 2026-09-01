@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 public class SkillTreeRegistry {
     private static final Map<String, SkillTreeNode> NODES = new LinkedHashMap<>();
     private static final Map<String, BranchDef> BRANCHES = new LinkedHashMap<>();
@@ -84,10 +85,10 @@ public class SkillTreeRegistry {
     public static boolean isVisibleClient(SkillTreeNode node) {
         BranchDef branch = BRANCHES.get(node.branch());
         if (branch != null && branch.clan() != null) {
-            if (!branch.clan().equals(ClientNinjaState.clanId)) return false;
+            if (!branch.clan().equals(ClientNinjaStateHolder.get().getClanId())) return false;
         }
         if (node.hasClanRestriction()) {
-            if (!node.clanRequired().equals(ClientNinjaState.clanId)) return false;
+            if (!node.clanRequired().equals(ClientNinjaStateHolder.get().getClanId())) return false;
         }
         if (branch != null && branch.hidden()) {
             if (!checkVisibilityClient(node)) return false;
@@ -116,23 +117,23 @@ public class SkillTreeRegistry {
         if (node.visType() == null) return true;
         return switch (node.visType()) {
             case "stat_level" -> {
-                Integer lvl = ClientNinjaState.statLevels.get(node.visKey());
+                Integer lvl = ClientNinjaStateHolder.get().getStatLevels().get(node.visKey());
                 yield lvl != null && lvl >= node.visValue();
             }
             case "nature_level" -> {
-                Integer lvl = ClientNinjaState.natureLevels.get(node.visKey());
+                Integer lvl = ClientNinjaStateHolder.get().getNatureLevels().get(node.visKey());
                 yield lvl != null && lvl >= node.visValue();
             }
             case "nature_unlocked" -> {
-                Boolean u = ClientNinjaState.natureUnlocked.get(node.visKey());
+                Boolean u = ClientNinjaStateHolder.get().getNatureUnlocked().get(node.visKey());
                 yield u != null && u;
             }
-            case "node_unlocked" -> ClientNinjaState.unlockedNodes.contains(node.visKey());
-            case "clan" -> node.visKey().equals(ClientNinjaState.clanId);
-            case "reserve_level" -> ClientNinjaState.reserveLevel >= node.visValue();
+            case "node_unlocked" -> ClientNinjaStateHolder.get().getUnlockedNodes().contains(node.visKey());
+            case "clan" -> node.visKey().equals(ClientNinjaStateHolder.get().getClanId());
+            case "reserve_level" -> ClientNinjaStateHolder.get().getReserveLevel() >= node.visValue();
             case "two_natures_50" -> {
                 int cnt = 0;
-                for (Integer lvl : ClientNinjaState.natureLevels.values()) if (lvl >= node.visValue()) cnt++;
+                for (Integer lvl : ClientNinjaStateHolder.get().getNatureLevels().values()) if (lvl >= node.visValue()) cnt++;
                 yield cnt >= 2;
             }
             default -> true;

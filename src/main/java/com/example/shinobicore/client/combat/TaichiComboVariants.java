@@ -7,6 +7,7 @@ import net.minecraft.util.math.MathHelper;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import com.example.shinobicore.util.TimedCache;
 import java.util.UUID;
 
 /**
@@ -105,5 +106,10 @@ public class TaichiComboVariants {
         Long last = LAST_ATTACK.get(p.getUuid());
         if (last == null) return false;
         return System.currentTimeMillis() - last < 450;
+    }
+
+    public static void cleanupAll() {
+        VARIANTS.clear();
+        LAST_ATTACK.clear();
     }
 }

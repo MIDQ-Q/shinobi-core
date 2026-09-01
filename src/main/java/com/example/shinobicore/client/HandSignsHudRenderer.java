@@ -3,6 +3,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.ColorHelper;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 public class HandSignsHudRenderer {
     public static void render(DrawContext ctx, float tickDelta) {
         MinecraftClient client = MinecraftClient.getInstance();
@@ -10,7 +11,7 @@ public class HandSignsHudRenderer {
         HandSignsClientState.ActiveSigns signs = HandSignsClientState.get(client.player.getId());
         if (signs == null) return;
         float progress = signs.getProgress();
-        String name = ClientNinjaState.name(signs.jutsuId);
+        String name = ClientNinjaStateHolder.get().getName(signs.jutsuId);
         int sw = client.getWindow().getScaledWidth();
         int sh = client.getWindow().getScaledHeight();
         int barW = 120, barH = 6;

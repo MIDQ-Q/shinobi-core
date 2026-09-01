@@ -11,6 +11,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.sound.SoundEvents;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 
 public class AttunementScreen extends Screen {
 
@@ -30,7 +31,7 @@ public class AttunementScreen extends Screen {
         this.element = element;
         this.spCost = spCost;
 
-        int control = ClientNinjaState.statLevels.getOrDefault("control", 0);
+        int control = ClientNinjaStateHolder.get().getStatLevels().getOrDefault("control", 0);
         this.zoneWidth = Math.max(15f, 40f - control * 0.25f);
         this.needleSpeed = 4f + control * 0.04f;
         this.zoneCenter = 30f + (float)(Math.random() * 300.0);

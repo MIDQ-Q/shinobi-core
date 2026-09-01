@@ -3,12 +3,11 @@ package com.example.shinobicore.client.combat;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.util.math.MathHelper;
-import java.util.HashMap;
-import java.util.Map;
+import com.example.shinobicore.util.TimedCache;
 import java.util.UUID;
 
 public class ChakraBurstAnimations {
-    private static final Map<UUID, Long> BURSTS = new HashMap<>();
+    private static final TimedCache<UUID, Long> BURSTS = new TimedCache<>(600);
 
     public static void playBurst(AbstractClientPlayerEntity p) {
         BURSTS.put(p.getUuid(), System.currentTimeMillis());
@@ -28,5 +27,13 @@ public class ChakraBurstAnimations {
         lArm.yaw = 0.3f * s;
         body.pitch = -0.1f * s;
         head.pitch += 0.15f * s;
+    }
+
+    public static int size() {
+        return BURSTS.size();
+    }
+
+    public static void cleanupAll() {
+        BURSTS.clear();
     }
 }

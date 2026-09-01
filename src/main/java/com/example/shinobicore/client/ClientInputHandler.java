@@ -12,6 +12,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 public class ClientInputHandler {
     private static boolean prevMeditatePressed = false;
     private static boolean prevDeflectDown = false;
@@ -21,11 +22,11 @@ public class ClientInputHandler {
     private static void onClientTick(MinecraftClient client) {
         if (client.player == null) return;
         if (KeyBindings.CHAKRA_MODE.wasPressed()) {
-            ClientNinjaState.chakraMode = !ClientNinjaState.chakraMode;
-            if (ClientNinjaState.chakraMode) com.example.shinobicore.client.combat.ChakraBurstAnimations.playBurst(client.player); // PHASE_A_BURST_HOOK
+            ClientNinjaStateHolder.get().setChakraMode(!ClientNinjaStateHolder.get().isChakraMode());
+            if (ClientNinjaStateHolder.get().isChakraMode()) com.example.shinobicore.client.combat.ChakraBurstAnimations.playBurst(client.player); // PHASE_A_BURST_HOOK
             if (client.getNetworkHandler() != null) {
                 PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-                buf.writeBoolean(ClientNinjaState.chakraMode);
+                buf.writeBoolean(ClientNinjaStateHolder.get().isChakraMode());
                 ClientPlayNetworking.send(ModPackets.CHAKRA_MODE_ID, buf);
             }
         }
@@ -53,7 +54,7 @@ public class ClientInputHandler {
                 TaijutsuStyle currentStyle = TaijutsuClientHandler.getCurrentStyle();
                 TaijutsuStyle newStyle;
                 if (currentStyle == TaijutsuStyle.STANDARD) {
-                    int taijutsuLevel = ClientNinjaState.statLevels.getOrDefault("taijutsu", 0);
+                    int taijutsuLevel = ClientNinjaStateHolder.get().getStatLevels().getOrDefault("taijutsu", 0);
                     if (!TaijutsuFormulas.canUseStrongFist(taijutsuLevel)) {
                         client.player.sendMessage(Text.literal("В§cYou need Taijutsu level " +
                                 TaijutsuFormulas.strongFistUnlockLevel() + " to use Strong Fist!"), false);
@@ -73,8 +74,8 @@ public class ClientInputHandler {
             }
         }
         if (KeyBindings.TOGGLE_SENSORY.wasPressed()) {
-            boolean newState = !ClientNinjaState.sensoryEnabled;
-            ClientNinjaState.sensoryEnabled = newState;
+            boolean newState = !ClientNinjaStateHolder.get().isSensoryEnabled();
+            ClientNinjaStateHolder.get().setSensoryEnabled(newState);
             if (client.getNetworkHandler() != null) {
                 PacketByteBuf senBuf = new PacketByteBuf(Unpooled.buffer());
                 senBuf.writeBoolean(newState);
@@ -82,10 +83,10 @@ public class ClientInputHandler {
             }
             client.player.sendMessage(Text.literal(newState ? "В§aSensory: ON" : "В§7Sensory: OFF"), false);
         }
-        if (KeyBindings.CAST_A.wasPressed()) ClientNinjaState.castActiveJutsu(0);
-        if (KeyBindings.CAST_B.wasPressed()) ClientNinjaState.castActiveJutsu(1);
-        if (KeyBindings.CYCLE_A.wasPressed()) ClientNinjaState.cycleLoadout(0);
-        if (KeyBindings.CYCLE_B.wasPressed()) ClientNinjaState.cycleLoadout(1);
+        if (KeyBindings.CAST_A.wasPressed()) ClientNinjaStateHolder.get().castActiveJutsu(0);
+        if (KeyBindings.CAST_B.wasPressed()) ClientNinjaStateHolder.get().castActiveJutsu(1);
+        if (KeyBindings.CYCLE_A.wasPressed()) ClientNinjaStateHolder.get().cycleLoadout(0);
+        if (KeyBindings.CYCLE_B.wasPressed()) ClientNinjaStateHolder.get().cycleLoadout(1);
         if (KeyBindings.PROGRESSION.wasPressed()) client.setScreen(new ProgressionScreen());
         if (KeyBindings.CRAWL.wasPressed()) ShinobiCore.LOGGER.info("[INPUT] CRAWL (N) pressed");
     }

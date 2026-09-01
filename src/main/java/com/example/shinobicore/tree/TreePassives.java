@@ -2,6 +2,7 @@ package com.example.shinobicore.tree;
 
 import com.example.shinobicore.client.ClientNinjaState;
 import com.example.shinobicore.stat.NinjaPlayerData;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 
 public class TreePassives {
 
@@ -30,7 +31,7 @@ public class TreePassives {
 
     public static Bonuses collectClient() {
         Bonuses b = new Bonuses();
-        for (String nodeId : ClientNinjaState.unlockedNodes) apply(b, nodeId);
+        for (String nodeId : ClientNinjaStateHolder.get().getUnlockedNodes()) apply(b, nodeId);
         return b;
     }
 

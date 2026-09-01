@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Hand;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 public class TaijutsuKickHandler {
     private static long kickCooldownEnd = 0;
     public static final long KICK_COOLDOWN_MS = 500;
@@ -26,8 +27,8 @@ public class TaijutsuKickHandler {
             return false;
         }
         TaijutsuStyle style = TaijutsuClientHandler.getCurrentStyle();
-        boolean chakraMode = ClientNinjaState.chakraMode;
-        int taijutsuLevel = ClientNinjaState.statLevels.getOrDefault("taijutsu", 0);
+        boolean chakraMode = ClientNinjaStateHolder.get().isChakraMode();
+        int taijutsuLevel = ClientNinjaStateHolder.get().getStatLevels().getOrDefault("taijutsu", 0);
         ShinobiCore.LOGGER.debug("[KICK] Performing kick: style={}, chakra={}, level={}",
                 style.getId(), chakraMode, taijutsuLevel);
         ShinobiCore.LOGGER.debug("[KICK] Sending packet to server");

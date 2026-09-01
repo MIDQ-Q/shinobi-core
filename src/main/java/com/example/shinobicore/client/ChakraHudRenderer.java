@@ -14,6 +14,7 @@ import net.minecraft.util.math.ColorHelper;
 import com.example.shinobicore.client.RasenganClientState;
 import java.util.ArrayList;
 import java.util.List;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 
 public class ChakraHudRenderer {
 
@@ -70,7 +71,7 @@ public class ChakraHudRenderer {
             y += HEIGHT + SPACING;
         }
 
-        if (ClientNinjaState.chakraMode) {
+        if (ClientNinjaStateHolder.get().isChakraMode()) {
             int alpha = (int) (150 + 105 * Math.sin(System.currentTimeMillis() / 200.0));
             context.drawTextWithShadow(client.textRenderer, Text.literal("CHAKRA MODE"), 10, y,
                 ColorHelper.Argb.getArgb(alpha, 255, 136, 0));
@@ -80,13 +81,13 @@ public class ChakraHudRenderer {
             context.drawTextWithShadow(client.textRenderer, Text.literal("EXHAUSTED"), 10, y, 0xFF3333);
             y += 10;
         }
-        if (ClientNinjaState.unlockedNodes.contains("sen_glow")) {
+        if (ClientNinjaStateHolder.get().getUnlockedNodes().contains("sen_glow")) {
             context.drawTextWithShadow(client.textRenderer,
-                    Text.literal(ClientNinjaState.sensoryEnabled ? "SENSORY ON" : "SENSORY OFF"),
-                    10, y, ClientNinjaState.sensoryEnabled ? 0xFF66DDFF : 0xFF666666);
+                    Text.literal(ClientNinjaStateHolder.get().isSensoryEnabled() ? "SENSORY ON" : "SENSORY OFF"),
+                    10, y, ClientNinjaStateHolder.get().isSensoryEnabled() ? 0xFF66DDFF : 0xFF666666);
             y += 10;
         }
-        if (ClientNinjaState.dangerSense) {
+        if (ClientNinjaStateHolder.get().isDangerSense()) {
             int alpha = (int) (150 + 105 * Math.sin(System.currentTimeMillis() / 150.0));
             context.drawTextWithShadow(client.textRenderer, Text.literal("!! DANGER !!"), 10, y,
                     ColorHelper.Argb.getArgb(alpha, 255, 60, 60));
@@ -136,7 +137,7 @@ public class ChakraHudRenderer {
         context.drawTextWithShadow(client.textRenderer, Text.literal(styleName), 10, y + 10, styleColor);
         y += 12;
         if (client.player.getMainHandStack().getItem() instanceof com.example.shinobicore.item.KatanaItem) {
-            String st = ClientNinjaState.kenjutsuStance;
+            String st = ClientNinjaStateHolder.get().getKenjutsuStance();
             int stColor = st.equals("seigan") ? 0xFF66AAFF : st.equals("iai") ? 0xFFFFAA00 : 0xFFFF5555;
             context.drawTextWithShadow(client.textRenderer, Text.literal("[" + st.toUpperCase() + "]"), 10, y + 10, stColor);
             y += 12;
@@ -219,16 +220,16 @@ public class ChakraHudRenderer {
     }
 
     private static int drawLoadoutLine(DrawContext context, MinecraftClient client, int set, String label, int x, int lineY) {
-        String current = ClientNinjaState.activeJutsuId(set);
-        String name = current == null ? "empty" : ClientNinjaState.name(current);
+        String current = ClientNinjaStateHolder.get().getActiveJutsuId(set);
+        String name = current == null ? "empty" : ClientNinjaStateHolder.get().getName(current);
 
         context.drawTextWithShadow(client.textRenderer, Text.literal("[" + label + "]"), x, lineY, 0xFF8800);
         context.drawTextWithShadow(client.textRenderer, Text.literal(" " + name), x + 14, lineY, 0xFFFFFF);
         lineY += 10;
 
         for (int i = 0; i < 5; i++) {
-            int color = (i == ClientNinjaState.active(set)) ? 0xFF8800
-                : (ClientNinjaState.loadout(set)[i] != null ? 0x55AAFF : 0x555555);
+            int color = (i == ClientNinjaStateHolder.get().getActive(set)) ? 0xFF8800
+                : (ClientNinjaStateHolder.get().getLoadout(set)[i] != null ? 0x55AAFF : 0x555555);
             context.drawTextWithShadow(client.textRenderer, Text.literal("[" + (i + 1) + "]"),
                 x + i * 18, lineY, color);
         }

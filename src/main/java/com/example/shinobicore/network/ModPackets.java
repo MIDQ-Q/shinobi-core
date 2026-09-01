@@ -1,5 +1,12 @@
 package com.example.shinobicore.network;
 
+import com.example.shinobicore.network.handlers.ChakraPacketHandlers;
+import com.example.shinobicore.network.handlers.CombatPacketHandlers;
+import com.example.shinobicore.network.handlers.ProgressionPacketHandlers;
+import com.example.shinobicore.network.handlers.LoadoutPacketHandlers;
+import com.example.shinobicore.network.handlers.MovementPacketHandlers;
+import com.example.shinobicore.network.handlers.SensoryPacketHandlers;
+
 import com.example.shinobicore.ShinobiCore;
 import com.example.shinobicore.combat.MeleeHitDetection;
 import com.example.shinobicore.combat.TaijutsuCombo;
@@ -24,6 +31,8 @@ import com.example.shinobicore.stat.StatType;
 import com.example.shinobicore.stat.NinjaFormula;
 import com.example.shinobicore.tree.TreePassives;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import com.example.shinobicore.network.PacketValidator;
+import com.example.shinobicore.network.PacketRateLimiter;
 public class ModPackets {
     public static final Identifier CHAKRA_SYNC_ID = new Identifier("shinobicore", "chakra_sync");
     public static final Identifier MEDITATE_ID = new Identifier("shinobicore", "meditate");
@@ -59,6 +68,13 @@ public class ModPackets {
     public static final Identifier HIT_STOP_ID = new Identifier("shinobicore", "hit_stop");
     
     public static void register() {
+        // Phase 3.1: Delegate to handler classes
+        ChakraPacketHandlers.register();
+        CombatPacketHandlers.register();
+        ProgressionPacketHandlers.register();
+        LoadoutPacketHandlers.register();
+        MovementPacketHandlers.register();
+        SensoryPacketHandlers.register();
         ServerPlayNetworking.registerGlobalReceiver(MEDITATE_ID, (server, player, handler, buf, responseSender) -> {
             boolean start = buf.readBoolean();
             server.execute(() -> ((NinjaDataHolder) player).shinobicore_getData().setMeditating(start));
@@ -166,8 +182,25 @@ public class ModPackets {
 
         ServerPlayNetworking.registerGlobalReceiver(TAIJUTSU_ATTACK_ID, (server, player, handler, buf, responseSender) -> {
             // === ИСПРАВЛЕНО: серверная валидация комбо (анти-чит) ===
-            int clientComboStep = buf.readInt();
-            String styleId = buf.readString();
+            // === PHASE 2: Read ALL data BEFORE server.execute ===
+            final int clientComboStep = buf.readInt();
+            final String styleId = PacketValidator.safeReadString(buf);
+            
+            // === PHASE 2: Validate BEFORE processing ===
+            if (!PacketValidator.validComboStep(clientComboStep)) {
+                PacketValidator.logRejection(player, "TAIJUTSU_ATTACK", "invalid combo step: " + clientComboStep);
+                return;
+            }
+            if (!PacketValidator.validStyleId(styleId)) {
+                PacketValidator.logRejection(player, "TAIJUTSU_ATTACK", "invalid style: " + styleId);
+                return;
+            }
+            if (!PacketRateLimiter.allow(player.getUuid(), "TAIJUTSU_ATTACK", 100)) {
+                return;
+            }
+            if (!PacketValidator.validCombatState(player)) {
+                return;
+            }
 
             server.execute(() -> {
                 if (player.getWorld().isClient()) return;
@@ -289,7 +322,23 @@ public class ModPackets {
         
         ServerPlayNetworking.registerGlobalReceiver(KATANA_ATTACK_ID, (server, player, handler, buf, responseSender) -> {
             final int stepParam = buf.readInt();
-            final String stanceParam = buf.readString();
+            final String stanceParam = PacketValidator.safeReadString(buf);
+
+            // === PHASE 2: Validate ===
+            if (!PacketValidator.validComboStep(stepParam)) {
+                PacketValidator.logRejection(player, "KATANA_ATTACK", "invalid step: " + stepParam);
+                return;
+            }
+            if (!PacketValidator.validStyleId(stanceParam)) {
+                PacketValidator.logRejection(player, "KATANA_ATTACK", "invalid stance: " + stanceParam);
+                return;
+            }
+            if (!PacketRateLimiter.allow(player.getUuid(), "KATANA_ATTACK", 150)) {
+                return;
+            }
+            if (!PacketValidator.validCombatState(player)) {
+                return;
+            }
             server.execute(() -> {
                 NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
                 if (data.isExhausted()) return;
@@ -358,7 +407,19 @@ public class ModPackets {
             LowPoseTracker.set(handler.player.getUuid(), false));
 
         ServerPlayNetworking.registerGlobalReceiver(SET_SLOT_ID, (server, player, handler, buf, responseSender) -> {
-            int set = buf.readInt(); int slot = buf.readInt(); String id = buf.readString();
+            final int set = buf.readInt();
+            final int slot = buf.readInt();
+            final String id = PacketValidator.safeReadString(buf);
+
+            // === PHASE 2: Validate ===
+            if (!PacketValidator.validLoadoutSet(set) || !PacketValidator.validSlotIndex(slot)) {
+                PacketValidator.logRejection(player, "SET_SLOT", "invalid set/slot");
+                return;
+            }
+            if (!PacketValidator.validJutsuId(id)) {
+                PacketValidator.logRejection(player, "SET_SLOT", "unknown jutsu: " + id);
+                return;
+            }
             server.execute(() -> {
                 NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
                 String clean = id.isEmpty() ? null : id;
@@ -372,7 +433,17 @@ public class ModPackets {
         });
 
         ServerPlayNetworking.registerGlobalReceiver(SPEND_SP_ID, (server, player, handler, buf, responseSender) -> {
-            String type = buf.readString(); String id = buf.readString();
+            final String type = PacketValidator.safeReadString(buf);
+            final String id = PacketValidator.safeReadString(buf);
+
+            // === PHASE 2: Validate ===
+            if (type == null || type.isEmpty() || id == null || id.isEmpty()) {
+                PacketValidator.logRejection(player, "SPEND_SP", "empty type or id");
+                return;
+            }
+            if (!PacketRateLimiter.allow(player.getUuid(), "SPEND_SP", 200)) {
+                return;
+            }
             server.execute(() -> ShinobiCore.handleSpendSp(player, type, id));
         });
 

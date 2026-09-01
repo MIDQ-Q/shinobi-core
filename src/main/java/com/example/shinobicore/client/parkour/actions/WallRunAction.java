@@ -6,6 +6,7 @@ import com.example.shinobicore.client.parkour.util.ParkourSounds;
 import com.example.shinobicore.client.parkour.util.WallDetector;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.math.Vec3d;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 
 public class WallRunAction implements ParkourAction {
     public static final String ID = "wall_run";
@@ -25,7 +26,7 @@ public class WallRunAction implements ParkourAction {
     @Override
     public boolean canActivate(ClientPlayerEntity player, ParkourContext ctx) {
         // Только в чакра-режиме
-        if (!ClientNinjaState.chakraMode) return false;
+        if (!ClientNinjaStateHolder.get().isChakraMode()) return false;
         if (ChakraHudRenderer.currentChakra <= 0) return false;
         if (ChakraHudRenderer.exhausted) return false;
         if (ctx.isOnCooldown(ID)) return false;

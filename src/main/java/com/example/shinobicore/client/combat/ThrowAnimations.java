@@ -36,4 +36,8 @@ public class ThrowAnimations {
         body.yaw += -0.15f + 0.3f * pr;
         head.pitch -= 0.05f;
     }
+
+    public static void cleanupAll() {
+        THROWS.clear();
+    }
 }

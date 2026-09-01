@@ -7,6 +7,7 @@ import com.example.shinobicore.client.parkour.util.WallDetector;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 
 public class EdgeGrabAction implements ParkourAction {
     public static final String ID = "edge_grab";
@@ -19,7 +20,7 @@ public class EdgeGrabAction implements ParkourAction {
 
     @Override
     public boolean canActivate(ClientPlayerEntity player, ParkourContext ctx) {
-        if (!ClientNinjaState.chakraMode) return false;
+        if (!ClientNinjaStateHolder.get().isChakraMode()) return false;
         if (ChakraHudRenderer.currentChakra <= 0) return false;
         if (ChakraHudRenderer.exhausted) return false;
         if (ctx.isOnCooldown(ID)) return false;
