@@ -1,1 +1,0 @@
-{"id":"shinobicore:water_whip","name":"Water Release: Water Dragon Whip","category":"elemental_ninjutsu","nature":"water","type":"projectile","params":{"speed":3.0,"radius":1.5,"particle":"water","lifetime":50,"pierce":2},"baseCost":30,"baseDamage":8,"strain":8,"requiredUsesForFullProficiency":45,"requirements":{"control":22,"nature_water":28,"ninjutsu":18}}

@@ -175,6 +175,7 @@ public class ShinobiCoreClient implements ClientModInitializer {
             });
         });
         CastingClientVisual.register();
+        VoxelCastVisual.register();
         com.example.shinobicore.client.combat.SwordTrailRenderer.register(); // PHASE_K1_TRAIL_REGISTERED
         ChakraAuraRenderer.register(); // PHASE_E_AURA_REGISTERED
                 ClientPlayNetworking.registerGlobalReceiver(ModPackets.HIT_STOP_ID, (client, handler, buf, responseSender) -> {

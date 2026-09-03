@@ -1,1 +1,42 @@
-{"id":"shinobicore:rasenshuriken","name":"Wind Release: Rasenshuriken","category":"shape_ninjutsu","nature":"wind","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.RasenshurikenBehavior","params":{"radius":10,"chargeTicks":60,"aoeTicks":60},"baseCost":100,"baseDamage":45,"strain":20,"requiredUsesForFullProficiency":120,"requirements":{"control":40,"nature_wind":45,"ninjutsu":40}}
+{
+  "id": "shinobicore:rasenshuriken",
+  "name": "Wind Release: Rasenshuriken",
+  "description": "Ветряной расенган с клеточным разрушением",
+  "category": "shape_ninjutsu",
+  "rank": "S",
+  "tags": ["wind", "shape", "offensive", "aoe"],
+  "form": {
+    "type": "handheld",
+    "params": {
+      "chargeTime": 80,
+      "holdDuration": 600,
+      "activation": "on_release",
+      "size": 2.0,
+      "voxelModel": "rasenshuriken",
+      "throwable": true
+    }
+  },
+  "effects": [
+    { "type": "damage", "subtype": "instant", "params": { "amount": 45 } },
+    { "type": "damage", "subtype": "cellular", "params": { "amount": 10, "duration": 100 } },
+    { "type": "control", "subtype": "push", "params": { "force": 3.0 } }
+  ],
+  "properties": [
+    { "id": "explode_on_hit", "params": { "radius": 8.0, "damage": 45.0, "knockback": 3.0 } }
+  ],
+  "element": "wind",
+  "activation": { "type": "charge", "params": { "minCharge": 60, "maxCharge": 120 } },
+  "cost": { "chakra": 100, "fatigue": 20 },
+  "requirements": {
+    "stats": { "control": 40, "ninjutsu": 40 },
+    "elements": { "wind": 40 }
+  },
+  "leveling": {
+    "maxLevel": 15,
+    "levels": {
+      "1": { "damage": 45, "cost": 100 },
+      "15": { "damage": 90, "cost": 80 }
+    }
+  },
+  "visual": { "voxelModel": "rasenshuriken", "particle": "cloud" }
+}

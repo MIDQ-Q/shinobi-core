@@ -1,1 +1,0 @@
-{"id":"shinobicore:fire_ash_hide","name":"Fire Release: Hiding in Ash","category":"elemental_ninjutsu","nature":"fire","type":"aoe","params":{"radius":5,"particle":"smoke","particleCount":250,"statusEffect":"blindness","statusDuration":80},"baseCost":26,"baseDamage":2,"strain":7,"requiredUsesForFullProficiency":40,"requirements":{"control":18,"nature_fire":24,"ninjutsu":16}}

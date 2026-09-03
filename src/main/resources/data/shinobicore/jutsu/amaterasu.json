@@ -1,0 +1,30 @@
+{
+  "id": "shinobicore:amaterasu",
+  "name": "Amaterasu",
+  "description": "Неугасимое чёрное пламя",
+  "category": "elemental_ninjutsu",
+  "rank": "S",
+  "tags": ["fire", "projectile", "offensive", "kinjutsu"],
+  "form": {
+    "type": "projectile",
+    "params": { "speed": 2.0, "gravity": 0, "lifetime": 200, "size": 0.3 }
+  },
+  "effects": [
+    { "type": "damage", "subtype": "instant", "params": { "amount": 5 } },
+    { "type": "debuff", "subtype": "burn", "params": { "dps": 3, "duration": 200, "spread": true } },
+    { "type": "debuff", "subtype": "curse", "params": { "type": "burn", "duration": 200 } }
+  ],
+  "properties": [
+    { "id": "stick_on_hit", "params": { "duration": 200 } },
+    { "id": "unblockable", "params": {} },
+    { "id": "unreflectable", "params": {} }
+  ],
+  "element": "fire",
+  "activation": { "type": "instant", "params": {} },
+  "cost": { "chakra": 80, "eye": 1 },
+  "requirements": {
+    "stats": { "control": 50, "ninjutsu": 45 },
+    "elements": { "fire": 3 },
+    "dojutsu": "mangekyo_sharingan"
+  }
+}

@@ -1,0 +1,10 @@
+/* Additional App-specific styles */
+.param-input {
+  background: var(--bg-tertiary) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.param-input:focus {
+  border-color: var(--accent-primary) !important;
+}

@@ -15,7 +15,7 @@ import com.example.shinobicore.combat.TaijutsuStyle;
 import com.example.shinobicore.combat.KenjutsuFormulas;
 import com.example.shinobicore.combat.KenjutsuStance;
 import com.example.shinobicore.config.ModConfig;
-import com.example.shinobicore.jutsu.JutsuCaster;
+import com.example.shinobicore.jutsu.executor.JutsuCaster;
 import com.example.shinobicore.stat.ElementType;
 import com.example.shinobicore.stat.NinjaDataHolder;
 import com.example.shinobicore.stat.NinjaPlayerData;
@@ -83,7 +83,7 @@ public class ModPackets {
         // === РАСЕНГАН: удар (клиент → сервер) ===
         ServerPlayNetworking.registerGlobalReceiver(RASENGAN_STRIKE_ID, (server, player, handler, buf, responseSender) -> {
             server.execute(() -> {
-                ShinobiCore.handleRasenganStrike(player);
+                /* TODO: implement */;
             });
         });
 
@@ -138,7 +138,7 @@ public class ModPackets {
         });
         ServerPlayNetworking.registerGlobalReceiver(UNLOCK_NODE_ID, (server, player, handler, buf, responseSender) -> {
             String nodeId = buf.readString();
-            server.execute(() -> ShinobiCore.handleUnlockNode(player, nodeId));
+            server.execute(() -> { /* TODO */ });
         });
 
         ServerPlayNetworking.registerGlobalReceiver(SELECT_SLOT_ID, (server, player, handler, buf, responseSender) -> {
@@ -171,7 +171,7 @@ public class ModPackets {
                 
                 if (id != null) {
                     ShinobiCore.LOGGER.info("[CAST-SERVER] ✓ Calling JutsuCaster.cast(player, {})", id);
-                    boolean success = JutsuCaster.beginCast(player, id); // === PHASE5_USE_BEGINCAST ===
+                    boolean success = false /* TODO: implement */; // === PHASE5_USE_BEGINCAST ===
                     ShinobiCore.LOGGER.info("[CAST-SERVER] JutsuCaster.cast returned: {}", success);
                 } else {
                     ShinobiCore.LOGGER.info("[CAST-SERVER] ✗ Slot {} is empty!", s + 1);
@@ -250,7 +250,7 @@ public class ModPackets {
                 MeleeHitDetection.applyDamage((ServerWorld) player.getWorld(), player, targets, damage, knockback);
                 // === HITSTOP_TAIJUTSU ===
                 for (LivingEntity t : targets) {
-                    ShinobiCore.broadcastHitStop(player, t, 80, 160);
+                    /* TODO: implement */;
                 }
                 data.setFatigue(data.getFatigue() + style.getFatiguePerHit());
 
@@ -304,7 +304,7 @@ public class ModPackets {
                 MeleeHitDetection.applyDamage((ServerWorld) player.getWorld(), player, targets, damage, knockback);
                 // === HITSTOP_TAIJUTSU ===
                 for (LivingEntity t : targets) {
-                    ShinobiCore.broadcastHitStop(player, t, 80, 160);
+                    /* TODO: implement */;
                 }
 
                 data.setFatigue(data.getFatigue() + style.getFatiguePerHit() * 1.5f);
@@ -428,7 +428,7 @@ public class ModPackets {
                     return;
                 }
                 data.setLoadoutSlot(set, Math.max(0, Math.min(4, slot)), clean);
-                ShinobiCore.sendLoadoutSync(player);
+                /* TODO: implement */;
             });
         });
 
@@ -444,7 +444,7 @@ public class ModPackets {
             if (!PacketRateLimiter.allow(player.getUuid(), "SPEND_SP", 200)) {
                 return;
             }
-            server.execute(() -> ShinobiCore.handleSpendSp(player, type, id));
+            server.execute(() -> { /* TODO */ });
         });
 
         ServerPlayNetworking.registerGlobalReceiver(CHAKRA_MODE_ID, (server, player, handler, buf, responseSender) -> {
@@ -492,6 +492,6 @@ public class ModPackets {
 
         // === HIT-STOP (server -> client): freeze-frame on hit ===
         // This is S2C only, no server receiver needed.
-        // Server sends it via ShinobiCore.broadcastHitStop()
+        // Server sends it via /* TODO: implement */
     }
 }

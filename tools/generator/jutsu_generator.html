@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shinobi Jutsu Editor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            color: #e0e0e0;
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 280px 1fr 320px;
+            grid-template-rows: 60px 1fr 180px;
+            height: 100vh;
+            gap: 2px;
+            background: #0f0f1e;
+        }
+        
+        .header {
+            grid-column: 1 / -1;
+            background: #16213e;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            border-bottom: 2px solid #0f3460;
+        }
+        
+        .header h1 {
+            color: #e94560;
+            font-size: 24px;
+        }
+        
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            background: #0f3460;
+            color: #e0e0e0;
+            border: 1px solid #e94560;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #e94560;
+            color: white;
+        }
+        
+        .btn-primary {
+            background: #e94560;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #ff6b6b;
+        }
+        
+        .left-panel {
+            background: #16213e;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        
+        .phase-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .phase-tab {
+            background: #0f3460;
+            color: #e0e0e0;
+            border: 1px solid #533483;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+        
+        .phase-tab.active {
+            background: #e94560;
+            border-color: #e94560;
+        }
+        
+        .behavior-list {
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+        }
+        
+        .behavior-item {
+            background: #0f3460;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+        
+        .behavior-item:hover {
+            background: #533483;
+            border-left-color: #e94560;
+        }
+        
+        .behavior-item.selected {
+            background: #e94560;
+            border-left-color: #ff6b6b;
+        }
+        
+        .behavior-name {
+            font-weight: bold;
+            font-size: 13px;
+            margin-bottom: 3px;
+        }
+        
+        .behavior-desc {
+            font-size: 11px;
+            color: #a0a0a0;
+        }
+        
+        .center-panel {
+            background: #1a1a2e;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .viewport {
+            flex: 1;
+            position: relative;
+        }
+        
+        #voxel-canvas {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .voxel-tools {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(22, 33, 62, 0.9);
+            padding: 10px;
+            border-radius: 4px;
+            display: flex;
+            gap: 5px;
+        }
+        
+        .tool-btn {
+            background: #0f3460;
+            color: #e0e0e0;
+            border: 1px solid #533483;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .tool-btn.active {
+            background: #e94560;
+        }
+        
+        .right-panel {
+            background: #16213e;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        
+        .param-group {
+            margin-bottom: 15px;
+        }
+        
+        .param-group h3 {
+            color: #e94560;
+            font-size: 14px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #0f3460;
+            padding-bottom: 5px;
+        }
+        
+        .param-item {
+            margin-bottom: 10px;
+        }
+        
+        .param-item label {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 5px;
+            color: #a0a0a0;
+        }
+        
+        .param-item input[type="number"],
+        .param-item input[type="text"],
+        .param-item select {
+            width: 100%;
+            background: #0f3460;
+            border: 1px solid #533483;
+            color: #e0e0e0;
+            padding: 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .param-item input[type="range"] {
+            width: 100%;
+        }
+        
+        .bottom-panel {
+            grid-column: 1 / -1;
+            background: #16213e;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+            overflow: hidden;
+        }
+        
+        .timeline {
+            padding: 10px;
+            overflow-y: auto;
+        }
+        
+        .timeline h3 {
+            color: #e94560;
+            margin-bottom: 10px;
+        }
+        
+        .pipeline-item {
+            background: #0f3460;
+            padding: 8px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .json-preview {
+            padding: 10px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            background: #0a0a15;
+        }
+        
+        .json-preview h3 {
+            color: #e94560;
+            margin-bottom: 10px;
+        }
+        
+        .json-content {
+            color: #a0a0a0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .color-picker {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        
+        .color-swatch {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .color-swatch.selected {
+            border-color: #e94560;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #0f0f1e;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #533483;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e94560;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔥 Shinobi Jutsu Editor</h1>
+            <div class="header-buttons">
+                <button class="btn" onclick="importBBModel()">📥 Import BBModel</button>
+                <button class="btn" onclick="exportBBModel()">📤 Export BBModel</button>
+                <button class="btn btn-primary" onclick="exportJSON()"> Export JSON</button>
+            </div>
+        </div>
+        
+        <div class="left-panel">
+            <div class="phase-tabs" id="phaseTabs"></div>
+            <div class="behavior-list" id="behaviorList"></div>
+        </div>
+        
+        <div class="center-panel">
+            <div class="viewport">
+                <canvas id="voxel-canvas"></canvas>
+                <div class="voxel-tools">
+                    <button class="tool-btn active" data-tool="place" onclick="setTool('place')">🟦 Place</button>
+                    <button class="tool-btn" data-tool="erase" onclick="setTool('erase')">🗑️ Erase</button>
+                    <button class="tool-btn" data-tool="color" onclick="setTool('color')">🎨 Color</button>
+                    <button class="tool-btn" onclick="clearVoxels()">🗑️ Clear</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="right-panel">
+            <div id="paramsPanel">
+                <h3 style="color: #e94560; margin-bottom: 10px;">Parameters</h3>
+                <p style="font-size: 12px; color: #a0a0a0;">Select a behavior to edit parameters</p>
+            </div>
+            
+            <div class="param-group" style="margin-top: 20px;">
+                <h3>Voxel Colors</h3>
+                <div class="color-picker" id="colorPicker"></div>
+            </div>
+        </div>
+        
+        <div class="bottom-panel">
+            <div class="timeline">
+                <h3>Behavior Pipeline</h3>
+                <div id="pipelineList"></div>
+            </div>
+            <div class="json-preview">
+                <h3>JSON Preview</h3>
+                <div class="json-content" id="jsonContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // ============================================
+        // DATA: All behaviors from generator.md
+        // ============================================
+        const BEHAVIORS = {
+            trigger: [
+                { id: 'trigger_instant', name: 'Мгновенная активация', desc: 'Без подготовки', params: {} },
+                { id: 'trigger_handseals', name: 'Печати рук', desc: 'Каст с анимацией печатей', params: { sealCount: 3, sealSpeed: 1.0 } },
+                { id: 'trigger_charge', name: 'Зарядка', desc: 'Удержание для накопления', params: { minCharge: 20, maxCharge: 60, chargeRate: 1.0 } },
+                { id: 'trigger_combo', name: 'Серия действий', desc: 'Последовательность нажатий', params: { comboSteps: 3, comboWindow: 1500 } },
+                { id: 'trigger_stance', name: 'Из стойки', desc: 'Требует определённой стойки', params: { requiredStance: 'aggressive' } },
+                { id: 'trigger_counter', name: 'Контратака', desc: 'Активация при получении удара', params: { counterWindow: 400, damageThreshold: 5.0 } },
+                { id: 'trigger_death', name: 'При смерти', desc: 'Активация при падении до 0', params: { hpThreshold: 0 } },
+                { id: 'trigger_ally_hit', name: 'При ударе союзника', desc: 'Когда союзник атакует', params: { allyRange: 10.0 } },
+                { id: 'trigger_enemy_near', name: 'При приближении врага', desc: 'Автоматическая активация', params: { detectionRange: 15.0 } },
+                { id: 'trigger_timer', name: 'По таймеру', desc: 'Отложенная активация', params: { delayTicks: 100 } },
+                { id: 'trigger_condition', name: 'По условию', desc: 'Сложное условие', params: { conditionType: 'health_below', conditionValue: 50 } },
+                { id: 'trigger_channel', name: 'Канал', desc: 'Постоянное поддержание', params: { chakraPerTick: 0.5, maxDuration: 200 } },
+                { id: 'trigger_sacrifice', name: 'Жертва', desc: 'Требует HP/ресурс', params: { hpCost: 20, chakraCost: 50 } },
+                { id: 'trigger_ally_death', name: 'При смерти союзника', desc: 'Триггер от потери', params: { allyRange: 20.0 } },
+                { id: 'trigger_kills', name: 'После N убийств', desc: 'Накопительный триггер', params: { killCount: 5 } },
+                { id: 'trigger_elemental_contact', name: 'При контакте со стихией', desc: 'Вода/огонь/земля', params: { elementType: 'water' } },
+                { id: 'trigger_moonlight', name: 'При лунном свете', desc: 'Условие окружения', params: { lightLevel: 8 } },
+                { id: 'trigger_rain', name: 'Под дождём', desc: 'Условие погоды', params: {} }
+            ],
+            delivery: [
+                { id: 'deliver_self', name: 'На себя', desc: 'Эффект на кастере', params: {} },
+                { id: 'deliver_target', name: 'На цель', desc: 'На текущую цель', params: { targetMode: 'look_entity' } },
+                { id: 'deliver_point', name: 'В точку', desc: 'На точку прицела', params: { range: 20.0, aimMode: 'raycast' } },
+                { id: 'deliver_projectile', name: 'Снаряд', desc: 'Летящий объект', params: { speed: 1.5, gravity: 0.02, lifetime: 80, size: 0.5 } },
+                { id: 'deliver_projectile_homing', name: 'Самонаводящийся', desc: 'Следует за целью', params: { turnRate: 0.1, speed: 1.2 } },
+                { id: 'deliver_projectile_piercing', name: 'Пробивающий', desc: 'Проходит сквозь цели', params: { pierceCount: 3, damageFalloff: 0.8 } },
+                { id: 'deliver_projectile_bouncing', name: 'Рикошет', desc: 'Отскакивает от поверхностей', params: { bounceCount: 2, speedLoss: 0.2 } },
+                { id: 'deliver_projectile_splitting', name: 'Разделяющийся', desc: 'Делится при полёте/ударе', params: { splitCount: 3, splitAngle: 30 } },
+                { id: 'deliver_projectile_orbiting', name: 'Орбитальный', desc: 'Кружится вокруг кастера', params: { orbitRadius: 3.0, orbitSpeed: 1.0, count: 4 } },
+                { id: 'deliver_projectile_volley', name: 'Залп', desc: 'Несколько снарядов веером', params: { count: 5, spreadAngle: 30 } },
+                { id: 'deliver_projectile_barrage', name: 'Шквал', desc: 'Много снарядов подряд', params: { count: 10, fireRate: 5, duration: 60 } },
+                { id: 'deliver_projectile_rain', name: 'Дождь', desc: 'Снаряды падают сверху', params: { count: 20, area: 10.0, height: 20.0 } },
+                { id: 'deliver_projectile_spiral', name: 'Спираль', desc: 'Снаряды по спирали', params: { spiralRate: 2.0, count: 8 } },
+                { id: 'deliver_projectile_wave', name: 'Волна', desc: 'Расширяющаяся волна', params: { waveSpeed: 1.0, waveWidth: 2.0 } },
+                { id: 'deliver_projectile_arc', name: 'По дуге', desc: 'Навесная траектория', params: { arcHeight: 5.0, speed: 1.0 } },
+                { id: 'deliver_projectile_chain', name: 'Цепной', desc: 'Перепрыгивает между целями', params: { chainCount: 5, chainRange: 8.0, falloff: 0.8 } },
+                { id: 'deliver_beam', name: 'Луч', desc: 'Непрерывный луч', params: { width: 0.5, maxRange: 20.0, tickRate: 5 } },
+                { id: 'deliver_beam_sweep', name: 'Развертка луча', desc: 'Луч двигается', params: { sweepSpeed: 1.0, sweepAngle: 90 } },
+                { id: 'deliver_cone', name: 'Конус', desc: 'Конусная область', params: { angle: 60, range: 10.0 } },
+                { id: 'deliver_line', name: 'Линия', desc: 'Прямая линия', params: { width: 1.0, length: 10.0 } },
+                { id: 'deliver_dash', name: 'Рывок', desc: 'Кастер летит к цели', params: { distance: 8.0, speed: 2.0, damageOnPath: 0 } },
+                { id: 'deliver_dash_piercing', name: 'Пронзающий рывок', desc: 'Проходит сквозь врагов', params: { pierceDamage: 12, distance: 10.0 } },
+                { id: 'deliver_dash_multi', name: 'Мульти-рывок', desc: 'Серия рывков', params: { dashCount: 3, dashInterval: 200 } },
+                { id: 'deliver_teleport', name: 'Телепорт', desc: 'Мгновенное перемещение', params: { range: 32.0, destination: 'target' } },
+                { id: 'deliver_blink', name: 'Короткий телепорт', desc: 'Очень короткий', params: { blinkDistance: 5.0 } },
+                { id: 'deliver_portal', name: 'Портал', desc: 'Создаёт проход', params: { duration: 200, linkedPortal: true } },
+                { id: 'deliver_summon', name: 'Призыв', desc: 'Вызывает сущность', params: { entityType: 'wolf', count: 1, lifetime: 600 } },
+                { id: 'deliver_clone', name: 'Клон', desc: 'Создаёт копию кастера', params: { cloneCount: 4, cloneType: 'shadow', cloneHP: 10 } },
+                { id: 'deliver_construct', name: 'Конструкт', desc: 'Создаёт объект из стихии', params: { constructType: 'sand_figure', size: 2.0 } },
+                { id: 'deliver_terrain', name: 'Изменение ландшафта', desc: 'Модифицирует блоки', params: { area: 5.0, blockType: 'stone', duration: 200 } },
+                { id: 'deliver_zone_create', name: 'Создание зоны', desc: 'Область с эффектом', params: { radius: 5.0, duration: 200, tickRate: 10 } },
+                { id: 'deliver_wall', name: 'Стена', desc: 'Барьер', params: { width: 5, height: 3, direction: 'facing', duration: 200 } },
+                { id: 'deliver_dome', name: 'Купол', desc: 'Сферический барьер', params: { radius: 5.0, duration: 300 } },
+                { id: 'deliver_cage', name: 'Клетка', desc: 'Замыкает цель', params: { size: 3.0, duration: 100 } },
+                { id: 'deliver_tether', name: 'Привязь', desc: 'Связь между точками', params: { tetherRange: 10.0, tetherEffect: 'pull' } },
+                { id: 'deliver_field', name: 'Поле', desc: 'Область вокруг кастера', params: { radius: 5.0, effect: 'damage' } },
+                { id: 'deliver_weather', name: 'Изменение погоды', desc: 'Глобальный эффект', params: { weatherType: 'rain', duration: 1000 } },
+                { id: 'deliver_mist', name: 'Туман', desc: 'Облако непрозрачности', params: { radius: 10.0, density: 0.8, duration: 400 } },
+                { id: 'deliver_sound', name: 'Звуковая волна', desc: 'Аудио-атака', params: { radius: 8.0, frequency: 440 } },
+                { id: 'deliver_shadow', name: 'Тень', desc: 'Теневая доставка', params: { shadowRange: 16.0, lightDependency: true } },
+                { id: 'deliver_ink', name: 'Чернила', desc: 'Рисование', params: { inkAmount: 50, constructType: 'beast' } },
+                { id: 'deliver_paper', name: 'Бумага', desc: 'Бумажные конструкты', params: { paperCount: 10, paperType: 'explosive' } },
+                { id: 'deliver_sand', name: 'Песок', desc: 'Песчаная доставка', params: { sandAmount: 30, sandControl: 1.0 } },
+                { id: 'deliver_insect', name: 'Насекомые', desc: 'Рой насекомых', params: { insectCount: 20, insectType: 'beetle' } },
+                { id: 'deliver_blood', name: 'Кровь', desc: 'Кровавая доставка', params: { bloodCost: 10, effect: 'drain' } },
+                { id: 'deliver_bone', name: 'Кость', desc: 'Костяные конструкты', params: { boneType: 'spike', size: 2.0 } },
+                { id: 'deliver_soul', name: 'Душа', desc: 'Духовная доставка', params: { soulEffect: 'drain', range: 10.0 } },
+                { id: 'deliver_seal', name: 'Печать', desc: 'Печать-ловушка', params: { sealType: 'explosive', triggerCondition: 'step' } },
+                { id: 'deliver_mark', name: 'Метка', desc: 'Маркировка цели', params: { markDuration: 200, markEffect: 'detonate' } }
+            ],
+            contact: [
+                { id: 'impact_damage', name: 'Урон', desc: 'Прямой урон', params: { damage: 8, damageType: 'magic' } },
+                { id: 'impact_damage_percent', name: 'Процентный урон', desc: '% от макс. здоровья', params: { percent: 10 } },
+                { id: 'impact_damage_over_time', name: 'Урон со временем', desc: 'DoT', params: { damagePerTick: 2, tickRate: 10, duration: 60 } },
+                { id: 'impact_explosion', name: 'Взрыв', desc: 'Взрыв при контакте', params: { radius: 3.0, damage: 8, knockback: 0.5 } },
+                { id: 'impact_explosion_delayed', name: 'Отложенный взрыв', desc: 'Взрыв через время', params: { delay: 40, radius: 3.0, damage: 10 } },
+                { id: 'impact_explosion_chain', name: 'Цепной взрыв', desc: 'Каскад взрывов', params: { chainCount: 3, chainDelay: 10, chainRadius: 3.0 } },
+                { id: 'impact_implosion', name: 'Имплозия', desc: 'Схлопывание внутрь', params: { radius: 5.0, pullForce: 1.0, damage: 12 } },
+                { id: 'impact_knockback', name: 'Отбрасывание', desc: 'Отталкивание цели', params: { force: 1.0, direction: 'away' } },
+                { id: 'impact_pull', name: 'Притяжение', desc: 'Притягивание к точке', params: { pullForce: 1.0, pullPoint: 'caster' } },
+                { id: 'impact_launch', name: 'Подбрасывание', desc: 'Запуск вверх', params: { launchForce: 1.5 } },
+                { id: 'impact_slam', name: 'Припечатывание', desc: 'Удар об землю', params: { slamForce: 2.0 } },
+                { id: 'impact_pin', name: 'Пригвождение', desc: 'Фиксация к поверхности', params: { pinDuration: 60, pinSurface: 'any' } },
+                { id: 'impact_pierce', name: 'Пронзание', desc: 'Прохождение насквозь', params: { pierceDepth: 2.0 } },
+                { id: 'impact_cut', name: 'Разрезание', desc: 'Режущий урон', params: { cutDepth: 1.0, cutWidth: 0.5 } },
+                { id: 'impact_crush', name: 'Дробление', desc: 'Давящий урон', params: { crushForce: 2.0 } },
+                { id: 'impact_burn', name: 'Поджог', desc: 'Воспламенение', params: { burnDuration: 40, burnDamage: 1 } },
+                { id: 'impact_freeze', name: 'Заморозка', desc: 'Обледенение', params: { freezeDuration: 60, slowAmount: 0.5 } },
+                { id: 'impact_shock', name: 'Электрошок', desc: 'Электрический разряд', params: { shockDamage: 5, stunDuration: 10 } },
+                { id: 'impact_poison', name: 'Отравление', desc: 'Яд', params: { poisonDamage: 2, poisonDuration: 80, poisonType: 'regular' } },
+                { id: 'impact_corrode', name: 'Коррозия', desc: 'Разъедание', params: { corrodeDamage: 3, armorReduction: 0.3 } },
+                { id: 'impact_drain_chakra', name: 'Поглощение чакры', desc: 'Кража чакры', params: { drainAmount: 10, drainRate: 1.0 } },
+                { id: 'impact_drain_hp', name: 'Вампиризм', desc: 'Кража здоровья', params: { drainAmount: 5, healSelf: true } },
+                { id: 'impact_stun', name: 'Оглушение', desc: 'Кратковременный стан', params: { stunDuration: 20 } },
+                { id: 'impact_daze', name: 'Ошеломление', desc: 'Дезориентация', params: { dazeDuration: 30 } },
+                { id: 'impact_silence', name: 'Безмолвие', desc: 'Запрет каста', params: { silenceDuration: 60 } },
+                { id: 'impact_blind', name: 'Ослепление', desc: 'Потеря зрения', params: { blindDuration: 40 } },
+                { id: 'impact_disarm', name: 'Разоружение', desc: 'Выбивание оружия', params: { disarmDuration: 30 } },
+                { id: 'impact_break_guard', name: 'Пробитие защиты', desc: 'Игнорирование блока', params: { guardBreakAmount: 0.5 } },
+                { id: 'impact_break_armor', name: 'Пробитие брони', desc: 'Снижение защиты', params: { armorReduction: 0.3, duration: 100 } },
+                { id: 'impact_mark', name: 'Нанесение метки', desc: 'Маркировка для последующего эффекта', params: { markType: 'explosive', markDuration: 200 } },
+                { id: 'impact_detonate_mark', name: 'Детонация метки', desc: 'Взрыв существующих меток', params: { detonateDamage: 10, detonateRadius: 3.0 } },
+                { id: 'impact_transfer', name: 'Перенос', desc: 'Телепорт цели', params: { transferDestination: 'dimension' } },
+                { id: 'impact_swap', name: 'Обмен местами', desc: 'Своп позиций', params: {} },
+                { id: 'impact_clone_burst', name: 'Взрыв клона', desc: 'Клон взрывается', params: { cloneDamage: 8, cloneRadius: 3.0 } },
+                { id: 'impact_summon_burst', name: 'Призыв при контакте', desc: 'Спавн при ударе', params: { summonType: 'wolf', summonCount: 1 } },
+                { id: 'impact_terrain_change', name: 'Изменение блока', desc: 'Трансформация блока', params: { blockChangeType: 'water', area: 3.0 } },
+                { id: 'impact_create_object', name: 'Создание объекта', desc: 'Спавн объекта', params: { objectType: 'ice_spike', objectLifetime: 200 } },
+                { id: 'impact_destroy_object', name: 'Уничтожение объекта', desc: 'Удаление блока', params: { destroyRadius: 2.0 } },
+                { id: 'impact_heal', name: 'Лечение', desc: 'Восстановление здоровья', params: { healAmount: 10 } },
+                { id: 'impact_shield', name: 'Создание щита', desc: 'Барьер на цели', params: { shieldAmount: 20, shieldDuration: 100 } },
+                { id: 'impact_reflect', name: 'Отражение', desc: 'Отскок атаки обратно', params: { reflectPercent: 0.5 } },
+                { id: 'impact_absorb', name: 'Поглощение', desc: 'Впитывание атаки', params: { absorbAmount: 0.5 } },
+                { id: 'impact_redirect', name: 'Перенаправление', desc: 'Изменение направления атаки', params: { redirectAngle: 180 } },
+                { id: 'impact_nullify', name: 'Аннулирование', desc: 'Полная отмена эффекта', params: {} },
+                { id: 'impact_dispel', name: 'Развеивание', desc: 'Снятие эффектов', params: { dispelCount: 1, dispelType: 'all' } },
+                { id: 'impact_apply_element', name: 'Нанесение стихии', desc: 'Покрытие стихией', params: { element: 'fire', duration: 100 } },
+                { id: 'impact_remove_element', name: 'Снятие стихии', desc: 'Удаление стихийного эффекта', params: { element: 'any' } },
+                { id: 'impact_fuse_elements', name: 'Слияние стихий', desc: 'Комбинирование стихий', params: { element1: 'fire', element2: 'wind', result: 'lava' } }
+            ],
+            area: [
+                { id: 'area_damage_tick', name: 'Урон по тикам', desc: 'Периодический урон в зоне', params: { damage: 2, tickRate: 10, duration: 100 } },
+                { id: 'area_heal_tick', name: 'Лечение по тикам', desc: 'Периодическое лечение', params: { heal: 2, tickRate: 20, duration: 200 } },
+                { id: 'area_slow', name: 'Замедление в зоне', desc: 'Замедление в области', params: { slowPercent: 0.5, duration: 100 } },
+                { id: 'area_root', name: 'Обездвиживание', desc: 'Фиксация в зоне', params: { rootDuration: 60 } },
+                { id: 'area_push_out', name: 'Выталкивание', desc: 'Выталкивание из зоны', params: { pushForce: 1.0 } },
+                { id: 'area_pull_in', name: 'Втягивание', desc: 'Втягивание в центр', params: { pullForce: 1.0 } },
+                { id: 'area_gravity_well', name: 'Гравитационный колодец', desc: 'Сильное притяжение', params: { gravityStrength: 2.0, radius: 8.0 } },
+                { id: 'area_anti_gravity', name: 'Антигравитация', desc: 'Левитация в зоне', params: { liftForce: 1.0, duration: 100 } },
+                { id: 'area_element_hazard', name: 'Стихийная опасность', desc: 'Стихийный урон в зоне', params: { element: 'fire', damage: 3, tickRate: 10 } },
+                { id: 'area_poison_cloud', name: 'Ядовитое облако', desc: 'Яд в области', params: { poisonDamage: 2, duration: 150 } },
+                { id: 'area_blinding', name: 'Ослепляющая зона', desc: 'Ослепление в области', params: { blindDuration: 60 } },
+                { id: 'area_silencing', name: 'Зона молчания', desc: 'Запрет каста в зоне', params: { silenceDuration: 80 } },
+                { id: 'area_chakra_drain', name: 'Поглощение чакры', desc: 'Кража чакры в зоне', params: { drainRate: 1.0, radius: 8.0 } },
+                { id: 'area_chakra_regen', name: 'Регенерация чакры', desc: 'Восстановление чакры в зоне', params: { regenRate: 2.0, radius: 8.0 } },
+                { id: 'area_buff', name: 'Бафф в зоне', desc: 'Усиление союзников', params: { buffType: 'strength', buffAmount: 0.3, duration: 200 } },
+                { id: 'area_debuff', name: 'Дебафф в зоне', desc: 'Ослабление врагов', params: { debuffType: 'weakness', debuffAmount: 0.3, duration: 200 } },
+                { id: 'area_fear', name: 'Зона страха', desc: 'Страх в области', params: { fearDuration: 60, fearRadius: 10.0 } },
+                { id: 'area_confusion', name: 'Зона путаницы', desc: 'Дезориентация', params: { confusionDuration: 80 } },
+                { id: 'area_sleep', name: 'Зона сна', desc: 'Усыпление', params: { sleepDuration: 100 } },
+                { id: 'area_rage', name: 'Зона ярости', desc: 'Вынуждение атаковать', params: { rageDuration: 100 } },
+                { id: 'area_pacify', name: 'Зона умиротворения', desc: 'Запрет атаки', params: { pacifyDuration: 100 } },
+                { id: 'area_summon_tick', name: 'Призыв по тикам', desc: 'Спавн сущностей в зоне', params: { summonType: 'wolf', summonRate: 40, maxSummons: 5 } },
+                { id: 'area_trap_trigger', name: 'Зона-ловушка', desc: 'Триггер при входе', params: { trapEffect: 'explosion', triggerRadius: 2.0 } },
+                { id: 'area_teleport_zone', name: 'Зона телепорта', desc: 'Телепорт при входе', params: { teleportDestination: 'far_point' } },
+                { id: 'area_terrain_transform', name: 'Трансформация ландшафта', desc: 'Изменение блоков в зоне', params: { fromBlock: 'stone', toBlock: 'lava', area: 10.0 } },
+                { id: 'area_create_structure', name: 'Создание структуры', desc: 'Постройка в зоне', params: { structureType: 'wall', size: 5.0, duration: 400 } },
+                { id: 'area_weather_change', name: 'Изменение погоды', desc: 'Смена погоды в зоне', params: { weatherType: 'rain', duration: 1000 } },
+                { id: 'area_light_change', name: 'Изменение света', desc: 'Смена освещения', params: { lightLevel: 0, duration: 200 } },
+                { id: 'area_sound_field', name: 'Звуковое поле', desc: 'Звуковой эффект', params: { soundType: 'silence', effectRadius: 10.0 } },
+                { id: 'area_mist', name: 'Туман в зоне', desc: 'Непрозрачность', params: { density: 0.8, duration: 400 } },
+                { id: 'area_barrier', name: 'Барьер', desc: 'Непроходимая зона', params: { barrierType: 'earth', duration: 300 } },
+                { id: 'area_anti_teleport', name: 'Антителепорт', desc: 'Запрет телепортации', params: { radius: 15.0, duration: 400 } },
+                { id: 'area_detection', name: 'Обнаружение', desc: 'Подсветка сущностей', params: { detectionRange: 20.0, highlightType: 'outline' } },
+                { id: 'area_ward', name: 'Защита зоны', desc: 'Защита области от атак', params: { wardStrength: 50, duration: 500 } },
+                { id: 'area_alarm', name: 'Сигнализация', desc: 'Оповещение при входе', params: { alarmRadius: 10.0, alertType: 'sound' } },
+                { id: 'area_vortex', name: 'Водоворот', desc: 'Вращающаяся зона урона', params: { vortexDamage: 3, pullForce: 1.5, duration: 150 } },
+                { id: 'area_eruption', name: 'Извержение', desc: 'Периодические выбросы', params: { eruptionDamage: 8, eruptionInterval: 40 } },
+                { id: 'area_spikes', name: 'Шипы', desc: 'Шипы из земли', params: { spikeDamage: 5, spikeCount: 10, spikeInterval: 20 } },
+                { id: 'area_tendrils', name: 'Щупальца', desc: 'Хватающие отростки', params: { tendrilCount: 6, grabDuration: 40 } },
+                { id: 'area_mine', name: 'Мины', desc: 'Скрытые взрывы', params: { mineCount: 5, mineDamage: 10, triggerRadius: 2.0 } },
+                { id: 'area_turret', name: 'Турель', desc: 'Автоматическая атака', params: { turretDamage: 5, fireRate: 10, turretLifetime: 400 } },
+                { id: 'area_totem', name: 'Тотем', desc: 'Стационарный бафф/дебафф', params: { totemEffect: 'buff', totemRadius: 8.0, totemLifetime: 500 } },
+                { id: 'area_beacon', name: 'Маяк', desc: 'Маркировка локации', params: { beaconEffect: 'reveal', beaconDuration: 400 } }
+            ],
+            status: [
+                { id: 'status_burn', name: 'Горение', desc: 'Огненный урон со временем', params: { damage: 1, duration: 40, spread: false } },
+                { id: 'status_freeze', name: 'Заморозка', desc: 'Обледенение', params: { duration: 60, slowPercent: 0.7 } },
+                { id: 'status_shock', name: 'Электрошок', desc: 'Электрический разряд', params: { damage: 3, stunDuration: 20, chainChance: 0.3 } },
+                { id: 'status_poison', name: 'Отравление', desc: 'Яд', params: { damage: 2, duration: 100, type: 'regular' } },
+                { id: 'status_bleed', name: 'Кровотечение', desc: 'Кровопотеря', params: { damage: 2, duration: 80, stackable: true } },
+                { id: 'status_wet', name: 'Намокание', desc: 'Покрытие водой', params: { duration: 100, conductivity: true } },
+                { id: 'status_muddy', name: 'Грязь', desc: 'Замедление', params: { slowPercent: 0.5, duration: 100 } },
+                { id: 'status_charged', name: 'Заряженность', desc: 'Электрический заряд', params: { duration: 60, conductivity: true } },
+                { id: 'status_cursed', name: 'Проклятие', desc: 'Негативный эффект', params: { curseType: 'drain', duration: 200, spread: false } },
+                { id: 'status_blessed', name: 'Благословение', desc: 'Позитивный эффект', params: { blessType: 'regen', duration: 200 } },
+                { id: 'status_marked', name: 'Метка', desc: 'Маркировка', params: { markType: 'explosive', duration: 200, detonable: true } },
+                { id: 'status_bound', name: 'Связывание', desc: 'Обездвиживание', params: { duration: 60, breakCondition: 'damage' } },
+                { id: 'status_rooted', name: 'Укоренение', desc: 'Фиксация на месте', params: { duration: 60, breakDamage: 10 } },
+                { id: 'status_stunned', name: 'Оглушение', desc: 'Полный стан', params: { duration: 40 } },
+                { id: 'status_silenced', name: 'Молчание', desc: 'Запрет каста', params: { duration: 80 } },
+                { id: 'status_blinded', name: 'Ослепление', desc: 'Потеря зрения', params: { duration: 60 } },
+                { id: 'status_deafened', name: 'Оглушение слуха', desc: 'Потеря слуха', params: { duration: 60 } },
+                { id: 'status_confused', name: 'Путаница', desc: 'Случайные действия', params: { duration: 80 } },
+                { id: 'status_feared', name: 'Страх', desc: 'Бегство', params: { duration: 60, fleeSpeed: 1.5 } },
+                { id: 'status_charmed', name: 'Очарование', desc: 'Дружелюбие к кастеру', params: { duration: 100 } },
+                { id: 'status_enraged', name: 'Ярость', desc: 'Усиление атаки, ослабление защиты', params: { damageBonus: 0.5, defensePenalty: 0.3, duration: 100 } },
+                { id: 'status_asleep', name: 'Сон', desc: 'Глубокий сон', params: { duration: 120, wakeOnDamage: true } },
+                { id: 'status_petrified', name: 'Окаменение', desc: 'Полная остановка', params: { duration: 80, breakDamage: 15 } },
+                { id: 'status_levitating', name: 'Левитация', desc: 'Парение в воздухе', params: { duration: 100, height: 2.0 } },
+                { id: 'status_sinking', name: 'Погружение', desc: 'Тонет в земле/воде', params: { sinkRate: 0.1, duration: 100 } },
+                { id: 'status_phasing', name: 'Фазирование', desc: 'Прохождение сквозь объекты', params: { duration: 40 } },
+                { id: 'status_invisible', name: 'Невидимость', desc: 'Невидимость', params: { duration: 200, breakOnAttack: true } },
+                { id: 'status_intangible', name: 'Бесплотность', desc: 'Неуязвимость', params: { duration: 30 } },
+                { id: 'status_regen', name: 'Регенерация', desc: 'Восстановление здоровья', params: { healRate: 1, duration: 100 } },
+                { id: 'status_chakra_regen', name: 'Регенерация чакры', desc: 'Восстановление чакры', params: { regenRate: 2, duration: 100 } },
+                { id: 'status_haste', name: 'Ускорение', desc: 'Увеличение скорости', params: { speedBonus: 0.5, duration: 200 } },
+                { id: 'status_slow', name: 'Замедление', desc: 'Уменьшение скорости', params: { slowPercent: 0.5, duration: 100 } },
+                { id: 'status_strength', name: 'Сила', desc: 'Увеличение урона', params: { damageBonus: 0.5, duration: 200 } },
+                { id: 'status_weakness', name: 'Слабость', desc: 'Уменьшение урона', params: { damagePenalty: 0.3, duration: 100 } },
+                { id: 'status_resistance', name: 'Сопротивление', desc: 'Снижение получаемого урона', params: { resistPercent: 0.5, duration: 200 } },
+                { id: 'status_vulnerable', name: 'Уязвимость', desc: 'Увеличение получаемого урона', params: { vulnerablePercent: 0.5, duration: 100 } },
+                { id: 'status_shield', name: 'Щит', desc: 'Поглощение урона', params: { shieldAmount: 20, duration: 200 } },
+                { id: 'status_reflect', name: 'Отражение', desc: 'Отскок урона', params: { reflectPercent: 0.5, duration: 100 } },
+                { id: 'status_thorns', name: 'Шипы', desc: 'Урон атакующему', params: { thornsDamage: 3, duration: 100 } },
+                { id: 'status_lifesteal', name: 'Вампиризм', desc: 'Лечение от урона', params: { lifestealPercent: 0.2, duration: 100 } },
+                { id: 'status_chakra_burn', name: 'Сжигание чакры', desc: 'Урон за счёт чакры', params: { chakraDamage: 2, duration: 60 } },
+                { id: 'status_elemental_infusion', name: 'Стихийное покрытие', desc: 'Покрытие стихией', params: { element: 'fire', duration: 100, bonusDamage: 3 } },
+                { id: 'status_size_up', name: 'Увеличение', desc: 'Рост размера', params: { sizeMultiplier: 2.0, duration: 100 } },
+                { id: 'status_size_down', name: 'Уменьшение', desc: 'Уменьшение размера', params: { sizeMultiplier: 0.5, duration: 100 } },
+                { id: 'status_flight', name: 'Полёт', desc: 'Способность летать', params: { duration: 200, flySpeed: 1.5 } },
+                { id: 'status_water_walk', name: 'Хождение по воде', desc: 'Хождение по воде', params: { duration: 300 } },
+                { id: 'status_wall_walk', name: 'Хождение по стенам', desc: 'Хождение по стенам', params: { duration: 300 } },
+                { id: 'status_phase_shift', name: 'Фазовый сдвиг', desc: 'Кратковременная бесплотность', params: { duration: 20, cooldown: 100 } },
+                { id: 'status_time_slow', name: 'Замедление времени', desc: 'Замедление для цели', params: { slowFactor: 0.5, duration: 100 } },
+                { id: 'status_time_stop', name: 'Остановка времени', desc: 'Полная остановка', params: { duration: 40 } },
+                { id: 'status_rewind', name: 'Перемотка', desc: 'Откат состояния', params: { rewindSeconds: 3 } },
+                { id: 'status_age', name: 'Старение', desc: 'Ускоренное старение', params: { ageAmount: 10, effect: 'weaken' } },
+                { id: 'status_rejuvenate', name: 'Омоложение', desc: 'Обращение старения', params: { rejuvenateAmount: 10 } },
+                { id: 'status_soul_drain', name: 'Поглощение души', desc: 'Кража жизненной силы', params: { drainRate: 2, duration: 100 } },
+                { id: 'status_mind_control', name: 'Контроль разума', desc: 'Управление действиями', params: { duration: 100, controlType: 'full' } },
+                { id: 'status_memory_wipe', name: 'Стирание памяти', desc: 'Забытие', params: { memoryScope: 'recent' } },
+                { id: 'status_possession', name: 'Одержимость', desc: 'Вселение в цель', params: { duration: 100 } },
+                { id: 'status_curse_spread', name: 'Распространение проклятия', desc: 'Передача проклятия', params: { spreadRange: 5.0, spreadChance: 0.3 } },
+                { id: 'status_corruption', name: 'Порча', desc: 'Разложение', params: { corruptionRate: 1, duration: 100 } },
+                { id: 'status_purify', name: 'Очищение', desc: 'Снятие негативных эффектов', params: { purifyCount: 3 } },
+                { id: 'status_enchant', name: 'Зачарование', desc: 'Магическое усиление', params: { enchantType: 'fire', duration: 200 } },
+                { id: 'status_dispel', name: 'Развеивание', desc: 'Снятие эффектов', params: { dispelCount: 1, dispelType: 'all' } },
+                { id: 'status_bind', name: 'Связывание', desc: 'Ограничение действий', params: { bindType: 'movement', duration: 60 } },
+                { id: 'status_seal', name: 'Запечатывание', desc: 'Блокировка способности', params: { sealTarget: 'jutsu', duration: 200 } },
+                { id: 'status_unseal', name: 'Распечатывание', desc: 'Разблокировка', params: { unsealTarget: 'jutsu' } },
+                { id: 'status_sacrifice_mark', name: 'Метка жертвы', desc: 'Маркировка для жертвы', params: { sacrificeEffect: 'death' } },
+                { id: 'status_resurrection_mark', name: 'Метка воскрешения', desc: 'Маркировка для воскрешения', params: { resurrectionCondition: 'death' } }
+            ],
+            duration: [
+                { id: 'duration_channel', name: 'Канал', desc: 'Поддержание техники', params: { chakraPerTick: 0.5, maxDuration: 200, interruptible: true } },
+                { id: 'duration_aura', name: 'Аура', desc: 'Постоянная зона вокруг кастера', params: { radius: 5.0, effect: 'damage', chakraPerTick: 1.0 } },
+                { id: 'duration_transformation', name: 'Трансформация', desc: 'Изменение формы', params: { transformType: 'beast', duration: 400, revertCondition: 'time' } },
+                { id: 'duration_possession', name: 'Одержимость', desc: 'Контроль сущности', params: { duration: 200, controlLevel: 'full' } },
+                { id: 'duration_summon_active', name: 'Активный призыв', desc: 'Сущность существует', params: { entityType: 'wolf', lifetime: 600, controlType: 'auto' } },
+                { id: 'duration_clone_active', name: 'Активные клоны', desc: 'Клоны существуют', params: { cloneCount: 4, cloneLifetime: 400, cloneAI: 'combat' } },
+                { id: 'duration_construct_active', name: 'Активный конструкт', desc: 'Объект существует', params: { constructType: 'wall', lifetime: 300, durability: 50 } },
+                { id: 'duration_terrain_active', name: 'Активный ландшафт', desc: 'Изменённый ландшафт', params: { area: 10.0, duration: 400, revertCondition: 'time' } },
+                { id: 'duration_weather_active', name: 'Активная погода', desc: 'Погода изменена', params: { weatherType: 'rain', duration: 1000 } },
+                { id: 'duration_curse_active', name: 'Активное проклятие', desc: 'Проклятие действует', params: { curseType: 'drain', duration: 300, spreadCondition: 'none' } },
+                { id: 'duration_ritual', name: 'Ритуал', desc: 'Многоступенчатый каст', params: { ritualSteps: 3, stepDuration: 100, finalEffect: 'summon' } },
+                { id: 'duration_meditation', name: 'Медитация', desc: 'Поддержание медитации', params: { chakraRegenBonus: 2.0, maxDuration: 1000 } },
+                { id: 'duration_berserk', name: 'Берсерк', desc: 'Усиление с потерей контроля', params: { damageBonus: 1.0, defensePenalty: 0.5, duration: 200, exhaustionAfter: 50 } },
+                { id: 'duration_overdrive', name: 'Перегрузка', desc: 'Усиление с уроном себе', params: { powerBonus: 2.0, selfDamagePerTick: 2, maxDuration: 200 } },
+                { id: 'duration_sacrifice', name: 'Жертва', desc: 'Усиление за счёт здоровья', params: { powerBonus: 2.0, hpDrainPerTick: 1, maxDuration: 200 } },
+                { id: 'duration_fusion', name: 'Слияние', desc: 'Объединение с сущностью', params: { fusionTarget: 'summon', fusionBonus: 1.5, duration: 300 } },
+                { id: 'duration_split', name: 'Разделение', desc: 'Разделение на части', params: { splitCount: 2, splitDuration: 200, mergeCondition: 'time' } },
+                { id: 'duration_dimensional', name: 'Межпространственный', desc: 'В другом измерении', params: { dimension: 'kamui', duration: 200, returnCondition: 'time' } },
+                { id: 'duration_time_loop', name: 'Временная петля', desc: 'Повторение действий', params: { loopDuration: 100, loopCount: 3 } }
+            ],
+            end: [
+                { id: 'end_fade', name: 'Угасание', desc: 'Плавное исчезновение', params: { fadeDuration: 20 } },
+                { id: 'end_explode', name: 'Взрыв при завершении', desc: 'Финальный взрыв', params: { explosionRadius: 3.0, explosionDamage: 8 } },
+                { id: 'end_revert_terrain', name: 'Восстановление ландшафта', desc: 'Возврат блоков', params: { revertSpeed: 10 } },
+                { id: 'end_dismiss_summon', name: 'Отзыв призыва', desc: 'Исчезновение сущности', params: { dismissEffect: 'poof' } },
+                { id: 'end_dismiss_clone', name: 'Исчезновение клонов', desc: 'Исчезновение копий', params: { dismissEffect: 'poof', poofParticles: true } },
+                { id: 'end_release_chakra', name: 'Высвобождение чакры', desc: 'Выброс остатков', params: { releaseAmount: 10, releaseEffect: 'burst' } },
+                { id: 'end_exhaustion', name: 'Истощение', desc: 'Усталость после техники', params: { exhaustionAmount: 20, exhaustionDuration: 200 } },
+                { id: 'end_cooldown_long', name: 'Длинный кулдаун', desc: 'Увеличенный кулдаун', params: { cooldownTicks: 400 } },
+                { id: 'end_sacrifice_death', name: 'Смерть жертвы', desc: 'Кастер умирает', params: {} },
+                { id: 'end_hp_cost', name: 'Стоимость здоровьем', desc: 'Финальная цена', params: { hpCost: 20 } },
+                { id: 'end_seal_self', name: 'Самозапечатывание', desc: 'Запечатывание кастера', params: { sealDuration: 400 } },
+                { id: 'end_dimensional_return', name: 'Возврат из измерения', desc: 'Выход из другого пространства', params: { returnEffect: 'fade' } },
+                { id: 'end_dispel_all', name: 'Развеивание всех эффектов', desc: 'Снятие всех статусов', params: {} },
+                { id: 'end_transform_revert', name: 'Возврат формы', desc: 'Возврат к обычной форме', params: { revertEffect: 'poof' } },
+                { id: 'end_transfer_chakra', name: 'Передача чакры', desc: 'Передача остатков союзнику', params: { transferTarget: 'ally', transferAmount: 20 } },
+                { id: 'end_curse_linger', name: 'Проклятие остаётся', desc: 'Эффект продолжается после каста', params: { lingerDuration: 200, lingerEffect: 'burn' } },
+                { id: 'end_mark_detonate', name: 'Детонация меток', desc: 'Все метки взрываются', params: { detonateAll: true, detonateDamage: 10 } },
+                { id: 'end_terrain_permanent', name: 'Ландшафт остаётся', desc: 'Изменения постоянны', params: {} },
+                { id: 'end_weather_permanent', name: 'Погода остаётся', desc: 'Изменения постоянны', params: {} },
+                { id: 'end_summon_permanent', name: 'Призыв остаётся', desc: 'Сущность остаётся навсегда', params: {} },
+                { id: 'end_ritual_complete', name: 'Ритуал завершён', desc: 'Финальный эффект ритуала', params: { finalEffect: 'summon', ritualCost: 50 } },
+                { id: 'end_sacrifice_complete', name: 'Жертва принесена', desc: 'Жертва завершена', params: { sacrificeResult: 'power' } }
+            ],
+            modifier: [
+                { id: 'mod_element_fire', name: 'Стихия огня', desc: 'Огненный элемент', params: { fireIntensity: 1.0 } },
+                { id: 'mod_element_water', name: 'Стихия воды', desc: 'Водный элемент', params: { waterVolume: 1.0 } },
+                { id: 'mod_element_wind', name: 'Стихия ветра', desc: 'Ветряной элемент', params: { windForce: 1.0 } },
+                { id: 'mod_element_earth', name: 'Стихия земли', desc: 'Земляной элемент', params: { earthDensity: 1.0 } },
+                { id: 'mod_element_lightning', name: 'Стихия молнии', desc: 'Молниевый элемент', params: { lightningCharge: 1.0 } },
+                { id: 'mod_element_ice', name: 'Стихия льда', desc: 'Ледяной элемент', params: { iceDensity: 1.0 } },
+                { id: 'mod_element_lava', name: 'Стихия лавы', desc: 'Лавовый элемент', params: { lavaHeat: 1.0 } },
+                { id: 'mod_element_wood', name: 'Стихия дерева', desc: 'Древесный элемент', params: { woodDensity: 1.0 } },
+                { id: 'mod_element_sand', name: 'Стихия песка', desc: 'Песчаный элемент', params: { sandControl: 1.0 } },
+                { id: 'mod_element_magnetism', name: 'Стихия магнетизма', desc: 'Магнитный элемент', params: { magnetForce: 1.0 } },
+                { id: 'mod_element_sound', name: 'Стихия звука', desc: 'Звуковой элемент', params: { soundFrequency: 440 } },
+                { id: 'mod_element_shadow', name: 'Стихия тени', desc: 'Теневой элемент', params: { shadowDensity: 1.0 } },
+                { id: 'mod_element_light', name: 'Стихия света', desc: 'Световой элемент', params: { lightIntensity: 1.0 } },
+                { id: 'mod_element_yin', name: 'Инь', desc: 'Инь-элемент', params: { yinPower: 1.0 } },
+                { id: 'mod_element_yang', name: 'Ян', desc: 'Ян-элемент', params: { yangPower: 1.0 } },
+                { id: 'mod_scale_damage', name: 'Масштаб урона', desc: 'Множитель урона', params: { damageMultiplier: 1.0 } },
+                { id: 'mod_scale_range', name: 'Масштаб дальности', desc: 'Множитель дальности', params: { rangeMultiplier: 1.0 } },
+                { id: 'mod_scale_radius', name: 'Масштаб радиуса', desc: 'Множитель радиуса', params: { radiusMultiplier: 1.0 } },
+                { id: 'mod_scale_duration', name: 'Масштаб длительности', desc: 'Множитель длительности', params: { durationMultiplier: 1.0 } },
+                { id: 'mod_scale_speed', name: 'Масштаб скорости', desc: 'Множитель скорости', params: { speedMultiplier: 1.0 } },
+                { id: 'mod_scale_cost', name: 'Масштаб стоимости', desc: 'Множитель стоимости', params: { costMultiplier: 1.0 } },
+                { id: 'mod_scale_cooldown', name: 'Масштаб кулдауна', desc: 'Множитель кулдауна', params: { cooldownMultiplier: 1.0 } },
+                { id: 'mod_homing', name: 'Самонаведение', desc: 'Следование за целью', params: { turnRate: 0.1 } },
+                { id: 'mod_piercing', name: 'Пробивание', desc: 'Прохождение сквозь цели', params: { pierceCount: 3 } },
+                { id: 'mod_bouncing', name: 'Рикошет', desc: 'Отскок от поверхностей', params: { bounceCount: 2 } },
+                { id: 'mod_splitting', name: 'Разделение', desc: 'Деление при полёте/ударе', params: { splitCount: 3, splitAngle: 30 } },
+                { id: 'mod_orbiting', name: 'Орбита', desc: 'Вращение вокруг кастера', params: { orbitRadius: 3.0, orbitSpeed: 1.0 } },
+                { id: 'mod_chain', name: 'Цепь', desc: 'Перепрыгивание между целями', params: { chainCount: 5, chainRange: 8.0 } },
+                { id: 'mod_forking', name: 'Разветвление', desc: 'Разветвление траектории', params: { forkCount: 3, forkAngle: 30 } },
+                { id: 'mod_spiral', name: 'Спираль', desc: 'Спиральная траектория', params: { spiralRate: 2.0 } },
+                { id: 'mod_wave', name: 'Волна', desc: 'Волновая траектория', params: { waveAmplitude: 1.0, waveFrequency: 1.0 } },
+                { id: 'mod_arc', name: 'Дуга', desc: 'Дуговая траектория', params: { arcHeight: 5.0 } },
+                { id: 'mod_gravity_affected', name: 'Гравитация', desc: 'Влияние гравитации', params: { gravityStrength: 0.02 } },
+                { id: 'mod_no_gravity', name: 'Без гравитации', desc: 'Игнорирование гравитации', params: {} },
+                { id: 'mod_invisible_projectile', name: 'Невидимый снаряд', desc: 'Снаряд невидим', params: {} },
+                { id: 'mod_silent', name: 'Бесшумность', desc: 'Без звука', params: {} },
+                { id: 'mod_undetectable', name: 'Необнаружимость', desc: 'Невозможно обнаружить', params: {} },
+                { id: 'mod_unblockable', name: 'Неблокируемость', desc: 'Нельзя заблокировать', params: {} },
+                { id: 'mod_unreflectable', name: 'Неотражаемость', desc: 'Нельзя отразить', params: {} },
+                { id: 'mod_purifying', name: 'Очищение', desc: 'Снимает негативные эффекты', params: { purifyCount: 3 } },
+                { id: 'mod_corrupting', name: 'Порча', desc: 'Добавляет негативные эффекты', params: { corruptType: 'drain' } },
+                { id: 'mod_lifesteal', name: 'Вампиризм', desc: 'Лечение от урона', params: { lifestealPercent: 0.2 } },
+                { id: 'mod_chakra_drain', name: 'Поглощение чакры', desc: 'Кража чакры при ударе', params: { drainAmount: 10 } },
+                { id: 'mod_execute_bonus', name: 'Бонус казни', desc: 'Доп. урон при низком здоровье цели', params: { executeThreshold: 0.3, executeBonus: 2.0 } },
+                { id: 'mod_combo_bonus', name: 'Бонус комбо', desc: 'Усиление при комбо', params: { comboStepBonus: 0.1 } },
+                { id: 'mod_elemental_interaction', name: 'Стихийное взаимодействие', desc: 'Взаимодействие со стихиями', params: { interactionType: 'enhance' } },
+                { id: 'mod_terrain_interaction', name: 'Взаимодействие с ландшафтом', desc: 'Взаимодействие с блоками', params: { terrainType: 'any', terrainEffect: 'enhance' } },
+                { id: 'mod_weather_interaction', name: 'Взаимодействие с погодой', desc: 'Взаимодействие с погодой', params: { weatherType: 'any', weatherEffect: 'enhance' } },
+                { id: 'mod_light_interaction', name: 'Взаимодействие со светом', desc: 'Взаимодействие со светом', params: { lightCondition: 'any', lightEffect: 'enhance' } },
+                { id: 'mod_chakra_mode_bonus', name: 'Бонус чакра-режима', desc: 'Усиление в чакра-режиме', params: { chakraModeMultiplier: 1.5 } },
+                { id: 'mod_clan_bonus', name: 'Клановый бонус', desc: 'Усиление для клана', params: { clanId: 'uchiha', clanBonus: 0.3 } },
+                { id: 'mod_dojutsu_required', name: 'Требование додзюцу', desc: 'Требует активации додзюцу', params: { dojutsuType: 'sharingan', dojutsuStage: 1 } },
+                { id: 'mod_sage_mode_bonus', name: 'Бонус режима мудреца', desc: 'Усиление в режиме мудреца', params: { sageModeMultiplier: 2.0 } },
+                { id: 'mod_tailed_beast_bonus', name: 'Бонус биджу', desc: 'Усиление от биджу', params: { tailedBeastMultiplier: 2.0 } },
+                { id: 'mod_mangekyo_required', name: 'Требование мангекё', desc: 'Требует мангекё', params: { mangekyoAbility: 'amaterasu' } },
+                { id: 'mod_eternal_mangekyo', name: 'Вечное мангекё', desc: 'Требует вечное мангекё', params: { eternalMangekyoAbility: 'perfect_susano' } },
+                { id: 'mod_rinnegan_required', name: 'Требование риннеган', desc: 'Требует риннеган', params: { rinneganAbility: 'almighty_push' } },
+                { id: 'mod_byakugan_required', name: 'Требование бьякуган', desc: 'Требует бьякуган', params: { byakuganAbility: 'gentle_fist' } },
+                { id: 'mod_sharingan_required', name: 'Требование шаринган', desc: 'Требует шаринган', params: { sharinganAbility: 'copy' } },
+                { id: 'mod_sage_required', name: 'Требование режима мудреца', desc: 'Требует режим мудреца', params: { sageModeRequired: true } },
+                { id: 'mod_tailed_beast_required', name: 'Требование биджу', desc: 'Требует биджу', params: { tailedBeastRequired: 'any' } },
+                { id: 'mod_kinjutsu', name: 'Киндзюцу', desc: 'Запретная техника', params: { kinjutsuPenalty: 50 } },
+                { id: 'mod_forbidden', name: 'Запрет', desc: 'Полностью запретная техника', params: { forbiddenPenalty: 100 } }
+            ]
+        };
+
+        // ============================================
+        // STATE
+        // ============================================
+        let currentPhase = 'trigger';
+        let selectedBehavior = null;
+        let currentTool = 'place';
+        let selectedColor = '#ff6b35';
+        let pipeline = {
+            trigger: null,
+            delivery: [],
+            contact: [],
+            area: [],
+            status: [],
+            duration: [],
+            end: [],
+            modifier: []
+        };
+        let voxels = [];
+
+        // ============================================
+        // THREE.JS SETUP
+        // ============================================
+        const canvas = document.getElementById('voxel-canvas');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        renderer.setClearColor(0x1a1a2e);
+
+        camera.position.set(10, 10, 10);
+        camera.lookAt(0, 0, 0);
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambientLight);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(10, 10, 10);
+        scene.add(directionalLight);
+
+        const gridHelper = new THREE.GridHelper(20, 20, 0x444444, 0x222222);
+        scene.add(gridHelper);
+
+        const voxelGroup = new THREE.Group();
+        scene.add(voxelGroup);
+
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+
+        canvas.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            previousMousePosition = { x: e.clientX, y: e.clientY };
+
+            if (currentTool === 'place' || currentTool === 'erase') {
+                const rect = canvas.getBoundingClientRect();
+                mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+                mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+                raycaster.setFromCamera(mouse, camera);
+                const intersects = raycaster.intersectObjects(voxelGroup.children);
+
+                if (currentTool === 'place' && intersects.length > 0) {
+                    const intersect = intersects[0];
+                    const pos = intersect.point.clone().add(intersect.face.normal.multiplyScalar(0.5));
+                    pos.x = Math.round(pos.x);
+                    pos.y = Math.round(pos.y);
+                    pos.z = Math.round(pos.z);
+                    addVoxel(pos.x, pos.y, pos.z, selectedColor);
+                } else if (currentTool === 'erase' && intersects.length > 0) {
+                    const voxel = intersects[0].object;
+                    voxelGroup.remove(voxel);
+                    voxels = voxels.filter(v => v.mesh !== voxel);
+                }
+            }
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const deltaX = e.clientX - previousMousePosition.x;
+                const deltaY = e.clientY - previousMousePosition.y;
+
+                camera.position.x -= deltaX * 0.05;
+                camera.position.y += deltaY * 0.05;
+                camera.lookAt(0, 0, 0);
+
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            }
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        canvas.addEventListener('wheel', (e) => {
+            camera.position.z += e.deltaY * 0.01;
+        });
+
+        function addVoxel(x, y, z, color) {
+            const geometry = new THREE.BoxGeometry(1, 1, 1);
+            const material = new THREE.MeshPhongMaterial({ color: color });
+            const voxel = new THREE.Mesh(geometry, material);
+            voxel.position.set(x, y, z);
+            voxelGroup.add(voxel);
+            voxels.push({ x, y, z, color, mesh: voxel });
+        }
+
+        function clearVoxels() {
+            while (voxelGroup.children.length > 0) {
+                voxelGroup.remove(voxelGroup.children[0]);
+            }
+            voxels = [];
+        }
+
+        function setTool(tool) {
+            currentTool = tool;
+            document.querySelectorAll('.tool-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.tool === tool) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        // ============================================
+        // UI FUNCTIONS
+        // ============================================
+        function renderPhaseTabs() {
+            const tabsContainer = document.getElementById('phaseTabs');
+            tabsContainer.innerHTML = '';
+            Object.keys(BEHAVIORS).forEach(phase => {
+                const tab = document.createElement('div');
+                tab.className = `phase-tab ${phase === currentPhase ? 'active' : ''}`;
+                tab.textContent = phase.toUpperCase();
+                tab.onclick = () => {
+                    currentPhase = phase;
+                    renderPhaseTabs();
+                    renderBehaviorList();
+                };
+                tabsContainer.appendChild(tab);
+            });
+        }
+
+        function renderBehaviorList() {
+            const listContainer = document.getElementById('behaviorList');
+            listContainer.innerHTML = '';
+            BEHAVIORS[currentPhase].forEach(behavior => {
+                const item = document.createElement('div');
+                item.className = `behavior-item ${selectedBehavior?.id === behavior.id ? 'selected' : ''}`;
+                item.innerHTML = `
+                    <div class="behavior-name">${behavior.name}</div>
+                    <div class="behavior-desc">${behavior.desc}</div>
+                `;
+                item.onclick = () => {
+                    selectedBehavior = behavior;
+                    renderBehaviorList();
+                    renderParams();
+                    addToPipeline();
+                };
+                listContainer.appendChild(item);
+            });
+        }
+
+        function renderParams() {
+            const paramsContainer = document.getElementById('paramsPanel');
+            if (!selectedBehavior) {
+                paramsContainer.innerHTML = '<h3 style="color: #e94560; margin-bottom: 10px;">Parameters</h3><p style="font-size: 12px; color: #a0a0a0;">Select a behavior to edit parameters</p>';
+                return;
+            }
+
+            let html = `<h3 style="color: #e94560; margin-bottom: 10px;">${selectedBehavior.name}</h3>`;
+            Object.keys(selectedBehavior.params).forEach(key => {
+                const value = selectedBehavior.params[key];
+                html += `
+                    <div class="param-item">
+                        <label>${key}</label>
+                        <input type="number" value="${value}" step="0.1" onchange="updateParam('${key}', this.value)">
+                    </div>
+                `;
+            });
+            paramsContainer.innerHTML = html;
+        }
+
+        function updateParam(key, value) {
+            if (selectedBehavior) {
+                selectedBehavior.params[key] = parseFloat(value);
+            }
+        }
+
+        function addToPipeline() {
+            if (selectedBehavior) {
+                if (currentPhase === 'trigger') {
+                    pipeline.trigger = { ...selectedBehavior };
+                } else {
+                    pipeline[currentPhase].push({ ...selectedBehavior });
+                }
+                renderPipeline();
+                updateJSON();
+            }
+        }
+
+        function renderPipeline() {
+            const pipelineContainer = document.getElementById('pipelineList');
+            pipelineContainer.innerHTML = '';
+
+            if (pipeline.trigger) {
+                const item = document.createElement('div');
+                item.className = 'pipeline-item';
+                item.innerHTML = `<span>🔥 ${pipeline.trigger.name}</span><button onclick="removeFromPipeline('trigger')">❌</button>`;
+                pipelineContainer.appendChild(item);
+            }
+
+            ['delivery', 'contact', 'area', 'status', 'duration', 'end', 'modifier'].forEach(phase => {
+                pipeline[phase].forEach((behavior, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'pipeline-item';
+                    item.innerHTML = `<span>⚡ ${behavior.name}</span><button onclick="removeFromPipeline('${phase}', ${index})"></button>`;
+                    pipelineContainer.appendChild(item);
+                });
+            });
+        }
+
+        function removeFromPipeline(phase, index) {
+            if (phase === 'trigger') {
+                pipeline.trigger = null;
+            } else {
+                pipeline[phase].splice(index, 1);
+            }
+            renderPipeline();
+            updateJSON();
+        }
+
+        function updateJSON() {
+            const jsonContent = document.getElementById('jsonContent');
+            jsonContent.textContent = JSON.stringify(pipeline, null, 2);
+        }
+
+        // ============================================
+        // COLOR PICKER
+        // ============================================
+        const colors = ['#ff6b35', '#f7931e', '#ffd700', '#00ff00', '#00ffff', '#0080ff', '#8000ff', '#ff0080', '#ff0000', '#ffffff', '#000000', '#808080'];
+        const colorPicker = document.getElementById('colorPicker');
+        colors.forEach(color => {
+            const swatch = document.createElement('div');
+            swatch.className = `color-swatch ${color === selectedColor ? 'selected' : ''}`;
+            swatch.style.backgroundColor = color;
+            swatch.onclick = () => {
+                selectedColor = color;
+                document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+                swatch.classList.add('selected');
+            };
+            colorPicker.appendChild(swatch);
+        });
+
+        // ============================================
+        // EXPORT/IMPORT
+        // ============================================
+        function exportJSON() {
+            const dataStr = JSON.stringify(pipeline, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'jutsu.json';
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function importBBModel() {
+            alert('BBModel import: Create file input dialog here');
+        }
+
+        function exportBBModel() {
+            alert('BBModel export: Generate .bbmodel file here');
+        }
+
+        // ============================================
+        // ANIMATION LOOP
+        // ============================================
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+
+        // ============================================
+        // INIT
+        // ============================================
+        renderPhaseTabs();
+        renderBehaviorList();
+        renderParams();
+        renderPipeline();
+        updateJSON();
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = canvas.clientWidth / canvas.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+{
+  "chakra": {
+    "baseChakra": 100.0,
+    "chakraPerReserveLevel": 12.0,
+    "baseRegenPerSecond": 4.0,
+    "regenPerControlLevel": 0.15,
+    "chakraModeDrainPerSecond": 2.0,
+    "chakraModeRegenMultiplier": 0.2,
+    "meditationRegenMultiplier": 2.5,
+    "meditationFatigueDecayMultiplier": 2.0,
+    "exhaustionDurationTicks": 200,
+    "chakraModeActivationMinChakra": 5.0,
+    "chakraModeToggleCooldownTicks": 20
+  },
+  "combat": {
+    "taijutsuBaseDamage": 2.0,
+    "taijutsuDamagePerLevel": 0.3,
+    "chakraModeDamageMult": 1.2,
+    "chakraModeSpeedMult": 1.15,
+    "strongFistUnlockLevel": 50,
+    "parryWindowMs": 400.0,
+    "parryCooldownMs": 200.0,
+    "blockStaminaPerSecond": 3.0,
+    "blockBaseDamageReduction": 0.6,
+    "kickStandaloneDamageMult": 1.5,
+    "kickComboFinisherDamageMult": 1.5,
+    "kickStandaloneCooldownMs": 900,
+    "kickComboFinisherCooldownMs": 600
+  },
+  "progression": {
+    "xpBase": 100,
+    "xpPerLevel": 25,
+    "xpSquared": 5,
+    "spPerLevelUp": 1,
+    "maxStatLevel": 100,
+    "maxJutsuLevel": 10,
+    "jutsuXpPerUse": 1.0,
+    "attunementSpBaseCost": 3,
+    "attunementSpCostPerUnlocked": 2,
+    "attunementControlBaseRequirement": 10,
+    "attunementControlPerUnlocked": 5
+  },
+  "logging": {
+    "level": "INFO",
+    "fileLogging": true,
+    "maxLogFiles": 3,
+    "maxLogFileSizeMb": 5,
+    "moduleFilterEnabled": false,
+    "enabledModules": [],
+    "logChakraSync": false,
+    "logCombatDamage": false,
+    "logJutsuCasts": true,
+    "logPacketTraffic": false
+  }
+}

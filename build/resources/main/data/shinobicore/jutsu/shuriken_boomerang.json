@@ -1,1 +1,0 @@
-{"id":"shinobicore:shuriken_boomerang","name":"Shuriken: Boomerang","category":"shape_ninjutsu","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.BoomerangBehavior","params":{"speed":2.0},"baseCost":20,"baseDamage":5,"strain":5,"requiredUsesForFullProficiency":35,"requirements":{"control":18,"perception":15}}

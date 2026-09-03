@@ -1,1 +1,0 @@
-{"id":"shinobicore:wind_breakthrough_x5","name":"Wind Release: Breakthrough (x5)","category":"elemental_ninjutsu","nature":"wind","type":"projectile","params":{"speed":2.2,"radius":2,"particle":"wind","lifetime":70,"count":5,"spread":0.2},"baseCost":34,"baseDamage":6,"strain":9,"requiredUsesForFullProficiency":50,"requirements":{"control":24,"nature_wind":30,"ninjutsu":20}}

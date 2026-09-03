@@ -1,1 +1,0 @@
-{"id":"shinobicore:sum_phantom_contract","name":"Contract: Phantom Flight","category":"shape_ninjutsu","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.PhantomFlightBehavior","params":{"duration":400},"baseCost":60,"baseDamage":0,"strain":15,"requiredUsesForFullProficiency":65,"requirements":{"control":30,"ninjutsu":32}}

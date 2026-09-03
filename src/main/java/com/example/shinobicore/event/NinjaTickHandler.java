@@ -2,8 +2,6 @@ package com.example.shinobicore.event;
 
 import com.example.shinobicore.ShinobiCore;
 import com.example.shinobicore.config.ModConfig;
-import com.example.shinobicore.jutsu.WallRemovalTask;
-import com.example.shinobicore.jutsu.GenjutsuAuraEffect;
 import com.example.shinobicore.stat.NinjaDataHolder;
 import com.example.shinobicore.stat.NinjaFormula;
 import com.example.shinobicore.stat.NinjaPlayerData;
@@ -26,7 +24,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import java.util.UUID;
-import com.example.shinobicore.jutsu.JutsuLogger;
 import com.example.shinobicore.event.tick.ChakraRegenService;
 import com.example.shinobicore.event.tick.FatigueDecayService;
 import com.example.shinobicore.event.tick.MeditationService;
@@ -58,8 +55,8 @@ public class NinjaTickHandler {
         MarkTracker.cleanupExpired();
 
         for (var world : server.getWorlds()) {
-            WallRemovalTask.tick(world);
-            if (world instanceof ServerWorld) GenjutsuAuraEffect.tick((ServerWorld) world); // PHASE_E_GEN_AURA_REGISTERED
+            // WallRemovalTask.tick(world); // Removed in v2
+            // if (world instanceof ServerWorld) GenjutsuAuraEffect.tick((ServerWorld) world); // Removed in v2
         }
         for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
             NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();

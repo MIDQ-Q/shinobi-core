@@ -1,1 +1,0 @@
-{"id":"shinobicore:summon_iron_golem","name":"Summoning: Iron Guardian","category":"shape_ninjutsu","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.SummonBehavior","params":{"entity":"minecraft:iron_golem","count":1},"baseCost":80,"baseDamage":0,"strain":20,"requiredUsesForFullProficiency":60,"requirements":{"control":35,"ninjutsu":35}}

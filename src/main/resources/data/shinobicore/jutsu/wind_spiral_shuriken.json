@@ -1,1 +1,0 @@
-{"id":"shinobicore:wind_spiral_shuriken","name":"Wind Release: Spiral Shuriken","category":"elemental_ninjutsu","nature":"wind","type":"projectile","params":{"speed":2.0,"radius":1.2,"particle":"wind","lifetime":80,"bounce":1,"pierce":1},"baseCost":28,"baseDamage":7,"strain":7,"requiredUsesForFullProficiency":45,"requirements":{"control":22,"nature_wind":26,"ninjutsu":18}}

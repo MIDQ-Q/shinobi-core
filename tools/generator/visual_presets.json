@@ -1,0 +1,124 @@
+{
+"presets": [
+{
+"name": "Fireball",
+"element": "fire",
+"behaviorType": "projectile",
+"visual": {
+"particle": "flame",
+"trail": true,
+"impactParticle": "lava",
+"color": "fire"
+},
+"sound": {
+"cast": "entity.blaze.shoot",
+"hit": "entity.generic.explode"
+}
+},
+{
+"name": "Water Bullet",
+"element": "water",
+"behaviorType": "projectile",
+"visual": {
+"particle": "falling_water",
+"trail": true,
+"impactParticle": "falling_water",
+"color": "water"
+},
+"sound": {
+"cast": "entity.generic.splash",
+"hit": "entity.generic.splash"
+}
+},
+{
+"name": "Wind Blade",
+"element": "wind",
+"behaviorType": "projectile",
+"visual": {
+"particle": "cloud",
+"trail": true,
+"impactParticle": "cloud",
+"color": "wind"
+},
+"sound": {
+"cast": "entity.blaze.shoot",
+"hit": "entity.generic.explode"
+}
+},
+{
+"name": "Lightning Strike",
+"element": "lightning",
+"behaviorType": "aoe",
+"visual": {
+"particle": "electric_spark",
+"trail": false,
+"impactParticle": "flash",
+"color": "lightning"
+},
+"sound": {
+"cast": "entity.lightning_bolt.thunder",
+"hit": "entity.lightning_bolt.impact"
+}
+},
+{
+"name": "Earth Wall",
+"element": "earth",
+"behaviorType": "wall",
+"visual": {
+"particle": "poof",
+"trail": false,
+"impactParticle": "poof",
+"color": "earth"
+},
+"sound": {
+"cast": "entity.blaze.shoot",
+"hit": "entity.generic.explode"
+}
+},
+{
+"name": "Genjutsu",
+"element": "none",
+"behaviorType": "genjutsu",
+"visual": {
+"particle": "witch",
+"trail": false,
+"impactParticle": "witch",
+"color": "genjutsu"
+},
+"sound": {
+"cast": "entity.illusioner.cast_spell",
+"hit": "entity.illusioner.cast_spell"
+}
+},
+{
+"name": "Sensory",
+"element": "none",
+"behaviorType": "sensory",
+"visual": {
+"particle": "enchant",
+"trail": false,
+"impactParticle": "enchant",
+"color": "sensory"
+},
+"sound": {
+"cast": "block.amethyst_block.chime",
+"hit": "block.amethyst_block.chime"
+}
+},
+{
+"name": "Healing",
+"element": "none",
+"behaviorType": "buff",
+"visual": {
+"particle": "enchant",
+"trail": false,
+"impactParticle": "enchant",
+"color": "medical"
+},
+"sound": {
+"cast": "entity.player.levelup",
+"hit": "entity.player.levelup"
+}
+}
+]
+}

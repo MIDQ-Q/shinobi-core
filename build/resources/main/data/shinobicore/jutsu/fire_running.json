@@ -1,1 +1,0 @@
-{"id":"shinobicore:fire_running","name":"Fire Release: Running Fire","category":"elemental_ninjutsu","nature":"fire","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.RunningFireBehavior","params":{"distance":8},"baseCost":28,"baseDamage":5,"strain":7,"requiredUsesForFullProficiency":40,"requirements":{"control":18,"nature_fire":22,"ninjutsu":15}}

@@ -1,1 +1,0 @@
-{"id":"shinobicore:summon_wolf","name":"Summoning: Wolf Pack","category":"shape_ninjutsu","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.SummonBehavior","params":{"entity":"minecraft:wolf","count":2},"baseCost":40,"baseDamage":0,"strain":10,"requiredUsesForFullProficiency":40,"requirements":{"control":20,"ninjutsu":20}}

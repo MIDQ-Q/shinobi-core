@@ -1,23 +1,40 @@
 {
   "id": "shinobicore:rasengan",
   "name": "Rasengan",
+  "description": "Мощный вращающийся шар чакры",
   "category": "shape_ninjutsu",
-  "type": "custom",
-  "behaviorClass": "com.example.shinobicore.jutsu.custom.RasenganBehavior",
-  "params": {
-    "baseChargeTicks": 10,
-    "minChargeTicks": 4,
-    "dashDistance": 6.0,
-    "hitRadius": 2.5,
-    "knockback": 3.5,
-    "particleCount": 60
+  "rank": "A",
+  "tags": ["shape", "melee", "offensive"],
+  "form": {
+    "type": "handheld",
+    "params": {
+      "chargeTime": 40,
+      "holdDuration": 400,
+      "activation": "on_hit",
+      "size": 1.0,
+      "voxelModel": "rasengan_blue",
+      "throwable": false
+    }
   },
-  "baseCost": 80,
-  "baseDamage": 32,
-  "strain": 15,
-  "requiredUsesForFullProficiency": 100,
-  "requirements": {
-    "control": 30,
-    "ninjutsu": 30
-  }
+  "effects": [
+    { "type": "damage", "subtype": "instant", "params": { "amount": 16 } },
+    { "type": "control", "subtype": "launch", "params": { "force": 1.5 } }
+  ],
+  "properties": [
+    { "id": "explode_on_hit", "params": { "radius": 2.0, "damage": 16.0, "knockback": 2.0 } },
+    { "id": "multi_use", "params": {} }
+  ],
+  "element": "none",
+  "activation": { "type": "charge", "params": { "minCharge": 20, "maxCharge": 60 } },
+  "cost": { "chakra": 50, "fatigue": 12 },
+  "requirements": { "stats": { "control": 30, "ninjutsu": 25 } },
+  "leveling": {
+    "maxLevel": 15,
+    "levels": {
+      "1": { "damage": 16, "cost": 50 },
+      "10": { "damage": 32, "cost": 40 },
+      "15": { "damage": 40, "cost": 35 }
+    }
+  },
+  "visual": { "voxelModel": "rasengan_blue", "particle": "soul_fire_flame" }
 }

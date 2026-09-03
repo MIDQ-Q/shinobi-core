@@ -1,23 +1,35 @@
-﻿{
+{
   "id": "shinobicore:fire_release_great_fireball",
   "name": "Fire Release: Great Fireball Jutsu",
+  "description": "Мощный огненный шар",
   "category": "elemental_ninjutsu",
-  "nature": "fire",
-  "type": "projectile",
-  "params": {
-    "speed": 1.5,
-    "radius": 8.0,
-    "particle": "flame",
-    "lifetime": 100,
-    "gravity": false
+  "rank": "C",
+  "tags": ["fire", "projectile", "offensive", "aoe"],
+  "form": {
+    "type": "projectile",
+    "params": { "speed": 1.4, "gravity": 0.02, "lifetime": 80, "size": 0.5 }
   },
-  "baseCost": 30,
-  "baseDamage": 10,
-  "strain": 8,
-  "requiredUsesForFullProficiency": 50,
+  "effects": [
+    { "type": "damage", "subtype": "instant", "params": { "amount": 8 } },
+    { "type": "debuff", "subtype": "burn", "params": { "dps": 1, "duration": 40 } }
+  ],
+  "properties": [
+    { "id": "explode_on_hit", "params": { "radius": 3.0, "damage": 8.0, "knockback": 0.5 } }
+  ],
+  "element": "fire",
+  "activation": { "type": "handseals", "params": { "sealCount": 3, "sealSpeed": 1.0 } },
+  "cost": { "chakra": 30, "fatigue": 6 },
   "requirements": {
-    "control": 15,
-    "nature_fire": 20,
-    "ninjutsu": 10
+    "stats": { "control": 15, "ninjutsu": 15 },
+    "elements": { "fire": 1 }
+  },
+  "leveling": {
+    "maxLevel": 15,
+    "levels": {
+      "1": { "damage": 8, "cost": 35 },
+      "5": { "damage": 12, "cost": 28 },
+      "10": { "damage": 16, "cost": 22 },
+      "15": { "damage": 20, "cost": 18 }
+    }
   }
 }

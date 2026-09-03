@@ -1,1 +1,0 @@
-{"id":"shinobicore:forbidden_edo_tensei","name":"Forbidden: Edo Tensei","category":"taijutsu","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.SummonBehavior","params":{"entity":"minecraft:zombie","count":3},"baseCost":80,"baseDamage":0,"strain":25,"requiredUsesForFullProficiency":1,"requirements":{"taijutsu":45,"control":35,"ninjutsu":35}}

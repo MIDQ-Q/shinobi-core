@@ -1,1 +1,0 @@
-{"id":"shinobicore:fire_barrage","name":"Fire Release: Fireball Barrage","category":"elemental_ninjutsu","nature":"fire","type":"projectile","params":{"speed":1.8,"radius":0.8,"particle":"flame","lifetime":60,"count":8,"spread":0.6},"baseCost":30,"baseDamage":6,"strain":8,"requiredUsesForFullProficiency":45,"requirements":{"control":20,"nature_fire":25,"ninjutsu":18}}

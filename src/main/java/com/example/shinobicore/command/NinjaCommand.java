@@ -4,9 +4,9 @@ import com.example.shinobicore.ShinobiCore;
 import com.example.shinobicore.clan.ClanDefinition;
 import com.example.shinobicore.clan.ClanRegistry;
 import com.example.shinobicore.config.ModConfig;
-import com.example.shinobicore.jutsu.JutsuDefinition;
-import com.example.shinobicore.jutsu.JutsuRegistry;
-import com.example.shinobicore.jutsu.JutsuCaster;
+import com.example.shinobicore.jutsu.core.JutsuDefinition;
+import com.example.shinobicore.jutsu.registry.JutsuRegistry;
+import com.example.shinobicore.jutsu.executor.JutsuCaster;
 import com.example.shinobicore.stat.ElementType;
 import com.example.shinobicore.stat.NinjaDataHolder;
 import com.example.shinobicore.stat.NinjaFormula;
@@ -42,7 +42,7 @@ public class NinjaCommand {
                         .then(CommandManager.argument("id", StringArgumentType.greedyString())
                                 .executes(ctx -> {
                                     ServerPlayerEntity p = ctx.getSource().getPlayer();
-                                    return JutsuCaster.cast(p, normalizeId(StringArgumentType.getString(ctx, "id"))) ? 1 : 0;
+                                    return JutsuCaster.cast(p, JutsuRegistry.get(normalizeId(StringArgumentType.getString(ctx, "id")))) ? 1 : 0;
                                 })))
                 .then(slotBranch())
                 .then(clanBranch())
@@ -163,7 +163,7 @@ public class NinjaCommand {
                 .then(CommandManager.literal("list").executes(ctx -> {
                     StringBuilder sb = new StringBuilder("=== Jutsu ===\n");
                     for (JutsuDefinition def : JutsuRegistry.getAll()) {
-                        sb.append("- ").append(def.id()).append(" [").append(def.type()).append("]\n");
+                        sb.append("- ").append(def.getId()).append(" [").append("custom").append("]\n");
                     }
                     ctx.getSource().sendFeedback(() -> Text.literal(sb.toString()), false);
                     return 1;
@@ -173,10 +173,10 @@ public class NinjaCommand {
                             JutsuDefinition def = JutsuRegistry.get(normalizeId(StringArgumentType.getString(ctx, "id")));
                             if (def == null) return feedback(ctx.getSource(), "§cNot found");
                             ctx.getSource().sendFeedback(() -> Text.literal(
-                                    def.name() + "\n" +
-                                            "§7type=" + def.type() +
-                                            " nature=" + (def.hasNature() ? def.nature().getId() : "none") +
-                                            " cost=" + def.baseCost() + " dmg=" + def.baseDamage()), false);
+                                    def.getName() + "\n" +
+                                            "§7type=" + "custom" +
+                                            " nature=" + (def.hasElement() ? def.getElement().getId() : "none") +
+                                            " cost=" + 0 + " dmg=" + 0), false);
                             return 1;
                         })));
     }
@@ -192,7 +192,7 @@ public class NinjaCommand {
                 .then(CommandManager.argument("id", StringArgumentType.greedyString())
                         .suggests((ctx, b) -> {
                             b.suggest("none");
-                            for (JutsuDefinition def : JutsuRegistry.getAll()) b.suggest(def.id());
+                            for (JutsuDefinition def : JutsuRegistry.getAll()) b.suggest(def.getId());
                             return b.buildFuture();
                         })
                         .executes(ctx -> {
@@ -314,7 +314,7 @@ public class NinjaCommand {
     }
 
     private static CompletableFuture<Suggestions> suggestJutsu(CommandContext<ServerCommandSource> ctx, SuggestionsBuilder b) {
-        for (JutsuDefinition def : JutsuRegistry.getAll()) b.suggest(def.id());
+        for (JutsuDefinition def : JutsuRegistry.getAll()) b.suggest(def.getId());
         return b.buildFuture();
     }
 }

@@ -1,1 +1,0 @@
-{"id":"shinobicore:sum_skeleton_contract","name":"Contract: Arrow Barrage","category":"shape_ninjutsu","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.ArrowRainBehavior","params":{"count":24,"area":8,"arrowDamage":5},"baseCost":55,"baseDamage":0,"strain":13,"requiredUsesForFullProficiency":60,"requirements":{"control":28,"perception":25}}

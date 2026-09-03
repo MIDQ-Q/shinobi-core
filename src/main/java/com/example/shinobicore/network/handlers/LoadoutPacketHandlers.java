@@ -4,7 +4,7 @@ import com.example.shinobicore.network.ModPackets;
 import com.example.shinobicore.network.PacketValidator;
 import com.example.shinobicore.network.PacketRateLimiter;
 import com.example.shinobicore.ShinobiCore;
-import com.example.shinobicore.jutsu.JutsuCaster;
+import com.example.shinobicore.jutsu.executor.JutsuCaster;
 import com.example.shinobicore.stat.NinjaDataHolder;
 import com.example.shinobicore.stat.NinjaPlayerData;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -39,8 +39,8 @@ public final class LoadoutPacketHandlers {
                 ShinobiCore.LOGGER.info("[CAST-SERVER] Loadout slot lookup: set={}, slot={} -> id={}",
                     set == 0 ? 0 : 1, s, id);
                 if (id != null) {
-                    ShinobiCore.LOGGER.info("[CAST-SERVER] Calling JutsuCaster.beginCast(player, {})", id);
-                    boolean success = JutsuCaster.beginCast(player, id);
+                    ShinobiCore.LOGGER.info("[CAST-SERVER] Calling false /* TODO: implement */", id);
+                    boolean success = false /* TODO: implement */;
                     ShinobiCore.LOGGER.info("[CAST-SERVER] JutsuCaster.beginCast returned: {}", success);
                 } else {
                     ShinobiCore.LOGGER.info("[CAST-SERVER] Slot {} is empty!", s + 1);

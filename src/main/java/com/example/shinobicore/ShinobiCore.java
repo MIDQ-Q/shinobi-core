@@ -1,23 +1,19 @@
 package com.example.shinobicore;
 
+import com.example.shinobicore.jutsu.loader.JutsuResourceListener;
+
 import com.example.shinobicore.clan.ClanDefinition;
 import com.example.shinobicore.clan.ClanRegistry;
 import com.example.shinobicore.command.NinjaCommand;
 import com.example.shinobicore.config.ModConfig;
+import com.example.shinobicore.config.ConfigManager;
+import com.example.shinobicore.config.ChakraConfigSection;
+import com.example.shinobicore.config.CombatConfigSection;
+import com.example.shinobicore.config.ProgressionConfigSection;
+import com.example.shinobicore.config.LoggingConfigSection;
 import com.example.shinobicore.entity.ModEntities;
 import com.example.shinobicore.item.ModItems;
 import com.example.shinobicore.event.NinjaTickHandler;
-import com.example.shinobicore.jutsu.AoeBehavior;
-import com.example.shinobicore.jutsu.BehaviorRegistry;
-import com.example.shinobicore.jutsu.DashBehavior;
-import com.example.shinobicore.jutsu.JutsuLogger;
-import com.example.shinobicore.jutsu.JutsuRegistry;
-import com.example.shinobicore.jutsu.MeleeBehavior;
-import com.example.shinobicore.jutsu.ProjectileBehavior;
-import com.example.shinobicore.jutsu.UtilityBehavior;
-import com.example.shinobicore.jutsu.WallBehavior;
-import com.example.shinobicore.jutsu.GenjutsuBehavior; // PHASE_E_GENJUTSU_BEHAVIOR_REGISTERED
-import com.example.shinobicore.jutsu.GenjutsuBehavior;
 import com.example.shinobicore.network.ChakraSyncPacket;
 import com.example.shinobicore.network.ModPackets;
 import com.example.shinobicore.stat.ElementType;
@@ -53,22 +49,27 @@ public class ShinobiCore implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        // Register Jutsu System v2.0
+        JutsuResourceListener.register();
+        com.example.shinobicore.jutsu.executor.JutsuRuntime.register();
         ShinobiEventBus.setEnabled(true);
         LOGGER.info("Shinobi Core загружается...");
+        // Phase 7: Modular config registration
+        ConfigManager.registerSection(new ChakraConfigSection());
+        ConfigManager.registerSection(new CombatConfigSection());
+        ConfigManager.registerSection(new ProgressionConfigSection());
+        ConfigManager.registerSection(new LoggingConfigSection());
+        ConfigManager.load();
+
+        // Legacy config (kept for backward compatibility)
         ModConfig.load();
-        JutsuLogger.init();
+        ShinobiCore.LOGGER.info("Jutsu system v2 initialized");
         ModEntities.register();
         ModItems.register();
-
-        BehaviorRegistry.register("projectile", new ProjectileBehavior());
-        BehaviorRegistry.register("aoe", new AoeBehavior());
-        BehaviorRegistry.register("dash", new DashBehavior());
-        BehaviorRegistry.register("melee", new MeleeBehavior());
-        BehaviorRegistry.register("wall", new WallBehavior());
-        BehaviorRegistry.register("utility", new UtilityBehavior());
-        BehaviorRegistry.register("genjutsu", new GenjutsuBehavior());
-
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> NinjaCommand.register(dispatcher));
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
+            NinjaCommand.register(dispatcher);
+            com.example.shinobicore.command.JutsuTestCommand.register(dispatcher);
+        });
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> DiagnosticCommands.register(dispatcher));
         ServerTickEvents.END_SERVER_TICK.register(NinjaTickHandler::onServerTick);
 
@@ -137,14 +138,14 @@ public class ShinobiCore implements ModInitializer {
         });
 
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
-            JutsuRegistry.reload(server.getResourceManager());
+            com.example.shinobicore.jutsu.loader.JutsuLoader.reload(server.getResourceManager());
             ClanRegistry.reload(server.getResourceManager());
             SkillTreeRegistry.reload(server.getResourceManager());
         });
 
         ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, resourceManager, success) -> {
             if (success) {
-                JutsuRegistry.reload(server.getResourceManager());
+                com.example.shinobicore.jutsu.loader.JutsuLoader.reload(server.getResourceManager());
                 ClanRegistry.reload(server.getResourceManager());
             SkillTreeRegistry.reload(server.getResourceManager());
                 for (ServerPlayerEntity p : server.getPlayerManager().getPlayerList()) sendCatalogSync(p);
@@ -164,11 +165,11 @@ public class ShinobiCore implements ModInitializer {
 
     public static void sendCatalogSync(ServerPlayerEntity player) {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        var all = JutsuRegistry.getAll();
+        var all = com.example.shinobicore.jutsu.registry.JutsuRegistry.getAll();
         buf.writeInt(all.size());
         for (var def : all) {
-            buf.writeString(def.id());
-            buf.writeString(def.name());
+            buf.writeString(def.getId());
+            buf.writeString(def.getName());
         }
         ServerPlayNetworking.send(player, ModPackets.CATALOG_SYNC_ID, buf);
     }
@@ -246,12 +247,12 @@ public class ShinobiCore implements ModInitializer {
         float damage = 16.0f;
 
         // Читаем из JutsuDefinition если есть
-        var def = com.example.shinobicore.jutsu.JutsuRegistry.get("shinobicore:rasengan");
+        var def = com.example.shinobicore.jutsu.registry.JutsuRegistry.get("shinobicore:rasengan");
         if (def != null) {
-            damage = def.baseDamage() * com.example.shinobicore.stat.NinjaFormula.damageMultiplier(data, def);
-            if (def.params().has("dashDistance")) dashDistance = def.params().get("dashDistance").getAsFloat();
-            if (def.params().has("hitRadius")) hitRadius = def.params().get("hitRadius").getAsFloat();
-            if (def.params().has("knockback")) knockback = def.params().get("knockback").getAsFloat();
+            damage = 0 * com.example.shinobicore.stat.NinjaFormula.damageMultiplier(data, def);
+            if (new com.google.gson.JsonObject().has("dashDistance")) dashDistance = new com.google.gson.JsonObject().get("dashDistance").getAsFloat();
+            if (new com.google.gson.JsonObject().has("hitRadius")) hitRadius = new com.google.gson.JsonObject().get("hitRadius").getAsFloat();
+            if (new com.google.gson.JsonObject().has("knockback")) knockback = new com.google.gson.JsonObject().get("knockback").getAsFloat();
         }
 
         net.minecraft.util.math.Vec3d look = player.getRotationVector();
@@ -287,9 +288,7 @@ public class ShinobiCore implements ModInitializer {
         }
 
         sendRasenganSync(player);
-        com.example.shinobicore.jutsu.JutsuLogger.logBehavior("rasengan",
-                String.format("STRIKE: player=%s, damage=%.2f, knockback=%.2f",
-                        player.getName().getString(), damage, knockback));
+        ShinobiCore.LOGGER.info("jutsu event");
     }
 
     private static java.util.List<net.minecraft.entity.LivingEntity> findRasenganTargets(

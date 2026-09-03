@@ -1,1 +1,0 @@
-{"id":"shinobicore:wind_vacuum_blade","name":"Wind Release: Vacuum Blade","category":"elemental_ninjutsu","nature":"wind","type":"projectile","params":{"speed":2.6,"radius":1.5,"particle":"wind","lifetime":70,"pierce":2,"homing":false},"baseCost":30,"baseDamage":9,"strain":8,"requiredUsesForFullProficiency":45,"requirements":{"control":22,"nature_wind":28,"ninjutsu":20}}

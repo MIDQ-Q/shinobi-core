@@ -1,1 +1,0 @@
-{"id":"shinobicore:water_gun","name":"Water Release: Water Gun","category":"elemental_ninjutsu","nature":"water","type":"projectile","params":{"speed":3.5,"radius":1,"particle":"water","lifetime":80,"pierce":3},"baseCost":34,"baseDamage":12,"strain":9,"requiredUsesForFullProficiency":50,"requirements":{"control":24,"nature_water":30,"ninjutsu":22,"perception":15}}

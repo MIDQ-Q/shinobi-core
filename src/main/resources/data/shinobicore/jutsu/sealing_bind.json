@@ -1,1 +1,0 @@
-{"id":"shinobicore:sealing_bind","name":"Sealing: Binding","category":"shape_ninjutsu","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.RootBehavior","params":{"range":12,"radius":3,"duration":100,"fromTarget":true},"baseCost":35,"baseDamage":0,"strain":8,"requiredUsesForFullProficiency":40,"requirements":{"control":25,"ninjutsu":20}}

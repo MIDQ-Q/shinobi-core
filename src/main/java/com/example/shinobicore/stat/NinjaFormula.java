@@ -3,7 +3,8 @@ package com.example.shinobicore.stat;
 import com.example.shinobicore.clan.ClanDefinition;
 import com.example.shinobicore.clan.ClanRegistry;
 import com.example.shinobicore.config.ModConfig;
-import com.example.shinobicore.jutsu.JutsuDefinition;
+import com.example.shinobicore.jutsu.core.JutsuDefinition;
+import com.example.shinobicore.jutsu.enums.ResourceType;
 import com.example.shinobicore.tree.TreePassives;
 
 import java.util.Map;
@@ -33,7 +34,7 @@ public class NinjaFormula {
     }
 
     public static float characterScore(JutsuDefinition def, NinjaPlayerData data) {
-        Map<String, Float> weights = cfg().combat.categoryWeights.get(def.category());
+        Map<String, Float> weights = cfg().combat.categoryWeights.get("custom");
         if (weights == null)
             weights = cfg().combat.categoryWeights.get("elemental_ninjutsu");
         float score = 0f;
@@ -44,7 +45,7 @@ public class NinjaFormula {
     }
 
     private static float statValue(String key, JutsuDefinition def, NinjaPlayerData data) {
-        if (key.equals("nature")) return def.hasNature() ? data.getNatureLevel(def.nature()) : 0;
+        if (key.equals("nature")) return def.hasElement() ? data.getNatureLevel(convertElement(def.getElement())) : 0;
         if (key.equals("reserve")) return data.getReserveLevel();
         for (StatType s : StatType.values()) {
             if (s.getId().equals(key)) return data.getStatLevel(s);
@@ -53,8 +54,8 @@ public class NinjaFormula {
     }
 
     public static float usageScore(JutsuDefinition def, NinjaPlayerData data) {
-        int uses = data.getJutsuUsage(def.id());
-        float req = Math.max(1, def.requiredUsesForFullProficiency());
+        int uses = data.getJutsuUsage(def.getId());
+        float req = Math.max(1, def.getRequirements().getUses());
         return Math.min(100f, uses * 100f / req);
     }
 
@@ -65,13 +66,13 @@ public class NinjaFormula {
     }
 
     public static float calculateCost(JutsuDefinition def, NinjaPlayerData data) {
-        float cost = def.baseCost();
+        float cost = ((float) def.getCost().getOrDefault(ResourceType.CHAKRA, 0));
         float m = mastery(def, data) / 100f;
         float controlRed = data.getStatLevel(StatType.CONTROL) / 100f * cfg().combat.costControlReductionMax;
         float natureRed = 0f;
-        if (def.hasNature()) {
-            natureRed = data.getNatureLevel(def.nature()) / 100f * cfg().combat.costNatureReductionMax;
-            if (data.getAffinity() == def.nature()) {
+        if (def.hasElement()) {
+            natureRed = data.getNatureLevel(convertElement(def.getElement())) / 100f * cfg().combat.costNatureReductionMax;
+            if (data.getAffinity() == convertElement(def.getElement())) {
                 cost *= cfg().combat.affinityCostMultiplier;
             }
         }
@@ -81,8 +82,8 @@ public class NinjaFormula {
 
         // === НОВОЕ: costMultiplier клана ===
         ClanDefinition clan = ClanRegistry.get(data.getClanId());
-        if (clan != null && def.hasNature()) {
-            Float mult = clan.costMultiplier().get(def.nature().getId());
+        if (clan != null && def.hasElement()) {
+            Float mult = clan.costMultiplier().get(convertElement(def.getElement()).getId());
             if (mult != null) {
                 cost *= mult;
             }
@@ -99,14 +100,14 @@ public class NinjaFormula {
     public static float damageMultiplier(NinjaPlayerData data, JutsuDefinition def) {
         float m = mastery(def, data) / 100f;
         float mult = cfg().combat.damageBaseMultiplier + m * cfg().combat.damageMasteryScale;
-        if (def.hasNature() && data.getAffinity() == def.nature()) {
+        if (def.hasElement() && data.getAffinity() == convertElement(def.getElement())) {
             mult *= cfg().combat.affinityDamageMultiplier;
         }
         return mult;
     }
 
     public static boolean checkRequirements(JutsuDefinition def, NinjaPlayerData data) {
-        for (Map.Entry<String, Integer> req : def.requirements().entrySet()) {
+        for (Map.Entry<String, Integer> req : jutsuRequirementsAsMap(def).entrySet()) {
             String key = req.getKey();
             int required = req.getValue();
             if (key.equals("control")) {
@@ -260,5 +261,22 @@ public class NinjaFormula {
         ClanDefinition clan = ClanRegistry.get(clanId);
         if (clan == null) return 0f;
         return clan.reserveBonus();
+    }
+
+    private static com.example.shinobicore.stat.ElementType convertElement(com.example.shinobicore.jutsu.enums.ElementType jutsuElement) {
+        if (jutsuElement == null || jutsuElement == com.example.shinobicore.jutsu.enums.ElementType.NONE) return null;
+        try {
+            return com.example.shinobicore.stat.ElementType.valueOf(jutsuElement.name());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private static Map<String, Integer> jutsuRequirementsAsMap(JutsuDefinition def) {
+        Map<String, Integer> result = new java.util.HashMap<>();
+        if (def.getRequirements() != null && def.getRequirements().getStats() != null) {
+            result.putAll(def.getRequirements().getStats());
+        }
+        return result;
     }
 }

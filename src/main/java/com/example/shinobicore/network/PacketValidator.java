@@ -1,6 +1,6 @@
 package com.example.shinobicore.network;
 
-import com.example.shinobicore.jutsu.JutsuRegistry;
+import com.example.shinobicore.jutsu.registry.JutsuRegistry;
 import com.example.shinobicore.stat.StatType;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;

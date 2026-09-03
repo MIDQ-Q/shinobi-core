@@ -1,1 +1,0 @@
-{"id":"shinobicore:fire_bakuton","name":"Fire Release: Bakuton","category":"elemental_ninjutsu","nature":"fire","type":"aoe","params":{"radius":8,"particle":"explosion","particleCount":50,"chainExplosion":true,"chainCount":3},"baseCost":48,"baseDamage":12,"strain":13,"requiredUsesForFullProficiency":65,"requirements":{"control":30,"nature_fire":38,"ninjutsu":28}}

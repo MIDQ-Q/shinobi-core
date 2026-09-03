@@ -1,6 +1,6 @@
 package com.example.shinobicore.combat;
 import com.example.shinobicore.ShinobiCore;
-import com.example.shinobicore.jutsu.JutsuCaster;
+import com.example.shinobicore.jutsu.executor.JutsuCaster;
 import com.example.shinobicore.stat.NinjaDataHolder;
 import com.example.shinobicore.stat.NinjaFormula;
 import com.example.shinobicore.stat.NinjaPlayerData;
@@ -45,7 +45,7 @@ public class CastingServerState {
         if (cast == null) return;
         if (cast.isComplete()) {
             ACTIVE.remove(player.getUuid());
-            JutsuCaster.executeCast(player, cast.jutsuId);
+            executeCast(player, cast.jutsuId);
         }
     }
     public static void interruptCast(ServerPlayerEntity player) {
@@ -59,4 +59,9 @@ public class CastingServerState {
         player.sendMessage(Text.literal("\u00a7cJutsu interrupted! (-" + (int)(cast.chakraCost * 0.5f) + " chakra lost)"), false);
     }
     public static void clearAll() { ACTIVE.clear(); }
+
+    public static void executeCast(ServerPlayerEntity player, String jutsuId) {
+        // TODO: Implement with new jutsu system
+        player.sendMessage(net.minecraft.text.Text.literal("§cJutsu system is being migrated to v2"), false);
+    }
 }

@@ -1,1 +1,0 @@
-{"id":"shinobicore:ken_counter","name":"Kenjutsu: Counter Stance","category":"taijutsu","type":"custom","behaviorClass":"com.example.shinobicore.jutsu.custom.CounterStanceBehavior","params":{"window":1.5,"radius":3.5,"multiplier":2.5},"baseCost":32,"baseDamage":10,"strain":9,"requiredUsesForFullProficiency":50,"requirements":{"taijutsu":30,"control":22}}
