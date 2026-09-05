@@ -1,6 +1,5 @@
 ﻿# ============================================================
-# MASTER SCRIPT: VARIANT 1 + ARTIFACTS INTEGRATION
-# Полный первый срез + интеграция слотов артефактов
+# FIX 4: JUTSU tab via LoadoutPanel + correct scroll signature
 # ============================================================
 $ErrorActionPreference = "Stop"
 $root = "E:\Games\mod"
@@ -15,701 +14,392 @@ function Write-Utf8NoBom {
     Write-Host "[OK] $Path" -ForegroundColor Green
 }
 
-function Patch-File {
-    param([string]$Path, [scriptblock]$Transform)
-    $fullPath = Join-Path $root $Path
-    if (!(Test-Path $fullPath)) {
-        Write-Host "[SKIP] $Path not found" -ForegroundColor Yellow
-        return
-    }
-    $content = [System.IO.File]::ReadAllText($fullPath, $utf8NoBom)
-    $newContent = & $Transform $content
-    if ($content -ne $newContent) {
-        [System.IO.File]::WriteAllText($fullPath, $newContent, $utf8NoBom)
-        Write-Host "[PATCHED] $Path" -ForegroundColor Green
-    } else {
-        Write-Host "[NO CHANGE] $Path" -ForegroundColor Yellow
-    }
-}
-
 Write-Host ""
 Write-Host "================================================================" -ForegroundColor Cyan
-Write-Host "  MASTER SCRIPT: VARIANT 1 + ARTIFACTS INTEGRATION" -ForegroundColor Cyan
+Write-Host "  FIX 4: JUTSU tab (LoadoutPanel) + scroll signature fix" -ForegroundColor Cyan
 Write-Host "================================================================" -ForegroundColor Cyan
-Write-Host ""
 
 # ============================================================
-# PHASE 0: BUILD CONFIG - Add Curios dependency
+# 1. LoadoutPanel.java (JUTSU tab content: sets A/B + 5 slots)
 # ============================================================
-Write-Host "--- Phase 0: Build Configuration ---" -ForegroundColor Yellow
+Write-Utf8NoBom "src\main\java\com\example\shinobicore\client\sakura\ui\LoadoutPanel.java" @'
+package com.example.shinobicore.client.sakura.ui;
 
-Patch-File "build.gradle" {
-    param($c)
-    if ($c -match 'curios') { return $c }
-    $c = $c -replace '(repositories \{)', "`$1`n        maven { name = 'Curios'; url = 'https://maven.theillusivec4.top/' }"
-    $c = $c -replace '(dependencies \{)', "`$1`n    // === CURIOS API (Artifacts mod dependency) ===`n    modImplementation `"top.theillusivec4.curios:curios-fabric:5.9.1+1.20.1`"`n    include `"top.theillusivec4.curios:curios-fabric:5.9.1+1.20.1`""
-    return $c
-}
+import com.example.shinobicore.client.ClientNinjaStateHolder;
+import com.example.shinobicore.client.JutsuAssignmentScreen;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.text.Text;
 
-Patch-File "src\main\resources\fabric.mod.json" {
-    param($c)
-    if ($c -match '"curios"') { return $c }
-    $c = $c -replace '("depends": \{)', "`$1`n        `"curios`": `"*`","
-    return $c
-}
+/** JUTSU tab: loadout sets A/B, click a slot to assign a jutsu. */
+public final class LoadoutPanel {
+    private static int set = 0;
 
-Patch-File "gradle.properties" {
-    param($c)
-    if ($c -match 'curios_version') { return $c }
-    $c += "`ncurios_version=5.9.1+1.20.1"
-    return $c
-}
+    private LoadoutPanel() {}
 
-# ============================================================
-# PHASE 1: CORE INFRASTRUCTURE
-# ============================================================
-Write-Host "`n--- Phase 1: Core Infrastructure ---" -ForegroundColor Yellow
+    private static int[] setBtnRect(int idx, int x0, int y0) {
+        return new int[]{ x0 + 20 + idx * 46, y0 + 34, 40, 14 };
+    }
+    private static int[] slotRect(int idx, int x0, int y0) {
+        return new int[]{ x0 + 20, y0 + 58 + idx * 22, 240, 20 };
+    }
 
-# FeatureFlags
-Write-Utf8NoBom "src\main\java\com\example\shinobicore\util\FeatureFlags.java" @'
-package com.example.shinobicore.util;
+    public static void render(DrawContext ctx, int x0, int y0, int w, int h, int mx, int my) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client == null) return;
+        ctx.drawTextWithShadow(client.textRenderer, Text.literal("JUTSU LOADOUT"),
+            x0 + 20, y0 + 16, 0xFFFF9EC4);
 
-public final class FeatureFlags {
-    private FeatureFlags() {}
-    
-    public static boolean enableCore = true;
-    public static boolean enableCommands = true;
-    public static boolean enableDataLoading = true;
-    public static boolean enableJutsuCasting = true;
-    public static boolean enableSkillTree = true;
-    public static boolean enableAttunement = true;
-    public static boolean enableGenjutsu = true;
-    public static boolean enableSensory = true;
-    public static boolean enableClans = true;
-    public static boolean enableWorldModification = true;
-    public static boolean enableCuriosIntegration = true;
-    
-    // Legacy flags (disabled)
-    public static boolean enableLegacyTaijutsu = false;
-    public static boolean enableLegacyParkour = false;
-    public static boolean enableLegacyHud = false;
-}
-'@
+        for (int i = 0; i < 2; i++) {
+            int[] r = setBtnRect(i, x0, y0);
+            boolean active = set == i;
+            boolean hov = mx >= r[0] && mx <= r[0] + r[2] && my >= r[1] && my <= r[1] + r[3];
+            ctx.fill(r[0], r[1], r[0] + r[2], r[1] + r[3], active ? 0xFF8A4A66 : 0xFF2A1F2E);
+            ctx.fill(r[0], r[1], r[0] + r[2], r[1] + 1, active ? 0xFFFF9EC4 : 0xFF4A3A50);
+            if (hov && !active) ctx.fill(r[0], r[1], r[0] + r[2], r[1] + r[3], 0x22FF9EC4);
+            ctx.drawTextWithShadow(client.textRenderer, Text.literal(i == 0 ? "A" : "B"),
+                r[0] + r[2] / 2 - 3, r[1] + 3, active ? 0xFFF2EAF0 : 0xFF9A8FA6);
+        }
 
-# ============================================================
-# PHASE 2: CURIOS INTEGRATION - Artifact Slots
-# ============================================================
-Write-Host "`n--- Phase 2: Curios Integration ---" -ForegroundColor Yellow
+        String[] loadout = ClientNinjaStateHolder.get().getLoadout(set);
+        int active = ClientNinjaStateHolder.get().getActive(set);
+        for (int i = 0; i < 5; i++) {
+            int[] r = slotRect(i, x0, y0);
+            boolean hov = mx >= r[0] && mx <= r[0] + r[2] && my >= r[1] && my <= r[1] + r[3];
+            ctx.fill(r[0], r[1], r[0] + r[2], r[1] + r[3], hov ? 0xFF3A2A3E : 0xFF241B2A);
+            ctx.fill(r[0], r[1], r[0] + 1, r[1] + r[3], i == active ? 0xFFFF9EC4 : 0xFF4A3A50);
+            if (hov) ctx.fill(r[0], r[1], r[0] + r[2], r[1] + 1, 0x55FF9EC4);
 
-# CuriosCompat - checks if Curios is loaded
-Write-Utf8NoBom "src\main\java\com\example\shinobicore\compat\CuriosCompat.java" @'
-package com.example.shinobicore.compat;
-
-import com.example.shinobicore.ShinobiCore;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.slot.Slot;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
-import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-public final class CuriosCompat {
-    private static Boolean cached = null;
-    
-    public static boolean isLoaded() {
-        if (cached == null) {
-            cached = FabricLoader.getInstance().isModLoaded("curios");
-            if (cached) {
-                ShinobiCore.LOGGER.info("[CuriosCompat] Curios API detected - artifact slots enabled");
-            } else {
-                ShinobiCore.LOGGER.info("[CuriosCompat] Curios API not found - artifact slots disabled");
+            ctx.drawTextWithShadow(client.textRenderer, Text.literal((i + 1) + "."),
+                r[0] + 6, r[1] + 6, 0xFF9A8FA6);
+            String id = loadout[i];
+            String name = id == null ? "- empty -" : ClientNinjaStateHolder.get().getName(id);
+            ctx.drawTextWithShadow(client.textRenderer, Text.literal(name),
+                r[0] + 22, r[1] + 6, id == null ? 0xFF6E6478 : 0xFFF2EAF0);
+            if (i == active) {
+                ctx.drawTextWithShadow(client.textRenderer, Text.literal("ACT"),
+                    r[0] + r[2] - 26, r[1] + 6, 0xFFFF9EC4);
             }
         }
-        return cached;
+        ctx.drawTextWithShadow(client.textRenderer,
+            Text.literal("Click a slot to assign a jutsu"),
+            x0 + 20, y0 + 58 + 5 * 22 + 8, 0xFF9A8FA6);
     }
-    
-    public static List<ArtifactSlotInfo> getArtifactSlots() {
-        List<ArtifactSlotInfo> slots = new ArrayList<>();
-        if (!isLoaded()) return slots;
-        
-        // Standard artifact slot types from Artifacts mod
-        slots.add(new ArtifactSlotInfo("necklace", "Necklace", 0xFFD78AFF));
-        slots.add(new ArtifactSlotInfo("ring", "Ring", 0xFFFF9EC4));
-        slots.add(new ArtifactSlotInfo("belt", "Belt", 0xFF8AE08A));
-        slots.add(new ArtifactSlotInfo("head", "Head", 0xFF7EB7FF));
-        slots.add(new ArtifactSlotInfo("hands", "Hands", 0xFFFFD75E));
-        slots.add(new ArtifactSlotInfo("feet", "Feet", 0xFF9A8FA6));
-        
-        return slots;
-    }
-    
-    public static ItemStack getArtifactStack(net.minecraft.entity.player.PlayerEntity player, String slotType, int index) {
-        if (!isLoaded()) return ItemStack.EMPTY;
-        try {
-            Optional<ICurioStacksHandler> handler = CuriosApi.getCuriosInventory(player)
-                .map(h -> h.getCurios().get(slotType));
-            if (handler.isPresent()) {
-                IDynamicStackHandler stacks = handler.get().getStacks();
-                if (index < stacks.getSlots()) {
-                    return stacks.getStackInSlot(index);
+
+    public static boolean handleClick(double mx, double my, int x0, int y0, int w, int h) {
+        for (int i = 0; i < 2; i++) {
+            int[] r = setBtnRect(i, x0, y0);
+            if (mx >= r[0] && mx <= r[0] + r[2] && my >= r[1] && my <= r[1] + r[3]) {
+                set = i;
+                UiSounds.tab();
+                return true;
+            }
+        }
+        for (int i = 0; i < 5; i++) {
+            int[] r = slotRect(i, x0, y0);
+            if (mx >= r[0] && mx <= r[0] + r[2] && my >= r[1] && my <= r[1] + r[3]) {
+                MinecraftClient client = MinecraftClient.getInstance();
+                if (client != null) {
+                    UiSounds.click();
+                    client.setScreen(new JutsuAssignmentScreen(client.currentScreen, set, i));
                 }
-            }
-        } catch (Exception e) {
-            ShinobiCore.LOGGER.error("[CuriosCompat] Error getting artifact stack", e);
-        }
-        return ItemStack.EMPTY;
-    }
-    
-    public static void setArtifactStack(net.minecraft.entity.player.PlayerEntity player, String slotType, int index, ItemStack stack) {
-        if (!isLoaded()) return;
-        try {
-            Optional<ICurioStacksHandler> handler = CuriosApi.getCuriosInventory(player)
-                .map(h -> h.getCurios().get(slotType));
-            if (handler.isPresent()) {
-                IDynamicStackHandler stacks = handler.get().getStacks();
-                if (index < stacks.getSlots()) {
-                    stacks.setStackInSlot(index, stack);
-                }
-            }
-        } catch (Exception e) {
-            ShinobiCore.LOGGER.error("[CuriosCompat] Error setting artifact stack", e);
-        }
-    }
-    
-    public static class ArtifactSlotInfo {
-        public final String id;
-        public final String displayName;
-        public final int accentColor;
-        
-        public ArtifactSlotInfo(String id, String displayName, int accentColor) {
-            this.id = id;
-            this.displayName = displayName;
-            this.accentColor = accentColor;
-        }
-    }
-}
-'@
-
-# CuriosSlot - custom slot for artifacts
-Write-Utf8NoBom "src\main\java\com\example\shinobicore\client\sakura\CuriosSlot.java" @'
-package com.example.shinobicore.client.sakura;
-
-import com.example.shinobicore.compat.CuriosCompat;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.slot.Slot;
-
-public class CuriosSlot extends Slot {
-    private final String slotType;
-    private final int curiosIndex;
-    private final PlayerEntity player;
-    
-    public CuriosSlot(PlayerEntity player, String slotType, int curiosIndex, int x, int y) {
-        super(player.getInventory(), -1, x, y); // -1 index since we handle it manually
-        this.player = player;
-        this.slotType = slotType;
-        this.curiosIndex = curiosIndex;
-    }
-    
-    @Override
-    public ItemStack getStack() {
-        return CuriosCompat.getArtifactStack(player, slotType, curiosIndex);
-    }
-    
-    @Override
-    public void setStack(ItemStack stack) {
-        CuriosCompat.setArtifactStack(player, slotType, curiosIndex, stack);
-        this.markDirty();
-    }
-    
-    @Override
-    public void setStackNoCallbacks(ItemStack stack) {
-        this.setStack(stack);
-    }
-    
-    @Override
-    public ItemStack takeStack(int amount) {
-        ItemStack current = this.getStack();
-        if (current.isEmpty()) return ItemStack.EMPTY;
-        ItemStack taken = current.split(amount);
-        this.setStack(current);
-        return taken;
-    }
-    
-    @Override
-    public boolean canInsert(ItemStack stack) {
-        if (!CuriosCompat.isLoaded()) return false;
-        // Check if item is valid for this slot type via Curios API
-        try {
-            return top.theillusivec4.curios.api.CuriosApi.getItemStackSlots(stack, player)
-                .containsKey(slotType);
-        } catch (Exception e) {
-            return false;
-        }
-    }
-    
-    @Override
-    public boolean canTakeItems(PlayerEntity playerEntity) {
-        return !this.getStack().isEmpty();
-    }
-    
-    @Override
-    public int getMaxItemCount() {
-        return 1;
-    }
-    
-    @Override
-    public void markDirty() {
-        // Sync with Curios
-    }
-    
-    public String getSlotType() { return slotType; }
-}
-'@
-
-# ============================================================
-# PHASE 3: SAKURA HANDLER - Add Artifact Slots
-# ============================================================
-Write-Host "`n--- Phase 3: Sakura Handler with Artifacts ---" -ForegroundColor Yellow
-
-Write-Utf8NoBom "src\main\java\com\example\shinobicore\client\sakura\SakuraHandler.java" @'
-package com.example.shinobicore.client.sakura;
-
-import com.example.shinobicore.compat.CuriosCompat;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.slot.Slot;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class SakuraHandler extends ScreenHandler {
-    public final PlayerInventory inv;
-    public final List<CuriosSlot> artifactSlots = new ArrayList<>();
-    
-    // ==== LAYOUT (coords relative to GUI origin) ====
-    public static final int BG_W = 320;
-    public static final int BG_H = 220;
-    
-    // Left panel: Armor + Artifacts
-    public static final int ARMOR_X = 12;
-    public static final int ARMOR_Y0 = 26;
-    public static final int ARMOR_DY = 22;
-    
-    // Artifacts panel (right of armor)
-    public static final int ARTIFACT_X = 60;
-    public static final int ARTIFACT_Y0 = 26;
-    public static final int ARTIFACT_DY = 22;
-    
-    // Right panel: Stash + Hotbar
-    public static final int STASH_X = 135;
-    public static final int STASH_Y = 30;
-    public static final int SEP_Y = 94;
-    public static final int HOTBAR_Y = 110;
-    
-    public SakuraHandler(int syncId, PlayerInventory inv) {
-        super(SakuraNetwork.TYPE, syncId);
-        this.inv = inv;
-        
-        // 0..3: armor HEAD/CHEST/LEGS/FEET
-        EquipmentSlot[] eq = {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
-        for (int i = 0; i < 4; i++) {
-            addSlot(new ArmorSlot(inv, 39 - i, ARMOR_X, ARMOR_Y0 + i * ARMOR_DY, eq[i]));
-        }
-        
-        // 4: offhand
-        addSlot(new Slot(inv, 40, ARMOR_X, ARMOR_Y0 + 4 * ARMOR_DY));
-        
-        // 5..N: Artifact slots (Curios integration)
-        if (CuriosCompat.isLoaded()) {
-            List<CuriosCompat.ArtifactSlotInfo> artifacts = CuriosCompat.getArtifactSlots();
-            for (int i = 0; i < artifacts.size(); i++) {
-                CuriosSlot slot = new CuriosSlot(
-                    inv.player,
-                    artifacts.get(i).id,
-                    0,
-                    ARTIFACT_X,
-                    ARTIFACT_Y0 + i * ARTIFACT_DY
-                );
-                artifactSlots.add(slot);
-                addSlot(slot);
-            }
-        }
-        
-        // Stash: 9x3
-        int stashStart = 5 + artifactSlots.size();
-        for (int r = 0; r < 3; r++) {
-            for (int c = 0; c < 9; c++) {
-                addSlot(new Slot(inv, 9 + r * 9 + c, STASH_X + c * 18, STASH_Y + r * 18));
-            }
-        }
-        
-        // Hotbar: 9 slots
-        for (int i = 0; i < 9; i++) {
-            addSlot(new Slot(inv, i, STASH_X + i * 18, HOTBAR_Y));
-        }
-    }
-    
-    @Override
-    public boolean canUse(PlayerEntity player) { return true; }
-    
-    @Override
-    public ItemStack quickMove(PlayerEntity player, int index) {
-        ItemStack result = ItemStack.EMPTY;
-        Slot slot = this.slots.get(index);
-        if (slot != null && slot.hasStack()) {
-            ItemStack stack = slot.getStack();
-            result = stack.copy();
-            
-            int armorEnd = 5;
-            int artifactEnd = armorEnd + artifactSlots.size();
-            int stashEnd = artifactEnd + 27;
-            
-            if (index < armorEnd) {
-                // armor/offhand -> stash/hotbar
-                if (!this.insertItem(stack, artifactEnd, stashEnd + 9, true)) return ItemStack.EMPTY;
-            } else if (index < artifactEnd) {
-                // artifact -> stash/hotbar
-                if (!this.insertItem(stack, artifactEnd, stashEnd + 9, true)) return ItemStack.EMPTY;
-            } else if (index < stashEnd) {
-                // stash -> hotbar, else try armor, else try artifacts
-                if (!this.insertItem(stack, stashEnd, stashEnd + 9, false)) {
-                    if (!this.insertItem(stack, 0, armorEnd, false)) {
-                        if (!tryInsertArtifact(stack)) return ItemStack.EMPTY;
-                    }
-                }
-            } else {
-                // hotbar -> stash, else armor, else artifacts
-                if (!this.insertItem(stack, artifactEnd, stashEnd, false)) {
-                    if (!this.insertItem(stack, 0, armorEnd, false)) {
-                        if (!tryInsertArtifact(stack)) return ItemStack.EMPTY;
-                    }
-                }
-            }
-            
-            if (stack.isEmpty()) slot.setStack(ItemStack.EMPTY);
-            else slot.markDirty();
-            if (stack.getCount() == result.getCount()) return ItemStack.EMPTY;
-            slot.onTakeItem(player, stack);
-        }
-        return result;
-    }
-    
-    private boolean tryInsertArtifact(ItemStack stack) {
-        if (!CuriosCompat.isLoaded()) return false;
-        for (CuriosSlot slot : artifactSlots) {
-            if (slot.canInsert(stack) && slot.getStack().isEmpty()) {
-                slot.setStack(stack.copy());
-                stack.setCount(0);
                 return true;
             }
         }
         return false;
     }
-    
-    private static class ArmorSlot extends Slot {
-        private final EquipmentSlot eq;
-        public ArmorSlot(PlayerInventory inv, int index, int x, int y, EquipmentSlot eq) {
-            super(inv, index, x, y);
-            this.eq = eq;
-        }
-        @Override public int getMaxItemCount() { return 1; }
-        @Override public boolean canInsert(ItemStack stack) {
-            return LivingEntity.getPreferredEquipmentSlot(stack) == eq;
-        }
-    }
 }
 '@
 
 # ============================================================
-# PHASE 4: SAKURA HUB SCREEN - Render Artifact Slots with Style
+# 2. SakuraHubScreen.java (4 tabs, no ProgressionScreen refs, correct scroll call)
 # ============================================================
-Write-Host "`n--- Phase 4: Styled Artifact Slot Rendering ---" -ForegroundColor Yellow
+Write-Utf8NoBom "src\main\java\com\example\shinobicore\client\sakura\SakuraHubScreen.java" @'
+package com.example.shinobicore.client.sakura;
 
-# ArtifactPanel - renders artifact slots with sakura styling
-Write-Utf8NoBom "src\main\java\com\example\shinobicore\client\sakura\ui\ArtifactPanel.java" @'
-package com.example.shinobicore.client.sakura.ui;
-
-import com.example.shinobicore.client.sakura.CuriosSlot;
-import com.example.shinobicore.client.sakura.SakuraHandler;
-import com.example.shinobicore.compat.CuriosCompat;
-import net.minecraft.client.MinecraftClient;
+import com.example.shinobicore.client.SkillTreeScreen;
+import com.example.shinobicore.client.sakura.ui.CharacterPanel;
+import com.example.shinobicore.client.sakura.ui.LoadoutPanel;
+import com.example.shinobicore.client.sakura.ui.SakuraAtmosphere;
+import com.example.shinobicore.client.sakura.ui.SakuraTextures;
+import com.example.shinobicore.client.sakura.ui.SakuraTheme;
+import com.example.shinobicore.client.sakura.ui.UiAnim;
+import com.example.shinobicore.client.sakura.ui.UiSounds;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.ColorHelper;
 
-import java.util.List;
+public class SakuraHubScreen extends HandledScreen<SakuraHandler> {
+    private static final String[] TABS = {"CHARACTER", "SKILL TREE", "JUTSU", "INVENTORY"};
+    private static final int TAB_INVENTORY = 3;
+    private static final String[] SLOT_LABELS = {
+        "gui.shinobicore.slot.head", "gui.shinobicore.slot.chest",
+        "gui.shinobicore.slot.legs", "gui.shinobicore.slot.feet",
+        "gui.shinobicore.slot.off"
+    };
+    private int tab;
+    private Screen child;
+    private long openMs;
+    private long tabSwitchMs;
+    private long lastFrameMs;
+    private int hoveredTab = -1;
+    private final UiAnim.Smooth indX = new UiAnim.Smooth(-1, 16);
+    private final UiAnim.Smooth indW = new UiAnim.Smooth(0, 16);
+    private final int[] tabXs = new int[TABS.length];
+    private final int[] tabWs = new int[TABS.length];
 
-public final class ArtifactPanel {
-    private ArtifactPanel() {}
-    
-    public static void render(DrawContext ctx, SakuraHandler handler, int gx, int gy, int mx, int my, long now) {
-        if (!CuriosCompat.isLoaded() || handler.artifactSlots.isEmpty()) return;
-        
-        MinecraftClient client = MinecraftClient.getInstance();
-        List<CuriosCompat.ArtifactSlotInfo> infos = CuriosCompat.getArtifactSlots();
-        
-        // Panel background
-        int panelX = gx + SakuraHandler.ARTIFACT_X - 6;
-        int panelY = gy + SakuraHandler.ARTIFACT_Y0 - 6;
-        int panelW = 28;
-        int panelH = handler.artifactSlots.size() * SakuraHandler.ARTIFACT_DY + 12;
-        
-        SakuraTextures.drawPanel(ctx, panelX, panelY, panelW, panelH);
-        
-        // Header
-        ctx.drawTextWithShadow(client.textRenderer, 
-            Text.translatable("gui.shinobicore.artifacts"),
-            panelX + 4, panelY + 4, SakuraTheme.SAKURA);
-        
-        // Render each artifact slot
-        for (int i = 0; i < handler.artifactSlots.size(); i++) {
-            CuriosSlot slot = handler.artifactSlots.get(i);
-            CuriosCompat.ArtifactSlotInfo info = i < infos.size() ? infos.get(i) : null;
-            
-            int slotX = gx + slot.x;
-            int slotY = gy + slot.y;
-            int slotSize = 16;
-            
-            boolean hovered = mx >= slotX && mx < slotX + slotSize && my >= slotY && my < slotY + slotSize;
-            
-            // Slot background with accent color
-            int accentColor = info != null ? info.accentColor : SakuraTheme.SAKURA;
-            int bgAlpha = hovered ? 0x55 : 0x22;
-            int bgColor = ColorHelper.Argb.getArgb(bgAlpha * 255 / 255, 
-                (accentColor >> 16) & 0xFF,
-                (accentColor >> 8) & 0xFF,
-                accentColor & 0xFF);
-            
-            ctx.fill(slotX, slotY, slotX + slotSize, slotY + slotSize, bgColor);
-            
-            // Border with accent
-            int borderColor = hovered ? accentColor : withAlpha(accentColor, 0.5f);
-            ctx.fill(slotX, slotY, slotX + slotSize, slotY + 1, borderColor);
-            ctx.fill(slotX, slotY + slotSize - 1, slotX + slotSize, slotY + slotSize, borderColor);
-            ctx.fill(slotX, slotY, slotX + 1, slotY + slotSize, borderColor);
-            ctx.fill(slotX + slotSize - 1, slotY, slotX + slotSize, slotY + slotSize, borderColor);
-            
-            // Draw item or placeholder icon
-            ItemStack stack = slot.getStack();
-            if (!stack.isEmpty()) {
-                ctx.drawItem(stack, slotX, slotY);
-                if (stack.getCount() > 1) {
-                    ctx.drawItemInSlot(client.textRenderer, stack, slotX, slotY);
-                }
+    public SakuraHubScreen(SakuraHandler handler, PlayerInventory inv, int tab) {
+        super(handler, inv, Text.literal("Shinobi"));
+        this.tab = tab;
+        this.backgroundWidth = SakuraHandler.BG_W;
+        this.backgroundHeight = SakuraHandler.BG_H;
+        this.titleX = -10000;
+        this.titleY = -10000;
+        this.playerInventoryTitleY = 10000;
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        long now = System.currentTimeMillis();
+        openMs = now;
+        tabSwitchMs = now;
+        lastFrameMs = now;
+        SakuraTextures.init(client);
+        buildChild();
+    }
+
+    private void buildChild() {
+        if (tab == 1) child = new SkillTreeScreen(true);
+        else child = null;
+        if (child != null) child.init(client, width, height - SakuraTheme.BAR_H);
+    }
+
+    @Override
+    public void renderBackground(DrawContext context) {}
+
+    @Override
+    public void render(DrawContext ctx, int mx, int my, float delta) {
+        long now = System.currentTimeMillis();
+        long prev = lastFrameMs;
+        lastFrameMs = now;
+        SakuraAtmosphere.render(ctx, width, height, now);
+        int ht = tabAt(mx, my);
+        if (ht != hoveredTab) {
+            hoveredTab = ht;
+            if (ht >= 0) UiSounds.hover();
+        }
+        float open = UiAnim.openEase(openMs, now, SakuraTheme.OPEN_MS);
+        if (tab == TAB_INVENTORY) {
+            ctx.getMatrices().push();
+            applyOpenTransform(ctx, open);
+            super.render(ctx, mx, my, delta);
+            ctx.getMatrices().pop();
+        } else if (tab == 0) {
+            CharacterPanel.render(ctx, 0, SakuraTheme.BAR_H, width, height - SakuraTheme.BAR_H, mx, my);
+        } else if (tab == 2) {
+            LoadoutPanel.render(ctx, 0, SakuraTheme.BAR_H, width, height - SakuraTheme.BAR_H, mx, my);
+        } else if (child != null) {
+            ctx.getMatrices().push();
+            ctx.getMatrices().translate(0, SakuraTheme.BAR_H, 0);
+            child.render(ctx, mx, my - SakuraTheme.BAR_H, delta);
+            ctx.getMatrices().pop();
+        }
+        drawBar(ctx, mx, now, prev, open);
+    }
+
+    private void applyOpenTransform(DrawContext ctx, float open) {
+        if (open >= 1f) return;
+        float s = 0.94f + 0.06f * open;
+        ctx.getMatrices().translate(width / 2f, height / 2f, 0);
+        ctx.getMatrices().scale(s, s, 1);
+        ctx.getMatrices().translate(-width / 2f, -height / 2f + (1 - open) * 10, 0);
+    }
+
+    @Override
+    protected void drawBackground(DrawContext ctx, float delta, int mx, int my) {
+        if (tab != TAB_INVENTORY) return;
+        int gx = this.x, gy = this.y;
+        SakuraTextures.drawPanel(ctx, gx - 3, gy - 3, backgroundWidth + 6, backgroundHeight + 6);
+        ctx.fill(gx, gy, gx + 3, gy + 3, SakuraTheme.SAKURA);
+        ctx.fill(gx + backgroundWidth - 3, gy, gx + backgroundWidth, gy + 3, SakuraTheme.SAKURA);
+        ctx.fill(gx, gy + backgroundHeight - 3, gx + 3, gy + backgroundHeight, SakuraTheme.SAKURA);
+        ctx.fill(gx + backgroundWidth - 3, gy + backgroundHeight - 3, gx + backgroundWidth, gy + backgroundHeight, SakuraTheme.SAKURA);
+        drawInventory(ctx, gx, gy, mx, my, System.currentTimeMillis());
+    }
+
+    private void drawInventory(DrawContext ctx, int gx, int gy, int mx, int my, long now) {
+        int lx = gx + 6, ly = gy + 6, lw = 104, lh = backgroundHeight - 12;
+        SakuraTextures.drawPanel(ctx, lx, ly, lw, lh);
+        ctx.drawTextWithShadow(textRenderer, Text.translatable("gui.shinobicore.equipment"), lx + 6, ly + 4, SakuraTheme.SAKURA);
+        for (int i = 0; i < 5; i++) {
+            Slot s = handler.slots.get(i);
+            float a = UiAnim.openEase(tabSwitchMs + i * SakuraTheme.STAGGER_MS, now, 180);
+            slotBox(ctx, gx + s.x, gy + s.y, mx, my, a);
+            if (s.getStack().isEmpty()) {
+                ctx.drawTextWithShadow(textRenderer, Text.translatable(SLOT_LABELS[i]),
+                    gx + s.x + 20, gy + s.y + 4, withAlpha(0x88FF9EC4, a));
+            }
+        }
+        int modelX = lx + 80, modelY = ly + lh - 12;
+        InventoryScreen.drawEntity(ctx, modelX, modelY, 32, (float)(modelX - mx), (float)(modelY - 50 - my), client.player);
+
+        int rx = gx + 116, ry = gy + 6, rw = backgroundWidth - 122, rh = backgroundHeight - 12;
+        SakuraTextures.drawPanel(ctx, rx, ry, rw, rh);
+        ctx.drawTextWithShadow(textRenderer, Text.translatable("gui.shinobicore.stash"), rx + 6, ry + 4, SakuraTheme.SAKURA);
+        for (int i = 5; i <= 31; i++) {
+            Slot s = handler.slots.get(i);
+            float a = UiAnim.openEase(tabSwitchMs + i * SakuraTheme.STAGGER_MS, now, 180);
+            slotBox(ctx, gx + s.x, gy + s.y, mx, my, a);
+        }
+        int sepY = gy + SakuraHandler.SEP_Y;
+        ctx.fill(rx + 4, sepY, rx + rw - 4, sepY + 1, SakuraTheme.EDGE);
+        ctx.drawTextWithShadow(textRenderer, Text.translatable("gui.shinobicore.hotbar"), rx + 6, sepY + 4, SakuraTheme.INK_DIM);
+        for (int i = 32; i <= 40; i++) {
+            Slot s = handler.slots.get(i);
+            float a = UiAnim.openEase(tabSwitchMs + i * SakuraTheme.STAGGER_MS, now, 180);
+            slotBox(ctx, gx + s.x, gy + s.y, mx, my, a);
+        }
+        ctx.drawTextWithShadow(textRenderer, Text.translatable("gui.shinobicore.hint.inv"), rx + 6, ry + rh - 12, SakuraTheme.INK_DIM);
+    }
+
+    private void slotBox(DrawContext ctx, int ax, int ay, int mx, int my, float a) {
+        if (a <= 0.01f) return;
+        boolean hov = mx >= ax && mx < ax + 16 && my >= ay && my < ay + 16;
+        ctx.fill(ax, ay, ax + 16, ay + 16, withAlpha(SakuraTheme.SLOT_BG, a));
+        int e = withAlpha(SakuraTheme.SLOT_EDGE, a);
+        ctx.fill(ax, ay, ax + 16, ay + 1, e);
+        ctx.fill(ax, ay + 15, ax + 16, ay + 16, e);
+        ctx.fill(ax, ay, ax + 1, ay + 16, e);
+        ctx.fill(ax + 15, ay, ax + 16, ay + 16, e);
+        if (hov) ctx.fill(ax, ay, ax + 16, ay + 16, withAlpha(SakuraTheme.SLOT_HOVER, a));
+    }
+
+    private static int withAlpha(int argb, float a) {
+        int al = (argb >>> 24) & 0xFF;
+        int na = (int)(al * Math.max(0, Math.min(1, a)));
+        return (argb & 0x00FFFFFF) | (na << 24);
+    }
+
+    private void drawBar(DrawContext ctx, int mx, long now, long prev, float open) {
+        int barH = SakuraTheme.BAR_H;
+        ctx.getMatrices().push();
+        if (open < 1f) ctx.getMatrices().translate(0, (1 - open) * -8, 0);
+        ctx.fill(0, 0, width, barH, 0xE8171119);
+        ctx.fill(0, barH - 1, width, barH, SakuraTheme.SAK_DIM);
+        int bx = 8;
+        for (int i = 0; i < TABS.length; i++) {
+            tabWs[i] = textRenderer.getWidth(TABS[i]) + 16;
+            tabXs[i] = bx;
+            bx += tabWs[i] + 6;
+        }
+        if (indX.get() < 0) { indX.set(tabXs[tab]); indW.set(tabWs[tab]); }
+        indX.update(tabXs[tab], now, prev);
+        indW.update(tabWs[tab], now, prev);
+        int ix = (int) indX.get(), iw = (int) indW.get();
+        ctx.fill(ix, 4, ix + iw, barH - 3, 0x33FF9EC4);
+        ctx.fill(ix, barH - 3, ix + iw, barH - 1, SakuraTheme.SAKURA);
+        for (int i = 0; i < TABS.length; i++) {
+            boolean hov = mx >= tabXs[i] && mx <= tabXs[i] + tabWs[i];
+            if (hov && i != tab) ctx.fill(tabXs[i], 4, tabXs[i] + tabWs[i], barH - 3, 0x22FF9EC4);
+            ctx.drawTextWithShadow(textRenderer, Text.literal(TABS[i]), tabXs[i] + 8, 8,
+                i == tab ? SakuraTheme.SAKURA : (hov ? SakuraTheme.INK : SakuraTheme.INK_DIM));
+        }
+        ctx.drawTextWithShadow(textRenderer, Text.literal("ESC - close"), width - 80, 8, SakuraTheme.INK_DIM);
+        ctx.getMatrices().pop();
+    }
+
+    private int tabAt(int mx, int my) {
+        if (my >= SakuraTheme.BAR_H) return -1;
+        int bx = 8;
+        for (int i = 0; i < TABS.length; i++) {
+            int w = textRenderer.getWidth(TABS[i]) + 16;
+            if (mx >= bx && mx <= bx + w) return i;
+            bx += w + 6;
+        }
+        return -1;
+    }
+
+    @Override
+    public boolean mouseClicked(double mx, double my, int button) {
+        int t = tabAt((int) mx, (int) my);
+        if (t >= 0) {
+            if (t != tab) {
+                tab = t;
+                tabSwitchMs = System.currentTimeMillis();
+                UiSounds.tab();
+                buildChild();
             } else {
-                // Draw placeholder glyph
-                drawArtifactGlyph(ctx, info != null ? info.id : "", slotX + 8, slotY + 8, 
-                    withAlpha(accentColor, 0.4f));
+                UiSounds.click();
             }
-            
-            // Hover tooltip
-            if (hovered && stack.isEmpty() && info != null) {
-                ctx.drawTooltip(client.textRenderer, 
-                    Text.literal(info.displayName), mx, my);
-            }
+            return true;
         }
+        if (tab == TAB_INVENTORY) return super.mouseClicked(mx, my, button);
+        if (tab == 0) return CharacterPanel.handleClick(mx, my, 0, SakuraTheme.BAR_H, button);
+        if (tab == 2) return LoadoutPanel.handleClick(mx, my, 0, SakuraTheme.BAR_H, width, height - SakuraTheme.BAR_H);
+        return child != null && child.mouseClicked(mx, my - SakuraTheme.BAR_H, button);
     }
-    
-    private static void drawArtifactGlyph(DrawContext ctx, String type, int cx, int cy, int color) {
-        // Procedural glyphs for artifact types
-        switch (type) {
-            case "necklace" -> {
-                // Circle with pendant
-                for (int i = 0; i < 12; i++) {
-                    double a = i * Math.PI * 2 / 12;
-                    int x = cx + (int)(Math.cos(a) * 4);
-                    int y = cy - 2 + (int)(Math.sin(a) * 3);
-                    ctx.fill(x, y, x + 1, y + 1, color);
-                }
-                ctx.fill(cx, cy + 2, cx + 1, cy + 5, color);
-            }
-            case "ring" -> {
-                // Simple ring
-                for (int i = 0; i < 8; i++) {
-                    double a = i * Math.PI * 2 / 8;
-                    int x = cx + (int)(Math.cos(a) * 3);
-                    int y = cy + (int)(Math.sin(a) * 3);
-                    ctx.fill(x, y, x + 1, y + 1, color);
-                }
-            }
-            case "belt" -> {
-                // Horizontal belt
-                ctx.fill(cx - 4, cy - 1, cx + 4, cy + 1, color);
-                ctx.fill(cx - 1, cy - 2, cx + 1, cy + 2, color);
-            }
-            case "head" -> {
-                // Crown/helmet
-                ctx.fill(cx - 3, cy + 1, cx + 3, cy + 2, color);
-                ctx.fill(cx - 2, cy - 1, cx - 1, cy + 1, color);
-                ctx.fill(cx, cy - 2, cx + 1, cy, color);
-                ctx.fill(cx + 2, cy - 1, cx + 3, cy + 1, color);
-            }
-            case "hands" -> {
-                // Gauntlet
-                ctx.fill(cx - 2, cy - 2, cx + 2, cy + 2, color);
-                ctx.fill(cx - 3, cy - 1, cx - 2, cy + 1, color);
-                ctx.fill(cx + 2, cy - 1, cx + 3, cy + 1, color);
-            }
-            case "feet" -> {
-                // Boot
-                ctx.fill(cx - 2, cy - 2, cx + 1, cy + 1, color);
-                ctx.fill(cx - 1, cy + 1, cx + 3, cy + 2, color);
-            }
-            default -> ctx.fill(cx - 1, cy - 1, cx + 1, cy + 1, color);
-        }
+
+    @Override
+    public boolean mouseReleased(double mx, double my, int button) {
+        if (tab == TAB_INVENTORY) return super.mouseReleased(mx, my, button);
+        return child != null && child.mouseReleased(mx, my - SakuraTheme.BAR_H, button);
     }
-    
-    private static int withAlpha(int color, float alpha) {
-        int a = (int)(alpha * 255);
-        return (a << 24) | (color & 0x00FFFFFF);
+
+    @Override
+    public boolean mouseDragged(double mx, double my, int b, double dx, double dy) {
+        if (tab == TAB_INVENTORY) return super.mouseDragged(mx, my, b, dx, dy);
+        return child != null && child.mouseDragged(mx, my - SakuraTheme.BAR_H, b, dx, dy);
     }
-}
-'@
 
-# ============================================================
-# --- Phase 5: Patching SakuraHubScreen (Artifacts Integration) ---
-# ============================================================
-$hubPath = Join-Path $root "src\main\java\com\example\shinobicore\client\sakura\SakuraHubScreen.java"
-if (Test-Path $hubPath) {
-    $c = [System.IO.File]::ReadAllText($hubPath, $utf8NoBom)
-    
-    # Точка вставки (используем точный текст из SakuraHubScreen.java)
-    $insertPoint = 'ctx.drawTextWithShadow(textRenderer, Text.translatable("gui.shinobicore.equipment"),'
-    
-    $insertCode = @"
-            // Integrating Curios / Artifacts Panel
-            com.example.shinobicore.client.sakura.ui.ArtifactPanel.render(ctx, gx + 120, gy + 6, 100, lh, mx, my);
-            
-"@
-
-    # ИСПРАВЛЕНИЕ: Используем .Replace() вместо -replace, чтобы избежать ошибок Regex со скобками
-    if ($c.Contains($insertPoint) -and -not $c.Contains("ArtifactPanel.render")) {
-        $c = $c.Replace($insertPoint, $insertCode + $insertPoint)
-        [System.IO.File]::WriteAllText($hubPath, $c, $utf8NoBom)
-        Write-Host "[PATCHED] SakuraHubScreen.java (Artifacts integrated)" -ForegroundColor Green
-    } else {
-        Write-Host "[SKIP] SakuraHubScreen.java already patched or target string not found." -ForegroundColor Yellow
+    @Override
+    public boolean mouseScrolled(double mx, double my, double amount) {
+        if (tab == TAB_INVENTORY) return super.mouseScrolled(mx, my, amount);
+        if (tab == 0) return CharacterPanel.mouseScrolled(mx, my, amount);
+        return child != null && child.mouseScrolled(mx, my - SakuraTheme.BAR_H, amount);
     }
-} else {
-    Write-Host "[WARN] SakuraHubScreen.java not found!" -ForegroundColor Red
-}
 
-# ============================================================
-# PHASE 6: TRANSLATION KEYS
-# ============================================================
-Write-Host "`n--- Phase 6: Translation Keys ---" -ForegroundColor Yellow
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == 256) { close(); return true; }
+        if (tab == TAB_INVENTORY) return super.keyPressed(keyCode, scanCode, modifiers);
+        return child != null && child.keyPressed(keyCode, scanCode, modifiers);
+    }
 
-Patch-File "src\main\resources\assets\shinobicore\lang\en_us.json" {
-    param($c)
-    if ($c -match 'gui.shinobicore.artifacts') { return $c }
-    
-    $c = $c -replace '(\}\s*)$', @'
-,
-  "gui.shinobicore.artifacts": "Artifacts",
-  "gui.shinobicore.artifact.necklace": "Necklace",
-  "gui.shinobicore.artifact.ring": "Ring",
-  "gui.shinobicore.artifact.belt": "Belt",
-  "gui.shinobicore.artifact.head": "Head",
-  "gui.shinobicore.artifact.hands": "Hands",
-  "gui.shinobicore.artifact.feet": "Feet"
-}
-'@
-    return $c
-}
+    @Override
+    public boolean charTyped(char chr, int modifiers) {
+        if (tab == TAB_INVENTORY) return super.charTyped(chr, modifiers);
+        return child != null && child.charTyped(chr, modifiers);
+    }
 
-# ============================================================
-# PHASE 7: VARIANT 1 CORE - Basic Systems
-# ============================================================
-Write-Host "`n--- Phase 7: Variant 1 Core Systems ---" -ForegroundColor Yellow
-
-# Basic jutsu definition for testing
-Write-Utf8NoBom "src\main\resources\data\shinobicore\jutsu\test_point_heal.json" @'
-{
-  "id": "shinobicore:test_point_heal",
-  "name": "Test: Point Heal",
-  "category": "utility",
-  "element": "none",
-  "rank": "D",
-  "behaviorType": "projectile",
-  "targetMode": "self",
-  "castTime": 0.0,
-  "cooldown": 2.0,
-  "baseCost": 10,
-  "baseDamage": -8,
-  "baseRange": 0,
-  "strain": 2,
-  "requirements": {},
-  "leveling": {
-    "maxLevel": 1,
-    "usesPerLevel": [0]
-  },
-  "params": {},
-  "scaling": {},
-  "visual": {
-    "particle": "happy_villager"
-  },
-  "sound": {
-    "cast": "entity.player.levelup"
-  },
-  "tags": ["test", "heal"]
+    @Override
+    public boolean shouldPause() { return false; }
 }
 '@
 
 # ============================================================
 # BUILD
 # ============================================================
-Write-Host "`n--- Building ---" -ForegroundColor Yellow
+Write-Host ""
+Write-Host "Building..." -ForegroundColor Yellow
 Push-Location $root
 try {
     $buildOut = & cmd /c "gradlew.bat build 2>&1" | Out-String
     if ($buildOut -match "BUILD SUCCESSFUL") {
         Write-Host "[PASS] BUILD SUCCESSFUL!" -ForegroundColor Green
         Write-Host ""
-        Write-Host "VARIANT 1 + ARTIFACTS INTEGRATION COMPLETE:" -ForegroundColor Yellow
-        Write-Host "  [OK] Core infrastructure (FeatureFlags)" -ForegroundColor Gray
-        Write-Host "  [OK] Curios API dependency added" -ForegroundColor Gray
-        Write-Host "  [OK] CuriosCompat - detects and interfaces with Curios" -ForegroundColor Gray
-        Write-Host "  [OK] CuriosSlot - custom slot for artifacts" -ForegroundColor Gray
-        Write-Host "  [OK] SakuraHandler - 6 artifact slots (necklace, ring, belt, head, hands, feet)" -ForegroundColor Gray
-        Write-Host "  [OK] ArtifactPanel - styled rendering with sakura theme" -ForegroundColor Gray
-        Write-Host "  [OK] Translation keys for artifact UI" -ForegroundColor Gray
-        Write-Host "  [OK] Test jutsu for basic validation" -ForegroundColor Gray
+        Write-Host "FIXED:" -ForegroundColor Yellow
+        Write-Host "  JUTSU tab -> LoadoutPanel (sets A/B + 5 assign slots)" -ForegroundColor Gray
+        Write-Host "  No ProgressionScreen ctor dependency in hub" -ForegroundColor Gray
+        Write-Host "  CharacterPanel.mouseScrolled(mx, my, amount) - correct arity" -ForegroundColor Gray
         Write-Host ""
-        Write-Host "ARTIFACT SLOTS ADDED:" -ForegroundColor Cyan
-        Write-Host "  - Necklace (purple accent)" -ForegroundColor White
-        Write-Host "  - Ring (pink accent)" -ForegroundColor White
-        Write-Host "  - Belt (green accent)" -ForegroundColor White
-        Write-Host "  - Head (blue accent)" -ForegroundColor White
-        Write-Host "  - Hands (gold accent)" -ForegroundColor White
-        Write-Host "  - Feet (gray accent)" -ForegroundColor White
-        Write-Host ""
-        Write-Host "NEXT STEPS:" -ForegroundColor Yellow
-        Write-Host "  1. Run: .\gradlew.bat runClient" -ForegroundColor White
-        Write-Host "  2. Install Artifacts mod + Curios API in mods folder" -ForegroundColor White
-        Write-Host "  3. Open inventory (K) to see artifact slots" -ForegroundColor White
-        Write-Host "  4. Find artifacts in dungeon chests and equip them" -ForegroundColor White
+        Write-Host "HUB TABS: CHARACTER / SKILL TREE / JUTSU / INVENTORY" -ForegroundColor Cyan
     } else {
         Write-Host "[FAIL] Build errors:" -ForegroundColor Red
-        ($buildOut -split "`n") | Where-Object { $_ -match "error:" } | Select-Object -First 20 | ForEach-Object { 
-            Write-Host "  $_" -ForegroundColor Red 
-        }
+        ($buildOut -split "`n") | Where-Object { $_ -match "error:" } | Select-Object -First 25 | ForEach-Object { Write-Host "  $_" -ForegroundColor Red }
     }
-} finally { 
-    Pop-Location 
-}
-
-Write-Host ""
-Write-Host "================================================================" -ForegroundColor Cyan
-Write-Host "  MASTER SCRIPT COMPLETE" -ForegroundColor Cyan
-Write-Host "================================================================" -ForegroundColor Cyan
+} finally { Pop-Location }

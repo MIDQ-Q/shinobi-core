@@ -11,7 +11,7 @@ base {
 }
 
 repositories {
-        maven { name = 'Curios'; url = 'https://maven.theillusivec4.top/' }
+// [CLEANUP] Removed Curios/Trinkets dependency
     maven { name = 'Fabric'; url = 'https://maven.fabricmc.net/' }
     maven { name = 'Ladysnake'; url = 'https://maven.ladysnake.org/releases' }
     maven { name = 'GeckoLib'; url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
@@ -24,9 +24,9 @@ repositories {
 }
 
 dependencies {
-    // === CURIOS API (Artifacts mod dependency) ===
-    modImplementation "top.theillusivec4.curios:curios-fabric:5.9.1+1.20.1"
-    include "top.theillusivec4.curios:curios-fabric:5.9.1+1.20.1"
+// [CLEANUP] Removed Curios/Trinkets dependency
+// [CLEANUP] Removed Curios/Trinkets dependency
+// [CLEANUP] Removed Curios/Trinkets dependency
     // === MINECRAFT + FABRIC ===
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
@@ -45,8 +45,8 @@ dependencies {
 
     // === GECKOLIB ===
     modImplementation "software.bernie.geckolib:geckolib-fabric-1.20.1:${project.geckolib_version}"
-// === ARTIFACTS SUPPORT (optional, via Trinkets API) ===
-modCompileOnly "dev.emi:trinkets:${project.trinkets_version}"
+// [CLEANUP] Removed Curios/Trinkets dependency
+// [CLEANUP] Removed Curios/Trinkets dependency
     include "software.bernie.geckolib:geckolib-fabric-1.20.1:${project.geckolib_version}"
 
     // === MIXIN EXTRAS ===

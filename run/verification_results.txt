@@ -931,3 +931,27 @@
 [2026-09-05 22:42:23] [HIT] Caster: Player536 | Target: Zombie | Effect: DAMAGE | Damage: 8,0
 [2026-09-05 22:42:23] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
 [2026-09-05 22:42:23] [HIT] Caster: Player536 | Target: Zombie | Effect: DAMAGE | Damage: 8,0
+[2026-09-06 02:18:39] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-06 02:18:39] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-06 02:18:39] [PROGRESSION] Player: Player488 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 1
+[2026-09-06 02:19:10] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-06 02:19:10] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-06 02:19:10] [PROGRESSION] Player: Player488 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 2
+[2026-09-06 02:19:12] [HIT] Caster: Player488 | Target: Sheep | Effect: DAMAGE | Damage: 8,0
+[2026-09-06 02:19:16] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-06 02:19:16] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-06 02:19:16] [PROGRESSION] Player: Player488 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 3
+[2026-09-06 02:19:23] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-06 02:19:23] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-06 02:19:23] [PROGRESSION] Player: Player488 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 4
+[2026-09-06 02:19:25] [HIT] Caster: Player488 | Target: Spider | Effect: DAMAGE | Damage: 8,0
+[2026-09-06 02:19:27] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-06 02:19:27] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-06 02:19:27] [PROGRESSION] Player: Player488 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 5
+[2026-09-06 02:19:29] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-06 02:19:29] [HIT] Caster: Player488 | Target: Spider | Effect: DAMAGE | Damage: 8,0
+[2026-09-06 02:19:29] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-06 02:19:29] [HIT] Caster: Player488 | Target: Spider | Effect: DAMAGE | Damage: 8,0
+[2026-09-06 02:19:29] [HIT] Caster: Player488 | Target: Spider | Effect: DAMAGE | Damage: 8,0
+[2026-09-06 02:19:29] [HIT] Caster: Player488 | Target: Spider | Effect: DAMAGE | Damage: 8,0
+[2026-09-06 02:19:29] [HIT] Caster: Player488 | Target: Spider | Effect: DAMAGE | Damage: 8,0

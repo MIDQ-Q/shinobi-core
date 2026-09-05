@@ -4,7 +4,6 @@ import com.example.shinobicore.client.SkillTreeScreen;
 import com.example.shinobicore.client.sakura.ui.CharacterPanel;
 import com.example.shinobicore.client.sakura.ui.LoadoutPanel;
 import com.example.shinobicore.client.sakura.ui.SakuraAtmosphere;
-import com.example.shinobicore.client.sakura.ui.SakuraGlass;
 import com.example.shinobicore.client.sakura.ui.SakuraTextures;
 import com.example.shinobicore.client.sakura.ui.SakuraTheme;
 import com.example.shinobicore.client.sakura.ui.UiAnim;
@@ -64,9 +63,7 @@ public class SakuraHubScreen extends HandledScreen<SakuraHandler> {
     }
 
     @Override
-    public void renderBackground(DrawContext context) {
-        // atmosphere drawn manually in render(); skip vanilla overlay
-    }
+    public void renderBackground(DrawContext context) {}
 
     @Override
     public void render(DrawContext ctx, int mx, int my, float delta) {
@@ -106,8 +103,6 @@ public class SakuraHubScreen extends HandledScreen<SakuraHandler> {
         ctx.getMatrices().translate(-width / 2f, -height / 2f + (1 - open) * 10, 0);
     }
 
-    // ================= WINDOW + INVENTORY =================
-
     @Override
     protected void drawBackground(DrawContext ctx, float delta, int mx, int my) {
         if (tab != TAB_INVENTORY) return;
@@ -123,10 +118,7 @@ public class SakuraHubScreen extends HandledScreen<SakuraHandler> {
     private void drawInventory(DrawContext ctx, int gx, int gy, int mx, int my, long now) {
         int lx = gx + 6, ly = gy + 6, lw = 104, lh = backgroundHeight - 12;
         SakuraTextures.drawPanel(ctx, lx, ly, lw, lh);
-                    // Integrating Curios / Artifacts Panel
-            com.example.shinobicore.client.sakura.ui.ArtifactPanel.render(ctx, gx + 120, gy + 6, 100, lh, mx, my);
-            ctx.drawTextWithShadow(textRenderer, Text.translatable("gui.shinobicore.equipment"),
-            lx + 6, ly + 4, SakuraTheme.SAKURA);
+        ctx.drawTextWithShadow(textRenderer, Text.translatable("gui.shinobicore.equipment"), lx + 6, ly + 4, SakuraTheme.SAKURA);
         for (int i = 0; i < 5; i++) {
             Slot s = handler.slots.get(i);
             float a = UiAnim.openEase(tabSwitchMs + i * SakuraTheme.STAGGER_MS, now, 180);
@@ -137,13 +129,11 @@ public class SakuraHubScreen extends HandledScreen<SakuraHandler> {
             }
         }
         int modelX = lx + 80, modelY = ly + lh - 12;
-        InventoryScreen.drawEntity(ctx, modelX, modelY, 32,
-            (float) (modelX - mx), (float) (modelY - 50 - my), client.player);
+        InventoryScreen.drawEntity(ctx, modelX, modelY, 32, (float)(modelX - mx), (float)(modelY - 50 - my), client.player);
 
         int rx = gx + 116, ry = gy + 6, rw = backgroundWidth - 122, rh = backgroundHeight - 12;
         SakuraTextures.drawPanel(ctx, rx, ry, rw, rh);
-        ctx.drawTextWithShadow(textRenderer, Text.translatable("gui.shinobicore.stash"),
-            rx + 6, ry + 4, SakuraTheme.SAKURA);
+        ctx.drawTextWithShadow(textRenderer, Text.translatable("gui.shinobicore.stash"), rx + 6, ry + 4, SakuraTheme.SAKURA);
         for (int i = 5; i <= 31; i++) {
             Slot s = handler.slots.get(i);
             float a = UiAnim.openEase(tabSwitchMs + i * SakuraTheme.STAGGER_MS, now, 180);
@@ -151,15 +141,13 @@ public class SakuraHubScreen extends HandledScreen<SakuraHandler> {
         }
         int sepY = gy + SakuraHandler.SEP_Y;
         ctx.fill(rx + 4, sepY, rx + rw - 4, sepY + 1, SakuraTheme.EDGE);
-        ctx.drawTextWithShadow(textRenderer, Text.translatable("gui.shinobicore.hotbar"),
-            rx + 6, sepY + 4, SakuraTheme.INK_DIM);
+        ctx.drawTextWithShadow(textRenderer, Text.translatable("gui.shinobicore.hotbar"), rx + 6, sepY + 4, SakuraTheme.INK_DIM);
         for (int i = 32; i <= 40; i++) {
             Slot s = handler.slots.get(i);
             float a = UiAnim.openEase(tabSwitchMs + i * SakuraTheme.STAGGER_MS, now, 180);
             slotBox(ctx, gx + s.x, gy + s.y, mx, my, a);
         }
-        ctx.drawTextWithShadow(textRenderer, Text.translatable("gui.shinobicore.hint.inv"),
-            rx + 6, ry + rh - 12, SakuraTheme.INK_DIM);
+        ctx.drawTextWithShadow(textRenderer, Text.translatable("gui.shinobicore.hint.inv"), rx + 6, ry + rh - 12, SakuraTheme.INK_DIM);
     }
 
     private void slotBox(DrawContext ctx, int ax, int ay, int mx, int my, float a) {
@@ -176,17 +164,15 @@ public class SakuraHubScreen extends HandledScreen<SakuraHandler> {
 
     private static int withAlpha(int argb, float a) {
         int al = (argb >>> 24) & 0xFF;
-        int na = (int) (al * Math.max(0, Math.min(1, a)));
+        int na = (int)(al * Math.max(0, Math.min(1, a)));
         return (argb & 0x00FFFFFF) | (na << 24);
     }
-
-    // ================= TAB BAR =================
 
     private void drawBar(DrawContext ctx, int mx, long now, long prev, float open) {
         int barH = SakuraTheme.BAR_H;
         ctx.getMatrices().push();
         if (open < 1f) ctx.getMatrices().translate(0, (1 - open) * -8, 0);
-        SakuraGlass.drawPanel(ctx, 0, 0, width, barH);
+        ctx.fill(0, 0, width, barH, 0xE8171119);
         ctx.fill(0, barH - 1, width, barH, SakuraTheme.SAK_DIM);
         int bx = 8;
         for (int i = 0; i < TABS.length; i++) {
@@ -220,8 +206,6 @@ public class SakuraHubScreen extends HandledScreen<SakuraHandler> {
         }
         return -1;
     }
-
-    // ================= INPUT =================
 
     @Override
     public boolean mouseClicked(double mx, double my, int button) {
@@ -265,10 +249,6 @@ public class SakuraHubScreen extends HandledScreen<SakuraHandler> {
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (keyCode == 256) { close(); return true; }
-        if (client != null && client.options.inventoryKey.matchesKey(keyCode, scanCode)) {
-            close();
-            return true;
-        }
         if (tab == TAB_INVENTORY) return super.keyPressed(keyCode, scanCode, modifiers);
         return child != null && child.keyPressed(keyCode, scanCode, modifiers);
     }

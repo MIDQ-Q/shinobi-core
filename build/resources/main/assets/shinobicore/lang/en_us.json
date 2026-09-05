@@ -23,4 +23,12 @@
     "gui.shinobicore.tree.locked":  "Locked"
 ,
   "item.shinobicore.shinobi_charm": "Shinobi Charm"
+,
+  "gui.shinobicore.artifacts": "Artifacts",
+  "gui.shinobicore.artifact.necklace": "Necklace",
+  "gui.shinobicore.artifact.ring": "Ring",
+  "gui.shinobicore.artifact.belt": "Belt",
+  "gui.shinobicore.artifact.head": "Head",
+  "gui.shinobicore.artifact.hands": "Hands",
+  "gui.shinobicore.artifact.feet": "Feet"
 }
