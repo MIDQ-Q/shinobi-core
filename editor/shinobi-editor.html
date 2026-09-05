@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shinobi Editor v2.1</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #14151f; --bg2: #1c1e2b; --bg3: #262939; --br: #33364a;
+      --tx: #e8e9f0; --tx2: #9a9db0; --ac: #ff6b35; --ac2: #ffa500;
+      --ok: #4ade80; --warn: #facc15; --err: #f87171;
+    }
+    body { background: var(--bg); color: var(--tx); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; }
+    header { background: linear-gradient(135deg, var(--bg2), var(--bg3)); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--br); flex-wrap: wrap; gap: 8px; }
+    header h1 { font-size: 20px; background: linear-gradient(135deg, var(--ac), var(--ac2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    header h1 span { font-size: 12px; color: var(--tx2); -webkit-text-fill-color: var(--tx2); }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    button, select { background: var(--bg3); color: var(--tx); border: 1px solid var(--br); border-radius: 6px; padding: 7px 12px; font-size: 13px; cursor: pointer; }
+    button:hover { border-color: var(--ac); transform: translateY(-1px); }
+    .btn-primary { background: linear-gradient(135deg, var(--ac), var(--ac2)); border: none; color: #fff; font-weight: 600; }
+    nav { display: flex; gap: 4px; padding: 8px 20px; background: var(--bg2); border-bottom: 1px solid var(--br); overflow-x: auto; }
+    nav button { border: none; background: transparent; color: var(--tx2); padding: 8px 14px; border-radius: 6px 6px 0 0; }
+    nav button.active { background: var(--bg3); color: var(--ac); border: 1px solid var(--br); border-bottom: none; }
+    .layout { display: flex; gap: 0; height: calc(100vh - 110px); }
+    main { flex: 1; overflow-y: auto; padding: 20px; }
+    aside { width: 400px; border-left: 1px solid var(--br); background: var(--bg2); overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+    .card { background: var(--bg3); border: 1px solid var(--br); border-radius: 8px; padding: 14px; margin-bottom: 14px; }
+    .card h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--ac); margin-bottom: 10px; }
+    .row { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
+    .row label { width: 150px; color: var(--tx2); font-size: 13px; }
+    .row input[type="text"], .row input[type="number"], .row select { flex: 1; min-width: 120px; background: var(--bg); border: 1px solid var(--br); color: var(--tx); border-radius: 5px; padding: 6px 9px; }
+    .row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--ac); }
+    .row input[type="color"] { width: 50px; height: 30px; background: none; border: 1px solid var(--br); border-radius: 5px; }
+    .q { color: var(--ac2); cursor: help; font-size: 11px; }
+    .effect-card { background: var(--bg); border-left: 3px solid var(--ac); border-radius: 6px; padding: 10px; margin-bottom: 10px; }
+    .prop-item { display: flex; justify-content: space-between; align-items: center; background: var(--bg); border: 1px solid var(--br); border-radius: 6px; padding: 8px 10px; margin-bottom: 6px; }
+    .prop-item .warn { color: var(--warn); font-size: 12px; }
+    #validation { font-size: 13px; }
+    #validation .err { color: var(--err); }
+    #validation .warn { color: var(--warn); }
+    #validation .ok { color: var(--ok); }
+    #json { background: var(--bg); border: 1px solid var(--br); border-radius: 6px; padding: 10px; font-family: Consolas, monospace; font-size: 11px; white-space: pre-wrap; max-height: 40vh; overflow: auto; color: #a5b4fc; }
+    canvas { background: var(--bg); border: 1px solid var(--br); border-radius: 6px; width: 100%; }
+    .small { font-size: 12px; color: var(--tx2); }
+    .del { background: var(--err); border: none; color: #fff; border-radius: 4px; padding: 3px 8px; font-size: 11px; }
+    h2.sec { font-size: 16px; margin-bottom: 12px; color: var(--tx); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🍥 Shinobi Editor <span>v2.1 — честный предпросмотр + RU</span></h1>
+    <div class="actions">
+      <select id="templates">
+        <option value="">📜 Шаблоны...</option>
+        <option value="fireball">Огненный шар</option>
+        <option value="rasengan">Расенган</option>
+        <option value="chidori">Чидори</option>
+        <option value="shadow">Теневые путы</option>
+      </select>
+      <button id="btnOpen">📂 Открыть JSON</button>
+      <button id="btnFolder">📁 Папка мода</button>
+      <button id="btnSave" class="btn-primary">💾 Сохранить в папку</button>
+      <button id="btnDownload">⬇ Скачать JSON</button>
+    </div>
+  </header>
+  <nav id="tabs"></nav>
+  <div class="layout">
+    <main id="panel"></main>
+    <aside>
+      <div>
+        <h2 class="sec">Предпросмотр</h2>
+        <canvas id="preview" width="372" height="200"></canvas>
+        <div class="small" id="previewNote"></div>
+      </div>
+      <div id="validation"></div>
+      <div>
+        <h2 class="sec">JSON</h2>
+        <pre id="json"></pre>
+      </div>
+    </aside>
+  </div>
+  <script>
+    "use strict";
+    // @ts-nocheck
+    const $ = (s) => document.querySelector(s);
+
+    // ================= ЛОКАЛИЗАЦИЯ ПАРАМЕТРОВ =================
+    const L10N = {
+      range: ["Радиус", "Радиус действия в блоках"],
+      targetMode: ["Цель", "Кому применяется: self=себя, touch=вплотную, look_entity=кого вижу, raycast_point=точка прицела"],
+      speed: ["Скорость", "Скорость полёта (блоков/тик). 1.0 ≈ быстро"],
+      gravity: ["Гравитация", "Притяжение вниз за тик. 0 = летит ровно по прицелу"],
+      lifetime: ["Время жизни", "Сколько тиков живёт (20 тиков = 1 сек)"],
+      size: ["Размер", "Размер сферы/снаряда в блоках"],
+      count: ["Количество", "Сколько штук/целей/пробитий"],
+      spread: ["Разброс", "Угол разброса в градусах"],
+      width: ["Ширина", "Ширина луча в блоках"],
+      maxRange: ["Дальность", "Максимальная длина луча в блоках"],
+      tickRate: ["Частота", "Интервал применения эффекта (тиков)"],
+      radius: ["Радиус", "Радиус области в блоках"],
+      duration: ["Длительность", "Длительность в тиках (20 = 1 сек)"],
+      shape: ["Форма", "Форма области"],
+      distance: ["Дистанция", "Длина рывка в блоках"],
+      damageOnPath: ["Урон по пути", "Задевать всех врагов на траектории рывка"],
+      entityType: ["Сущность", "ID сущности для призыва, напр. minecraft:wolf"],
+      behavior: ["ИИ", "Поведение призванной сущности"],
+      spawnPosition: ["Спавн", "Где появляется сущность"],
+      height: ["Высота", "Высота конструкции в блоках"],
+      depth: ["Глубина", "Глубина конструкции в блоках"],
+      blockType: ["Материал", "Блок/материал конструкции"],
+      chargeTime: ["Зарядка", "Тиков до состояния «готов»"],
+      holdDuration: ["Удержание", "Сколько тиков техника живёт в руке"],
+      activation: ["Сработка", "Когда срабатывает эффект"],
+      voxelModel: ["Воксель-модель", "Имя модели из Blockbench"],
+      throwable: ["Бросаемая", "Можно ли бросить технику"],
+      amount: ["Сила", "Количество урона/лечения/щита"],
+      percent: ["Процент", "Значение в процентах"],
+      dps: ["Урон/сек", "Урон в секунду"],
+      breakDamage: ["Порог снятия", "Урон, снимающий эффект"],
+      fleeSpeed: ["Скорость бегства", "Множитель скорости бегства цели"],
+      force: ["Сила", "Сила отброса/притяжения/подброса"],
+      rate: ["Темп", "Восстановление в секунду"],
+      bonus: ["Бонус", "Бонус: 0.3 = +30%"],
+      from: ["Из блока", "Исходный блок"],
+      to: ["В блок", "Целевой блок"],
+      area: ["Область", "Радиус затрагиваемой области"],
+      arcHeight: ["Высота дуги", "Насколько высоко поднимается дуга"],
+      spiralRate: ["Спираль", "Скорость закручивания"],
+      amplitude: ["Амплитуда", "Размах волны"],
+      frequency: ["Частота волны", "Как часто волна колеблется"],
+      turnRate: ["Поворот", "Скорость самонаведения"],
+      angle: ["Угол", "Угол в градусах"],
+      knockback: ["Отброс", "Сила отброса"],
+      delay: ["Задержка", "Задержка до срабатывания (тиков)"],
+      pullForce: ["Притяжение", "Сила втягивания"],
+      threshold: ["Порог", "Порог срабатывания"],
+      chakraPerTick: ["Чакра/тик", "Расход чакры за тик"],
+      sealCount: ["Печати", "Количество печатей рук"],
+      sealSpeed: ["Скорость печатей", "Скорость сложения печатей"],
+      minCharge: ["Мин. заряд", "Минимальное время зарядки (тиков)"],
+      maxCharge: ["Макс. заряд", "Максимальное время зарядки (тиков)"],
+      steps: ["Шаги", "Число шагов комбо"],
+      windowMs: ["Окно", "Окно ввода в миллисекундах"],
+      damageThreshold: ["Порог урона", "Мин. урон для контратаки"],
+      condition: ["Условие", "Условие срабатывания"]
+    };
+    const SUB_L10N = {
+      instant: "Мгновенный урон", dot: "Урон со временем", percent: "% от макс. HP",
+      true: "Истинный урон", cellular: "Клеточный урон",
+      stun: "Оглушение", root: "Обездвиживание", silence: "Запрет каста", blind: "Ослепление",
+      fear: "Страх", confusion: "Путаница", sleep: "Сон", paralysis: "Паралич",
+      pull: "Притягивание", push: "Отталкивание", launch: "Подброс",
+      heal: "Лечение", regen: "Реген HP", chakra_regen: "Реген чакры", shield: "Щит",
+      speed: "Ускорение", strength: "Сила", resistance: "Сопротивление", haste: "Быстрый каст",
+      invisibility: "Невидимость", purify: "Очищение",
+      burn: "Горение", poison: "Яд", slow: "Замедление", weakness: "Слабость",
+      vulnerability: "Уязвимость", bleed: "Кровотечение", curse: "Проклятие",
+      exhaustion: "Истощение", chakra_drain: "Похищение чакры",
+      place_block: "Поставить блок", remove_block: "Удалить блок", transform_block: "Преобразовать блок",
+      ignite: "Поджечь", freeze: "Заморозить", create_entity: "Создать сущность"
+    };
+    function L(k) { return L10N[k] ? L10N[k][0] : k; }
+    function D(k) { return L10N[k] ? L10N[k][1] : ""; }
+    function SL(k) { return SUB_L10N[k] || k; }
+
+    // ================= СХЕМЫ =================
+    const FORMS = {
+      point: { name: "Точка", params: { range: ["num", 3], targetMode: ["sel", ["self", "touch", "look_entity", "raycast_point"]] } },
+      projectile: { name: "Снаряд", params: { speed: ["num", 1.4], gravity: ["num", 0.02], lifetime: ["num", 80], size: ["num", 0.5], count: ["num", 1], spread: ["num", 0] } },
+      beam: { name: "Луч", params: { width: ["num", 1], maxRange: ["num", 16], tickRate: ["num", 5] } },
+      zone: { name: "Зона", params: { radius: ["num", 5], duration: ["num", 100], tickRate: ["num", 10], shape: ["sel", ["sphere", "cylinder", "box"]] } },
+      dash: { name: "Рывок", params: { distance: ["num", 8], speed: ["num", 3], damageOnPath: ["bool", true] } },
+      summon: { name: "Призыв", params: { entityType: ["str", "minecraft:wolf"], count: ["num", 1], lifetime: ["num", 1200], behavior: ["sel", ["fight_for_caster", "protect_caster", "passive", "kamikaze", "follow"]], spawnPosition: ["sel", ["around_caster", "at_target", "at_point"]] } },
+      construct: { name: "Конструкт", params: { width: ["num", 5], height: ["num", 3], depth: ["num", 1], duration: ["num", 200], blockType: ["str", "earth"], shape: ["sel", ["wall", "dome", "cage", "pillar", "platform"]] } },
+      handheld: { name: "В руке", params: { chargeTime: ["num", 40], holdDuration: ["num", 400], activation: ["sel", ["on_hit", "on_release", "on_timeout"]], size: ["num", 1], voxelModel: ["str", ""], throwable: ["bool", false] } }
+    };
+    const EFFECTS = {
+      damage: { name: "Урон", subs: { instant: { amount: ["num", 8] }, dot: { amount: ["num", 2], duration: ["num", 60], tickRate: ["num", 10] }, percent: { percent: ["num", 10] }, true: { amount: ["num", 8] }, cellular: { amount: ["num", 10], duration: ["num", 100] } } },
+      control: { name: "Контроль", subs: { stun: { duration: ["num", 40] }, root: { duration: ["num", 60], breakDamage: ["num", 10] }, silence: { duration: ["num", 40] }, blind: { duration: ["num", 40] }, fear: { duration: ["num", 40], fleeSpeed: ["num", 1.2] }, confusion: { duration: ["num", 40] }, sleep: { duration: ["num", 60] }, paralysis: { duration: ["num", 40] }, pull: { force: ["num", 1.5] }, push: { force: ["num", 1.5] }, launch: { force: ["num", 1.5] } } },
+      buff: { name: "Бафф", subs: { heal: { amount: ["num", 8] }, regen: { rate: ["num", 1], duration: ["num", 100] }, chakra_regen: { rate: ["num", 1], duration: ["num", 100] }, shield: { amount: ["num", 10], duration: ["num", 100] }, speed: { bonus: ["num", 0.3], duration: ["num", 100] }, strength: { bonus: ["num", 0.3], duration: ["num", 100] }, resistance: { percent: ["num", 20], duration: ["num", 100] }, haste: { bonus: ["num", 0.3], duration: ["num", 100] }, invisibility: { duration: ["num", 100] }, purify: { count: ["num", 1] } } },
+      debuff: { name: "Дебафф", subs: { burn: { dps: ["num", 1], duration: ["num", 60], spread: ["bool", false] }, poison: { dps: ["num", 1], duration: ["num", 60] }, slow: { percent: ["num", 30], duration: ["num", 60] }, weakness: { percent: ["num", 20], duration: ["num", 60] }, vulnerability: { percent: ["num", 20], duration: ["num", 60] }, bleed: { dps: ["num", 1], duration: ["num", 60] }, curse: { duration: ["num", 100] }, exhaustion: { amount: ["num", 10] }, chakra_drain: { rate: ["num", 1], duration: ["num", 60] } } },
+      world: { name: "Мир", subs: { place_block: { blockType: ["str", "stone"], duration: ["num", 200] }, remove_block: { area: ["num", 3] }, transform_block: { from: ["str", "water"], to: ["str", "ice"] }, ignite: { area: ["num", 3] }, freeze: { area: ["num", 3] }, create_entity: { entityType: ["str", "minecraft:armor_stand"] } } }
+    };
+    const PROPS = {
+      trajectory_straight: { name: "Прямая", forms: ["projectile"], params: {} },
+      trajectory_arc: { name: "Дуга", forms: ["projectile"], params: { arcHeight: ["num", 3] } },
+      trajectory_spiral: { name: "Спираль", forms: ["projectile"], params: { spiralRate: ["num", 0.2] } },
+      trajectory_wave: { name: "Волна", forms: ["projectile"], params: { amplitude: ["num", 1], frequency: ["num", 0.3] } },
+      homing: { name: "Самонаведение", forms: ["projectile"], params: { turnRate: ["num", 0.3] } },
+      boomerang: { name: "Бумеранг", forms: ["projectile"], params: {} },
+      piercing: { name: "Пробивание", forms: ["projectile", "beam"], params: { count: ["num", 3] } },
+      bouncing: { name: "Рикошет", forms: ["projectile"], params: { count: ["num", 2] } },
+      splitting: { name: "Разделение", forms: ["projectile"], params: { count: ["num", 3], angle: ["num", 30] } },
+      chaining: { name: "Цепь", forms: ["projectile"], params: { count: ["num", 3], range: ["num", 4] } },
+      orbiting: { name: "Орбита", forms: ["projectile"], params: { radius: ["num", 2], count: ["num", 4] } },
+      volley: { name: "Залп", forms: ["projectile"], params: { count: ["num", 5], spread: ["num", 30] } },
+      gravity_affected: { name: "Гравитация", forms: ["projectile"], params: {} },
+      no_gravity: { name: "Без гравитации", forms: ["projectile"], params: {} },
+      explode_on_hit: { name: "Взрыв при попадании", forms: ["projectile", "dash", "handheld"], params: { radius: ["num", 3], damage: ["num", 8], knockback: ["num", 0.5] } },
+      stick_on_hit: { name: "Прилипание", forms: ["projectile"], params: { duration: ["num", 100] } },
+      delayed_explosion: { name: "Отложенный взрыв", forms: ["projectile", "zone"], params: { delay: ["num", 20], radius: ["num", 3], damage: ["num", 8] } },
+      chain_explosion: { name: "Цепной взрыв", forms: ["projectile", "zone"], params: { count: ["num", 3], radius: ["num", 2] } },
+      implosion: { name: "Имплозия", forms: ["projectile", "zone"], params: { radius: ["num", 3], pullForce: ["num", 2] } },
+      multi_target: { name: "Несколько целей", forms: ["all"], params: { count: ["num", 3] } },
+      self_target: { name: "На себя", forms: ["point", "zone"], params: {} },
+      silent: { name: "Без звука", forms: ["all"], params: {} },
+      invisible_projectile: { name: "Невидимый снаряд", forms: ["projectile"], params: {} },
+      unblockable: { name: "Не блокируется", forms: ["all"], params: {} },
+      unreflectable: { name: "Не отражается", forms: ["all"], params: {} },
+      lifesteal: { name: "Вампиризм", forms: ["all"], params: { percent: ["num", 20] } },
+      chakra_drain_on_hit: { name: "Кража чакры", forms: ["all"], params: { amount: ["num", 10] } },
+      execute_bonus: { name: "Бонус казни", forms: ["all"], params: { threshold: ["num", 30], bonus: ["num", 50] } },
+      chargeable: { name: "Заряжаемая", forms: ["projectile", "handheld"], params: {} },
+      interruptible: { name: "Прерываемая", forms: ["all"], params: {} },
+      throwable: { name: "Бросаемая", forms: ["handheld"], params: {} },
+      multi_use: { name: "Многоразовая", forms: ["handheld"], params: {} },
+      channeled: { name: "Канал", forms: ["beam", "zone"], params: { chakraPerTick: ["num", 0.5] } },
+      aura: { name: "Аура", forms: ["zone"], params: { radius: ["num", 3] } },
+      toggle: { name: "Переключаемая", forms: ["zone"], params: {} },
+      permanent: { name: "Постоянная", forms: ["construct"], params: {} }
+    };
+    const ACTIVATIONS = {
+      instant: { name: "Мгновенная", params: {} },
+      handseals: { name: "Печати рук", params: { sealCount: ["num", 3], sealSpeed: ["num", 1] } },
+      charge: { name: "Зарядка", params: { minCharge: ["num", 20], maxCharge: ["num", 60] } },
+      hold: { name: "Удержание", params: { chakraPerTick: ["num", 0.5] } },
+      combo: { name: "Комбо", params: { steps: ["num", 3], windowMs: ["num", 1000] } },
+      counter: { name: "Контратака", params: { windowMs: ["num", 400], damageThreshold: ["num", 1] } },
+      on_death: { name: "При смерти", params: {} },
+      passive: { name: "Пассивная", params: {} },
+      conditional: { name: "По условию", params: { condition: ["str", ""] } }
+    };
+    const ELEMENTS = { none: "Нет", fire: "Огонь", water: "Вода", wind: "Ветер", earth: "Земля", lightning: "Молния", yin: "Инь", yang: "Ян" };
+    const ELCOLOR = { fire: "#ff6600", water: "#4488ff", wind: "#88ddaa", earth: "#bb8844", lightning: "#ffff44", yin: "#cc66ff", yang: "#ffffff", none: "#888888" };
+    const RESOURCES = ["chakra", "fatigue", "hunger", "health", "eye"];
+    const TABS = [["meta","Мета"],["form","Форма"],["effects","Эффекты"],["props","Свойства"],["element","Стихия"],["act","Активация"],["cost","Цена"],["req","Требования"],["lvl","Уровни"],["vis","Визуал"]];
+
+    let state = defaultState();
+    let activeTab = "form";
+    let dirHandle = null;
+
+    function defaultState() {
+      return { id: "shinobicore:custom_jutsu", name: "Custom Jutsu", description: "", category: "elemental_ninjutsu", rank: "C", tags: [], form: { type: "projectile", params: {} }, effects: [], properties: [], element: "none", activation: { type: "instant", params: {} }, cost: { chakra: 30 }, requirements: {}, leveling: { maxLevel: 15, levels: {} }, visual: {}, sound: {} };
+    }
+
+    function setByPath(p, v) {
+      const ks = p.split(".");
+      let o = state;
+      for (let i = 0; i < ks.length - 1; i++) { if (o[ks[i]] == null) o[ks[i]] = {}; o = o[ks[i]]; }
+      o[ks[ks.length - 1]] = v;
+    }
+
+    function label(k) {
+      return '<label title="' + D(k) + '">' + L(k) + ' <span class="q">ⓘ</span></label>';
+    }
+
+    function paramInputs(schema, obj, prefix) {
+      let h = "";
+      for (const [k, spec] of Object.entries(schema)) {
+        const tp = spec[0], def = spec[1];
+        const val = obj[k] != null ? obj[k] : def;
+        const p = prefix + "." + k;
+        if (tp === "num") h += '<div class="row">' + label(k) + '<input type="number" step="any" data-t="num" data-p="' + p + '" value="' + val + '"></div>';
+        else if (tp === "str") h += '<div class="row">' + label(k) + '<input type="text" data-p="' + p + '" value="' + val + '"></div>';
+        else if (tp === "bool") h += '<div class="row">' + label(k) + '<input type="checkbox" data-p="' + p + '" ' + (val ? "checked" : "") + '></div>';
+        else if (tp === "sel") {
+          h += '<div class="row">' + label(k) + '<select data-p="' + p + '">';
+          for (const o of def) h += '<option ' + (o === val ? "selected" : "") + '>' + o + '</option>';
+          h += '</select></div>';
+        }
+      }
+      return h;
+    }
+
+    function renderTabs() {
+      $("#tabs").innerHTML = TABS.map(function(t) {
+        return '<button data-tab="' + t[0] + '" class="' + (t[0] === activeTab ? "active" : "") + '">' + t[1] + '</button>';
+      }).join("");
+    }
+
+    function render() {
+      renderTabs();
+      const P = $("#panel");
+      let h = "";
+      if (activeTab === "meta") {
+        h = '<h2 class="sec">Метаданные</h2><div class="card">' +
+          '<div class="row"><label title="Уникальный ID в формате modid:name">ID <span class="q">ⓘ</span></label><input type="text" data-p="id" value="' + state.id + '"></div>' +
+          '<div class="row"><label>Название</label><input type="text" data-p="name" value="' + state.name + '"></div>' +
+          '<div class="row"><label>Описание</label><input type="text" data-p="description" value="' + state.description + '"></div>' +
+          '<div class="row"><label>Категория</label><select data-p="category">' + ["elemental_ninjutsu","shape_ninjutsu","genjutsu","taijutsu","summoning","space_time_ninjutsu","fuinjutsu"].map(function(c){return '<option '+(c===state.category?"selected":"")+'>'+c+'</option>';}).join("") + '</select></div>' +
+          '<div class="row"><label>Ранг</label><select data-p="rank">' + ["D","C","B","A","S"].map(function(r){return '<option '+(r===state.rank?"selected":"")+'>'+r+'</option>';}).join("") + '</select></div>' +
+          '<div class="row"><label title="Теги через запятую: fire, projectile, offensive">Теги <span class="q">ⓘ</span></label><input type="text" data-p="tags" value="' + state.tags.join(",") + '"></div></div>';
+      }
+      if (activeTab === "form") {
+        h = '<h2 class="sec">Слой 1: Форма</h2><div class="card">' +
+          '<div class="row"><label>Тип формы</label><select data-p="form.type">' + Object.entries(FORMS).map(function(e){return '<option value="'+e[0]+'" '+(e[0]===state.form.type?"selected":"")+'>'+e[1].name+'</option>';}).join("") + '</select></div>' +
+          paramInputs(FORMS[state.form.type].params, state.form.params, "form.params") + '</div>';
+      }
+      if (activeTab === "effects") {
+        h = '<h2 class="sec">Слой 2: Эффекты (1-3)</h2>';
+        state.effects.forEach(function(ef, i) {
+          const subs = EFFECTS[ef.type] ? EFFECTS[ef.type].subs : {};
+          h += '<div class="effect-card"><div class="row"><label>Тип</label><select data-p="effects.' + i + '.type">' + Object.entries(EFFECTS).map(function(e){return '<option value="'+e[0]+'" '+(e[0]===ef.type?"selected":"")+'>'+e[1].name+'</option>';}).join("") + '</select>' +
+            '<label>Подтип</label><select data-p="effects.' + i + '.subtype">' + Object.keys(subs).map(function(s){return '<option '+(s===ef.subtype?"selected":"")+'>'+SL(s)+'</option>';}).join("") + '</select>' +
+            '<button class="del" data-act="delEffect" data-i="' + i + '">✕</button></div>' +
+            (subs[ef.subtype] ? paramInputs(subs[ef.subtype], ef.params || {}, "effects." + i + ".params") : "") + '</div>';
+        });
+        if (state.effects.length < 3) {
+          h += '<div class="card"><div class="row"><label>Добавить эффект</label><select id="newEffectType">' + Object.entries(EFFECTS).map(function(e){return '<option value="'+e[0]+'">'+e[1].name+'</option>';}).join("") + '</select><button data-act="addEffect">+ Добавить</button></div></div>';
+        }
+      }
+      if (activeTab === "props") {
+        h = '<h2 class="sec">Слой 3: Свойства</h2><div class="card"><div class="row"><label>Добавить</label><select id="newProp">' + Object.entries(PROPS).map(function(e){return '<option value="'+e[0]+'">'+e[1].name+'</option>';}).join("") + '</select><button data-act="addProp">+ Добавить</button></div></div><div class="card"><h3>Активные свойства</h3>';
+        state.properties.forEach(function(pr, i) {
+          const meta = PROPS[pr.id];
+          const incompat = meta && meta.forms.indexOf("all") === -1 && meta.forms.indexOf(state.form.type) === -1;
+          h += '<div class="prop-item"><div><b>' + (meta ? meta.name : pr.id) + '</b> <span class="small">' + pr.id + '</span>' + (incompat ? ' <span class="warn">⚠ не для формы ' + state.form.type + '</span>' : '') + '</div><button class="del" data-act="delProp" data-i="' + i + '">✕</button></div>' +
+            (meta && Object.keys(meta.params).length ? '<div style="margin:0 0 10px 10px">' + paramInputs(meta.params, pr.params || {}, "properties." + i + ".params") + '</div>' : '');
+        });
+        h += '</div>';
+      }
+      if (activeTab === "element") {
+        h = '<h2 class="sec">Слой 4: Стихия</h2><div class="card"><div class="row"><label>Стихия</label><select data-p="element">' + Object.entries(ELEMENTS).map(function(e){return '<option value="'+e[0]+'" '+(e[0]===state.element?"selected":"")+'>'+e[1]+'</option>';}).join("") + '</select></div><div class="small">Цвет предпросмотра и авто-частицы зависят от стихии.</div></div>';
+      }
+      if (activeTab === "act") {
+        h = '<h2 class="sec">Активация</h2><div class="card"><div class="row"><label>Тип</label><select data-p="activation.type">' + Object.entries(ACTIVATIONS).map(function(e){return '<option value="'+e[0]+'" '+(e[0]===state.activation.type?"selected":"")+'>'+e[1].name+'</option>';}).join("") + '</select></div>' + paramInputs(ACTIVATIONS[state.activation.type].params, state.activation.params, "activation.params") + '</div>';
+      }
+      if (activeTab === "cost") {
+        h = '<h2 class="sec">Стоимость</h2><div class="card">' + RESOURCES.map(function(r){return '<div class="row"><label>'+r+'</label><input type="number" step="any" data-t="num" data-p="cost.'+r+'" value="'+(state.cost[r]!=null?state.cost[r]:"")+'"></div>';}).join("") + '</div>';
+      }
+      if (activeTab === "req") {
+        h = '<h2 class="sec">Требования</h2><div class="card">' +
+          '<div class="row"><label>Использований</label><input type="number" data-t="num" data-p="requirements.uses" value="' + (state.requirements.uses || "") + '"></div>' +
+          '<div class="row"><label>SP</label><input type="number" data-t="num" data-p="requirements.sp" value="' + (state.requirements.sp || "") + '"></div>' +
+          '<div class="row"><label>Ниндзюцу</label><input type="number" data-t="num" data-p="requirements.stats.ninjutsu" value="' + (state.requirements.stats ? state.requirements.stats.ninjutsu || "" : "") + '"></div>' +
+          '<div class="row"><label>Контроль</label><input type="number" data-t="num" data-p="requirements.stats.control" value="' + (state.requirements.stats ? state.requirements.stats.control || "" : "") + '"></div>' +
+          '<div class="row"><label>Уровень стихии</label><input type="number" data-t="num" data-p="requirements.elements.fire" value="' + (state.requirements.elements ? state.requirements.elements.fire || "" : "") + '"></div>' +
+          '<div class="row"><label>Додзюцу</label><input type="text" data-p="requirements.dojutsu" value="' + (state.requirements.dojutsu || "") + '"></div>' +
+          '<div class="small">Пустые поля = требование не предъявляется.</div></div>';
+      }
+      if (activeTab === "lvl") {
+        h = '<h2 class="sec">Прокачка (1-15)</h2><div class="card"><div class="row"><label>Макс. уровень</label><input type="number" min="1" max="15" data-t="num" data-p="leveling.maxLevel" value="' + state.leveling.maxLevel + '"></div></div><div class="card"><h3>Контрольные уровни</h3>';
+        Object.entries(state.leveling.levels).sort(function(a,b){return a[0]-b[0];}).forEach(function(pair){
+          const lv = pair[0], ld = pair[1];
+          h += '<div class="effect-card"><div class="row"><label>Уровень</label><b>' + lv + '</b><button class="del" data-act="delLevel" data-i="' + lv + '">✕</button></div>' +
+            '<div class="row"><label>Урон</label><input type="number" step="any" data-t="num" data-p="leveling.levels.' + lv + '.damage" value="' + (ld.damage || "") + '"></div>' +
+            '<div class="row"><label>Стоимость</label><input type="number" step="any" data-t="num" data-p="leveling.levels.' + lv + '.cost" value="' + (ld.cost || "") + '"></div></div>';
+        });
+        h += '<div class="row"><label>Добавить уровень</label><input type="number" id="newLevel" min="1" max="15" value="5"><button data-act="addLevel">+ Уровень</button></div></div>';
+      }
+      if (activeTab === "vis") {
+        h = '<h2 class="sec">Визуал и звук</h2><div class="card"><h3>Визуал</h3>' +
+          '<div class="row"><label>Частица</label><input type="text" data-p="visual.particle" value="' + (state.visual.particle || "") + '"></div>' +
+          '<div class="row"><label>Цвет</label><input type="color" data-p="visual.color" value="' + (state.visual.color || ELCOLOR[state.element]) + '"></div>' +
+          '<div class="row"><label>Воксель-модель</label><input type="text" data-p="visual.voxelModel" value="' + (state.visual.voxelModel || "") + '"></div>' +
+          '<div class="row"><label>Масштаб</label><input type="number" step="0.1" data-t="num" data-p="visual.scale" value="' + (state.visual.scale || 1) + '"></div>' +
+          '<div class="row"><label>Свечение</label><input type="checkbox" data-p="visual.glow" ' + (state.visual.glow ? "checked" : "") + '></div></div>' +
+          '<div class="card"><h3>Звук</h3><div class="row"><label>Каст</label><input type="text" data-p="sound.cast" value="' + (state.sound.cast || "") + '"></div>' +
+          '<div class="row"><label>Попадание</label><input type="text" data-p="sound.hit" value="' + (state.sound.hit || "") + '"></div>' +
+          '<div class="small">Пусто = авто-звук по стихии.</div></div>';
+      }
+      P.innerHTML = h;
+      update();
+    }
+
+    function clean(o) {
+      if (Array.isArray(o)) return o.map(clean).filter(function(x){return x!==undefined;});
+      if (o && typeof o === "object") {
+        const r = {};
+        for (const [k, v] of Object.entries(o)) {
+          const c = clean(v);
+          if (c !== "" && c !== null && c !== undefined && !(typeof c === "object" && c !== null && !Array.isArray(c) && Object.keys(c).length === 0)) r[k] = c;
+        }
+        return r;
+      }
+      return o;
+    }
+
+    function serialize() {
+      const s = JSON.parse(JSON.stringify(state));
+      if (!s.tags || !s.tags.length) delete s.tags;
+      if (!s.properties || !s.properties.length) delete s.properties;
+      if (!s.requirements || !Object.keys(clean(s.requirements)).length) delete s.requirements;
+      if (!Object.keys(clean(s.visual)).length) delete s.visual;
+      if (!Object.keys(clean(s.sound)).length) delete s.sound;
+      if (!Object.keys(s.leveling.levels).length) delete s.leveling.levels;
+      if (!Object.keys(s.leveling).length) delete s.leveling;
+      s.cost = clean(s.cost);
+      if (!Object.keys(s.cost).length) delete s.cost;
+      return s;
+    }
+
+    function validate() {
+      const e = [], w = [];
+      if (!state.id || state.id.indexOf(":") === -1) e.push("ID должен быть в формате modid:name");
+      if (!state.name) e.push("Название обязательно");
+      if (state.effects.length === 0) e.push("Нужен хотя бы 1 эффект");
+      if (state.effects.length > 3) e.push("Максимум 3 эффекта");
+      state.properties.forEach(function(pr){
+        const m = PROPS[pr.id];
+        if (m && m.forms.indexOf("all") === -1 && m.forms.indexOf(state.form.type) === -1) w.push('Свойство "' + m.name + '" несовместимо с формой ' + state.form.type);
+      });
+      if ((!state.cost || !state.cost.chakra) && state.activation.type !== "passive") w.push("Стоимость чакры = 0");
+      if (state.leveling.maxLevel < 1 || state.leveling.maxLevel > 15) e.push("Макс. уровень 1-15");
+      return { e: e, w: w };
+    }
+
+    // ================= ЧЕСТНЫЙ ПРЕДПРОСМОТР =================
+    function draw() {
+      const c = $("#preview"), x = c.getContext("2d");
+      x.clearRect(0, 0, c.width, c.height);
+      x.strokeStyle = "#20222f"; x.lineWidth = 1;
+      for (let i = 0; i < c.width; i += 20) { x.beginPath(); x.moveTo(i, 0); x.lineTo(i, c.height); x.stroke(); }
+      for (let i = 0; i < c.height; i += 20) { x.beginPath(); x.moveTo(0, i); x.lineTo(c.width, i); x.stroke(); }
+      const col = ELCOLOR[state.element] || "#888";
+      const f = state.form;
+      const P = function(k){ return f.params[k] != null ? f.params[k] : (FORMS[f.type].params[k] ? FORMS[f.type].params[k][1] : 0); };
+      // игрок
+      x.fillStyle = "#fff"; x.fillRect(22, 148, 8, 22);
+      x.fillStyle = "#ddd"; x.fillRect(24, 142, 5, 6);
+      x.strokeStyle = col; x.fillStyle = col; x.lineWidth = 2;
+      let note = "";
+
+      if (f.type === "projectile") {
+        // пунктирная линия прицела (горизонт) — как в игре
+        x.save(); x.setLineDash([4, 4]); x.strokeStyle = "#3a3d52";
+        x.beginPath(); x.moveTo(32, 145); x.lineTo(c.width - 8, 145); x.stroke(); x.restore();
+        let px = 32, py = 145;
+        let vx = P("speed") * 2;   // 1 блок = 2px
+        let vy = 0;                // запуск ГОРИЗОНТАЛЬНО (по прицелу), как в игре
+        const g = P("gravity") * 2;
+        x.strokeStyle = col;
+        x.beginPath(); x.moveTo(px, py);
+        for (let t = 0; t < P("lifetime"); t++) {
+          px += vx; vy += g; py += vy;
+          if (px > c.width - 8 || py > c.height - 8) break;
+          x.lineTo(px, py);
+        }
+        x.stroke();
+        x.beginPath(); x.arc(Math.min(px, c.width - 8), Math.min(py, c.height - 8), 3 + P("size") * 4, 0, 7); x.fill();
+        if (state.properties.some(function(p){return p.id==="explode_on_hit";})) {
+          const pr = state.properties.find(function(p){return p.id==="explode_on_hit";});
+          x.globalAlpha = 0.4; x.beginPath();
+          x.arc(Math.min(px, c.width - 8), Math.min(py, c.height - 8), (pr.params.radius || 3) * 6, 0, 7);
+          x.stroke(); x.globalAlpha = 1;
+        }
+        note = (P("gravity") === 0) ? "✅ gravity=0: летит ровно по прицелу" : "Пунктир = линия прицела. Запуск горизонтальный, как в игре.";
+      } else if (f.type === "zone") {
+        x.globalAlpha = 0.35; x.beginPath(); x.arc(150, 150, P("radius") * 8, 0, 7); x.fill();
+        x.globalAlpha = 1; x.beginPath(); x.arc(150, 150, P("radius") * 8, 0, 7); x.stroke();
+        note = "Зона радиусом " + P("radius") + " блоков вокруг точки каста";
+      } else if (f.type === "dash") {
+        x.beginPath(); x.moveTo(32, 155); x.lineTo(32 + P("distance") * 10, 155); x.stroke();
+        x.beginPath(); x.moveTo(32 + P("distance") * 10, 155); x.lineTo(32 + P("distance") * 10 - 8, 149); x.lineTo(32 + P("distance") * 10 - 8, 161); x.fill();
+        note = "Рывок " + P("distance") + " блоков по прицелу";
+      } else if (f.type === "beam") {
+        x.beginPath(); x.moveTo(32, 150); x.lineTo(32 + P("maxRange") * 10, 150);
+        x.lineWidth = P("width") * 3; x.stroke(); x.lineWidth = 2;
+        note = "Луч длиной " + P("maxRange") + " блоков";
+      } else if (f.type === "handheld") {
+        const r = 6 + P("size") * 5;
+        x.beginPath(); x.arc(40, 150, r, 0, 7); x.fill();
+        for (let i = 0; i < 3; i++) { x.beginPath(); x.arc(40, 150, r + 3 + i * 3, 0.2 * i, 0.2 * i + 4); x.stroke(); }
+        note = "Сфера в руке, заряд " + P("chargeTime") + " тиков";
+      } else if (f.type === "construct") {
+        x.fillRect(60, 150 - P("height") * 8, P("width") * 8, P("height") * 8);
+        x.strokeRect(60, 150 - P("height") * 8, P("width") * 8, P("height") * 8);
+        note = "Стена " + P("width") + "×" + P("height") + " блоков";
+      } else if (f.type === "summon") {
+        for (let i = 0; i < Math.min(P("count"), 5); i++) { x.beginPath(); x.arc(70 + i * 24, 150, 8, 0, 7); x.fill(); }
+        note = "Призыв: " + P("count") + " сущ.";
+      } else {
+        x.beginPath(); x.arc(40, 150, 10, 0, 7); x.fill();
+        note = "Эффект на себе/цели";
+      }
+      $("#previewNote").textContent = note;
+    }
+
+    function update() {
+      $("#json").textContent = JSON.stringify(serialize(), null, 2);
+      const v = validate();
+      let h = "";
+      if (v.e.length) v.e.forEach(function(m){ h += '<div class="err">❌ ' + m + '</div>'; });
+      if (v.w.length) v.w.forEach(function(m){ h += '<div class="warn">⚠ ' + m + '</div>'; });
+      if (!v.e.length && !v.w.length) h = '<div class="ok">✅ Техника валидна</div>';
+      $("#validation").innerHTML = '<h2 class="sec">Валидация</h2>' + h;
+      draw();
+    }
+
+    document.addEventListener("input", function(e) {
+      const t = e.target;
+      if (!t.dataset || !t.dataset.p) return;
+      let v;
+      if (t.type === "checkbox") v = t.checked;
+      else if (t.dataset.t === "num") v = t.value === "" ? undefined : parseFloat(t.value);
+      else v = t.value;
+      if (t.dataset.p === "tags") state.tags = v.split(",").map(function(s){return s.trim();}).filter(Boolean);
+      else setByPath(t.dataset.p, v);
+      update();
+    });
+    document.addEventListener("change", function(e) {
+      const t = e.target;
+      if (!t.dataset || !t.dataset.p) return;
+      let v;
+      if (t.type === "checkbox") v = t.checked;
+      else if (t.dataset.t === "num") v = t.value === "" ? undefined : parseFloat(t.value);
+      else v = t.value;
+      if (t.dataset.p === "form.type") state.form = { type: v, params: {} };
+      else setByPath(t.dataset.p, v);
+      render();
+    });
+    $("#tabs").addEventListener("click", function(e) {
+      const b = e.target.closest("button");
+      if (!b) return;
+      activeTab = b.dataset.tab;
+      render();
+    });
+    $("#panel").addEventListener("click", function(e) {
+      const b = e.target.closest("button[data-act]");
+      if (!b) return;
+      const act = b.dataset.act, i = +b.dataset.i;
+      if (act === "addEffect") { const tp = $("#newEffectType").value; state.effects.push({ type: tp, subtype: Object.keys(EFFECTS[tp].subs)[0], params: {} }); }
+      if (act === "delEffect") state.effects.splice(i, 1);
+      if (act === "addProp") { const id = $("#newProp").value; if (!state.properties.some(function(p){return p.id===id;})) state.properties.push({ id: id, params: {} }); }
+      if (act === "delProp") state.properties.splice(i, 1);
+      if (act === "addLevel") { const lv = $("#newLevel").value; if (!state.leveling.levels[lv]) state.leveling.levels[lv] = {}; }
+      if (act === "delLevel") delete state.leveling.levels[b.dataset.i];
+      render();
+    });
+    $("#templates").addEventListener("change", function(e) {
+      const v = e.target.value;
+      if (TEMPLATES[v]) { state = JSON.parse(JSON.stringify(TEMPLATES[v])); render(); }
+      e.target.value = "";
+    });
+
+    function fileName() { return (state.id.split(":")[1] || "jutsu") + ".json"; }
+    function jsonText() { return JSON.stringify(serialize(), null, 2); }
+    $("#btnDownload").addEventListener("click", function() {
+      const b = new Blob([jsonText()], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(b);
+      a.download = fileName();
+      a.click();
+    });
+    $("#btnFolder").addEventListener("click", async function() {
+      if (!window.showDirectoryPicker) { alert("Используй Chrome/Edge или кнопку Скачать."); return; }
+      dirHandle = await window.showDirectoryPicker({ mode: "readwrite" });
+      alert("Папка выбрана: " + dirHandle.name);
+    });
+    $("#btnSave").addEventListener("click", async function() {
+      try {
+        if (!window.showDirectoryPicker) { $("#btnDownload").click(); return; }
+        if (!dirHandle) dirHandle = await window.showDirectoryPicker({ mode: "readwrite" });
+        const fh = await dirHandle.getFileHandle(fileName(), { create: true });
+        const w = await fh.createWritable();
+        await w.write(jsonText());
+        await w.close();
+        alert("Сохранено: " + fileName());
+      } catch (err) { alert("Ошибка сохранения: " + err); }
+    });
+    $("#btnOpen").addEventListener("click", async function() {
+      try {
+        const handles = await window.showOpenFilePicker({ types: [{ description: "JSON", accept: { "application/json": [".json"] } }] });
+        const f = await handles[0].getFile();
+        state = Object.assign(defaultState(), JSON.parse(await f.text()));
+        render();
+      } catch (err) { if (err.name !== "AbortError") alert("Ошибка открытия: " + err); }
+    });
+
+    const TEMPLATES = {
+      fireball: { id: "shinobicore:fire_release_great_fireball", name: "Fire Release: Great Fireball", category: "elemental_ninjutsu", rank: "C", tags: ["fire","projectile","offensive"], form: { type: "projectile", params: { speed: 1.4, gravity: 0.02, lifetime: 80, size: 0.5 } }, effects: [{ type: "damage", subtype: "instant", params: { amount: 8 } }, { type: "debuff", subtype: "burn", params: { dps: 1, duration: 40 } }], properties: [{ id: "explode_on_hit", params: { radius: 3, damage: 8, knockback: 0.5 } }], element: "fire", activation: { type: "handseals", params: { sealCount: 3, sealSpeed: 1 } }, cost: { chakra: 30, fatigue: 6 }, requirements: { stats: { control: 15, ninjutsu: 15 }, elements: { fire: 1 } }, leveling: { maxLevel: 15, levels: { 1: { damage: 8, cost: 35 }, 15: { damage: 20, cost: 18 } } } },
+      rasengan: { id: "shinobicore:rasengan", name: "Rasengan", category: "shape_ninjutsu", rank: "A", tags: ["shape","melee"], form: { type: "handheld", params: { chargeTime: 40, holdDuration: 400, activation: "on_hit", size: 1, voxelModel: "rasengan_blue", throwable: false } }, effects: [{ type: "damage", subtype: "instant", params: { amount: 16 } }, { type: "control", subtype: "launch", params: { force: 1.5 } }], properties: [{ id: "explode_on_hit", params: { radius: 2, damage: 16, knockback: 2 } }, { id: "multi_use", params: {} }], element: "none", activation: { type: "charge", params: { minCharge: 20, maxCharge: 60 } }, cost: { chakra: 50, fatigue: 12 }, requirements: { stats: { control: 30, ninjutsu: 25 } }, leveling: { maxLevel: 15, levels: { 1: { damage: 16, cost: 50 }, 15: { damage: 40, cost: 35 } } }, visual: { voxelModel: "rasengan_blue" } },
+      chidori: { id: "shinobicore:chidori", name: "Chidori", category: "elemental_ninjutsu", rank: "A", tags: ["lightning","dash"], form: { type: "dash", params: { distance: 8, speed: 3, damageOnPath: true } }, effects: [{ type: "damage", subtype: "instant", params: { amount: 20 } }, { type: "control", subtype: "stun", params: { duration: 10 } }], properties: [{ id: "piercing", params: { count: 3 } }], element: "lightning", activation: { type: "charge", params: { minCharge: 30, maxCharge: 45 } }, cost: { chakra: 60, fatigue: 15 }, requirements: { stats: { control: 35, ninjutsu: 30 }, elements: { lightning: 1 }, dojutsu: "sharingan_1" }, leveling: { maxLevel: 15, levels: { 1: { damage: 20, cost: 60 }, 15: { damage: 45, cost: 45 } } } },
+      shadow: { id: "shinobicore:shadow_bind", name: "Shadow Possession", category: "shape_ninjutsu", rank: "B", tags: ["yin","zone","control"], form: { type: "zone", params: { radius: 3, duration: 120, tickRate: 10, shape: "cylinder" } }, effects: [{ type: "control", subtype: "root", params: { duration: 120, breakDamage: 10 } }], properties: [], element: "yin", activation: { type: "handseals", params: { sealCount: 1 } }, cost: { chakra: 40, fatigue: 8 }, requirements: { stats: { control: 30, ninjutsu: 25 } }, leveling: { maxLevel: 15, levels: {} } }
+    };
+
+    render();
+  </script>
+</body>
+</html>

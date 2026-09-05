@@ -1,58 +1,50 @@
 {
-  "punch_light": {
+  "jutsu_fire_cast": {
+    "subtitle": "subtitles.shinobicore.jutsu.fire",
     "sounds": [
-      "minecraft:mob/player/attack/weak1",
-      "minecraft:mob/player/attack/weak2",
-      "minecraft:mob/player/attack/weak3",
-      "minecraft:mob/player/attack/weak4"
+      { "name": "entity/blaze/shoot", "type": "event" }
     ]
   },
-  "punch_heavy": {
+  "jutsu_water_cast": {
+    "subtitle": "subtitles.shinobicore.jutsu.water",
     "sounds": [
-      "minecraft:mob/player/attack/strong1",
-      "minecraft:mob/player/attack/strong2",
-      "minecraft:mob/player/attack/strong3",
-      "minecraft:mob/player/attack/strong4"
+      { "name": "entity/generic/splash", "type": "event" }
     ]
   },
-  "kick": {
+  "jutsu_wind_cast": {
+    "subtitle": "subtitles.shinobicore.jutsu.wind",
     "sounds": [
-      "minecraft:mob/player/attack/critical1",
-      "minecraft:mob/player/attack/critical2",
-      "minecraft:mob/player/attack/critical3"
+      { "name": "entity/player/attack/sweep", "type": "event" }
     ]
   },
-  "whoosh": {
+  "jutsu_earth_cast": {
+    "subtitle": "subtitles.shinobicore.jutsu.earth",
     "sounds": [
-      "minecraft:mob/player/attack/sweep1",
-      "minecraft:mob/player/attack/sweep2",
-      "minecraft:mob/player/attack/sweep3",
-      "minecraft:mob/player/attack/sweep4",
-      "minecraft:mob/player/attack/sweep5",
-      "minecraft:mob/player/attack/sweep6",
-      "minecraft:mob/player/attack/sweep7"
+      { "name": "block/stone/hit", "type": "event", "pitch": 0.5 }
+    ]
+  },
+  "jutsu_lightning_cast": {
+    "subtitle": "subtitles.shinobicore.jutsu.lightning",
+    "sounds": [
+      { "name": "entity/lightning_bolt/thunder", "type": "event", "volume": 0.3, "pitch": 2.0 }
+    ]
+  },
+  "jutsu_impact": {
+    "subtitle": "subtitles.shinobicore.jutsu.impact",
+    "sounds": [
+      { "name": "entity/generic/explode", "type": "event", "volume": 0.5 }
+    ]
+  },
+  "jutsu_charge_loop": {
+    "subtitle": "subtitles.shinobicore.jutsu.charge",
+    "sounds": [
+      { "name": "entity/guardian/attack_loop", "type": "event", "volume": 0.3, "pitch": 1.5 }
+    ]
+  },
+  "jutsu_hit": {
+    "subtitle": "subtitles.shinobicore.jutsu.hit",
+    "sounds": [
+      { "name": "entity/player/attack/strong", "type": "event" }
     ]
   }
-,
-"genjutsu_cast": {
-    "subtitle": "Genjutsu cast",
-    "sounds": [
-        {"name": "minecraft:entity/enderman/stare", "volume": 0.5, "pitch": 0.6},
-        {"name": "minecraft:entity/illusioner/cast_spell", "volume": 0.7, "pitch": 0.8}
-    ]
-},
-"genjutsu_ambient": {
-    "subtitle": "Genjutsu whispers",
-    "sounds": [
-        {"name": "minecraft:ambient/cave/cave8", "volume": 0.15, "pitch": 0.4},
-        {"name": "minecraft:entity/wandering_trader/disappeared", "volume": 0.2, "pitch": 0.5}
-    ]
-},
-"genjutsu_resist": {
-    "subtitle": "Genjutsu resisted",
-    "sounds": [
-        {"name": "minecraft:entity/enderman/teleport", "volume": 0.4, "pitch": 1.5}
-    ]
 }
-}
-// PHASE_E_GEN_SOUNDS_REGISTERED

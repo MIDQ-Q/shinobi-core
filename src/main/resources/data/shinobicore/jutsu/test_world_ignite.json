@@ -1,0 +1,4 @@
+{ "id": "shinobicore:test_world_ignite", "name": "TEST Ignite", "category": "elemental_ninjutsu", "rank": "C",
+  "form": { "type": "point", "params": { "range": 8, "targetMode": "look_entity" } },
+  "effects": [ { "type": "world", "subtype": "ignite", "params": { "area": 3 } } ],
+  "element": "fire", "activation": { "type": "instant" }, "cooldown": 2, "cost": { "chakra": 5 } }

@@ -1,0 +1,4 @@
+{ "id": "shinobicore:test_dash", "name": "TEST Dash", "category": "taijutsu", "rank": "C",
+  "form": { "type": "dash", "params": { "distance": 8, "speed": 3, "damageOnPath": true } },
+  "effects": [ { "type": "damage", "subtype": "instant", "params": { "amount": 6 } } ],
+  "element": "none", "activation": { "type": "instant" }, "cooldown": 2, "cost": { "chakra": 5 } }

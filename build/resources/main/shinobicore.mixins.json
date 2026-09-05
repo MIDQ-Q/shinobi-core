@@ -22,6 +22,9 @@
     "InterruptCastMixin",
     "MobEntityAccessor"
   ],
+  "client": [
+    "HotbarScaleMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

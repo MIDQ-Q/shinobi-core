@@ -1,0 +1,5 @@
+{ "id": "shinobicore:test_prop_chaining", "name": "TEST Chain Lightning", "category": "elemental_ninjutsu", "rank": "C",
+  "form": { "type": "projectile", "params": { "speed": 1.8, "gravity": 0, "lifetime": 80, "size": 0.4 } },
+  "effects": [ { "type": "damage", "subtype": "instant", "params": { "amount": 6 } } ],
+  "properties": [ { "id": "chaining", "params": { "count": 3, "range": 5, "falloff": 0.2 } } ],
+  "element": "lightning", "activation": { "type": "instant" }, "cooldown": 1, "cost": { "chakra": 5 } }

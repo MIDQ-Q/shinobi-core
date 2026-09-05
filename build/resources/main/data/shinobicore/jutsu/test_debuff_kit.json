@@ -1,0 +1,4 @@
+{ "id": "shinobicore:test_debuff_kit", "name": "TEST Debuff Kit", "category": "genjutsu", "rank": "C",
+  "form": { "type": "projectile", "params": { "speed": 1.6, "gravity": 0, "lifetime": 80, "size": 0.5 } },
+  "effects": [ { "type": "debuff", "subtype": "vulnerability", "params": { "percent": 25, "duration": 100 } }, { "type": "debuff", "subtype": "curse", "params": { "dps": 1, "duration": 100 } } ],
+  "element": "yin", "activation": { "type": "instant" }, "cooldown": 1, "cost": { "chakra": 5 } }

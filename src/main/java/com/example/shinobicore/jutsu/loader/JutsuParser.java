@@ -1,16 +1,33 @@
 package com.example.shinobicore.jutsu.loader;
 
-import com.example.shinobicore.jutsu.core.*;
-import com.example.shinobicore.jutsu.enums.*;
-import com.google.gson.*;
+import com.example.shinobicore.jutsu.core.ActivationDefinition;
+import com.example.shinobicore.jutsu.core.EffectDefinition;
+import com.example.shinobicore.jutsu.core.FormDefinition;
+import com.example.shinobicore.jutsu.core.JutsuDefinition;
+import com.example.shinobicore.jutsu.core.LevelingDefinition;
+import com.example.shinobicore.jutsu.core.PropertyDefinition;
+import com.example.shinobicore.jutsu.core.RequirementsDefinition;
+import com.example.shinobicore.jutsu.core.SoundDefinition;
+import com.example.shinobicore.jutsu.core.VisualDefinition;
+import com.example.shinobicore.jutsu.enums.ActivationType;
+import com.example.shinobicore.jutsu.enums.EffectSubType;
+import com.example.shinobicore.jutsu.enums.EffectType;
+import com.example.shinobicore.jutsu.enums.ElementType;
+import com.example.shinobicore.jutsu.enums.FormType;
+import com.example.shinobicore.jutsu.enums.ResourceType;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-/**
- * Парсер техник из JSON (новый формат).
- */
 public class JutsuParser {
 
     public static JutsuDefinition parse(InputStream stream) {
@@ -19,174 +36,54 @@ public class JutsuParser {
     }
 
     public static JutsuDefinition parseFromJson(JsonObject root) {
-        // Metadata
         String id = root.get("id").getAsString();
         String name = root.get("name").getAsString();
         String description = root.has("description") ? root.get("description").getAsString() : "";
         String category = root.has("category") ? root.get("category").getAsString() : "custom";
         String rank = root.has("rank") ? root.get("rank").getAsString() : "D";
         List<String> tags = new ArrayList<>();
-        if (root.has("tags")) {
-            root.getAsJsonArray("tags").forEach(t -> tags.add(t.getAsString()));
-        }
+        if (root.has("tags")) root.getAsJsonArray("tags").forEach(t -> tags.add(t.getAsString()));
 
-        // Form
         FormDefinition form = parseForm(root.getAsJsonObject("form"));
-
-        // Effects
         List<EffectDefinition> effects = new ArrayList<>();
-        if (root.has("effects")) {
-            root.getAsJsonArray("effects").forEach(e -> effects.add(parseEffect(e.getAsJsonObject())));
-        }
-
-        // Properties
+        if (root.has("effects")) root.getAsJsonArray("effects").forEach(e -> effects.add(parseEffect(e.getAsJsonObject())));
         List<PropertyDefinition> properties = new ArrayList<>();
-        if (root.has("properties")) {
-            root.getAsJsonArray("properties").forEach(p -> properties.add(parseProperty(p.getAsJsonObject())));
-        }
-
-        // Element
-        ElementType element = ElementType.NONE;
-        if (root.has("element")) {
-            element = ElementType.fromId(root.get("element").getAsString());
-        }
-
-        // Activation
+        if (root.has("properties")) root.getAsJsonArray("properties").forEach(p -> properties.add(parseProperty(p.getAsJsonObject())));
+        ElementType element = root.has("element") ? ElementType.fromId(root.get("element").getAsString()) : ElementType.NONE;
         ActivationDefinition activation = root.has("activation")
-            ? parseActivation(root.getAsJsonObject("activation"))
-            : new ActivationDefinition(ActivationType.INSTANT, new HashMap<>());
+                ? parseActivation(root.getAsJsonObject("activation"))
+                : new ActivationDefinition(ActivationType.INSTANT, new HashMap<>());
 
-        // Cost
         Map<ResourceType, Integer> cost = new HashMap<>();
         if (root.has("cost")) {
-            JsonObject costObj = root.getAsJsonObject("cost");
-            for (ResourceType type : ResourceType.values()) {
-                if (costObj.has(type.getId())) {
-                    cost.put(type, costObj.get(type.getId()).getAsInt());
-                }
-            }
+            JsonObject c = root.getAsJsonObject("cost");
+            for (ResourceType t : ResourceType.values()) if (c.has(t.getId())) cost.put(t, c.get(t.getId()).getAsInt());
         }
 
-        // Requirements
         RequirementsDefinition requirements = root.has("requirements")
-            ? parseRequirements(root.getAsJsonObject("requirements"))
-            : new RequirementsDefinition(0, 0, new HashMap<>(), new HashMap<>(), null);
+                ? parseRequirements(root.getAsJsonObject("requirements"))
+                : new RequirementsDefinition(0, 0, new HashMap<>(), new HashMap<>(), null);
 
-        // Leveling
         LevelingDefinition leveling = root.has("leveling")
-            ? parseLeveling(root.getAsJsonObject("leveling"))
-            : new LevelingDefinition(1, new HashMap<>());
+                ? parseLeveling(root.getAsJsonObject("leveling"))
+                : new LevelingDefinition(1, new HashMap<>());
 
-        // Visual
-        VisualDefinition visual = root.has("visual")
-            ? parseVisual(root.getAsJsonObject("visual"))
-            : new VisualDefinition(null, null, null, null, 1.0, false);
+        VisualDefinition visual = root.has("visual") ? parseVisual(root.getAsJsonObject("visual"))
+                : new VisualDefinition(null, null, null, null, 1.0, false);
+        SoundDefinition sound = root.has("sound") ? parseSound(root.getAsJsonObject("sound"))
+                : new SoundDefinition(null, null, null, null);
+        double cooldown = root.has("cooldown") ? root.get("cooldown").getAsDouble() : 0;
 
-        // Sound
-        SoundDefinition sound = root.has("sound")
-            ? parseSound(root.getAsJsonObject("sound"))
-            : new SoundDefinition(null, null, null, null);
-
-        return new JutsuDefinition(
-            id, name, description, category, rank, tags,
-            form, effects, properties, element,
-            activation, cost, requirements,
-            leveling, visual, sound
-        );
-    }
-
-    private static FormDefinition parseForm(JsonObject formObj) {
-        FormType type = FormType.fromId(formObj.get("type").getAsString());
-        Map<String, Object> params = parseParams(formObj);
-        return new FormDefinition(type, params);
-    }
-
-    private static EffectDefinition parseEffect(JsonObject effectObj) {
-        EffectType type = EffectType.fromId(effectObj.get("type").getAsString());
-        EffectSubType subType = EffectSubType.fromId(effectObj.get("subtype").getAsString());
-        Map<String, Object> params = parseParams(effectObj);
-        return new EffectDefinition(type, subType, params);
-    }
-
-    private static PropertyDefinition parseProperty(JsonObject propObj) {
-        String id = propObj.get("id").getAsString();
-        Map<String, Object> params = parseParams(propObj);
-        return new PropertyDefinition(id, params);
-    }
-
-    private static ActivationDefinition parseActivation(JsonObject actObj) {
-        ActivationType type = ActivationType.fromId(actObj.get("type").getAsString());
-        Map<String, Object> params = parseParams(actObj);
-        return new ActivationDefinition(type, params);
-    }
-
-    private static RequirementsDefinition parseRequirements(JsonObject reqObj) {
-        int uses = reqObj.has("uses") ? reqObj.get("uses").getAsInt() : 0;
-        int sp = reqObj.has("sp") ? reqObj.get("sp").getAsInt() : 0;
-        Map<String, Integer> stats = new HashMap<>();
-        if (reqObj.has("stats")) {
-            JsonObject statsObj = reqObj.getAsJsonObject("stats");
-            for (String key : statsObj.keySet()) {
-                stats.put(key, statsObj.get(key).getAsInt());
-            }
-        }
-        Map<String, Integer> elements = new HashMap<>();
-        if (reqObj.has("elements")) {
-            JsonObject elementsObj = reqObj.getAsJsonObject("elements");
-            for (String key : elementsObj.keySet()) {
-                elements.put(key, elementsObj.get(key).getAsInt());
-            }
-        }
-        String dojutsu = reqObj.has("dojutsu") ? reqObj.get("dojutsu").getAsString() : null;
-        return new RequirementsDefinition(uses, sp, stats, elements, dojutsu);
-    }
-
-    private static LevelingDefinition parseLeveling(JsonObject lvlObj) {
-        int maxLevel = lvlObj.has("maxLevel") ? lvlObj.get("maxLevel").getAsInt() : 1;
-        Map<Integer, LevelingDefinition.LevelData> levels = new HashMap<>();
-        if (lvlObj.has("levels")) {
-            JsonObject levelsObj = lvlObj.getAsJsonObject("levels");
-            for (String levelStr : levelsObj.keySet()) {
-                int level = Integer.parseInt(levelStr);
-                JsonObject levelData = levelsObj.getAsJsonObject(levelStr);
-                Map<String, Double> numericParams = new HashMap<>();
-                Map<String, Integer> requirements = new HashMap<>();
-                for (String key : levelData.keySet()) {
-                    JsonElement val = levelData.get(key);
-                    if (val.isJsonPrimitive() && val.getAsJsonPrimitive().isNumber()) {
-                        numericParams.put(key, val.getAsDouble());
-                    }
-                }
-                levels.put(level, new LevelingDefinition.LevelData(numericParams, requirements));
-            }
-        }
-        return new LevelingDefinition(maxLevel, levels);
-    }
-
-    private static VisualDefinition parseVisual(JsonObject visObj) {
-        String particle = visObj.has("particle") ? visObj.get("particle").getAsString() : null;
-        String trailParticle = visObj.has("trail") ? visObj.get("trail").getAsString() : null;
-        String color = visObj.has("color") ? visObj.get("color").getAsString() : null;
-        String voxelModel = visObj.has("voxelModel") ? visObj.get("voxelModel").getAsString() : null;
-        double scale = visObj.has("scale") ? visObj.get("scale").getAsDouble() : 1.0;
-        boolean glow = visObj.has("glow") && visObj.get("glow").getAsBoolean();
-        return new VisualDefinition(particle, trailParticle, color, voxelModel, scale, glow);
-    }
-
-    private static SoundDefinition parseSound(JsonObject sndObj) {
-        String cast = sndObj.has("cast") ? sndObj.get("cast").getAsString() : null;
-        String hit = sndObj.has("hit") ? sndObj.get("hit").getAsString() : null;
-        String loop = sndObj.has("loop") ? sndObj.get("loop").getAsString() : null;
-        String end = sndObj.has("end") ? sndObj.get("end").getAsString() : null;
-        return new SoundDefinition(cast, hit, loop, end);
+        return new JutsuDefinition(id, name, description, category, rank, tags, form, effects, properties, element,
+                activation, cost, requirements, leveling, visual, sound, cooldown);
     }
 
     private static Map<String, Object> parseParams(JsonObject parent) {
         Map<String, Object> params = new HashMap<>();
         if (parent.has("params")) {
-            JsonObject paramsObj = parent.getAsJsonObject("params");
-            for (String key : paramsObj.keySet()) {
-                JsonElement val = paramsObj.get(key);
+            JsonObject p = parent.getAsJsonObject("params");
+            for (String key : p.keySet()) {
+                JsonElement val = p.get(key);
                 if (val.isJsonPrimitive()) {
                     JsonPrimitive prim = val.getAsJsonPrimitive();
                     if (prim.isNumber()) params.put(key, prim.getAsDouble());
@@ -196,5 +93,89 @@ public class JutsuParser {
             }
         }
         return params;
+    }
+
+    private static FormDefinition parseForm(JsonObject o) {
+        return new FormDefinition(FormType.fromId(o.get("type").getAsString()), parseParams(o));
+    }
+
+    private static EffectDefinition parseEffect(JsonObject o) {
+        return new EffectDefinition(
+                EffectType.fromId(o.get("type").getAsString()),
+                EffectSubType.fromId(o.get("subtype").getAsString()),
+                parseParams(o));
+    }
+
+    private static PropertyDefinition parseProperty(JsonObject o) {
+        return new PropertyDefinition(o.get("id").getAsString(), parseParams(o));
+    }
+
+    private static ActivationDefinition parseActivation(JsonObject o) {
+        return new ActivationDefinition(ActivationType.fromId(o.get("type").getAsString()), parseParams(o));
+    }
+
+    private static RequirementsDefinition parseRequirements(JsonObject o) {
+        int uses = o.has("uses") ? o.get("uses").getAsInt() : 0;
+        int sp = o.has("sp") ? o.get("sp").getAsInt() : 0;
+        Map<String, Integer> stats = new HashMap<>();
+        if (o.has("stats")) for (String k : o.getAsJsonObject("stats").keySet()) stats.put(k, o.getAsJsonObject("stats").get(k).getAsInt());
+        Map<String, Integer> elements = new HashMap<>();
+        if (o.has("elements")) for (String k : o.getAsJsonObject("elements").keySet()) elements.put(k, o.getAsJsonObject("elements").get(k).getAsInt());
+        String dojutsu = o.has("dojutsu") ? o.get("dojutsu").getAsString() : null;
+        return new RequirementsDefinition(uses, sp, stats, elements, dojutsu);
+    }
+
+    private static LevelingDefinition parseLeveling(JsonObject o) {
+        int maxLevel = o.has("maxLevel") ? o.get("maxLevel").getAsInt() : 1;
+        Map<Integer, LevelingDefinition.LevelData> levels = new HashMap<>();
+        if (o.has("levels")) {
+            JsonObject lo = o.getAsJsonObject("levels");
+            for (String lvStr : lo.keySet()) {
+                int lv = Integer.parseInt(lvStr);
+                JsonObject row = lo.getAsJsonObject(lvStr);
+                Map<String, Double> nums = new HashMap<>();
+                Map<String, Integer> reqs = new HashMap<>();
+                List<String> unlockProps = new ArrayList<>();
+                List<EffectDefinition> unlockFx = new ArrayList<>();
+                for (String key : row.keySet()) {
+                    JsonElement v = row.get(key);
+                    if (v.isJsonPrimitive() && v.getAsJsonPrimitive().isNumber()) {
+                        nums.put(key, v.getAsDouble());
+                    }
+                }
+                if (row.has("requirements")) {
+                    JsonObject rq = row.getAsJsonObject("requirements");
+                    if (rq.has("uses")) reqs.put("uses", rq.get("uses").getAsInt());
+                    if (rq.has("sp")) reqs.put("sp", rq.get("sp").getAsInt());
+                    if (rq.has("stats")) for (String k : rq.getAsJsonObject("stats").keySet()) reqs.put(k, rq.getAsJsonObject("stats").get(k).getAsInt());
+                    if (rq.has("elements")) for (String k : rq.getAsJsonObject("elements").keySet()) reqs.put("el_" + k, rq.getAsJsonObject("elements").get(k).getAsInt());
+                }
+                if (row.has("unlock")) {
+                    JsonObject un = row.getAsJsonObject("unlock");
+                    if (un.has("properties")) un.getAsJsonArray("properties").forEach(p -> unlockProps.add(p.getAsString()));
+                    if (un.has("effects")) un.getAsJsonArray("effects").forEach(e -> unlockFx.add(parseEffect(e.getAsJsonObject())));
+                }
+                levels.put(lv, new LevelingDefinition.LevelData(nums, reqs, unlockProps, unlockFx));
+            }
+        }
+        return new LevelingDefinition(maxLevel, levels);
+    }
+
+    private static VisualDefinition parseVisual(JsonObject o) {
+        return new VisualDefinition(
+                o.has("particle") ? o.get("particle").getAsString() : null,
+                o.has("trail") ? o.get("trail").getAsString() : null,
+                o.has("color") ? o.get("color").getAsString() : null,
+                o.has("voxelModel") ? o.get("voxelModel").getAsString() : null,
+                o.has("scale") ? o.get("scale").getAsDouble() : 1.0,
+                o.has("glow") && o.get("glow").getAsBoolean());
+    }
+
+    private static SoundDefinition parseSound(JsonObject o) {
+        return new SoundDefinition(
+                o.has("cast") ? o.get("cast").getAsString() : null,
+                o.has("hit") ? o.get("hit").getAsString() : null,
+                o.has("loop") ? o.get("loop").getAsString() : null,
+                o.has("end") ? o.get("end").getAsString() : null);
     }
 }

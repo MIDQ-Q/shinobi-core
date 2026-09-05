@@ -1,0 +1,5 @@
+{ "id": "shinobicore:test_prop_piercing", "name": "TEST Piercing", "category": "shape_ninjutsu", "rank": "C",
+  "form": { "type": "projectile", "params": { "speed": 1.8, "gravity": 0, "lifetime": 80, "size": 0.3 } },
+  "effects": [ { "type": "damage", "subtype": "instant", "params": { "amount": 5 } } ],
+  "properties": [ { "id": "piercing", "params": { "count": 3 } } ],
+  "element": "none", "activation": { "type": "instant" }, "cooldown": 1, "cost": { "chakra": 5 } }

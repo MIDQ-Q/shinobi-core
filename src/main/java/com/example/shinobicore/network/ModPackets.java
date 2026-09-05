@@ -66,6 +66,7 @@ public class ModPackets {
     public static final Identifier CAST_START_ID = new Identifier("shinobicore", "cast_start");
     public static final Identifier CAST_INTERRUPT_ID = new Identifier("shinobicore", "cast_interrupt");
     public static final Identifier HIT_STOP_ID = new Identifier("shinobicore", "hit_stop");
+public static final Identifier COOLDOWN_SYNC_ID = new Identifier("shinobicore", "cooldown_sync");
     
     public static void register() {
         // Phase 3.1: Delegate to handler classes

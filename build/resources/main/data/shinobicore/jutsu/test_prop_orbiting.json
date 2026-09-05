@@ -1,0 +1,5 @@
+{ "id": "shinobicore:test_prop_orbiting", "name": "TEST Orbiting Blades", "category": "shape_ninjutsu", "rank": "C",
+  "form": { "type": "projectile", "params": { "speed": 1, "gravity": 0, "lifetime": 100, "size": 0.4 } },
+  "effects": [ { "type": "damage", "subtype": "instant", "params": { "amount": 3 } } ],
+  "properties": [ { "id": "orbiting", "params": { "radius": 2, "count": 4 } } ],
+  "element": "wind", "activation": { "type": "instant" }, "cooldown": 2, "cost": { "chakra": 5 } }

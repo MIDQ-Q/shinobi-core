@@ -47,7 +47,7 @@ public class ShinobiCoreClient implements ClientModInitializer {
         RasenganClientVisual.register();
         com.example.shinobicore.client.ChakraAuraVisual.register();
         HudRenderCallback.EVENT.register(ChakraHudRenderer::render);
-        com.example.shinobicore.client.TargetFrameHud.register();
+        // TargetFrameHud disabled by design (HUD v3)
         com.example.shinobicore.client.RpgCameraKeybind.register(); // PHASE_H_CAMERA // BATCH3_AURA
         com.example.shinobicore.client.LandingAnimations.register(); // PHASE_A_REG
         // === РЕГИСТРАЦИЯ РЕНДЕРЕРОВ (было потеряно!) ===
@@ -213,5 +213,8 @@ public class ShinobiCoreClient implements ClientModInitializer {
         });
         // HUD registration now inside ChakraHudRenderer.register() (self-guarded)
         HudRenderCallback.EVENT.register(HandSignsHudRenderer::render);
+        com.example.shinobicore.ai.client.AiRenderers.register();
+        com.example.shinobicore.client.JutsuKeybindClient.register();
+        com.example.shinobicore.client.CooldownHudState.register();
     }
 }

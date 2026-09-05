@@ -1,0 +1,4 @@
+{ "id": "shinobicore:test_act_passive", "name": "TEST Passive Regen Aura", "category": "medical", "rank": "C",
+  "form": { "type": "point", "params": { "range": 3, "targetMode": "self" } },
+  "effects": [ { "type": "buff", "subtype": "regen", "params": { "rate": 1, "duration": 120 } } ],
+  "element": "yang", "activation": { "type": "passive", "params": {} }, "cooldown": 0, "cost": { "chakra": 5 } }

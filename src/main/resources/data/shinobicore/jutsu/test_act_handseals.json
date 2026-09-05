@@ -1,0 +1,4 @@
+{ "id": "shinobicore:test_act_handseals", "name": "TEST Handseals", "category": "elemental_ninjutsu", "rank": "C",
+  "form": { "type": "projectile", "params": { "speed": 1.6, "gravity": 0, "lifetime": 80, "size": 0.5 } },
+  "effects": [ { "type": "damage", "subtype": "instant", "params": { "amount": 6 } } ],
+  "element": "fire", "activation": { "type": "handseals", "params": { "sealCount": 3, "sealSpeed": 1 } }, "cooldown": 1, "cost": { "chakra": 5 } }

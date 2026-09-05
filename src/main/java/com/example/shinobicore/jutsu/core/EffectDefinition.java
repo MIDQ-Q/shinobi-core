@@ -39,4 +39,9 @@ public class EffectDefinition {
         if (val instanceof Boolean) return (Boolean) val;
         return defaultValue;
     }
+
+    public String getString(String key, String def) {
+        Object v = params.get(key);
+        return v == null ? def : v.toString();
+    }
 }

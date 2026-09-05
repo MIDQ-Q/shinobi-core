@@ -1,238 +1,160 @@
 package com.example.shinobicore.client;
 
-import com.example.shinobicore.ShinobiCore;
-import com.example.shinobicore.client.combat.TaijutsuClientHandler;
-import com.example.shinobicore.client.combat.TaijutsuKickHandler;
-import com.example.shinobicore.client.parkour.ParkourManager;
-import com.example.shinobicore.client.parkour.actions.ChargedJumpAction;
-import com.example.shinobicore.combat.TaijutsuStyle;
+import com.example.shinobicore.config.ModConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.ColorHelper;
-import com.example.shinobicore.client.RasenganClientState;
-import java.util.ArrayList;
-import java.util.List;
-import com.example.shinobicore.client.ClientNinjaStateHolder;
 
 public class ChakraHudRenderer {
-
     public static float currentChakra = 100f;
     public static float maxChakra = 100f;
     public static float fatigue = 0f;
     public static boolean exhausted = false;
 
-    private static final int HEIGHT = 7;
-    private static final int SPACING = 1;
-    private static final float TEXT_SCALE = 0.65f;
-
-    private static final int HP_LIGHT = 0xFFDD3333;   private static final int HP_DARK = 0xFF991111;
-    private static final int CHAKRA_LIGHT = 0xFF4499FF; private static final int CHAKRA_DARK = 0xFF1155CC;
-    private static final int FATIGUE_LIGHT = 0xFFEEBB33; private static final int FATIGUE_DARK = 0xFFBB8811;
-    private static final int FOOD_LIGHT = 0xFFC77B3A;  private static final int FOOD_DARK = 0xFF8A4E1E;
-    private static final int AIR_LIGHT = 0xFF66D9E8;   private static final int AIR_DARK = 0xFF2A97B0;
-    private static final int ARMOR_LIGHT = 0xFFB0B0B0; private static final int ARMOR_DARK = 0xFF707070;
-    private static final int BORDER = 0xFF000000;
-    // === PHASE7_COMBO_DROP ===
-    private static int lastComboStep = 0;
-    private static long comboDropTime = 0;
-    private static final long COMBO_DROP_DISPLAY_MS = 1500;
-    private static final int BG = 0xCC222222;
-
-    private static final List<BarSpec> barsCache = new ArrayList<>(8);
-    private record BarSpec(float ratio, int light, int dark, boolean pulse, String label, String value) {}
+    private static final String[] HEART = {".X.X.", "XXXXX", "XXXXX", ".XXX.", "..X.."};
+    private static final String[] MEAT  = {".XXX.", "XXXX.", "XXXX.", ".XX..", "..X.."};
+    private static final String[] ORB   = {".XXX.", "X...X", "X.X.X", "X...X", ".XXX."};
+    private static final String[] BOLT  = {"..XX.", ".XX..", "XXXX.", "..XX.", ".XX.."};
+    private static final String[] DROP  = {"..X..", ".XXX.", "XXXXX", "XXXXX", ".XXX."};
 
     public static void render(DrawContext context, float tickDelta) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null) return;
+        ModConfig.Hud cfg = ModConfig.instance.hud;
+        if (!cfg.showHud) return;
 
-        int sw = client.getWindow().getScaledWidth();
-        int sh = client.getWindow().getScaledHeight();
-
-        // === ╨Т╨Х╨а╨е-╨Ы╨Х╨Т╨Ю: ╤З╨░╨║╤А╨░ ╨╕ ╨┐╤А╨╛╤З╨╡╨╡ ===
-        barsCache.clear();
-        List<BarSpec> bars = barsCache;
-        float chakraRatio = maxChakra > 0 ? currentChakra / maxChakra : 0;
-        bars.add(new BarSpec(chakraRatio, CHAKRA_LIGHT, CHAKRA_DARK, chakraRatio < 0.25f && !exhausted,
-            "CH", (int) currentChakra + "/" + (int) maxChakra));
-        if (fatigue > 0)
-            bars.add(new BarSpec(fatigue / 100f, FATIGUE_LIGHT, FATIGUE_DARK, exhausted, "FT", (int) fatigue + "%"));
-        if (client.player.getAir() < client.player.getMaxAir())
-            bars.add(new BarSpec(client.player.getAir() / (float) client.player.getMaxAir(), AIR_LIGHT, AIR_DARK, false,
-                "O2", (int) (client.player.getAir() / 20f) + "s"));
-        int armor = client.player.getArmor();
-        if (armor > 0)
-            bars.add(new BarSpec(armor / 20f, ARMOR_LIGHT, ARMOR_DARK, false, "AR", armor + "/20"));
-
-        int y = 10;
-        for (BarSpec b : bars) {
-            drawBar(context, client, 10, y, 120, HEIGHT, b.ratio(), b.light(), b.dark(), b.pulse(), b.label(), b.value());
-            y += HEIGHT + SPACING;
-        }
-
-        if (ClientNinjaStateHolder.get().isChakraMode()) {
-            int alpha = (int) (150 + 105 * Math.sin(System.currentTimeMillis() / 200.0));
-            context.drawTextWithShadow(client.textRenderer, Text.literal("CHAKRA MODE"), 10, y,
-                ColorHelper.Argb.getArgb(alpha, 255, 136, 0));
-            y += 10;
-        }
-        if (exhausted) {
-            context.drawTextWithShadow(client.textRenderer, Text.literal("EXHAUSTED"), 10, y, 0xFF3333);
-            y += 10;
-        }
-        if (ClientNinjaStateHolder.get().getUnlockedNodes().contains("sen_glow")) {
-            context.drawTextWithShadow(client.textRenderer,
-                    Text.literal(ClientNinjaStateHolder.get().isSensoryEnabled() ? "SENSORY ON" : "SENSORY OFF"),
-                    10, y, ClientNinjaStateHolder.get().isSensoryEnabled() ? 0xFF66DDFF : 0xFF666666);
-            y += 10;
-        }
-        if (ClientNinjaStateHolder.get().isDangerSense()) {
-            int alpha = (int) (150 + 105 * Math.sin(System.currentTimeMillis() / 150.0));
-            context.drawTextWithShadow(client.textRenderer, Text.literal("!! DANGER !!"), 10, y,
-                    ColorHelper.Argb.getArgb(alpha, 255, 60, 60));
-            y += 10;
-        }
-        // === ╨а╨Р╨б╨Х╨Э╨У╨Р╨Э: ╨╕╨╜╨┤╨╕╨║╨░╤В╨╛╤А ╨╖╨░╤А╤П╨┤╨║╨╕ ===
-        if (RasenganClientState.charging) {
-            float progress = RasenganClientState.chargeProgress;
-            int barW = 60, barH = 4;
-            context.fill(10, y + 8, 10 + barW, y + 8 + barH, 0xCC222222);
-            context.fill(10, y + 8, 10 + (int)(barW * progress), y + 8 + barH, 0xFF44AAFF);
-            context.drawTextWithShadow(client.textRenderer, Text.literal("RASENGAN " + (int)(progress * 100) + "%"),
-                    10, y + 14, 0xFF44AAFF);
-            y += 24;
-        }
-        if (RasenganClientState.ready) {
-            int alpha = (int)(150 + 105 * Math.sin(System.currentTimeMillis() / 100.0));
-            context.drawTextWithShadow(client.textRenderer, Text.literal("тЬж RASENGAN READY тАФ LMB!"),
-                    10, y + 8, ColorHelper.Argb.getArgb(alpha, 68, 170, 255));
-            y += 18;
-        }
-        y += 3;
-
-        // === ╨Ы╨Ю╨Р╨г╨в╨л ===
-        y = drawLoadoutLine(context, client, 0, "A", 10, y);
-        y = drawLoadoutLine(context, client, 1, "B", 10, y);
-
-        // === ╨Ъ╨Ю╨Ь╨С╨Ю-╨б╨з╨Б╨в╨з╨Ш╨Ъ ===
-        int comboStep = TaijutsuClientHandler.getComboStep();
-     // === PHASE7_COMBO_DROP ===
-     if (lastComboStep > 0 && comboStep == 0) {
-         comboDropTime = System.currentTimeMillis();
-     }
-     lastComboStep = comboStep;
-        ShinobiCore.LOGGER.debug("[HUD] Combo step: {}", comboStep);
-        if (comboStep > 0) {
-            String comboText = "COMBO x" + comboStep;
-            context.drawTextWithShadow(client.textRenderer, Text.literal(comboText), 10, y + 10, 0xFFFF8800);
-            y += 12;
-        }
-
-        // === ╨б╨в╨Ш╨Ы╨м ╨в╨Р╨Щ-╨Ф╨Ч╨о╨ж╨г ===
-        TaijutsuStyle currentStyle = TaijutsuClientHandler.getCurrentStyle();
-        String styleName = currentStyle == TaijutsuStyle.STRONG_FIST ? "[Strong Fist]" : "[Standard]";
-        int styleColor = currentStyle == TaijutsuStyle.STRONG_FIST ? 0xFF44FF44 : 0xFFAAAAAA;
-        ShinobiCore.LOGGER.debug("[HUD] Style: {}", currentStyle.getId());
-        context.drawTextWithShadow(client.textRenderer, Text.literal(styleName), 10, y + 10, styleColor);
-        y += 12;
-        if (client.player.getMainHandStack().getItem() instanceof com.example.shinobicore.item.KatanaItem) {
-            String st = ClientNinjaStateHolder.get().getKenjutsuStance();
-            int stColor = st.equals("seigan") ? 0xFF66AAFF : st.equals("iai") ? 0xFFFFAA00 : 0xFFFF5555;
-            context.drawTextWithShadow(client.textRenderer, Text.literal("[" + st.toUpperCase() + "]"), 10, y + 10, stColor);
-            y += 12;
-        }
-
-        // === ╨Ъ╨г╨Ы╨Ф╨Р╨г╨Э ╨г╨Ф╨Р╨а╨Р ╨Э╨Ю╨У╨Ю╨Щ ===
-        boolean kickOnCooldown = TaijutsuKickHandler.isOnCooldown();
-        long kickRemaining = TaijutsuKickHandler.getCooldownRemainingMs();
-        ShinobiCore.LOGGER.debug("[HUD] Kick cooldown: {}ms, onCooldown={}", kickRemaining, kickOnCooldown);
-        if (kickOnCooldown) {
-            float cd = TaijutsuKickHandler.getCooldownRatio();
-            int cdW = 60, cdH = 4;
-            context.drawTextWithShadow(client.textRenderer, Text.literal("KICK [V]"), 10, y + 8, 0xFF44AAFF);
-            context.fill(10, y + 18, 10 + cdW, y + 18 + cdH, 0xCC222222);
-            context.fill(10, y + 18, 10 + (int) (cdW * (1 - cd)), y + 18 + cdH, 0xFF44AAFF);
-            y += 26;
-        }
-
-        // === ╨Э╨Р╨Ф ╨е╨Ю╨в╨С╨Р╨а╨Ю╨Ь: HP ╤Б╨╗╨╡╨▓╨░, ╨У╨Ю╨Ы╨Ю╨Ф ╤Б╨┐╤А╨░╨▓╨░ ===
-        int hbLeft = sw / 2 - 91;
-        int hbRight = sw / 2 + 91;
-        int barW = 91;
-        int yHot = sh - 39;
+        float sc = cfg.hudScale;
+        int x = cfg.x;
+        int y = cfg.y;
+        int barW = Math.max(40, (int) (cfg.barWidth * sc));
+        int barH = Math.max(2, (int) (cfg.barHeight * sc));
+        int gap = Math.max(3, (int) (cfg.barSpacing * sc));
+        int slot = Math.max(10, (int) (cfg.slotSize * sc));
+        int slotGap = Math.max(1, (int) (cfg.slotSpacing * sc));
 
         float hp = client.player.getHealth();
         float maxHp = client.player.getMaxHealth();
-        drawBar(context, client, hbLeft, yHot, barW, HEIGHT, hp / maxHp, HP_LIGHT, HP_DARK, false,
-            "HP", (int) hp + "/" + (int) maxHp);
+        float food = client.player.getHungerManager().getFoodLevel() / 20f;
+        float chakra = maxChakra > 0 ? currentChakra / maxChakra : 0;
+        float stamina = Math.max(0, 100 - fatigue) / 100f;
+        float fat = fatigue / 100f;
 
-        float food = client.player.getHungerManager().getFoodLevel();
-        drawBar(context, client, hbRight - barW, yHot, barW, HEIGHT, food / 20f, FOOD_LIGHT, FOOD_DARK, food <= 6,
-            "FD", (int) food + "/20");
+        y = drawBar(context, client, x, y, barW, barH, gap, HEART, 0xFFFF5555, 0xFF992222, hp / maxHp,
+                hp < maxHp ? (int) hp + "/" + (int) maxHp : "", hp / maxHp < 0.3f);
+        y = drawBar(context, client, x, y, barW, barH, gap, MEAT, 0xFFDD9955, 0xFF774422, food,
+                food < 1f ? String.valueOf((int) (food * 20)) : "", food < 0.3f);
+        y = drawBar(context, client, x, y, barW, barH, gap, ORB, 0xFF66BBFF, 0xFF1166CC, chakra,
+                chakra < 1f ? String.valueOf((int) currentChakra) : "", chakra < 0.25f);
+        y = drawBar(context, client, x, y, barW, barH, gap, BOLT, 0xFF77DD77, 0xFF22AA44, stamina, "", false);
+        y = drawBar(context, client, x, y, barW, barH, gap, DROP, 0xFFFFAA44, 0xFFCC7711, fat, "", false);
 
-        // === CHARGED JUMP BAR ===
-        ChargedJumpAction chargedJump = ParkourManager.getChargedJumpAction();
-        if (chargedJump != null && chargedJump.isCharging()) {
-            float charge = chargedJump.getChargeRatio();
-            int barWidth = 100, barHeight = 6;
-            int barX = (sw - barWidth) / 2;
-            int barY = sh - 80;
+        y += 2;
+        y = drawSlotRow(context, client, x, y, slot, slotGap, 0, true);
+        y = drawSlotRow(context, client, x, y, slot, slotGap, 1, false);
 
-            context.fill(barX - 1, barY - 1, barX + barWidth + 1, barY + barHeight + 1, 0xCC000000);
-            int color = charge >= 0.8f ? 0xFF5555 : 0xFFFF00;
-            context.fill(barX, barY, barX + (int) (barWidth * charge), barY + barHeight, color);
-            context.drawCenteredTextWithShadow(client.textRenderer,
-                String.format("Charge: %.0f%%", charge * 100), barX + barWidth / 2, barY - 10, 0xFFFFFF);
+        if (ClientNinjaStateHolder.get().isChakraMode()) {
+            int alpha = (int) (150 + 105 * Math.sin(System.currentTimeMillis() / 200.0));
+            context.drawTextWithShadow(client.textRenderer, Text.literal("CHAKRA MODE"),
+                    x, y, (alpha << 24) | 0xFF8800);
+            y += 9;
+        }
+        if (exhausted) {
+            context.drawTextWithShadow(client.textRenderer, Text.literal("EXHAUSTED"), x, y, 0xFFFF3333);
+            y += 9;
+        }
+        if (RasenganClientState.charging) {
+            context.fill(x, y + 5, x + barW, y + 8, 0xCC222222);
+            context.fill(x, y + 5, x + (int) (barW * RasenganClientState.chargeProgress), y + 8, 0xFF44AAFF);
         }
     }
 
-    private static void drawBar(DrawContext context, MinecraftClient client, int x, int y, int width, int height,
-                                float ratio, int lightColor, int darkColor, boolean pulse, String label, String value) {
-        ratio = Math.max(0, Math.min(1, ratio));
-        int filled = (int) (width * ratio);
+    private static int drawBar(DrawContext ctx, MinecraftClient client, int x, int y,
+                               int barW, int barH, int gap, String[] icon, int light, int dark,
+                               float ratio, String value, boolean pulse) {
+        ratio = Math.max(0f, Math.min(1f, ratio));
+        boolean flash = pulse && (System.currentTimeMillis() / 250 % 2 == 0);
+        drawIcon(ctx, x, y - 1, icon, flash ? 0xFFFFFFFF : light);
 
-        int alpha = 255;
-        if (pulse) alpha = (int) (150 + 105 * Math.sin(System.currentTimeMillis() / 150.0));
-
-        context.fill(x - 1, y - 1, x + width + 1, y + height + 1, BORDER);
-        context.fill(x, y, x + width, y + height, BG);
-
-        int lr = (lightColor >> 16) & 0xFF, lg = (lightColor >> 8) & 0xFF, lb = lightColor & 0xFF;
-        int dr = (darkColor >> 16) & 0xFF, dg = (darkColor >> 8) & 0xFF, db = darkColor & 0xFF;
-        context.fillGradient(x, y, x + filled, y + height,
-            ColorHelper.Argb.getArgb(alpha, lr, lg, lb),
-            ColorHelper.Argb.getArgb(alpha, dr, dg, db));
-        context.fill(x, y, x + filled, y + 1, ColorHelper.Argb.getArgb(alpha / 3, 255, 255, 255));
-
-        drawScaledText(context, client, label, x + 2, y + 1, 0xFFFFFFFF, TEXT_SCALE);
-        int tw = (int) (client.textRenderer.getWidth(value) * TEXT_SCALE);
-        drawScaledText(context, client, value, x + width - 2 - tw, y + 1, 0xFFFFFFFF, TEXT_SCALE);
+        int bx = x + 8;
+        // glow
+        ctx.fill(bx - 1, y - 1, bx + barW + 1, y + barH + 1, (light & 0x00FFFFFF) | 0x26000000);
+        // frame + bg
+        ctx.fill(bx - 1, y - 1, bx + barW + 1, y + barH + 1, 0xFF000000);
+        ctx.fill(bx, y, bx + barW, y + barH, 0xFF141414);
+        int fw = (int) (barW * ratio);
+        if (fw > 0) {
+            ctx.fillGradient(bx, y, bx + fw, y + barH, light, dark);
+            ctx.fill(bx, y, bx + fw, y + 1, 0x55FFFFFF);
+        }
+        // value only when not full
+        if (!value.isEmpty()) {
+            drawSmallText(ctx, client, value, bx + barW + 3, y, 0xFFFFFFFF);
+        }
+        return y + barH + gap;
     }
 
-    private static void drawScaledText(DrawContext context, MinecraftClient client, String text,
-                                       float x, float y, int color, float scale) {
-        context.getMatrices().push();
-        context.getMatrices().translate(x, y, 0);
-        context.getMatrices().scale(scale, scale, 1f);
-        context.drawTextWithShadow(client.textRenderer, text, 0, 0, color);
-        context.getMatrices().pop();
+    private static void drawIcon(DrawContext ctx, int x, int y, String[] pattern, int color) {
+        for (int ry = 0; ry < pattern.length; ry++) {
+            for (int rx = 0; rx < pattern[ry].length(); rx++) {
+                if (pattern[ry].charAt(rx) == 'X') {
+                    ctx.fill(x + rx, y + ry, x + rx + 1, y + ry + 1, color);
+                }
+            }
+        }
     }
 
-    private static int drawLoadoutLine(DrawContext context, MinecraftClient client, int set, String label, int x, int lineY) {
-        String current = ClientNinjaStateHolder.get().getActiveJutsuId(set);
-        String name = current == null ? "empty" : ClientNinjaStateHolder.get().getName(current);
+    private static void drawSmallText(DrawContext ctx, MinecraftClient client, String text, int x, int y, int color) {
+        ctx.getMatrices().push();
+        ctx.getMatrices().scale(0.5f, 0.5f, 1f);
+        ctx.drawTextWithShadow(client.textRenderer, Text.literal(text), x * 2, y * 2, color);
+        ctx.getMatrices().pop();
+    }
 
-        context.drawTextWithShadow(client.textRenderer, Text.literal("[" + label + "]"), x, lineY, 0xFF8800);
-        context.drawTextWithShadow(client.textRenderer, Text.literal(" " + name), x + 14, lineY, 0xFFFFFF);
-        lineY += 10;
-
+    private static int drawSlotRow(DrawContext ctx, MinecraftClient client, int x, int y,
+                                   int s, int gap, int set, boolean warm) {
+        ctx.drawTextWithShadow(client.textRenderer, Text.literal(set == 0 ? "A" : "B"),
+                x, y + s / 2 - 4, warm ? 0xFFCC9966 : 0xFF888888);
+        int bx = x + 9;
+        String[] loadout = ClientNinjaStateHolder.get().getLoadout(set);
+        int active = ClientNinjaStateHolder.get().getActive(set);
         for (int i = 0; i < 5; i++) {
-            int color = (i == ClientNinjaStateHolder.get().getActive(set)) ? 0xFF8800
-                : (ClientNinjaStateHolder.get().getLoadout(set)[i] != null ? 0x55AAFF : 0x555555);
-            context.drawTextWithShadow(client.textRenderer, Text.literal("[" + (i + 1) + "]"),
-                x + i * 18, lineY, color);
+            int sx = bx + i * (s + gap);
+            String id = loadout[i];
+            if (i == active) ctx.fill(sx - 1, y - 1, sx + s + 1, y + s + 1, warm ? 0x33FF8800 : 0x33AAAAAA);
+            ctx.fill(sx, y, sx + s, y + s, 0xCC1A1A1A);
+            int border;
+            if (i == active) {
+                int pulse = (int) (200 + 55 * Math.sin(System.currentTimeMillis() / 200.0));
+                border = warm ? (0xFF << 24) | (pulse << 16) | 0xCC88 : 0xFFDDDDDD;
+            } else {
+                border = warm ? 0xFFAA7744 : 0xFF555555;
+            }
+            ctx.fill(sx, y, sx + s, y + 1, border);
+            ctx.fill(sx, y + s - 1, sx + s, y + s, border);
+            ctx.fill(sx, y, sx + 1, y + s, border);
+            ctx.fill(sx + s - 1, y, sx + s, y + s, border);
+            if (id != null) {
+                String name = ClientNinjaStateHolder.get().getName(id);
+                String ch = name.isEmpty() ? "?" : name.substring(0, 1);
+                int rem = CooldownHudState.getRemaining(id);
+                if (rem > 0) {
+                    float prog = CooldownHudState.getProgress(id);
+                    int cover = (int) ((s - 2) * Math.max(0f, Math.min(1f, prog)));
+                    ctx.fill(sx + 1, y + 1 + (s - 2) - cover, sx + s - 1, y + s - 1, 0xAA000000);
+                    String sec = String.format("%.1f", rem / 20f);
+                    int tw2 = client.textRenderer.getWidth(sec);
+                    drawSmallText(ctx, client, sec, sx + s / 2 - (int) (tw2 * 0.25f), y + s / 2 - 2, 0xFFFF5555);
+                    ctx.fill(sx - 1, y - 1, sx + s + 1, y, 0xFFCC3333);
+                    ctx.fill(sx - 1, y + s, sx + s + 1, y + s + 1, 0xFFCC3333);
+                    ctx.fill(sx - 1, y, sx, y + s, 0xFFCC3333);
+                    ctx.fill(sx + s, y, sx + s + 1, y + s, 0xFFCC3333);
+                } else {
+                    int tw = client.textRenderer.getWidth(ch);
+                    ctx.drawTextWithShadow(client.textRenderer, Text.literal(ch),
+                            sx + s / 2 - tw / 2, y + s / 2 - 4, 0xFFFFFFFF);
+                }
+            }
         }
-        return lineY + 12;
+        return y + s + 2;
     }
 }

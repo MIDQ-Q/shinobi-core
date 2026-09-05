@@ -1,0 +1,4 @@
+{ "id": "shinobicore:test_point_heal", "name": "TEST Point Heal", "category": "medical", "rank": "D",
+  "form": { "type": "point", "params": { "range": 3, "targetMode": "self" } },
+  "effects": [ { "type": "buff", "subtype": "heal", "params": { "amount": 8 } } ],
+  "element": "yang", "activation": { "type": "instant" }, "cooldown": 1, "cost": { "chakra": 5 } }

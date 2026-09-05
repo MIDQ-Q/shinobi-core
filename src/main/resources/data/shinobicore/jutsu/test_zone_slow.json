@@ -1,0 +1,4 @@
+{ "id": "shinobicore:test_zone_slow", "name": "TEST Zone Slow", "category": "shape_ninjutsu", "rank": "C",
+  "form": { "type": "zone", "params": { "radius": 5, "duration": 100, "tickRate": 10, "shape": "cylinder" } },
+  "effects": [ { "type": "control", "subtype": "slow", "params": { "percent": 50, "duration": 30 } } ],
+  "element": "water", "activation": { "type": "instant" }, "cooldown": 2, "cost": { "chakra": 5 } }

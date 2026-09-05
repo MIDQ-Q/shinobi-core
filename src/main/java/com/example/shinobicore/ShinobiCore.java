@@ -65,6 +65,7 @@ public class ShinobiCore implements ModInitializer {
         ModConfig.load();
         ShinobiCore.LOGGER.info("Jutsu system v2 initialized");
         ModEntities.register();
+        com.example.shinobicore.ai.AiEntities.register();
         ModItems.register();
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             NinjaCommand.register(dispatcher);
@@ -86,6 +87,7 @@ public class ShinobiCore implements ModInitializer {
             }
         });
         ModPackets.register();
+        com.example.shinobicore.network.JutsuCastBridge.register();
 
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
             // Phase 2: Clean rate limiter on server side

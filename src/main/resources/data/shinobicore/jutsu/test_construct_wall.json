@@ -1,0 +1,3 @@
+{ "id": "shinobicore:test_construct_wall", "name": "TEST Ice Wall", "category": "elemental_ninjutsu", "rank": "C",
+  "form": { "type": "construct", "params": { "width": 5, "height": 3, "depth": 1, "duration": 200, "blockType": "ice", "shape": "wall" } },
+  "element": "water", "activation": { "type": "instant" }, "cooldown": 3, "cost": { "chakra": 5 } }

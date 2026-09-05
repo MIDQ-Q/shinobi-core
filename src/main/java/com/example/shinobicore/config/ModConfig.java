@@ -104,11 +104,21 @@ public class ModConfig {
     }
 
     public static class Hud {
-        public int x = 10;
-        public int y = 10;
-        public int width = 180;
-        public int height = 14;
-    }
+public int x = 10;
+public int y = 10;
+public int width = 180;
+public int height = 14;
+public boolean showHud = true;
+public int barWidth = 140;
+public int barHeight = 3;
+public int barSpacing = 7;
+public int slotSize = 18;
+public int slotSpacing = 3;
+public boolean hotbarModify = true;
+public float hotbarScale = 0.85f;
+public float hotbarAlpha = 0.75f;
+public float hudScale = 0.75f;
+}
 
     public Chakra chakra = new Chakra();
     public Fatigue fatigue = new Fatigue();

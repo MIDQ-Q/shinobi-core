@@ -1,0 +1,5 @@
+{ "id": "shinobicore:test_act_hold", "name": "TEST Hold Channel Beam", "category": "elemental_ninjutsu", "rank": "C",
+  "form": { "type": "beam", "params": { "width": 1, "maxRange": 12, "tickRate": 5, "duration": 40 } },
+  "effects": [ { "type": "damage", "subtype": "instant", "params": { "amount": 2 } } ],
+  "properties": [ { "id": "channeled", "params": { "chakraPerTick": 0.2 } } ],
+  "element": "lightning", "activation": { "type": "hold", "params": { "chakraPerTick": 0.2 } }, "cooldown": 1, "cost": { "chakra": 5 } }

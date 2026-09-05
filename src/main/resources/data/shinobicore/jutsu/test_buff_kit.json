@@ -1,0 +1,4 @@
+{ "id": "shinobicore:test_buff_kit", "name": "TEST Buff Kit", "category": "medical", "rank": "C",
+  "form": { "type": "point", "params": { "range": 3, "targetMode": "self" } },
+  "effects": [ { "type": "buff", "subtype": "shield", "params": { "amount": 12, "duration": 100 } }, { "type": "buff", "subtype": "speed", "params": { "bonus": 0.3, "duration": 100 } } ],
+  "element": "yang", "activation": { "type": "instant" }, "cooldown": 2, "cost": { "chakra": 5 } }

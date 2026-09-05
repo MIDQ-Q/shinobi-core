@@ -1,0 +1,4 @@
+{ "id": "shinobicore:test_beam", "name": "TEST Beam", "category": "elemental_ninjutsu", "rank": "C",
+  "form": { "type": "beam", "params": { "width": 1, "maxRange": 12, "tickRate": 5, "duration": 60 } },
+  "effects": [ { "type": "damage", "subtype": "instant", "params": { "amount": 2 } } ],
+  "element": "lightning", "activation": { "type": "instant" }, "cooldown": 2, "cost": { "chakra": 5 } }

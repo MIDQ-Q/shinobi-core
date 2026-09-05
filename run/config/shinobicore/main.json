@@ -113,6 +113,16 @@
     "x": 10,
     "y": 10,
     "width": 180,
-    "height": 14
+    "height": 14,
+    "showHud": true,
+    "barWidth": 100,
+    "barHeight": 3,
+    "barSpacing": 4,
+    "slotSize": 12,
+    "slotSpacing": 3,
+    "hotbarModify": true,
+    "hotbarScale": 0.65,
+    "hotbarAlpha": 0.55,
+    "hudScale": 0.75
   }
 }

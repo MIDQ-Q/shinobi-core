@@ -1,0 +1,34 @@
+{
+  "minecraft:recipes/food/cooked_beef_from_smoking": {
+    "criteria": {
+      "has_beef": "2026-09-04 11:15:23 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/decorations/crafting_table": {
+    "criteria": {
+      "unlock_right_away": "2026-09-04 11:12:43 +0300"
+    },
+    "done": true
+  },
+  "minecraft:adventure/adventuring_time": {
+    "criteria": {
+      "minecraft:beach": "2026-09-04 11:14:20 +0300",
+      "minecraft:old_growth_birch_forest": "2026-09-04 11:13:03 +0300"
+    },
+    "done": false
+  },
+  "minecraft:recipes/food/cooked_beef": {
+    "criteria": {
+      "has_beef": "2026-09-04 11:15:23 +0300"
+    },
+    "done": true
+  },
+  "minecraft:recipes/food/cooked_beef_from_campfire_cooking": {
+    "criteria": {
+      "has_beef": "2026-09-04 11:15:23 +0300"
+    },
+    "done": true
+  },
+  "DataVersion": 3465
+}

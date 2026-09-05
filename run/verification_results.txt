@@ -1,0 +1,896 @@
+[2026-09-04 19:38:43] [CAST] Player: Player274 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-04 19:38:43] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-04 19:38:43] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 1
+[2026-09-04 19:38:45] [CAST] Player: Player274 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-04 19:38:45] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-04 19:38:45] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 2
+[2026-09-04 19:38:50] [CAST] Player: Player274 | Jutsu: shinobicore:test_projectile_volley | Activation: instant
+[2026-09-04 19:38:50] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_projectile_volley | Level: 1 | Uses: 1
+[2026-09-04 19:38:56] [CAST] Player: Player274 | Jutsu: shinobicore:test_projectile_volley | Activation: instant
+[2026-09-04 19:38:56] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_projectile_volley | Level: 1 | Uses: 2
+[2026-09-04 19:39:04] [CAST] Player: Player274 | Jutsu: shinobicore:test_beam | Activation: instant
+[2026-09-04 19:39:04] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_beam | Level: 1 | Uses: 1
+[2026-09-04 19:39:20] [CAST] Player: Player274 | Jutsu: shinobicore:test_beam | Activation: instant
+[2026-09-04 19:39:20] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_beam | Level: 1 | Uses: 2
+[2026-09-04 19:39:20] [EFFECT] Jutsu: shinobicore:test_beam | Type: damage | Subtype: instant | 
+[2026-09-04 19:39:20] [HIT] Caster: Player274 | Target: Cow | Effect: DAMAGE | Damage: 2,0
+[2026-09-04 19:39:20] [EFFECT] Jutsu: shinobicore:test_beam | Type: damage | Subtype: instant | 
+[2026-09-04 19:39:20] [HIT] Caster: Player274 | Target: Cow | Effect: DAMAGE | Damage: 2,0
+[2026-09-04 19:39:20] [EFFECT] Jutsu: shinobicore:test_beam | Type: damage | Subtype: instant | 
+[2026-09-04 19:39:20] [HIT] Caster: Player274 | Target: Cow | Effect: DAMAGE | Damage: 2,0
+[2026-09-04 19:39:21] [EFFECT] Jutsu: shinobicore:test_beam | Type: damage | Subtype: instant | 
+[2026-09-04 19:39:21] [HIT] Caster: Player274 | Target: Cow | Effect: DAMAGE | Damage: 2,0
+[2026-09-04 19:39:21] [EFFECT] Jutsu: shinobicore:test_beam | Type: damage | Subtype: instant | 
+[2026-09-04 19:39:21] [HIT] Caster: Player274 | Target: Cow | Effect: DAMAGE | Damage: 2,0
+[2026-09-04 19:39:21] [EFFECT] Jutsu: shinobicore:test_beam | Type: damage | Subtype: instant | 
+[2026-09-04 19:39:21] [HIT] Caster: Player274 | Target: Cow | Effect: DAMAGE | Damage: 2,0
+[2026-09-04 19:39:21] [EFFECT] Jutsu: shinobicore:test_beam | Type: damage | Subtype: instant | 
+[2026-09-04 19:39:21] [HIT] Caster: Player274 | Target: Cow | Effect: DAMAGE | Damage: 2,0
+[2026-09-04 19:39:22] [EFFECT] Jutsu: shinobicore:test_beam | Type: damage | Subtype: instant | 
+[2026-09-04 19:39:22] [HIT] Caster: Player274 | Target: Cow | Effect: DAMAGE | Damage: 2,0
+[2026-09-04 19:39:22] [EFFECT] Jutsu: shinobicore:test_beam | Type: damage | Subtype: instant | 
+[2026-09-04 19:39:22] [HIT] Caster: Player274 | Target: Cow | Effect: DAMAGE | Damage: 2,0
+[2026-09-04 19:40:31] [CAST] Player: Player274 | Jutsu: shinobicore:test_zone_slow | Activation: instant
+[2026-09-04 19:40:31] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_zone_slow | Level: 1 | Uses: 1
+[2026-09-04 19:40:32] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 19:40:32] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 19:40:33] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 19:40:33] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 19:40:34] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 19:40:34] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 19:40:35] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 19:40:35] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 19:40:36] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 19:40:36] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 19:40:44] [CAST] Player: Player274 | Jutsu: shinobicore:test_zone_slow | Activation: instant
+[2026-09-04 19:40:44] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_zone_slow | Level: 1 | Uses: 2
+[2026-09-04 19:40:44] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 19:40:45] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 19:40:45] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 19:40:46] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 19:40:46] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 19:40:47] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 19:40:47] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 19:40:48] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 19:40:48] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 19:41:14] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 19:41:16] [CAST] Player: Player274 | Jutsu: shinobicore:test_dash | Activation: instant
+[2026-09-04 19:41:16] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_dash | Level: 1 | Uses: 1
+[2026-09-04 19:41:21] [CAST] Player: Player274 | Jutsu: shinobicore:test_handheld | Activation: instant
+[2026-09-04 19:41:21] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_handheld | Level: 1 | Uses: 1
+[2026-09-04 19:41:24] [EFFECT] Jutsu: shinobicore:test_handheld | Type: damage | Subtype: instant | 
+[2026-09-04 19:41:24] [HIT] Caster: Player274 | Target: Cow | Effect: DAMAGE | Damage: 10,0
+[2026-09-04 19:41:24] [EFFECT] Jutsu: shinobicore:test_handheld | Type: control | Subtype: launch | 
+[2026-09-04 19:41:42] [CAST] Player: Player274 | Jutsu: shinobicore:test_handheld | Activation: instant
+[2026-09-04 19:41:42] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_handheld | Level: 1 | Uses: 2
+[2026-09-04 19:41:48] [EFFECT] Jutsu: shinobicore:test_handheld | Type: damage | Subtype: instant | 
+[2026-09-04 19:41:48] [HIT] Caster: Player274 | Target: Cow | Effect: DAMAGE | Damage: 10,0
+[2026-09-04 19:41:48] [EFFECT] Jutsu: shinobicore:test_handheld | Type: control | Subtype: launch | 
+[2026-09-04 19:42:27] [CAST] Player: Player274 | Jutsu: shinobicore:test_construct_wall | Activation: instant
+[2026-09-04 19:42:27] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_construct_wall | Level: 1 | Uses: 1
+[2026-09-04 19:42:30] [CAST] Player: Player274 | Jutsu: shinobicore:test_construct_wall | Activation: instant
+[2026-09-04 19:42:30] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_construct_wall | Level: 1 | Uses: 2
+[2026-09-04 19:42:38] [CAST] Player: Player274 | Jutsu: shinobicore:test_summon | Activation: instant
+[2026-09-04 19:42:38] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_summon | Level: 1 | Uses: 1
+[2026-09-04 19:42:49] [CAST] Player: Player274 | Jutsu: shinobicore:test_damage_kit | Activation: instant
+[2026-09-04 19:42:49] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_damage_kit | Level: 1 | Uses: 1
+[2026-09-04 19:42:52] [CAST] Player: Player274 | Jutsu: shinobicore:test_damage_kit | Activation: instant
+[2026-09-04 19:42:52] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_damage_kit | Level: 1 | Uses: 2
+[2026-09-04 19:42:56] [CAST] Player: Player274 | Jutsu: shinobicore:test_damage_kit | Activation: instant
+[2026-09-04 19:42:56] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_damage_kit | Level: 1 | Uses: 3
+[2026-09-04 19:42:56] [EFFECT] Jutsu: shinobicore:test_damage_kit | Type: damage | Subtype: instant | 
+[2026-09-04 19:42:56] [HIT] Caster: Player274 | Target: Chicken | Effect: DAMAGE | Damage: 4,0
+[2026-09-04 19:42:56] [EFFECT] Jutsu: shinobicore:test_damage_kit | Type: damage | Subtype: dot | 
+[2026-09-04 19:43:08] [CAST] Player: Player274 | Jutsu: shinobicore:test_control_kit | Activation: instant
+[2026-09-04 19:43:08] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_control_kit | Level: 1 | Uses: 1
+[2026-09-04 19:43:14] [CAST] Player: Player274 | Jutsu: shinobicore:test_control_kit | Activation: instant
+[2026-09-04 19:43:14] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_control_kit | Level: 1 | Uses: 2
+[2026-09-04 19:43:14] [EFFECT] Jutsu: shinobicore:test_control_kit | Type: control | Subtype: stun | 
+[2026-09-04 19:43:14] [EFFECT] Jutsu: shinobicore:test_control_kit | Type: control | Subtype: push | 
+[2026-09-04 19:43:26] [CAST] Player: Player274 | Jutsu: shinobicore:test_buff_kit | Activation: instant
+[2026-09-04 19:43:26] [EFFECT] Jutsu: shinobicore:test_buff_kit | Type: buff | Subtype: shield | 
+[2026-09-04 19:43:26] [EFFECT] Jutsu: shinobicore:test_buff_kit | Type: buff | Subtype: speed | 
+[2026-09-04 19:43:26] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_buff_kit | Level: 1 | Uses: 1
+[2026-09-04 19:43:39] [CAST] Player: Player274 | Jutsu: shinobicore:test_buff_kit | Activation: instant
+[2026-09-04 19:43:39] [EFFECT] Jutsu: shinobicore:test_buff_kit | Type: buff | Subtype: shield | 
+[2026-09-04 19:43:39] [EFFECT] Jutsu: shinobicore:test_buff_kit | Type: buff | Subtype: speed | 
+[2026-09-04 19:43:39] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_buff_kit | Level: 1 | Uses: 2
+[2026-09-04 19:43:46] [CAST] Player: Player274 | Jutsu: shinobicore:test_debuff_kit | Activation: instant
+[2026-09-04 19:43:46] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_debuff_kit | Level: 1 | Uses: 1
+[2026-09-04 19:43:56] [CAST] Player: Player274 | Jutsu: shinobicore:test_world_ignite | Activation: instant
+[2026-09-04 19:43:56] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_world_ignite | Level: 1 | Uses: 1
+[2026-09-04 19:44:13] [CAST] Player: Player274 | Jutsu: shinobicore:test_world_ignite | Activation: instant
+[2026-09-04 19:44:13] [EFFECT] Jutsu: shinobicore:test_world_ignite | Type: world | Subtype: ignite | 
+[2026-09-04 19:44:13] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_world_ignite | Level: 1 | Uses: 2
+[2026-09-04 19:44:23] [CAST] Player: Player274 | Jutsu: shinobicore:test_world_ignite | Activation: instant
+[2026-09-04 19:44:23] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_world_ignite | Level: 1 | Uses: 3
+[2026-09-04 19:44:27] [CAST] Player: Player274 | Jutsu: shinobicore:test_world_ignite | Activation: instant
+[2026-09-04 19:44:27] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_world_ignite | Level: 1 | Uses: 4
+[2026-09-04 19:44:31] [CAST] Player: Player274 | Jutsu: shinobicore:test_world_ignite | Activation: instant
+[2026-09-04 19:44:31] [EFFECT] Jutsu: shinobicore:test_world_ignite | Type: world | Subtype: ignite | 
+[2026-09-04 19:44:31] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_world_ignite | Level: 1 | Uses: 5
+[2026-09-04 19:45:15] [CAST] Player: Player274 | Jutsu: shinobicore:test_world_freeze | Activation: instant
+[2026-09-04 19:45:15] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_world_freeze | Level: 1 | Uses: 1
+[2026-09-04 19:45:19] [CAST] Player: Player274 | Jutsu: shinobicore:test_world_freeze | Activation: instant
+[2026-09-04 19:45:19] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_world_freeze | Level: 1 | Uses: 2
+[2026-09-04 19:45:23] [CAST] Player: Player274 | Jutsu: shinobicore:test_world_freeze | Activation: instant
+[2026-09-04 19:45:23] [EFFECT] Jutsu: shinobicore:test_world_freeze | Type: world | Subtype: freeze | 
+[2026-09-04 19:45:23] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_world_freeze | Level: 1 | Uses: 3
+[2026-09-04 19:45:29] [CAST] Player: Player274 | Jutsu: shinobicore:test_world_freeze | Activation: instant
+[2026-09-04 19:45:29] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_world_freeze | Level: 1 | Uses: 4
+[2026-09-04 19:45:33] [CAST] Player: Player274 | Jutsu: shinobicore:test_world_freeze | Activation: instant
+[2026-09-04 19:45:33] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_world_freeze | Level: 1 | Uses: 5
+[2026-09-04 19:46:26] [CAST] Player: Player274 | Jutsu: shinobicore:test_world_transform | Activation: instant
+[2026-09-04 19:46:26] [EFFECT] Jutsu: shinobicore:test_world_transform | Type: world | Subtype: transform_block | 
+[2026-09-04 19:46:26] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_world_transform | Level: 1 | Uses: 1
+[2026-09-04 19:46:30] [CAST] Player: Player274 | Jutsu: shinobicore:test_world_transform | Activation: instant
+[2026-09-04 19:46:30] [EFFECT] Jutsu: shinobicore:test_world_transform | Type: world | Subtype: transform_block | 
+[2026-09-04 19:46:30] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_world_transform | Level: 1 | Uses: 2
+[2026-09-04 19:47:00] [CAST] Player: Player274 | Jutsu: shinobicore:test_prop_homing | Activation: instant
+[2026-09-04 19:47:00] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_prop_homing | Level: 1 | Uses: 1
+[2026-09-04 19:47:00] [EFFECT] Jutsu: shinobicore:test_prop_homing | Type: damage | Subtype: instant | 
+[2026-09-04 19:47:00] [HIT] Caster: Player274 | Target: Sheep | Effect: DAMAGE | Damage: 4,0
+[2026-09-04 19:47:08] [CAST] Player: Player274 | Jutsu: shinobicore:test_prop_homing | Activation: instant
+[2026-09-04 19:47:08] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_prop_homing | Level: 1 | Uses: 2
+[2026-09-04 19:47:08] [EFFECT] Jutsu: shinobicore:test_prop_homing | Type: damage | Subtype: instant | 
+[2026-09-04 19:47:08] [HIT] Caster: Player274 | Target: Sheep | Effect: DAMAGE | Damage: 4,0
+[2026-09-04 19:47:17] [CAST] Player: Player274 | Jutsu: shinobicore:test_prop_homing | Activation: instant
+[2026-09-04 19:47:17] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_prop_homing | Level: 1 | Uses: 3
+[2026-09-04 19:47:20] [CAST] Player: Player274 | Jutsu: shinobicore:test_prop_homing | Activation: instant
+[2026-09-04 19:47:20] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_prop_homing | Level: 1 | Uses: 4
+[2026-09-04 19:47:21] [EFFECT] Jutsu: shinobicore:test_prop_homing | Type: damage | Subtype: instant | 
+[2026-09-04 19:47:21] [HIT] Caster: Player274 | Target: Sheep | Effect: DAMAGE | Damage: 4,0
+[2026-09-04 19:47:30] [CAST] Player: Player274 | Jutsu: shinobicore:test_prop_bouncing | Activation: instant
+[2026-09-04 19:47:30] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_prop_bouncing | Level: 1 | Uses: 1
+[2026-09-04 19:47:34] [CAST] Player: Player274 | Jutsu: shinobicore:test_prop_bouncing | Activation: instant
+[2026-09-04 19:47:34] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_prop_bouncing | Level: 1 | Uses: 2
+[2026-09-04 19:47:40] [CAST] Player: Player274 | Jutsu: shinobicore:test_prop_bouncing | Activation: instant
+[2026-09-04 19:47:40] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_prop_bouncing | Level: 1 | Uses: 3
+[2026-09-04 19:47:45] [CAST] Player: Player274 | Jutsu: shinobicore:test_prop_bouncing | Activation: instant
+[2026-09-04 19:47:45] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_prop_bouncing | Level: 1 | Uses: 4
+[2026-09-04 19:47:50] [CAST] Player: Player274 | Jutsu: shinobicore:test_prop_bouncing | Activation: instant
+[2026-09-04 19:47:50] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_prop_bouncing | Level: 1 | Uses: 5
+[2026-09-04 19:47:58] [CAST] Player: Player274 | Jutsu: shinobicore:test_prop_splitting | Activation: instant
+[2026-09-04 19:47:58] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_prop_splitting | Level: 1 | Uses: 1
+[2026-09-04 19:47:58] [EFFECT] Jutsu: shinobicore:test_prop_splitting | Type: damage | Subtype: instant | 
+[2026-09-04 19:47:58] [HIT] Caster: Player274 | Target: Sheep | Effect: DAMAGE | Damage: 4,0
+[2026-09-04 19:48:03] [CAST] Player: Player274 | Jutsu: shinobicore:test_prop_splitting | Activation: instant
+[2026-09-04 19:48:03] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_prop_splitting | Level: 1 | Uses: 2
+[2026-09-04 19:48:12] [CAST] Player: Player274 | Jutsu: shinobicore:test_prop_splitting | Activation: instant
+[2026-09-04 19:48:12] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_prop_splitting | Level: 1 | Uses: 3
+[2026-09-04 19:48:14] [CAST] Player: Player274 | Jutsu: shinobicore:test_prop_splitting | Activation: instant
+[2026-09-04 19:48:14] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_prop_splitting | Level: 1 | Uses: 4
+[2026-09-04 19:48:27] [CAST] Player: Player274 | Jutsu: shinobicore:test_prop_splitting | Activation: instant
+[2026-09-04 19:48:27] [PROGRESSION] Player: Player274 | Jutsu: shinobicore:test_prop_splitting | Level: 1 | Uses: 5
+[2026-09-04 19:50:45] [CAST] Player: Player358 | Jutsu: shinobicore:test_prop_chaining | Activation: instant
+[2026-09-04 19:50:45] [PROGRESSION] Player: Player358 | Jutsu: shinobicore:test_prop_chaining | Level: 1 | Uses: 1
+[2026-09-04 19:50:45] [EFFECT] Jutsu: shinobicore:test_prop_chaining | Type: damage | Subtype: instant | 
+[2026-09-04 19:50:45] [HIT] Caster: Player358 | Target: Sheep | Effect: DAMAGE | Damage: 6,0
+[2026-09-04 19:50:45] [HIT] Caster: Player358 | Target: Sheep | Effect: DAMAGE | Damage: 4,8
+[2026-09-04 19:51:01] [CAST] Player: Player358 | Jutsu: shinobicore:test_prop_piercing | Activation: instant
+[2026-09-04 19:51:01] [PROGRESSION] Player: Player358 | Jutsu: shinobicore:test_prop_piercing | Level: 1 | Uses: 1
+[2026-09-04 19:51:03] [CAST] Player: Player358 | Jutsu: shinobicore:test_prop_piercing | Activation: instant
+[2026-09-04 19:51:03] [PROGRESSION] Player: Player358 | Jutsu: shinobicore:test_prop_piercing | Level: 1 | Uses: 2
+[2026-09-04 19:51:03] [EFFECT] Jutsu: shinobicore:test_prop_piercing | Type: damage | Subtype: instant | 
+[2026-09-04 19:51:03] [HIT] Caster: Player358 | Target: Sheep | Effect: DAMAGE | Damage: 5,0
+[2026-09-04 19:51:10] [CAST] Player: Player358 | Jutsu: shinobicore:test_prop_boomerang | Activation: instant
+[2026-09-04 19:51:10] [PROGRESSION] Player: Player358 | Jutsu: shinobicore:test_prop_boomerang | Level: 1 | Uses: 1
+[2026-09-04 19:51:14] [CAST] Player: Player358 | Jutsu: shinobicore:test_prop_boomerang | Activation: instant
+[2026-09-04 19:51:14] [PROGRESSION] Player: Player358 | Jutsu: shinobicore:test_prop_boomerang | Level: 1 | Uses: 2
+[2026-09-04 19:51:44] [CAST] Player: Player358 | Jutsu: shinobicore:test_prop_orbiting | Activation: instant
+[2026-09-04 19:51:44] [PROGRESSION] Player: Player358 | Jutsu: shinobicore:test_prop_orbiting | Level: 1 | Uses: 1
+[2026-09-04 19:52:01] [CAST] Player: Player358 | Jutsu: shinobicore:test_prop_orbiting | Activation: instant
+[2026-09-04 19:52:01] [PROGRESSION] Player: Player358 | Jutsu: shinobicore:test_prop_orbiting | Level: 1 | Uses: 2
+[2026-09-04 19:52:01] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:01] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:01] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:01] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:02] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:02] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:02] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:02] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:02] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:02] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:02] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:02] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:02] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:02] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:02] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:02] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:02] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:02] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:02] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:02] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:03] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:03] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:03] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:03] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:03] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:03] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:03] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:03] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:03] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:03] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:04] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:04] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:04] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:04] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:04] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:04] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:04] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:04] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:04] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:04] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:04] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:04] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:04] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:04] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:05] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:05] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:05] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:05] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:05] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:05] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:05] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:05] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:05] [EFFECT] Jutsu: shinobicore:test_prop_orbiting | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:05] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 3,0
+[2026-09-04 19:52:42] [CAST] Player: Player358 | Jutsu: shinobicore:test_prop_stick_lifesteal | Activation: instant
+[2026-09-04 19:52:42] [PROGRESSION] Player: Player358 | Jutsu: shinobicore:test_prop_stick_lifesteal | Level: 1 | Uses: 1
+[2026-09-04 19:52:46] [CAST] Player: Player358 | Jutsu: shinobicore:test_prop_stick_lifesteal | Activation: instant
+[2026-09-04 19:52:46] [PROGRESSION] Player: Player358 | Jutsu: shinobicore:test_prop_stick_lifesteal | Level: 1 | Uses: 2
+[2026-09-04 19:52:48] [CAST] Player: Player358 | Jutsu: shinobicore:test_prop_stick_lifesteal | Activation: instant
+[2026-09-04 19:52:48] [PROGRESSION] Player: Player358 | Jutsu: shinobicore:test_prop_stick_lifesteal | Level: 1 | Uses: 3
+[2026-09-04 19:52:49] [EFFECT] Jutsu: shinobicore:test_prop_stick_lifesteal | Type: damage | Subtype: instant | 
+[2026-09-04 19:52:49] [HIT] Caster: Player358 | Target: Creeper | Effect: DAMAGE | Damage: 6,0
+[2026-09-04 19:52:59] [CAST] Player: Player358 | Jutsu: shinobicore:test_prop_stick_lifesteal | Activation: instant
+[2026-09-04 19:52:59] [PROGRESSION] Player: Player358 | Jutsu: shinobicore:test_prop_stick_lifesteal | Level: 1 | Uses: 4
+[2026-09-04 19:53:02] [CAST] Player: Player358 | Jutsu: shinobicore:test_prop_stick_lifesteal | Activation: instant
+[2026-09-04 19:53:02] [PROGRESSION] Player: Player358 | Jutsu: shinobicore:test_prop_stick_lifesteal | Level: 1 | Uses: 5
+[2026-09-04 19:53:02] [EFFECT] Jutsu: shinobicore:test_prop_stick_lifesteal | Type: damage | Subtype: instant | 
+[2026-09-04 19:53:02] [HIT] Caster: Player358 | Target: Creeper | Effect: DAMAGE | Damage: 6,0
+[2026-09-04 19:53:36] [CAST] Player: Player358 | Jutsu: shinobicore:test_prop_stick_lifesteal | Activation: instant
+[2026-09-04 19:53:36] [PROGRESSION] Player: Player358 | Jutsu: shinobicore:test_prop_stick_lifesteal | Level: 1 | Uses: 6
+[2026-09-04 19:53:36] [EFFECT] Jutsu: shinobicore:test_prop_stick_lifesteal | Type: damage | Subtype: instant | 
+[2026-09-04 19:53:36] [HIT] Caster: Player358 | Target: Wolf | Effect: DAMAGE | Damage: 6,0
+[2026-09-04 19:53:41] [CAST] Player: Player358 | Jutsu: shinobicore:test_prop_stick_lifesteal | Activation: instant
+[2026-09-04 19:53:41] [PROGRESSION] Player: Player358 | Jutsu: shinobicore:test_prop_stick_lifesteal | Level: 1 | Uses: 7
+[2026-09-04 19:53:41] [EFFECT] Jutsu: shinobicore:test_prop_stick_lifesteal | Type: damage | Subtype: instant | 
+[2026-09-04 19:53:41] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 6,0
+[2026-09-04 19:54:11] [CAST] Player: Player358 | Jutsu: shinobicore:test_prop_explosions | Activation: instant
+[2026-09-04 19:54:11] [PROGRESSION] Player: Player358 | Jutsu: shinobicore:test_prop_explosions | Level: 1 | Uses: 1
+[2026-09-04 19:54:17] [HIT] Caster: Player358 | Target: Drowned | Effect: DAMAGE | Damage: 0,5
+[2026-09-04 19:54:17] [HIT] Caster: Player358 | Target: Drowned | Effect: DAMAGE | Damage: 0,3
+[2026-09-04 19:54:17] [HIT] Caster: Player358 | Target: Skeleton | Effect: DAMAGE | Damage: 0,3
+[2026-09-04 19:55:56] [ACTIVATION] Jutsu: shinobicore:test_act_handseals | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-04 19:55:56] [ACTIVATION] Jutsu: shinobicore:test_act_handseals | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-04 19:55:56] [PROGRESSION] Player: Player936 | Jutsu: shinobicore:test_act_handseals | Level: 1 | Uses: 1
+[2026-09-04 19:56:08] [ACTIVATION] Jutsu: shinobicore:test_act_charge | Type: CHARGE | Status: STARTED duration=60 min=20
+[2026-09-04 19:56:08] [ACTIVATION] Jutsu: shinobicore:test_act_charge | Type: CHARGE | Status: STARTED duration=60 min=20
+[2026-09-04 19:56:08] [PROGRESSION] Player: Player936 | Jutsu: shinobicore:test_act_charge | Level: 1 | Uses: 1
+[2026-09-04 19:56:27] [CAST] Player: Player936 | Jutsu: shinobicore:test_act_hold | Activation: hold
+[2026-09-04 19:56:27] [ACTIVATION] Jutsu: shinobicore:test_act_hold | Type: HOLD | Status: STARTED drain=0.2
+[2026-09-04 19:56:27] [ACTIVATION] Jutsu: shinobicore:test_act_hold | Type: HOLD | Status: STARTED duration=2147483647 min=0
+[2026-09-04 19:56:27] [PROGRESSION] Player: Player936 | Jutsu: shinobicore:test_act_hold | Level: 1 | Uses: 1
+[2026-09-04 19:56:58] [ACTIVATION] Jutsu: shinobicore:test_act_counter | Type: COUNTER | Status: STARTED window=324 threshold=1,0
+[2026-09-04 19:56:58] [ACTIVATION] Jutsu: shinobicore:test_act_counter | Type: COUNTER | Status: STARTED duration=324 min=0
+[2026-09-04 19:56:58] [PROGRESSION] Player: Player936 | Jutsu: shinobicore:test_act_counter | Level: 1 | Uses: 1
+[2026-09-04 19:57:07] [ACTIVATION] Jutsu: shinobicore:test_act_counter | Type: COUNTER | Status: STARTED window=324 threshold=1,0
+[2026-09-04 19:57:07] [ACTIVATION] Jutsu: shinobicore:test_act_counter | Type: COUNTER | Status: STARTED duration=324 min=0
+[2026-09-04 19:57:07] [PROGRESSION] Player: Player936 | Jutsu: shinobicore:test_act_counter | Level: 1 | Uses: 2
+[2026-09-04 19:57:09] [EFFECT] Jutsu: shinobicore:test_act_counter | Type: damage | Subtype: instant | 
+[2026-09-04 19:57:09] [HIT] Caster: Player936 | Target: Zombie | Effect: DAMAGE | Damage: 8,0
+[2026-09-04 19:57:24] [ACTIVATION] Jutsu: shinobicore:test_act_counter | Type: COUNTER | Status: STARTED window=324 threshold=1,0
+[2026-09-04 19:57:24] [ACTIVATION] Jutsu: shinobicore:test_act_counter | Type: COUNTER | Status: STARTED duration=324 min=0
+[2026-09-04 19:57:24] [PROGRESSION] Player: Player936 | Jutsu: shinobicore:test_act_counter | Level: 1 | Uses: 3
+[2026-09-04 19:57:28] [ACTIVATION] Jutsu: shinobicore:test_act_on_death | Type: ON_DEATH | Status: STARTED (Izanagi armed)
+[2026-09-04 19:57:28] [ACTIVATION] Jutsu: shinobicore:test_act_on_death | Type: ON_DEATH | Status: STARTED duration=2147483647 min=0
+[2026-09-04 19:57:28] [PROGRESSION] Player: Player936 | Jutsu: shinobicore:test_act_on_death | Level: 1 | Uses: 1
+[2026-09-04 19:57:29] [EFFECT] Jutsu: shinobicore:test_act_on_death | Type: buff | Subtype: heal | 
+[2026-09-04 19:57:29] [EFFECT] Jutsu: shinobicore:test_act_on_death | Type: buff | Subtype: shield | 
+[2026-09-04 19:57:52] [CAST] Player: Player936 | Jutsu: shinobicore:test_progression_fireball | Activation: instant
+[2026-09-04 19:57:52] [PROGRESSION] Player: Player936 | Jutsu: shinobicore:test_progression_fireball | Level: 1 | Uses: 1
+[2026-09-04 20:13:34] [CAST] Player: Player922 | Jutsu: shinobicore:test_beam | Activation: instant
+[2026-09-04 20:13:34] [PROGRESSION] Player: Player922 | Jutsu: shinobicore:test_beam | Level: 1 | Uses: 1
+[2026-09-04 20:13:51] [CAST] Player: Player922 | Jutsu: shinobicore:test_beam | Activation: instant
+[2026-09-04 20:13:51] [PROGRESSION] Player: Player922 | Jutsu: shinobicore:test_beam | Level: 1 | Uses: 2
+[2026-09-04 20:13:51] [EFFECT] Jutsu: shinobicore:test_beam | Type: damage | Subtype: instant | 
+[2026-09-04 20:13:51] [HIT] Caster: Player922 | Target: Drowned | Effect: DAMAGE | Damage: 2,0
+[2026-09-04 20:13:51] [EFFECT] Jutsu: shinobicore:test_beam | Type: damage | Subtype: instant | 
+[2026-09-04 20:13:51] [HIT] Caster: Player922 | Target: Drowned | Effect: DAMAGE | Damage: 2,0
+[2026-09-04 20:13:51] [EFFECT] Jutsu: shinobicore:test_beam | Type: damage | Subtype: instant | 
+[2026-09-04 20:13:51] [HIT] Caster: Player922 | Target: Drowned | Effect: DAMAGE | Damage: 2,0
+[2026-09-04 20:13:52] [EFFECT] Jutsu: shinobicore:test_beam | Type: damage | Subtype: instant | 
+[2026-09-04 20:13:52] [HIT] Caster: Player922 | Target: Drowned | Effect: DAMAGE | Damage: 2,0
+[2026-09-04 20:13:52] [EFFECT] Jutsu: shinobicore:test_beam | Type: damage | Subtype: instant | 
+[2026-09-04 20:13:52] [HIT] Caster: Player922 | Target: Drowned | Effect: DAMAGE | Damage: 2,0
+[2026-09-04 20:13:52] [EFFECT] Jutsu: shinobicore:test_beam | Type: damage | Subtype: instant | 
+[2026-09-04 20:13:52] [HIT] Caster: Player922 | Target: Drowned | Effect: DAMAGE | Damage: 2,0
+[2026-09-04 20:13:52] [EFFECT] Jutsu: shinobicore:test_beam | Type: damage | Subtype: instant | 
+[2026-09-04 20:13:52] [HIT] Caster: Player922 | Target: Drowned | Effect: DAMAGE | Damage: 2,0
+[2026-09-04 20:13:53] [EFFECT] Jutsu: shinobicore:test_beam | Type: damage | Subtype: instant | 
+[2026-09-04 20:13:53] [HIT] Caster: Player922 | Target: Drowned | Effect: DAMAGE | Damage: 2,0
+[2026-09-04 20:13:53] [EFFECT] Jutsu: shinobicore:test_beam | Type: damage | Subtype: instant | 
+[2026-09-04 20:13:53] [HIT] Caster: Player922 | Target: Drowned | Effect: DAMAGE | Damage: 2,0
+[2026-09-04 20:13:53] [EFFECT] Jutsu: shinobicore:test_beam | Type: damage | Subtype: instant | 
+[2026-09-04 20:13:53] [HIT] Caster: Player922 | Target: Drowned | Effect: DAMAGE | Damage: 2,0
+[2026-09-04 20:13:53] [EFFECT] Jutsu: shinobicore:test_beam | Type: damage | Subtype: instant | 
+[2026-09-04 20:13:53] [HIT] Caster: Player922 | Target: Drowned | Effect: DAMAGE | Damage: 2,0
+[2026-09-04 20:14:08] [CAST] Player: Player922 | Jutsu: shinobicore:test_zone_slow | Activation: instant
+[2026-09-04 20:14:08] [PROGRESSION] Player: Player922 | Jutsu: shinobicore:test_zone_slow | Level: 1 | Uses: 1
+[2026-09-04 20:14:12] [CAST] Player: Player922 | Jutsu: shinobicore:test_zone_slow | Activation: instant
+[2026-09-04 20:14:12] [PROGRESSION] Player: Player922 | Jutsu: shinobicore:test_zone_slow | Level: 1 | Uses: 2
+[2026-09-04 20:14:13] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:13] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:13] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:13] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:13] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:13] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:14] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:14] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:14] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:14] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:14] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:14] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:14] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:14] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:15] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:15] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:15] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:15] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:15] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:15] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:15] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:15] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:16] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:16] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:16] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:16] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:16] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:16] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:16] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:17] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:17] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:17] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:17] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:17] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:19] [CAST] Player: Player922 | Jutsu: shinobicore:test_zone_slow | Activation: instant
+[2026-09-04 20:14:19] [PROGRESSION] Player: Player922 | Jutsu: shinobicore:test_zone_slow | Level: 1 | Uses: 3
+[2026-09-04 20:14:19] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:19] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:20] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:20] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:20] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:20] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:20] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:20] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:21] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:21] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:21] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:21] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:21] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:21] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:22] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:22] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:22] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:22] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:22] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:22] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:31] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:31] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:31] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:14:36] [CAST] Player: Player922 | Jutsu: shinobicore:test_handheld | Activation: instant
+[2026-09-04 20:14:36] [PROGRESSION] Player: Player922 | Jutsu: shinobicore:test_handheld | Level: 1 | Uses: 1
+[2026-09-04 20:14:39] [EFFECT] Jutsu: shinobicore:test_handheld | Type: damage | Subtype: instant | 
+[2026-09-04 20:14:39] [HIT] Caster: Player922 | Target: Creeper | Effect: DAMAGE | Damage: 10,0
+[2026-09-04 20:14:39] [EFFECT] Jutsu: shinobicore:test_handheld | Type: control | Subtype: launch | 
+[2026-09-04 20:14:40] [EFFECT] Jutsu: shinobicore:test_handheld | Type: damage | Subtype: instant | 
+[2026-09-04 20:14:40] [HIT] Caster: Player922 | Target: Zombie | Effect: DAMAGE | Damage: 10,0
+[2026-09-04 20:14:40] [EFFECT] Jutsu: shinobicore:test_handheld | Type: control | Subtype: launch | 
+[2026-09-04 20:15:16] [CAST] Player: Player922 | Jutsu: shinobicore:test_world_ignite | Activation: instant
+[2026-09-04 20:15:16] [PROGRESSION] Player: Player922 | Jutsu: shinobicore:test_world_ignite | Level: 1 | Uses: 1
+[2026-09-04 20:15:32] [CAST] Player: Player922 | Jutsu: shinobicore:test_world_ignite | Activation: instant
+[2026-09-04 20:15:32] [EFFECT] Jutsu: shinobicore:test_world_ignite | Type: world | Subtype: ignite | 
+[2026-09-04 20:15:32] [PROGRESSION] Player: Player922 | Jutsu: shinobicore:test_world_ignite | Level: 1 | Uses: 2
+[2026-09-04 20:15:54] [CAST] Player: Player922 | Jutsu: shinobicore:test_world_freeze | Activation: instant
+[2026-09-04 20:15:54] [PROGRESSION] Player: Player922 | Jutsu: shinobicore:test_world_freeze | Level: 1 | Uses: 1
+[2026-09-04 20:15:58] [CAST] Player: Player922 | Jutsu: shinobicore:test_world_freeze | Activation: instant
+[2026-09-04 20:15:58] [PROGRESSION] Player: Player922 | Jutsu: shinobicore:test_world_freeze | Level: 1 | Uses: 2
+[2026-09-04 20:16:07] [CAST] Player: Player922 | Jutsu: shinobicore:test_world_freeze | Activation: instant
+[2026-09-04 20:16:07] [EFFECT] Jutsu: shinobicore:test_world_freeze | Type: world | Subtype: freeze | 
+[2026-09-04 20:16:07] [PROGRESSION] Player: Player922 | Jutsu: shinobicore:test_world_freeze | Level: 1 | Uses: 3
+[2026-09-04 20:17:13] [CAST] Player: Player922 | Jutsu: shinobicore:test_world_transform | Activation: instant
+[2026-09-04 20:17:13] [EFFECT] Jutsu: shinobicore:test_world_transform | Type: world | Subtype: transform_block | 
+[2026-09-04 20:17:13] [WORLD_TRANSFORM] from=minecraft:dirt to=minecraft:grass_block area=3 count=0
+[2026-09-04 20:17:13] [PROGRESSION] Player: Player922 | Jutsu: shinobicore:test_world_transform | Level: 1 | Uses: 1
+[2026-09-04 20:17:19] [CAST] Player: Player922 | Jutsu: shinobicore:test_world_transform | Activation: instant
+[2026-09-04 20:17:19] [PROGRESSION] Player: Player922 | Jutsu: shinobicore:test_world_transform | Level: 1 | Uses: 2
+[2026-09-04 20:17:26] [CAST] Player: Player922 | Jutsu: shinobicore:test_world_transform | Activation: instant
+[2026-09-04 20:17:26] [EFFECT] Jutsu: shinobicore:test_world_transform | Type: world | Subtype: transform_block | 
+[2026-09-04 20:17:26] [WORLD_TRANSFORM] from=minecraft:dirt to=minecraft:grass_block area=3 count=0
+[2026-09-04 20:17:26] [PROGRESSION] Player: Player922 | Jutsu: shinobicore:test_world_transform | Level: 1 | Uses: 3
+[2026-09-04 20:17:46] [CAST] Player: Player922 | Jutsu: shinobicore:test_prop_boomerang | Activation: instant
+[2026-09-04 20:17:46] [PROPERTY] Jutsu: shinobicore:test_prop_boomerang | Property: boomerang | enabled
+[2026-09-04 20:17:46] [PROGRESSION] Player: Player922 | Jutsu: shinobicore:test_prop_boomerang | Level: 1 | Uses: 1
+[2026-09-04 20:18:25] [CAST] Player: Player922 | Jutsu: shinobicore:test_prop_stick_lifesteal | Activation: instant
+[2026-09-04 20:18:25] [PROGRESSION] Player: Player922 | Jutsu: shinobicore:test_prop_stick_lifesteal | Level: 1 | Uses: 1
+[2026-09-04 20:18:30] [CAST] Player: Player922 | Jutsu: shinobicore:test_prop_stick_lifesteal | Activation: instant
+[2026-09-04 20:18:30] [PROGRESSION] Player: Player922 | Jutsu: shinobicore:test_prop_stick_lifesteal | Level: 1 | Uses: 2
+[2026-09-04 20:18:30] [EFFECT] Jutsu: shinobicore:test_prop_stick_lifesteal | Type: damage | Subtype: instant | 
+[2026-09-04 20:18:30] [HIT] Caster: Player922 | Target: Drowned | Effect: DAMAGE | Damage: 6,0
+[2026-09-04 20:18:54] [CAST] Player: Player922 | Jutsu: shinobicore:test_prop_stick_lifesteal | Activation: instant
+[2026-09-04 20:18:54] [PROGRESSION] Player: Player922 | Jutsu: shinobicore:test_prop_stick_lifesteal | Level: 1 | Uses: 3
+[2026-09-04 20:18:57] [CAST] Player: Player922 | Jutsu: shinobicore:test_prop_stick_lifesteal | Activation: instant
+[2026-09-04 20:18:57] [PROGRESSION] Player: Player922 | Jutsu: shinobicore:test_prop_stick_lifesteal | Level: 1 | Uses: 4
+[2026-09-04 20:18:58] [EFFECT] Jutsu: shinobicore:test_prop_stick_lifesteal | Type: damage | Subtype: instant | 
+[2026-09-04 20:18:58] [HIT] Caster: Player922 | Target: Drowned | Effect: DAMAGE | Damage: 6,0
+[2026-09-04 20:19:31] [CAST] Player: Player922 | Jutsu: shinobicore:test_prop_explosions | Activation: instant
+[2026-09-04 20:19:31] [PROGRESSION] Player: Player922 | Jutsu: shinobicore:test_prop_explosions | Level: 1 | Uses: 1
+[2026-09-04 20:30:14] [CAST] Player: Player371 | Jutsu: shinobicore:test_zone_slow | Activation: instant
+[2026-09-04 20:30:14] [PROGRESSION] Player: Player371 | Jutsu: shinobicore:test_zone_slow | Level: 1 | Uses: 1
+[2026-09-04 20:30:28] [CAST] Player: Player371 | Jutsu: shinobicore:test_zone_slow | Activation: instant
+[2026-09-04 20:30:28] [PROGRESSION] Player: Player371 | Jutsu: shinobicore:test_zone_slow | Level: 1 | Uses: 2
+[2026-09-04 20:30:28] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:30:29] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:30:29] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:30:30] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:30:30] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:30:31] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:30:31] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:30:32] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:30:32] [CAST] Player: Player371 | Jutsu: shinobicore:test_zone_slow | Activation: instant
+[2026-09-04 20:30:32] [PROGRESSION] Player: Player371 | Jutsu: shinobicore:test_zone_slow | Level: 1 | Uses: 3
+[2026-09-04 20:30:32] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:30:32] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:30:33] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:30:33] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:30:33] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:30:34] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:30:34] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:30:35] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:30:35] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:30:39] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:30:39] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:30:40] [EFFECT] Jutsu: shinobicore:test_zone_slow | Type: control | Subtype: slow | 
+[2026-09-04 20:30:41] [CAST] Player: Player371 | Jutsu: shinobicore:test_handheld | Activation: instant
+[2026-09-04 20:30:41] [PROGRESSION] Player: Player371 | Jutsu: shinobicore:test_handheld | Level: 1 | Uses: 1
+[2026-09-04 20:30:44] [EFFECT] Jutsu: shinobicore:test_handheld | Type: damage | Subtype: instant | 
+[2026-09-04 20:30:44] [HIT] Caster: Player371 | Target: Zombie | Effect: DAMAGE | Damage: 10,0
+[2026-09-04 20:30:44] [EFFECT] Jutsu: shinobicore:test_handheld | Type: control | Subtype: launch | 
+[2026-09-04 20:30:51] [CAST] Player: Player371 | Jutsu: shinobicore:test_handheld | Activation: instant
+[2026-09-04 20:30:51] [PROGRESSION] Player: Player371 | Jutsu: shinobicore:test_handheld | Level: 1 | Uses: 2
+[2026-09-04 20:30:53] [EFFECT] Jutsu: shinobicore:test_handheld | Type: damage | Subtype: instant | 
+[2026-09-04 20:30:53] [HIT] Caster: Player371 | Target: Zombie | Effect: DAMAGE | Damage: 10,0
+[2026-09-04 20:30:53] [EFFECT] Jutsu: shinobicore:test_handheld | Type: control | Subtype: launch | 
+[2026-09-04 20:31:37] [CAST] Player: Player371 | Jutsu: shinobicore:test_prop_stick_lifesteal | Activation: instant
+[2026-09-04 20:31:37] [PROGRESSION] Player: Player371 | Jutsu: shinobicore:test_prop_stick_lifesteal | Level: 1 | Uses: 1
+[2026-09-04 20:31:43] [CAST] Player: Player371 | Jutsu: shinobicore:test_prop_stick_lifesteal | Activation: instant
+[2026-09-04 20:31:43] [PROGRESSION] Player: Player371 | Jutsu: shinobicore:test_prop_stick_lifesteal | Level: 1 | Uses: 2
+[2026-09-04 20:31:43] [EFFECT] Jutsu: shinobicore:test_prop_stick_lifesteal | Type: damage | Subtype: instant | 
+[2026-09-04 20:31:43] [HIT] Caster: Player371 | Target: Sheep | Effect: DAMAGE | Damage: 6,0
+[2026-09-04 20:31:43] [LIFESTEAL] heal=3.0
+[2026-09-04 20:31:48] [CAST] Player: Player371 | Jutsu: shinobicore:test_prop_stick_lifesteal | Activation: instant
+[2026-09-04 20:31:48] [PROGRESSION] Player: Player371 | Jutsu: shinobicore:test_prop_stick_lifesteal | Level: 1 | Uses: 3
+[2026-09-04 20:31:48] [EFFECT] Jutsu: shinobicore:test_prop_stick_lifesteal | Type: damage | Subtype: instant | 
+[2026-09-04 20:31:48] [HIT] Caster: Player371 | Target: Sheep | Effect: DAMAGE | Damage: 6,0
+[2026-09-04 20:31:48] [LIFESTEAL] heal=3.0
+[2026-09-05 11:54:39] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 11:54:39] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 11:54:39] [PROGRESSION] Player: Player491 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 1
+[2026-09-05 11:54:43] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 11:54:43] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 11:54:43] [PROGRESSION] Player: Player491 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 2
+[2026-09-05 11:54:47] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 11:54:47] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 11:54:47] [PROGRESSION] Player: Player491 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 3
+[2026-09-05 11:54:49] [HIT] Caster: Player491 | Target: Sheep | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 11:54:51] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 11:54:51] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 11:54:51] [PROGRESSION] Player: Player491 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 4
+[2026-09-05 11:54:55] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 11:54:55] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 11:54:55] [PROGRESSION] Player: Player491 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 5
+[2026-09-05 11:54:59] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 11:54:59] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 11:54:59] [PROGRESSION] Player: Player491 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 6
+[2026-09-05 12:02:56] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 12:02:56] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 12:02:56] [PROGRESSION] Player: Player118 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 1
+[2026-09-05 12:03:01] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 12:03:01] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 12:03:01] [PROGRESSION] Player: Player118 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 2
+[2026-09-05 12:03:23] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 12:03:23] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 12:03:23] [PROGRESSION] Player: Player118 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 3
+[2026-09-05 12:03:25] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 12:03:25] [HIT] Caster: Player118 | Target: Sheep | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 12:03:25] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 12:03:28] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 12:03:28] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 12:03:28] [PROGRESSION] Player: Player118 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 4
+[2026-09-05 12:03:29] [HIT] Caster: Player118 | Target: Sheep | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 12:03:29] [HIT] Caster: Player118 | Target: Sheep | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 12:03:33] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 12:03:33] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 12:03:33] [PROGRESSION] Player: Player118 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 5
+[2026-09-05 12:03:34] [HIT] Caster: Player118 | Target: Sheep | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 13:06:11] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 13:06:11] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 13:06:11] [PROGRESSION] Player: Player17 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 1
+[2026-09-05 13:21:28] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 13:21:28] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 13:21:28] [PROGRESSION] Player: Player272 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 1
+[2026-09-05 14:12:51] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 14:12:51] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 14:12:51] [PROGRESSION] Player: Player439 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 1
+[2026-09-05 14:12:53] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:12:53] [HIT] Caster: Player439 | Target: Sheep | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:12:53] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:15:55] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 14:15:55] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 14:15:55] [PROGRESSION] Player: Player439 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 2
+[2026-09-05 14:15:57] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:15:57] [HIT] Caster: Player439 | Target: Sheep | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:15:57] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:15:57] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:15:57] [HIT] Caster: Player439 | Target: Sheep | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:15:57] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:15:57] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:15:57] [HIT] Caster: Player439 | Target: Sheep | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:15:57] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:16:23] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 14:16:23] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 14:16:23] [PROGRESSION] Player: Player439 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 3
+[2026-09-05 14:16:25] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:16:25] [HIT] Caster: Player439 | Target: Sheep | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:16:25] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:16:27] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 14:16:27] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 14:16:27] [PROGRESSION] Player: Player439 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 4
+[2026-09-05 14:16:30] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:16:30] [HIT] Caster: Player439 | Target: Sheep | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:16:30] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:17:04] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 14:17:04] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 14:17:04] [PROGRESSION] Player: Player439 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 5
+[2026-09-05 14:17:06] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:17:06] [HIT] Caster: Player439 | Target: Zombie | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:17:06] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:17:06] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:17:06] [HIT] Caster: Player439 | Target: Zombie | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:17:06] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:17:07] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:17:07] [HIT] Caster: Player439 | Target: Zombie | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:17:07] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:18:11] [CAST] Caster: Player439 | Jutsu: shinobicore:test_summon_clone | Activation: instant
+[2026-09-05 14:18:16] [CAST] Caster: Player439 | Jutsu: shinobicore:test_summon_clone | Activation: instant
+[2026-09-05 14:18:26] [CAST] Caster: Player439 | Jutsu: shinobicore:test_summon_kamikaze | Activation: instant
+[2026-09-05 14:18:44] [AI_CAST] entity.shinobicore.rogue_ninja cast shinobicore:fire_release_great_fireball
+[2026-09-05 14:18:48] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:18:48] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Player439 | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:18:48] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:18:49] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:18:49] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Player439 | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:18:49] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:18:49] [AI_CAST] entity.shinobicore.rogue_ninja cast shinobicore:fire_release_great_fireball
+[2026-09-05 14:18:53] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:18:53] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Player439 | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:18:53] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:18:56] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 14:18:56] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 14:18:56] [PROGRESSION] Player: Player439 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 6
+[2026-09-05 14:18:57] [AI_CAST] entity.shinobicore.rogue_ninja cast shinobicore:fire_release_great_fireball
+[2026-09-05 14:18:58] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:18:58] [HIT] Caster: Player439 | Target: entity.shinobicore.rogue_ninja | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:18:58] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:18:59] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:18:59] [HIT] Caster: Player439 | Target: entity.shinobicore.rogue_ninja | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:18:59] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:19:15] [AI_CAST] entity.shinobicore.rogue_ninja cast shinobicore:fire_release_great_fireball
+[2026-09-05 14:19:15] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 14:19:15] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 14:19:15] [PROGRESSION] Player: Player439 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 7
+[2026-09-05 14:19:22] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 14:19:22] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 14:19:22] [PROGRESSION] Player: Player439 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 8
+[2026-09-05 14:19:23] [AI_CAST] entity.shinobicore.rogue_ninja cast shinobicore:fire_release_great_fireball
+[2026-09-05 14:19:23] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:19:23] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Cod | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:19:23] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:19:23] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:19:23] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Cod | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:19:23] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:19:26] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:19:26] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Player439 | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:19:26] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:19:26] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:19:26] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Player439 | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:19:26] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:19:27] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:19:27] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Player439 | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:19:27] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:19:42] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 14:19:42] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 14:19:42] [PROGRESSION] Player: Player439 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 9
+[2026-09-05 14:19:53] [AI_CAST] entity.shinobicore.rogue_ninja cast shinobicore:fire_release_great_fireball
+[2026-09-05 14:19:55] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 14:19:55] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 14:19:55] [PROGRESSION] Player: Player439 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 10
+[2026-09-05 14:20:50] [AI_CAST] entity.shinobicore.rogue_ninja cast shinobicore:fire_release_great_fireball
+[2026-09-05 14:21:57] [AI_CAST] entity.shinobicore.rogue_ninja cast shinobicore:fire_release_great_fireball
+[2026-09-05 14:21:57] [SMOKE_FLEE] entity.shinobicore.rogue_ninja vanished in smoke
+[2026-09-05 14:21:57] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:21:57] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Player439 | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:21:57] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:21:58] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:21:58] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Player439 | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:21:58] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:21:58] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:21:58] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Player439 | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:21:58] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:21:59] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:21:59] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Player439 | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:21:59] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:21:59] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:21:59] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Zombie | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:21:59] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:21:59] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:21:59] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Player439 | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:21:59] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:22:00] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:22:00] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Zombie | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:22:00] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:22:00] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:22:00] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Player439 | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:22:00] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:22:00] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:22:00] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Zombie | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:22:00] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:22:00] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:22:00] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Player439 | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:22:00] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:22:01] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:22:01] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Player439 | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:22:01] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:22:01] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:22:01] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Player439 | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:22:01] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:22:02] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:22:02] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Player439 | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:22:02] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:22:17] [KAWARIMI] entity.shinobicore.rogue_ninja substituted behind Player439
+[2026-09-05 14:22:26] [SMOKE_FLEE] entity.shinobicore.rogue_ninja vanished in smoke
+[2026-09-05 14:34:02] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 14:34:02] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 14:34:02] [PROGRESSION] Player: Player189 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 1
+[2026-09-05 14:34:04] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:34:04] [HIT] Caster: Player189 | Target: Spider | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:34:04] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:34:04] [HIT] Caster: Player189 | Target: Creeper | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:34:04] [HIT] Caster: Player189 | Target: Spider | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:34:23] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 14:34:23] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 14:34:23] [PROGRESSION] Player: Player189 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 2
+[2026-09-05 14:34:24] [ACTIVATION] Jutsu: shinobicore:test_editor | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 14:34:24] [ACTIVATION] Jutsu: shinobicore:test_editor | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 14:34:24] [PROGRESSION] Player: Player189 | Jutsu: shinobicore:test_editor | Level: 1 | Uses: 1
+[2026-09-05 14:34:28] [ACTIVATION] Jutsu: shinobicore:test_editor | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 14:34:28] [ACTIVATION] Jutsu: shinobicore:test_editor | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 14:34:28] [PROGRESSION] Player: Player189 | Jutsu: shinobicore:test_editor | Level: 1 | Uses: 2
+[2026-09-05 14:34:29] [EFFECT] Jutsu: shinobicore:test_editor | Type: damage | Subtype: instant | 
+[2026-09-05 14:34:29] [HIT] Caster: Player189 | Target: Creeper | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:34:29] [EFFECT] Jutsu: shinobicore:test_editor | Type: debuff | Subtype: burn | 
+[2026-09-05 14:34:29] [EFFECT] Jutsu: shinobicore:test_editor | Type: damage | Subtype: instant | 
+[2026-09-05 14:34:29] [HIT] Caster: Player189 | Target: Creeper | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:34:29] [EFFECT] Jutsu: shinobicore:test_editor | Type: debuff | Subtype: burn | 
+[2026-09-05 14:34:30] [EFFECT] Jutsu: shinobicore:test_editor | Type: damage | Subtype: instant | 
+[2026-09-05 14:34:30] [HIT] Caster: Player189 | Target: Creeper | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:34:30] [EFFECT] Jutsu: shinobicore:test_editor | Type: debuff | Subtype: burn | 
+[2026-09-05 14:34:30] [EFFECT] Jutsu: shinobicore:test_editor | Type: damage | Subtype: instant | 
+[2026-09-05 14:34:30] [HIT] Caster: Player189 | Target: Creeper | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:34:30] [EFFECT] Jutsu: shinobicore:test_editor | Type: debuff | Subtype: burn | 
+[2026-09-05 14:34:30] [EFFECT] Jutsu: shinobicore:test_editor | Type: damage | Subtype: instant | 
+[2026-09-05 14:34:30] [HIT] Caster: Player189 | Target: Creeper | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:34:30] [EFFECT] Jutsu: shinobicore:test_editor | Type: debuff | Subtype: burn | 
+[2026-09-05 14:34:31] [EFFECT] Jutsu: shinobicore:test_editor | Type: damage | Subtype: instant | 
+[2026-09-05 14:34:31] [HIT] Caster: Player189 | Target: Creeper | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:34:31] [EFFECT] Jutsu: shinobicore:test_editor | Type: debuff | Subtype: burn | 
+[2026-09-05 14:34:31] [EFFECT] Jutsu: shinobicore:test_editor | Type: damage | Subtype: instant | 
+[2026-09-05 14:34:31] [HIT] Caster: Player189 | Target: Zombie | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:34:31] [EFFECT] Jutsu: shinobicore:test_editor | Type: debuff | Subtype: burn | 
+[2026-09-05 14:34:32] [EFFECT] Jutsu: shinobicore:test_editor | Type: damage | Subtype: instant | 
+[2026-09-05 14:34:32] [HIT] Caster: Player189 | Target: Zombie | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:34:32] [EFFECT] Jutsu: shinobicore:test_editor | Type: debuff | Subtype: burn | 
+[2026-09-05 14:34:32] [EFFECT] Jutsu: shinobicore:test_editor | Type: damage | Subtype: instant | 
+[2026-09-05 14:34:32] [HIT] Caster: Player189 | Target: Zombie | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:34:32] [EFFECT] Jutsu: shinobicore:test_editor | Type: debuff | Subtype: burn | 
+[2026-09-05 14:34:39] [ACTIVATION] Jutsu: shinobicore:test_editor | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 14:34:39] [ACTIVATION] Jutsu: shinobicore:test_editor | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 14:34:39] [PROGRESSION] Player: Player189 | Jutsu: shinobicore:test_editor | Level: 1 | Uses: 3
+[2026-09-05 14:34:43] [ACTIVATION] Jutsu: shinobicore:test_editor | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 14:34:43] [ACTIVATION] Jutsu: shinobicore:test_editor | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 14:34:43] [PROGRESSION] Player: Player189 | Jutsu: shinobicore:test_editor | Level: 1 | Uses: 4
+[2026-09-05 14:34:45] [EFFECT] Jutsu: shinobicore:test_editor | Type: damage | Subtype: instant | 
+[2026-09-05 14:34:45] [HIT] Caster: Player189 | Target: Spider | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:34:45] [EFFECT] Jutsu: shinobicore:test_editor | Type: debuff | Subtype: burn | 
+[2026-09-05 14:34:45] [EFFECT] Jutsu: shinobicore:test_editor | Type: damage | Subtype: instant | 
+[2026-09-05 14:34:45] [HIT] Caster: Player189 | Target: Creeper | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:34:45] [EFFECT] Jutsu: shinobicore:test_editor | Type: debuff | Subtype: burn | 
+[2026-09-05 14:34:46] [EFFECT] Jutsu: shinobicore:test_editor | Type: damage | Subtype: instant | 
+[2026-09-05 14:34:46] [HIT] Caster: Player189 | Target: Creeper | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:34:46] [EFFECT] Jutsu: shinobicore:test_editor | Type: debuff | Subtype: burn | 
+[2026-09-05 14:35:06] [AI_CAST] entity.shinobicore.rogue_ninja cast shinobicore:fire_release_great_fireball scale=0.48999998
+[2026-09-05 14:35:15] [KAWARIMI] entity.shinobicore.rogue_ninja substituted behind Player189
+[2026-09-05 14:35:23] [AI_CAST] entity.shinobicore.rogue_ninja cast shinobicore:fire_release_great_fireball scale=0.48999998
+[2026-09-05 14:35:23] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Player189 | Effect: DAMAGE | Damage: 3,9
+[2026-09-05 14:35:24] [SMOKE_FLEE] entity.shinobicore.rogue_ninja vanished in smoke
+[2026-09-05 14:35:32] [KAWARIMI] entity.shinobicore.rogue_ninja substituted behind Player189
+[2026-09-05 14:41:23] [AI_CAST] entity.shinobicore.rogue_ninja cast shinobicore:fire_release_great_fireball scale=0.57
+[2026-09-05 14:41:27] [AI_CAST] entity.shinobicore.rogue_ninja cast shinobicore:fire_release_great_fireball scale=0.57
+[2026-09-05 14:41:28] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Player894 | Effect: DAMAGE | Damage: 4,6
+[2026-09-05 14:41:28] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: entity.shinobicore.rogue_ninja | Effect: DAMAGE | Damage: 4,6
+[2026-09-05 14:41:35] [AI_CAST] entity.shinobicore.rogue_ninja cast shinobicore:fire_release_great_fireball scale=0.57
+[2026-09-05 14:41:35] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:41:35] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Creeper | Effect: DAMAGE | Damage: 4,6
+[2026-09-05 14:41:35] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:41:35] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Creeper | Effect: DAMAGE | Damage: 4,6
+[2026-09-05 14:41:35] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: entity.shinobicore.rogue_ninja | Effect: DAMAGE | Damage: 4,6
+[2026-09-05 14:41:35] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Skeleton | Effect: DAMAGE | Damage: 4,6
+[2026-09-05 14:41:41] [AI_CAST] entity.shinobicore.rogue_ninja cast shinobicore:fire_release_great_fireball scale=0.57
+[2026-09-05 14:41:41] [SMOKE_FLEE] entity.shinobicore.rogue_ninja vanished in smoke
+[2026-09-05 14:41:41] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:41:41] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Skeleton | Effect: DAMAGE | Damage: 4,6
+[2026-09-05 14:41:41] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:41:41] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Skeleton | Effect: DAMAGE | Damage: 4,6
+[2026-09-05 14:41:46] [AI_DODGE] entity.shinobicore.rogue_ninja dodged (lvl 3)
+[2026-09-05 14:41:51] [SMOKE_FLEE] entity.shinobicore.rogue_ninja vanished in smoke
+[2026-09-05 14:46:10] [AI_CAST] entity.shinobicore.rogue_ninja cast shinobicore:fire_release_great_fireball scale=0.57
+[2026-09-05 14:46:11] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Skeleton | Effect: DAMAGE | Damage: 4,6
+[2026-09-05 14:46:31] [AI_CAST] entity.shinobicore.rogue_ninja cast shinobicore:fire_release_great_fireball scale=0.57
+[2026-09-05 14:47:55] [AI_CAST] entity.shinobicore.rogue_ninja cast shinobicore:fire_release_great_fireball scale=0.57
+[2026-09-05 14:49:41] [AI_CAST] entity.shinobicore.rogue_ninja cast shinobicore:fire_release_great_fireball scale=0.57
+[2026-09-05 14:49:43] [AI_DODGE] entity.shinobicore.rogue_ninja dodged (lvl 3)
+[2026-09-05 14:49:43] [KAWARIMI] entity.shinobicore.rogue_ninja substituted behind Player997
+[2026-09-05 14:49:49] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 14:49:49] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 14:49:49] [PROGRESSION] Player: Player997 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 1
+[2026-09-05 14:49:51] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:49:51] [HIT] Caster: Player997 | Target: entity.shinobicore.rogue_ninja | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:49:51] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:53:50] [AI_CAST] entity.shinobicore.rogue_ninja cast shinobicore:fire_release_great_fireball scale=0.57
+[2026-09-05 14:53:57] [KAWARIMI] entity.shinobicore.rogue_ninja substituted behind Player733
+[2026-09-05 14:54:00] [AI_DODGE] entity.shinobicore.rogue_ninja dodged (lvl 3)
+[2026-09-05 14:54:50] [AI_CAST] entity.shinobicore.rogue_ninja cast shinobicore:fire_release_great_fireball scale=0.57
+[2026-09-05 14:54:58] [AI_DODGE] entity.shinobicore.rogue_ninja dodged (lvl 3)
+[2026-09-05 14:55:04] [AI_CAST] entity.shinobicore.rogue_ninja cast shinobicore:fire_release_great_fireball scale=0.57
+[2026-09-05 14:55:04] [HIT] Caster: entity.shinobicore.rogue_ninja | Target: Player648 | Effect: DAMAGE | Damage: 4,6
+[2026-09-05 14:55:09] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 14:55:09] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 14:55:09] [PROGRESSION] Player: Player648 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 1
+[2026-09-05 14:55:10] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 14:55:10] [HIT] Caster: Player648 | Target: entity.shinobicore.rogue_ninja | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 14:55:10] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 14:55:10] [HIT] Caster: Player648 | Target: entity.shinobicore.rogue_ninja | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 17:05:57] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 17:05:57] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 17:05:57] [PROGRESSION] Player: Player968 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 1
+[2026-09-05 17:06:09] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 17:06:09] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 17:06:09] [PROGRESSION] Player: Player968 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 2
+[2026-09-05 17:10:58] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 17:10:58] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 17:10:58] [PROGRESSION] Player: Player169 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 1
+[2026-09-05 17:11:03] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 17:11:03] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 17:11:03] [PROGRESSION] Player: Player169 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 2
+[2026-09-05 17:11:07] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 17:11:07] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 17:11:07] [PROGRESSION] Player: Player169 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 3
+[2026-09-05 17:11:33] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 17:11:33] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 17:11:33] [PROGRESSION] Player: Player169 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 4
+[2026-09-05 17:15:17] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 17:15:17] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 17:15:17] [PROGRESSION] Player: Player589 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 1
+[2026-09-05 17:15:21] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 17:15:21] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 17:15:21] [PROGRESSION] Player: Player589 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 2
+[2026-09-05 17:15:25] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 17:15:25] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 17:15:25] [PROGRESSION] Player: Player589 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 3
+[2026-09-05 17:15:27] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 17:15:27] [HIT] Caster: Player589 | Target: Skeleton | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 17:15:27] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 17:15:27] [HIT] Caster: Player589 | Target: Skeleton | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 17:38:57] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 17:38:57] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 17:38:57] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 1
+[2026-09-05 17:41:01] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:01] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:01] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 1
+[2026-09-05 17:41:03] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:03] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:03] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 2
+[2026-09-05 17:41:07] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:07] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:07] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 3
+[2026-09-05 17:41:08] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:08] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:08] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 4
+[2026-09-05 17:41:10] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:10] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:10] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 5
+[2026-09-05 17:41:11] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:11] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:11] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 6
+[2026-09-05 17:41:13] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:13] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:13] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 7
+[2026-09-05 17:41:14] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:14] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:14] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 8
+[2026-09-05 17:41:16] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:16] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:16] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 9
+[2026-09-05 17:41:18] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:18] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:18] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 10
+[2026-09-05 17:41:20] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:20] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:20] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 11
+[2026-09-05 17:41:22] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:22] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:22] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 12
+[2026-09-05 17:41:23] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:23] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:23] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 13
+[2026-09-05 17:41:24] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:24] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:24] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 14
+[2026-09-05 17:41:25] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:25] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:25] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 15
+[2026-09-05 17:41:27] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:27] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:27] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 16
+[2026-09-05 17:41:28] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:28] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:28] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 17
+[2026-09-05 17:41:30] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:30] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:30] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 18
+[2026-09-05 17:41:31] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:31] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:31] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 19
+[2026-09-05 17:41:32] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:32] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:32] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 20
+[2026-09-05 17:41:33] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:33] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:33] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 21
+[2026-09-05 17:41:34] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:34] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:34] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 22
+[2026-09-05 17:41:36] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:36] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:36] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 23
+[2026-09-05 17:41:37] [CAST] Caster: Player977 | Jutsu: shinobicore:test_point_heal | Activation: instant
+[2026-09-05 17:41:37] [EFFECT] Jutsu: shinobicore:test_point_heal | Type: buff | Subtype: heal | 
+[2026-09-05 17:41:37] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:test_point_heal | Level: 1 | Uses: 24
+[2026-09-05 17:41:51] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 17:41:51] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 17:41:51] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 2
+[2026-09-05 17:41:52] [HIT] Caster: Player977 | Target: Sheep | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 17:42:29] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 17:42:29] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 17:42:29] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 3
+[2026-09-05 17:42:31] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 17:42:31] [HIT] Caster: Player977 | Target: Cow | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 17:42:31] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 17:42:31] [HIT] Caster: Player977 | Target: Cow | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 17:42:34] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 17:42:34] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 17:42:34] [PROGRESSION] Player: Player977 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 4
+[2026-09-05 17:42:36] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 17:42:36] [HIT] Caster: Player977 | Target: Cow | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 17:42:36] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
