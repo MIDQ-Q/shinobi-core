@@ -118,6 +118,9 @@ public boolean hotbarModify = true;
 public float hotbarScale = 0.85f;
 public float hotbarAlpha = 0.75f;
 public float hudScale = 0.75f;
+        public boolean uiPetals = true;
+        public boolean uiAnimations = true;
+        public boolean uiSounds = true;
 }
 
     public Chakra chakra = new Chakra();

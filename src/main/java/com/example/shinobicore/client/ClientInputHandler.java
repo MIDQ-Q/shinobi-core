@@ -87,7 +87,7 @@ public class ClientInputHandler {
         if (KeyBindings.CAST_B.wasPressed()) ClientNinjaStateHolder.get().castActiveJutsu(1);
         if (KeyBindings.CYCLE_A.wasPressed()) ClientNinjaStateHolder.get().cycleLoadout(0);
         if (KeyBindings.CYCLE_B.wasPressed()) ClientNinjaStateHolder.get().cycleLoadout(1);
-        if (KeyBindings.PROGRESSION.wasPressed()) client.setScreen(new ProgressionScreen());
+        // K key removed: hub opens via inventory key (E)
         if (KeyBindings.CRAWL.wasPressed()) ShinobiCore.LOGGER.info("[INPUT] CRAWL (N) pressed");
     }
     private static void sendMeditatePacket(MinecraftClient client, boolean start) {

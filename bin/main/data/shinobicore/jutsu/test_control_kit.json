@@ -1,0 +1,4 @@
+{ "id": "shinobicore:test_control_kit", "name": "TEST Control Kit", "category": "shape_ninjutsu", "rank": "C",
+  "form": { "type": "projectile", "params": { "speed": 1.6, "gravity": 0, "lifetime": 80, "size": 0.5 } },
+  "effects": [ { "type": "control", "subtype": "stun", "params": { "duration": 40 } }, { "type": "control", "subtype": "push", "params": { "force": 1.5 } } ],
+  "element": "yin", "activation": { "type": "instant" }, "cooldown": 1, "cost": { "chakra": 5 } }

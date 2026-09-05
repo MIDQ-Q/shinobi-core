@@ -1,0 +1,4 @@
+{ "id": "shinobicore:test_summon_clone", "name": "TEST Clone Summon", "category": "summoning", "rank": "C",
+  "form": { "type": "summon", "params": { "entityType": "shinobicore:summon_clone", "count": 2, "lifetime": 1200, "behavior": "fight_for_caster", "spawnPosition": "around_caster", "jutsus": "shinobicore:test_projectile_volley" } },
+  "effects": [ { "type": "damage", "subtype": "instant", "params": { "amount": 4 } } ],
+  "element": "yin", "activation": { "type": "instant" }, "cooldown": 5, "cost": { "chakra": 5 } }

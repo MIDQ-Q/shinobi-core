@@ -70,12 +70,18 @@ public class SkillTreeRegistry {
                 }
             }
         } catch (Exception e) { ShinobiCore.LOGGER.error("Skill tree load error: {}", e.getMessage()); }
+        try { TreeAutoGen.inject(); } catch (Exception e) { ShinobiCore.LOGGER.error("TreeAutoGen error: {}", e.getMessage()); }
         ShinobiCore.LOGGER.info("Loaded {} tree nodes, {} branches", NODES.size(), BRANCHES.size());
     }
 
     private static int parseColor(String hex) {
         try { return (int) Long.parseLong(hex.replace("#",""), 16) | 0xFF000000; } catch (Exception e) { return 0xFFFFFFFF; }
     }
+
+    // F2e: mutation API for auto-gen
+    public static void putBranch(BranchDef b) { BRANCHES.put(b.id(), b); }
+    public static void putNode(SkillTreeNode n) { NODES.put(n.id(), n); }
+    public static void removeNode(String id) { NODES.remove(id); }
 
     public static SkillTreeNode get(String id) { return NODES.get(id); }
     public static Collection<SkillTreeNode> getAll() { return NODES.values(); }

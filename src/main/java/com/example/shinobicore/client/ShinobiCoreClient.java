@@ -216,5 +216,25 @@ public class ShinobiCoreClient implements ClientModInitializer {
         com.example.shinobicore.ai.client.AiRenderers.register();
         com.example.shinobicore.client.JutsuKeybindClient.register();
         com.example.shinobicore.client.CooldownHudState.register();
+        com.example.shinobicore.client.sakura.SakuraNetwork.registerClient();
+        com.example.shinobicore.client.sakura.SakuraHub.register();
+        // === AWAKENING SCREEN PACKETS ===
+        ClientPlayNetworking.registerGlobalReceiver(
+            new net.minecraft.util.Identifier("shinobicore", "open_awakening"),
+            (client, handler, buf, rs) -> client.execute(() ->
+                client.setScreen(new com.example.shinobicore.client.sakura.AwakeningScreen())
+            )
+        );
+        ClientPlayNetworking.registerGlobalReceiver(
+            new net.minecraft.util.Identifier("shinobicore", "awakening_element"),
+            (client, handler, buf, rs) -> {
+                String elId = buf.readString();
+                client.execute(() -> {
+                    if (client.currentScreen instanceof com.example.shinobicore.client.sakura.AwakeningScreen as) {
+                        as.revealElement(elId);
+                    }
+                });
+            }
+        );
     }
 }

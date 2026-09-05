@@ -23,7 +23,8 @@
     "MobEntityAccessor"
   ],
   "client": [
-    "HotbarScaleMixin"
+    "HotbarScaleMixin",
+    "SakuraScreenOpenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

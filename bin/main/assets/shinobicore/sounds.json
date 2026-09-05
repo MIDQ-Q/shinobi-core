@@ -1,1 +1,50 @@
-{"level_up":{"sounds":["minecraft:entity/player/levelup"]},"node_unlock":{"sounds":["minecraft:entity/experience_orb/pickup"]},"minigame_success":{"sounds":["minecraft:entity/experience_orb/pickup"]},"minigame_fail":{"sounds":["minecraft:entity/villager/no"]},"cast_start":{"sounds":["minecraft:entity/enderman/teleport"]},"kawarimi":{"sounds":["minecraft:entity/enderman/teleport"]}}
+{
+  "jutsu_fire_cast": {
+    "subtitle": "subtitles.shinobicore.jutsu.fire",
+    "sounds": [
+      { "name": "entity/blaze/shoot", "type": "event" }
+    ]
+  },
+  "jutsu_water_cast": {
+    "subtitle": "subtitles.shinobicore.jutsu.water",
+    "sounds": [
+      { "name": "entity/generic/splash", "type": "event" }
+    ]
+  },
+  "jutsu_wind_cast": {
+    "subtitle": "subtitles.shinobicore.jutsu.wind",
+    "sounds": [
+      { "name": "entity/player/attack/sweep", "type": "event" }
+    ]
+  },
+  "jutsu_earth_cast": {
+    "subtitle": "subtitles.shinobicore.jutsu.earth",
+    "sounds": [
+      { "name": "block/stone/hit", "type": "event", "pitch": 0.5 }
+    ]
+  },
+  "jutsu_lightning_cast": {
+    "subtitle": "subtitles.shinobicore.jutsu.lightning",
+    "sounds": [
+      { "name": "entity/lightning_bolt/thunder", "type": "event", "volume": 0.3, "pitch": 2.0 }
+    ]
+  },
+  "jutsu_impact": {
+    "subtitle": "subtitles.shinobicore.jutsu.impact",
+    "sounds": [
+      { "name": "entity/generic/explode", "type": "event", "volume": 0.5 }
+    ]
+  },
+  "jutsu_charge_loop": {
+    "subtitle": "subtitles.shinobicore.jutsu.charge",
+    "sounds": [
+      { "name": "entity/guardian/attack_loop", "type": "event", "volume": 0.3, "pitch": 1.5 }
+    ]
+  },
+  "jutsu_hit": {
+    "subtitle": "subtitles.shinobicore.jutsu.hit",
+    "sounds": [
+      { "name": "entity/player/attack/strong", "type": "event" }
+    ]
+  }
+}

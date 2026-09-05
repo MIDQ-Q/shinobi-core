@@ -1,0 +1,3 @@
+{ "id": "shinobicore:test_summon", "name": "TEST Summon Wolves", "category": "summoning", "rank": "C",
+  "form": { "type": "summon", "params": { "entityType": "minecraft:wolf", "count": 2, "lifetime": 1200, "behavior": "fight_for_caster", "spawnPosition": "around_caster" } },
+  "element": "none", "activation": { "type": "instant" }, "cooldown": 5, "cost": { "chakra": 5 } }

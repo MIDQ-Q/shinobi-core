@@ -1,0 +1,4 @@
+{ "id": "shinobicore:test_summon_kamikaze", "name": "TEST Kamikaze Clone", "category": "summoning", "rank": "C",
+  "form": { "type": "summon", "params": { "entityType": "shinobicore:summon_clone", "count": 1, "lifetime": 600, "behavior": "kamikaze", "spawnPosition": "around_caster" } },
+  "effects": [ { "type": "damage", "subtype": "instant", "params": { "amount": 10 } } ],
+  "element": "fire", "activation": { "type": "instant" }, "cooldown": 5, "cost": { "chakra": 5 } }

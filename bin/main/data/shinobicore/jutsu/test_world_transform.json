@@ -1,0 +1,4 @@
+{ "id": "shinobicore:test_world_transform", "name": "TEST Transform Dirt>Grass", "category": "elemental_ninjutsu", "rank": "C",
+  "form": { "type": "point", "params": { "range": 8, "targetMode": "raycast_point" } },
+  "effects": [ { "type": "world", "subtype": "transform_block", "params": { "from": "minecraft:dirt", "to": "minecraft:grass_block", "area": 3 } } ],
+  "element": "earth", "activation": { "type": "instant" }, "cooldown": 2, "cost": { "chakra": 5 } }

@@ -1,0 +1,4 @@
+{ "id": "shinobicore:test_act_charge", "name": "TEST Charge Release", "category": "shape_ninjutsu", "rank": "C",
+  "form": { "type": "projectile", "params": { "speed": 2, "gravity": 0, "lifetime": 80, "size": 0.6 } },
+  "effects": [ { "type": "damage", "subtype": "instant", "params": { "amount": 8 } } ],
+  "element": "wind", "activation": { "type": "charge", "params": { "minCharge": 20, "maxCharge": 60 } }, "cooldown": 1, "cost": { "chakra": 5 } }

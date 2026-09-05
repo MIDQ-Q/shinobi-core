@@ -18,11 +18,6 @@
     "com/example/shinobicore/mixin/HideVanillaStatusMixin": {
       "renderStatusBars": "Lnet/minecraft/class_329;method_1760(Lnet/minecraft/class_332;)V"
     },
-    "com/example/shinobicore/mixin/HotbarScaleMixin": {
-      "Lnet/minecraft/client/gui/hud/InGameHud;renderExperienceBar(Lnet/minecraft/client/gui/DrawContext;I)V": "Lnet/minecraft/class_329;method_1754(Lnet/minecraft/class_332;I)V",
-      "Lnet/minecraft/client/gui/hud/InGameHud;renderHotbar(FLnet/minecraft/client/gui/DrawContext;)V": "Lnet/minecraft/class_329;method_1759(FLnet/minecraft/class_332;)V",
-      "render": "Lnet/minecraft/class_329;method_1753(Lnet/minecraft/class_332;F)V"
-    },
     "com/example/shinobicore/mixin/InterruptCastMixin": {
       "damage": "Lnet/minecraft/class_1309;method_5643(Lnet/minecraft/class_1282;F)Z"
     },
@@ -47,6 +42,9 @@
     },
     "com/example/shinobicore/mixin/RollPoseMixin": {
       "updatePose": "Lnet/minecraft/class_1657;method_7318()V"
+    },
+    "com/example/shinobicore/mixin/SakuraScreenOpenMixin": {
+      "onOpenScreen": "Lnet/minecraft/class_634;method_17587(Lnet/minecraft/class_3944;)V"
     },
     "com/example/shinobicore/mixin/ServerPlayerEntityMixin": {
       "readCustomDataFromNbt": "Lnet/minecraft/class_1657;method_5749(Lnet/minecraft/class_2487;)V",
@@ -83,11 +81,6 @@
       "com/example/shinobicore/mixin/HideVanillaStatusMixin": {
         "renderStatusBars": "Lnet/minecraft/class_329;method_1760(Lnet/minecraft/class_332;)V"
       },
-      "com/example/shinobicore/mixin/HotbarScaleMixin": {
-        "Lnet/minecraft/client/gui/hud/InGameHud;renderExperienceBar(Lnet/minecraft/client/gui/DrawContext;I)V": "Lnet/minecraft/class_329;method_1754(Lnet/minecraft/class_332;I)V",
-        "Lnet/minecraft/client/gui/hud/InGameHud;renderHotbar(FLnet/minecraft/client/gui/DrawContext;)V": "Lnet/minecraft/class_329;method_1759(FLnet/minecraft/class_332;)V",
-        "render": "Lnet/minecraft/class_329;method_1753(Lnet/minecraft/class_332;F)V"
-      },
       "com/example/shinobicore/mixin/InterruptCastMixin": {
         "damage": "Lnet/minecraft/class_1309;method_5643(Lnet/minecraft/class_1282;F)Z"
       },
@@ -112,6 +105,9 @@
       },
       "com/example/shinobicore/mixin/RollPoseMixin": {
         "updatePose": "Lnet/minecraft/class_1657;method_7318()V"
+      },
+      "com/example/shinobicore/mixin/SakuraScreenOpenMixin": {
+        "onOpenScreen": "Lnet/minecraft/class_634;method_17587(Lnet/minecraft/class_3944;)V"
       },
       "com/example/shinobicore/mixin/ServerPlayerEntityMixin": {
         "readCustomDataFromNbt": "Lnet/minecraft/class_1657;method_5749(Lnet/minecraft/class_2487;)V",

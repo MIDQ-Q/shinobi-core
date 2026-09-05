@@ -123,6 +123,9 @@
     "hotbarModify": true,
     "hotbarScale": 0.65,
     "hotbarAlpha": 0.55,
-    "hudScale": 0.75
+    "hudScale": 0.75,
+    "uiPetals": true,
+    "uiAnimations": true,
+    "uiSounds": true
   }
 }

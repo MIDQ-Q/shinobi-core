@@ -894,3 +894,40 @@
 [2026-09-05 17:42:36] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
 [2026-09-05 17:42:36] [HIT] Caster: Player977 | Target: Cow | Effect: DAMAGE | Damage: 8,0
 [2026-09-05 17:42:36] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 20:42:40] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 20:42:40] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 20:42:40] [PROGRESSION] Player: Player827 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 1
+[2026-09-05 20:42:44] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 20:42:44] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 20:42:44] [PROGRESSION] Player: Player827 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 2
+[2026-09-05 20:42:46] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 20:42:46] [HIT] Caster: Player827 | Target: Cow | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 20:42:46] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 20:42:46] [HIT] Caster: Player827 | Target: Cow | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 22:41:22] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 22:41:22] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 22:41:22] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 1
+[2026-09-05 22:41:24] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 22:41:24] [HIT] Caster: Player536 | Target: Cow | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 22:41:24] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 22:41:24] [HIT] Caster: Player536 | Target: Pig | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 22:41:24] [HIT] Caster: Player536 | Target: Cow | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 22:41:27] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 22:41:27] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 22:41:27] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 2
+[2026-09-05 22:41:43] [ACTIVATION] Jutsu: shinobicore:rasengan | Type: CHARGE | Status: STARTED duration=60 min=20
+[2026-09-05 22:41:43] [ACTIVATION] Jutsu: shinobicore:rasengan | Type: CHARGE | Status: STARTED duration=60 min=20
+[2026-09-05 22:41:43] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:rasengan | Level: 1 | Uses: 1
+[2026-09-05 22:42:06] [EFFECT] Jutsu: shinobicore:rasengan | Type: damage | Subtype: instant | 
+[2026-09-05 22:42:06] [HIT] Caster: Player536 | Target: Cow | Effect: DAMAGE | Damage: 16,0
+[2026-09-05 22:42:06] [EFFECT] Jutsu: shinobicore:rasengan | Type: control | Subtype: launch | 
+[2026-09-05 22:42:17] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 22:42:17] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 22:42:17] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 3
+[2026-09-05 22:42:21] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-05 22:42:21] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-05 22:42:21] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 4
+[2026-09-05 22:42:23] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: damage | Subtype: instant | 
+[2026-09-05 22:42:23] [HIT] Caster: Player536 | Target: Zombie | Effect: DAMAGE | Damage: 8,0
+[2026-09-05 22:42:23] [EFFECT] Jutsu: shinobicore:fire_release_great_fireball | Type: debuff | Subtype: burn | 
+[2026-09-05 22:42:23] [HIT] Caster: Player536 | Target: Zombie | Effect: DAMAGE | Damage: 8,0

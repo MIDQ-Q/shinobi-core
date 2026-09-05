@@ -26,25 +26,32 @@ public class ProgressionScreen extends Screen {
         }
     }
 
-    private static final int PARCHMENT      = 0xFFD8C098;
-    private static final int PARCHMENT_EDGE = 0xFFC4A87C;
-    private static final int WOOD           = 0xFF5A3A1E;
-    private static final int WOOD_DARK      = 0xFF3E2812;
-    private static final int WOOD_LIGHT     = 0xFF7A5430;
-    private static final int INK            = 0xFF2E1F10;
-    private static final int INK_LIGHT      = 0xFF6A563C;
-    private static final int SEAL_RED       = 0xFFA3221E;
-    private static final int SEAL_RED_ACTIVE= 0xFFD0342C;
-    private static final int ACCENT         = 0xFFB4470F;
-    private static final int ATTUNE_COLOR   = 0xFF44AAFF;
+    private static final int PARCHMENT      = 0xF0171119;
+    private static final int PARCHMENT_EDGE = 0xFF3A2A3E;
+    private static final int WOOD           = 0xFF241B2A;
+    private static final int WOOD_DARK      = 0xFF120D16;
+    private static final int WOOD_LIGHT     = 0xFF4A3A50;
+    private static final int INK            = 0xFFF2EAF0;
+    private static final int INK_LIGHT      = 0xFF9A8FA6;
+    private static final int SEAL_RED       = 0xFF2A1F2E;
+    private static final int SEAL_RED_ACTIVE= 0xFFE08AB0;
+    private static final int ACCENT         = 0xFFFF9EC4;
+    private static final int ATTUNE_COLOR   = 0xFF7EC8FF;
 
     private int tab = 0;
     private int loadoutSet = 0;
     private int assignSlot = -1;
     private int listOffset = 0;
 
+    private boolean embedded = false;
+
     public ProgressionScreen() {
         super(Text.literal("Ninja Progression"));
+    }
+
+    public ProgressionScreen(boolean embedded) {
+        super(Text.literal("Ninja Progression"));
+        this.embedded = embedded;
     }
 
     @Override

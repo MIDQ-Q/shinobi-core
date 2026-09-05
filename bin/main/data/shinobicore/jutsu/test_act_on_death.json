@@ -1,0 +1,4 @@
+{ "id": "shinobicore:test_act_on_death", "name": "TEST Izanagi", "category": "genjutsu", "rank": "S",
+  "form": { "type": "point", "params": { "range": 3, "targetMode": "self" } },
+  "effects": [ { "type": "buff", "subtype": "heal", "params": { "amount": 20 } }, { "type": "buff", "subtype": "shield", "params": { "amount": 20, "duration": 200 } } ],
+  "element": "yin", "activation": { "type": "on_death", "params": {} }, "cooldown": 0, "cost": { "chakra": 5 } }

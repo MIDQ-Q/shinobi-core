@@ -1,0 +1,5 @@
+{ "id": "shinobicore:test_handheld", "name": "TEST Handheld Orb", "category": "shape_ninjutsu", "rank": "C",
+  "form": { "type": "handheld", "params": { "chargeTime": 20, "holdDuration": 200, "activation": "on_hit", "size": 1, "throwable": true } },
+  "effects": [ { "type": "damage", "subtype": "instant", "params": { "amount": 10 } }, { "type": "control", "subtype": "launch", "params": { "force": 1.5 } } ],
+  "properties": [ { "id": "throwable", "params": {} } ],
+  "element": "none", "activation": { "type": "instant" }, "cooldown": 1, "cost": { "chakra": 5 } }

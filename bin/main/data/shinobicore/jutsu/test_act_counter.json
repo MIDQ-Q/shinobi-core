@@ -1,0 +1,4 @@
+{ "id": "shinobicore:test_act_counter", "name": "TEST Counter Stance", "category": "taijutsu", "rank": "C",
+  "form": { "type": "dash", "params": { "distance": 6, "speed": 3, "damageOnPath": true } },
+  "effects": [ { "type": "damage", "subtype": "instant", "params": { "amount": 8 } } ],
+  "element": "none", "activation": { "type": "counter", "params": { "windowMs": 4000, "damageThreshold": 1 } }, "cooldown": 1, "cost": { "chakra": 5 } }

@@ -49,6 +49,7 @@ public class ShinobiCore implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        com.example.shinobicore.network.AwakeningServer.init();
         // Register Jutsu System v2.0
         JutsuResourceListener.register();
         com.example.shinobicore.jutsu.executor.JutsuRuntime.register();
@@ -66,6 +67,7 @@ public class ShinobiCore implements ModInitializer {
         ShinobiCore.LOGGER.info("Jutsu system v2 initialized");
         ModEntities.register();
         com.example.shinobicore.ai.AiEntities.register();
+        com.example.shinobicore.client.sakura.SakuraNetwork.register();
         ModItems.register();
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             NinjaCommand.register(dispatcher);

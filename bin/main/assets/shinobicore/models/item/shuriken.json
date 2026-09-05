@@ -1,6 +1,1 @@
-{
-    "textures":  {
-                     "layer0":  "shinobicore:item/shuriken"
-                 },
-    "parent":  "item/generated"
-}
+{ "parent": "item/generated", "textures": { "layer0": "shinobicore:item/shuriken" } }

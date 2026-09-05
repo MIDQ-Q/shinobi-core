@@ -1,0 +1,20 @@
+{
+  "id": "shinobicore:shadow_bind",
+  "name": "Shadow Possession Jutsu",
+  "description": "Техника теневого захвата клана Нара",
+  "category": "shape_ninjutsu",
+  "rank": "B",
+  "tags": ["yin", "zone", "control"],
+  "form": {
+    "type": "zone",
+    "params": { "radius": 3.0, "duration": 120, "tickRate": 10, "shape": "cylinder" }
+  },
+  "effects": [
+    { "type": "control", "subtype": "root", "params": { "duration": 120, "breakDamage": 10 } }
+  ],
+  "properties": [],
+  "element": "yin",
+  "activation": { "type": "handseals", "params": { "sealCount": 1 } },
+  "cost": { "chakra": 40, "fatigue": 8 },
+  "requirements": { "stats": { "control": 30, "ninjutsu": 25 } }
+}

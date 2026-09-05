@@ -1,5 +1,0 @@
-{
-  "baseXp": 100,
-  "exponent": 1.5,
-  "notes": "xpForLevel(N) = baseXp * pow(N, exponent)"
-}

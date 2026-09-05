@@ -26,4 +26,9 @@
         "cloth-config": "*",
         "player-animator": "*"
     }
+,
+  "suggests": {
+    "trinkets": "*",
+    "artifacts": "*"
+  }
 }

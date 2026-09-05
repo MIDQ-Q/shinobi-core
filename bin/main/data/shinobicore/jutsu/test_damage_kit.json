@@ -1,0 +1,4 @@
+{ "id": "shinobicore:test_damage_kit", "name": "TEST Damage Kit", "category": "elemental_ninjutsu", "rank": "C",
+  "form": { "type": "projectile", "params": { "speed": 1.6, "gravity": 0, "lifetime": 80, "size": 0.5 } },
+  "effects": [ { "type": "damage", "subtype": "instant", "params": { "amount": 4 } }, { "type": "damage", "subtype": "dot", "params": { "amount": 2, "duration": 60 } } ],
+  "element": "fire", "activation": { "type": "instant" }, "cooldown": 1, "cost": { "chakra": 5 } }
