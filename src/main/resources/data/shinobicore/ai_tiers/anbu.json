@@ -1,0 +1,10 @@
+{
+  "id": "anbu",
+  "displayName": "ANBU",
+  "healthMultiplier": 2.5,
+  "speedMultiplier": 1.3,
+  "damageMultiplier": 2.0,
+  "thresholds": { "retreatHealthPercent": 0.25, "coverHealthPercent": 0.5 },
+  "canUseEnvironment": true,
+  "canInterruptCasts": true
+}

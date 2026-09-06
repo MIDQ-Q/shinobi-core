@@ -16,6 +16,14 @@ public class ModItems {
         new Identifier(ShinobiCore.MOD_ID, "kunai"),
         new ThrowingWeaponItem(new Item.Settings().maxCount(16), 5f, 2.2f, 12));
 
+    public static final Item SCROLL = Registry.register(Registries.ITEM,
+    new Identifier(ShinobiCore.MOD_ID, "scroll"),
+    new com.example.shinobicore.item.crafting.ScrollItem(new Item.Settings().maxCount(16)));
+
+    public static final Item EXPLOSIVE_TAG = Registry.register(Registries.ITEM,
+    new Identifier(ShinobiCore.MOD_ID, "explosive_tag"),
+    new com.example.shinobicore.item.crafting.ExplosiveTagItem(new Item.Settings().maxCount(16)));
+
     public static void register() {
         ShinobiCore.LOGGER.info("Registered katana/shuriken/kunai items");
     }

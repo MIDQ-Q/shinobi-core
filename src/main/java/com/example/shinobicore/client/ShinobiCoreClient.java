@@ -215,6 +215,8 @@ public class ShinobiCoreClient implements ClientModInitializer {
         HudRenderCallback.EVENT.register(HandSignsHudRenderer::render);
         com.example.shinobicore.ai.client.AiRenderers.register();
         com.example.shinobicore.client.JutsuKeybindClient.register();
+        com.example.shinobicore.modules.jutsu.JutsuModule.initClient();
+        com.example.shinobicore.modules.jutsu.client.JutsuHudRenderer.register();
         com.example.shinobicore.client.CooldownHudState.register();
         com.example.shinobicore.client.sakura.SakuraNetwork.registerClient();
         com.example.shinobicore.client.sakura.SakuraHub.register();

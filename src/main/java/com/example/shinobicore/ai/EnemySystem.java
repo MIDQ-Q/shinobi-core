@@ -16,6 +16,24 @@ public class EnemySystem {
      *  melee:     2 + 0.5/lvl
      *  jutsu:     45% + 4%/lvl (cap 120%)
      */
+    public static void registerV2(MobEntity mob, String tierId) {
+        com.example.shinobicore.ai.v2.AiTierDefinition tier = com.example.shinobicore.ai.v2.AiTierRegistry.get(tierId);
+        if (tier == null) tier = com.example.shinobicore.ai.v2.AiTierRegistry.get("genin");
+        
+        com.example.shinobicore.ai.v2.AiBrainV2 brain = new com.example.shinobicore.ai.v2.AiBrainV2(mob, tier);
+        AiSystem.addV2(brain);
+        
+        var hpAttr = mob.getAttributeInstance(net.minecraft.entity.attribute.EntityAttributes.GENERIC_MAX_HEALTH);
+        if (hpAttr != null) {
+            hpAttr.setBaseValue(AiEntities.BASE_HP * tier.healthMultiplier);
+            mob.setHealth(mob.getMaxHealth());
+        }
+        var spAttr = mob.getAttributeInstance(net.minecraft.entity.attribute.EntityAttributes.GENERIC_MOVEMENT_SPEED);
+        if (spAttr != null) {
+            spAttr.setBaseValue(AiEntities.BASE_SPEED * tier.speedMultiplier);
+        }
+    }
+
     public static void register(MobEntity mob, int level) {
         AiBrain b = new AiBrain(mob, null);
         b.behavior = "enemy";

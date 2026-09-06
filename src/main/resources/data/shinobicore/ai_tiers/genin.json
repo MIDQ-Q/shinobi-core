@@ -1,0 +1,10 @@
+{
+  "id": "genin",
+  "displayName": "Genin",
+  "healthMultiplier": 1.0,
+  "speedMultiplier": 1.0,
+  "damageMultiplier": 1.0,
+  "thresholds": { "retreatHealthPercent": 0.1, "coverHealthPercent": 0.0 },
+  "canUseEnvironment": false,
+  "canInterruptCasts": false
+}

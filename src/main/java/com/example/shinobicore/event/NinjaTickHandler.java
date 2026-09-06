@@ -163,7 +163,20 @@ public class NinjaTickHandler {
     }
     // === END PHASE_FIX2_TICK ===
             ShinobiCore.sendChakraSync(player);
-            if (data.consumeStatsDirty()) {
+            // SPRINT 4: Exhaustion Visual Debuffs
+if (data.isExhausted()) {
+    if (!player.hasStatusEffect(StatusEffects.WEAKNESS)) {
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 40, 0, false, false));
+    }
+    if (!player.hasStatusEffect(StatusEffects.SLOWNESS)) {
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 40, 1, false, false));
+    }
+} else {
+    if (player.hasStatusEffect(StatusEffects.WEAKNESS)) player.removeStatusEffect(StatusEffects.WEAKNESS);
+    if (player.hasStatusEffect(StatusEffects.SLOWNESS)) player.removeStatusEffect(StatusEffects.SLOWNESS);
+}
+
+if (data.consumeStatsDirty()) {
                 ShinobiCore.sendStatsSync(player);
             }
         }

@@ -36,6 +36,13 @@ public class JutsuCaster {
         int level = Math.min(prog.getLevel(uid, id), jutsu.getLeveling().getMaxLevel());
 
         NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
+        // SPRINT 4: Bypass hard dojutsu requirement, we handle it as a modifier below
+        boolean hasDojutsuReq = true;
+        if (jutsu.getRequirements() != null && jutsu.getRequirements().getDojutsu() != null) {
+            // Check if player has the dojutsu (simplified check via clan or retained dojutsu)
+            hasDojutsuReq = data.getClanId().contains("uchiha") || data.isNodeUnlocked("sharingan_base"); 
+        }
+
         if (!player.hasPermissionLevel(2) && !NinjaFormula.checkRequirements(jutsu, data)) {
             player.sendMessage(Text.literal("В§cRequirements not met for " + jutsu.getName()), false);
             return false;
@@ -44,6 +51,16 @@ public class JutsuCaster {
         Map<String, Double> nums = jutsu.getLeveling().numericAt(level);
         int chakra = nums.containsKey("cost") ? nums.get("cost").intValue()
                 : jutsu.getCost().getOrDefault(ResourceType.CHAKRA, 0);
+
+        // SPRINT 4: Inefficient casting without required Dojutsu (e.g., Chidori without Sharingan)
+        String reqDojutsu = (jutsu.getRequirements() != null && jutsu.getRequirements().getDojutsu() != null) ? jutsu.getRequirements().getDojutsu() : null;
+        if (reqDojutsu != null && !reqDojutsu.isEmpty()) {
+            // Simplified check: Uchiha clan or unlocked sharingan node
+            boolean hasDojutsu = data.getClanId().contains("uchiha") || data.isNodeUnlocked("sharingan_base");
+            if (!hasDojutsu) {
+                chakra = (int) (chakra * 1.5f); // 50% more chakra cost
+            }
+        }
         if (data.getCurrentChakra() < chakra) {
             player.sendMessage(Text.literal("В§cNot enough chakra!"), false);
             return false;

@@ -16,6 +16,8 @@ import java.util.UUID;
 
 public class AiSystem {
     private static final Map<UUID, AiBrain> BRAINS = new HashMap<>();
+    private static final Map<UUID, com.example.shinobicore.ai.v2.AiBrainV2> BRAINS_V2 = new HashMap<>();
+    public static void addV2(com.example.shinobicore.ai.v2.AiBrainV2 b) { BRAINS_V2.put(b.entity.getUuid(), b); }
     private static final Map<UUID, UUID> OWNER_ATTACKER = new HashMap<>();
     private static MinecraftServer server;
 
@@ -117,6 +119,14 @@ public class AiSystem {
             }
             b.lastX = b.entity.getX();
             b.lastZ = b.entity.getZ();
+        }
+        
+        // V2 AI Tick
+        java.util.Iterator<com.example.shinobicore.ai.v2.AiBrainV2> it2 = BRAINS_V2.values().iterator();
+        while (it2.hasNext()) {
+            com.example.shinobicore.ai.v2.AiBrainV2 b2 = it2.next();
+            if (!b2.entity.isAlive()) { it2.remove(); continue; }
+            b2.tick((net.minecraft.server.world.ServerWorld) b2.entity.getWorld());
         }
     }
 }

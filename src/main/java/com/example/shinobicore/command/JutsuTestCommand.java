@@ -38,7 +38,7 @@ public class JutsuTestCommand {
         jutsu.then(releaseBranch());
         jutsu.then(throwBranch());
         jutsu.then(bindBranch());
-        dispatcher.register(literal("shinobicore").then(jutsu).then(aiBranch()));
+        dispatcher.register(literal("shinobicore").then(jutsu).then(aiBranch()).then(aiV2Branch()));
     }
 
     private static String norm(String raw) {
@@ -221,6 +221,28 @@ public class JutsuTestCommand {
                     "\u00a7aBound " + id + " to set " + set + " slot " + (slot + 1)), false);
                 return 1;
             }))));
+    }
+
+    private static LiteralArgumentBuilder<ServerCommandSource> aiV2Branch() {
+        return literal("ai_v2").then(literal("spawn")
+            .then(argument("tier", StringArgumentType.word())
+                .suggests((ctx, b) -> {
+                    b.suggest("genin"); b.suggest("chunin"); b.suggest("jonin"); b.suggest("anbu");
+                    return b.buildFuture();
+                })
+                .executes(ctx -> {
+                    ServerPlayerEntity p = ctx.getSource().getPlayer();
+                    String tier = StringArgumentType.getString(ctx, "tier");
+                    net.minecraft.entity.mob.MobEntity mob = com.example.shinobicore.ai.AiEntities.ROGUE_NINJA.create(p.getServerWorld());
+                    if (mob != null) {
+                        net.minecraft.util.math.Vec3d pos = p.getPos().add(p.getRotationVector().multiply(4));
+                        mob.setPosition(pos.x, pos.y, pos.z);
+                        p.getServerWorld().spawnEntity(mob);
+                        com.example.shinobicore.ai.EnemySystem.registerV2(mob, tier);
+                        ctx.getSource().sendFeedback(() -> net.minecraft.text.Text.literal("§aSpawned V2 AI: " + tier), false);
+                    }
+                    return 1;
+                })));
     }
 
     private static LiteralArgumentBuilder<ServerCommandSource> aiBranch() {

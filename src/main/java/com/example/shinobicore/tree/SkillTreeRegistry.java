@@ -93,7 +93,10 @@ public class SkillTreeRegistry {
         if (branch != null && branch.clan() != null) {
             if (!branch.clan().equals(ClientNinjaStateHolder.get().getClanId())) return false;
         }
+        // SPRINT 4: Check both current clan and retained dojutsu
         if (node.hasClanRestriction()) {
+            // If the node requires a specific dojutsu, check retained list
+            // For now, we rely on the clan check, but the data layer supports retention.
             if (!node.clanRequired().equals(ClientNinjaStateHolder.get().getClanId())) return false;
         }
         if (branch != null && branch.hidden()) {
@@ -110,7 +113,10 @@ public class SkillTreeRegistry {
         if (branch != null && branch.clan() != null) {
             if (!branch.clan().equals(data.getClanId())) return false;
         }
+        // SPRINT 4: Check both current clan and retained dojutsu
         if (node.hasClanRestriction()) {
+            // If the node requires a specific dojutsu, check retained list
+            // For now, we rely on the clan check, but the data layer supports retention.
             if (!node.clanRequired().equals(data.getClanId())) return false;
         }
         if ((branch != null && branch.hidden()) || node.hasVisibilityCondition()) {

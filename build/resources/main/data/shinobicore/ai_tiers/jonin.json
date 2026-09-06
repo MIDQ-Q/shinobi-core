@@ -1,0 +1,10 @@
+{
+  "id": "jonin",
+  "displayName": "Jonin",
+  "healthMultiplier": 2.0,
+  "speedMultiplier": 1.2,
+  "damageMultiplier": 1.6,
+  "thresholds": { "retreatHealthPercent": 0.2, "coverHealthPercent": 0.4 },
+  "canUseEnvironment": true,
+  "canInterruptCasts": true
+}

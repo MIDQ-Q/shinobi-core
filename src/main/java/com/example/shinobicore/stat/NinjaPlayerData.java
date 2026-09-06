@@ -33,6 +33,8 @@ public class NinjaPlayerData {
     private int rasenganReadyTicks = 0;
     private boolean lastDangerState = false;
     private String clanId = "none";
+    // SPRINT 4: Retained biological traits (Kekkei Genkai) that persist through clan changes
+    private final Set<String> retainedDojutsu = new HashSet<>();
     private boolean clanChosen = false;
 
     private final Map<String, Integer> appliedClanStatBonuses = new HashMap<>();
@@ -83,6 +85,13 @@ public class NinjaPlayerData {
     public boolean isExhausted() { return exhausted; }
     public boolean isMeditating() { return meditating; }
     public String getClanId() { return clanId; }
+    public Set<String> getRetainedDojutsu() { return retainedDojutsu; }
+    public boolean hasDojutsuAccess(String dojutsuId) {
+        if (dojutsuId == null) return true;
+        com.example.shinobicore.clan.ClanDefinition current = com.example.shinobicore.clan.ClanRegistry.get(this.clanId);
+        if (current != null && dojutsuId.equals(current.dojutsuHook())) return true;
+        return this.retainedDojutsu.contains(dojutsuId);
+    }
     public ElementType getAffinity() { return affinity; }
     public boolean isClanChosen() { return clanChosen; }
     public int getSkillPoints() { return skillPoints; }
@@ -137,6 +146,13 @@ public class NinjaPlayerData {
     public void setMeditating(boolean v) { this.meditating = v; }
 
     public void setClanId(String id) {
+        // SPRINT 4: Before changing clan, save any active dojutsu to retained list
+        if (this.clanId != null && !this.clanId.equals("none") && !this.clanId.equals(id)) {
+            com.example.shinobicore.clan.ClanDefinition oldClan = com.example.shinobicore.clan.ClanRegistry.get(this.clanId);
+            if (oldClan != null && oldClan.hasDojutsu()) {
+                this.retainedDojutsu.add(oldClan.dojutsuHook());
+            }
+        }
         String newId = id != null ? id : "none";
         String oldId = this.clanId;
         if (oldId != null && !oldId.equals("none")) {

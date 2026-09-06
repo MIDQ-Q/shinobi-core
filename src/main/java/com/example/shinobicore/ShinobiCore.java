@@ -52,6 +52,7 @@ public class ShinobiCore implements ModInitializer {
         com.example.shinobicore.network.AwakeningServer.init();
         // Register Jutsu System v2.0
         JutsuResourceListener.register();
+        com.example.shinobicore.modules.jutsu.JutsuModule.init();
         com.example.shinobicore.jutsu.executor.JutsuRuntime.register();
         ShinobiEventBus.setEnabled(true);
         LOGGER.info("Shinobi Core загружается...");
@@ -144,6 +145,8 @@ public class ShinobiCore implements ModInitializer {
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             com.example.shinobicore.jutsu.loader.JutsuLoader.reload(server.getResourceManager());
             ClanRegistry.reload(server.getResourceManager());
+            com.example.shinobicore.ai.v2.AiTierRegistry.reload(server.getResourceManager());
+            com.example.shinobicore.faction.FactionRegistry.reload(server.getResourceManager());
             SkillTreeRegistry.reload(server.getResourceManager());
         });
 
@@ -151,6 +154,8 @@ public class ShinobiCore implements ModInitializer {
             if (success) {
                 com.example.shinobicore.jutsu.loader.JutsuLoader.reload(server.getResourceManager());
                 ClanRegistry.reload(server.getResourceManager());
+            com.example.shinobicore.ai.v2.AiTierRegistry.reload(server.getResourceManager());
+            com.example.shinobicore.faction.FactionRegistry.reload(server.getResourceManager());
             SkillTreeRegistry.reload(server.getResourceManager());
                 for (ServerPlayerEntity p : server.getPlayerManager().getPlayerList()) sendCatalogSync(p);
             }

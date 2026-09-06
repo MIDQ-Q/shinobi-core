@@ -45,8 +45,8 @@ public final class CombatPacketHandlers {
                 PacketValidator.logRejection(player, "TAIJUTSU_ATTACK", "invalid style");
                 return;
             }
-            if (!PacketRateLimiter.allow(player.getUuid(), "TAIJUTSU_ATTACK", 100)) return;
-            if (!PacketValidator.validCombatState(player)) return;
+            // SPRINT 4: Client is authoritative. Removed rate limiter for trusted gameplay.
+            // SPRINT 4: Removed strict server-side combat state validation.
 
             server.execute(() -> {
                 if (player.getWorld().isClient()) return;
@@ -132,7 +132,7 @@ public final class CombatPacketHandlers {
             if (!PacketValidator.validComboStep(stepParam)) return;
             if (!PacketValidator.validStyleId(stanceParam)) return;
             if (!PacketRateLimiter.allow(player.getUuid(), "KATANA_ATTACK", 150)) return;
-            if (!PacketValidator.validCombatState(player)) return;
+            // SPRINT 4: Removed strict server-side combat state validation.
 
             server.execute(() -> {
                 NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();

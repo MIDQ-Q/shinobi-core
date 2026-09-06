@@ -1,0 +1,10 @@
+{
+  "id": "chunin",
+  "displayName": "Chunin",
+  "healthMultiplier": 1.5,
+  "speedMultiplier": 1.1,
+  "damageMultiplier": 1.3,
+  "thresholds": { "retreatHealthPercent": 0.15, "coverHealthPercent": 0.0 },
+  "canUseEnvironment": false,
+  "canInterruptCasts": false
+}
