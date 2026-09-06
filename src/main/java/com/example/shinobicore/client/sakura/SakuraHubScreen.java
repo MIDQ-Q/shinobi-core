@@ -92,7 +92,7 @@ public class SakuraHubScreen extends HandledScreen<SakuraHandler> {
             child.render(ctx, mx, my - SakuraTheme.BAR_H, delta);
             ctx.getMatrices().pop();
         }
-        drawBar(ctx, mx, now, prev, open);
+        drawBar(ctx, mx, my, now, prev, open);
     }
 
     private void applyOpenTransform(DrawContext ctx, float open) {
@@ -168,7 +168,7 @@ public class SakuraHubScreen extends HandledScreen<SakuraHandler> {
         return (argb & 0x00FFFFFF) | (na << 24);
     }
 
-    private void drawBar(DrawContext ctx, int mx, long now, long prev, float open) {
+    private void drawBar(DrawContext ctx, int mx, int my, long now, long prev, float open) {
         int barH = SakuraTheme.BAR_H;
         ctx.getMatrices().push();
         if (open < 1f) ctx.getMatrices().translate(0, (1 - open) * -8, 0);
@@ -187,7 +187,7 @@ public class SakuraHubScreen extends HandledScreen<SakuraHandler> {
         ctx.fill(ix, 4, ix + iw, barH - 3, 0x33FF9EC4);
         ctx.fill(ix, barH - 3, ix + iw, barH - 1, SakuraTheme.SAKURA);
         for (int i = 0; i < TABS.length; i++) {
-            boolean hov = mx >= tabXs[i] && mx <= tabXs[i] + tabWs[i];
+            boolean hov = my < barH && mx >= tabXs[i] && mx <= tabXs[i] + tabWs[i];
             if (hov && i != tab) ctx.fill(tabXs[i], 4, tabXs[i] + tabWs[i], barH - 3, 0x22FF9EC4);
             ctx.drawTextWithShadow(textRenderer, Text.literal(TABS[i]), tabXs[i] + 8, 8,
                 i == tab ? SakuraTheme.SAKURA : (hov ? SakuraTheme.INK : SakuraTheme.INK_DIM));

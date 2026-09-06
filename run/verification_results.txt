@@ -955,3 +955,18 @@
 [2026-09-06 02:19:29] [HIT] Caster: Player488 | Target: Spider | Effect: DAMAGE | Damage: 8,0
 [2026-09-06 02:19:29] [HIT] Caster: Player488 | Target: Spider | Effect: DAMAGE | Damage: 8,0
 [2026-09-06 02:19:29] [HIT] Caster: Player488 | Target: Spider | Effect: DAMAGE | Damage: 8,0
+[2026-09-06 11:49:32] [ACTIVATION] Jutsu: shinobicore:rasengan | Type: CHARGE | Status: STARTED duration=60 min=20
+[2026-09-06 11:49:32] [ACTIVATION] Jutsu: shinobicore:rasengan | Type: CHARGE | Status: STARTED duration=60 min=20
+[2026-09-06 11:49:32] [PROGRESSION] Player: Player257 | Jutsu: shinobicore:rasengan | Level: 1 | Uses: 1
+[2026-09-06 11:49:33] [ACTIVATION] Jutsu: shinobicore:rasengan | Type: CHARGE | Status: STARTED duration=60 min=20
+[2026-09-06 11:49:33] [ACTIVATION] Jutsu: shinobicore:rasengan | Type: CHARGE | Status: STARTED duration=60 min=20
+[2026-09-06 11:49:33] [PROGRESSION] Player: Player257 | Jutsu: shinobicore:rasengan | Level: 1 | Uses: 2
+[2026-09-06 11:49:34] [ACTIVATION] Jutsu: shinobicore:rasengan | Type: CHARGE | Status: STARTED duration=60 min=20
+[2026-09-06 11:49:34] [ACTIVATION] Jutsu: shinobicore:rasengan | Type: CHARGE | Status: STARTED duration=60 min=20
+[2026-09-06 11:49:34] [PROGRESSION] Player: Player257 | Jutsu: shinobicore:rasengan | Level: 1 | Uses: 3
+[2026-09-06 11:49:50] [EFFECT] Jutsu: shinobicore:rasengan | Type: damage | Subtype: instant | 
+[2026-09-06 11:49:50] [HIT] Caster: Player257 | Target: Pig | Effect: DAMAGE | Damage: 16,0
+[2026-09-06 11:49:50] [EFFECT] Jutsu: shinobicore:rasengan | Type: control | Subtype: launch | 
+[2026-09-06 12:00:28] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-06 12:00:28] [ACTIVATION] Jutsu: shinobicore:fire_release_great_fireball | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-06 12:00:28] [PROGRESSION] Player: Player592 | Jutsu: shinobicore:fire_release_great_fireball | Level: 1 | Uses: 1

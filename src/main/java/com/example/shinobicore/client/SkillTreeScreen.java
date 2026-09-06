@@ -134,7 +134,7 @@ public class SkillTreeScreen extends Screen {
         drawBeam(ctx);
         for (ScrollBox sb : scrolls) drawScroll(ctx, sb, now);
         drawHoverLinks(ctx, unlocked);
-        for (ScrollBox sb : scrolls) drawScrollNodes(ctx, sb, unlocked, now);
+        for (ScrollBox sb : scrolls) drawScrollNodes(ctx, sb, unlocked, now, mx, my);
 
         ctx.getMatrices().pop();
 
@@ -214,7 +214,7 @@ public class SkillTreeScreen extends Screen {
         }
     }
 
-    private void drawScrollNodes(DrawContext ctx, ScrollBox sb, Set<String> unlocked, long now) {
+    private void drawScrollNodes(DrawContext ctx, ScrollBox sb, Set<String> unlocked, long now, int mx, int my) {
         if (sb.curH < sb.fullH - 4) return;
         int sx0 = sx(sb.x);
         if (sx0 + SakuraTheme.SCROLL_W * scale() < -40 || sx0 > width + 40) return;
@@ -227,8 +227,8 @@ public class SkillTreeScreen extends Screen {
             if (a != null && b != null) ctx.fill(a[0], a[1], a[0] + 1, b[1], SakuraTheme.INK_LINE);
         }
 
-        double wmx = viewX + (mouseX() - width / 2f) / scale();
-        double wmy = viewY + (mouseY() - height / 2f) / scale();
+        double wmx = viewX + (mx - width / 2f) / scale();
+        double wmy = viewY + (my - height / 2f) / scale();
 
         for (SkillTreeNode n : ns) {
             int[] c = nodePos.get(n.id());

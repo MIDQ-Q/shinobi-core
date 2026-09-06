@@ -1,35 +1,42 @@
 {
-    "schemaVersion": 1,
-    "id": "shinobicore",
-    "version": "3.0.0",
-    "name": "Shinobi Core",
-    "description": "Naruto-themed combat and jutsu mod for Minecraft",
-    "authors": ["You"],
-    "contact": {},
-    "license": "MIT",
-    "icon": "assets/shinobicore/icon.png",
-    "environment": "*",
-    "entrypoints": {
-        "main": ["com.example.shinobicore.ShinobiCore"],
-        "client": ["com.example.shinobicore.client.ShinobiCoreClient"]
-    },
-    "mixins": ["shinobicore.mixins.json"],
-    "depends": {
-        "curios": "*",
-        "fabricloader": ">=0.15.0",
-        "minecraft": "~1.20.1",
-        "java": ">=17",
-        "fabric-api": "*",
-        "cardinal-components-base": "*",
-        "cardinal-components-entity": "*",
-        "bettercombat": "*",
-        "geckolib": "*",
-        "cloth-config": "*",
-        "player-animator": "*"
-    }
-,
-  "suggests": {
-    "trinkets": "*",
-    "artifacts": "*"
-  }
+    "schemaVersion":  1,
+    "id":  "shinobicore",
+    "version":  "3.0.0",
+    "name":  "Shinobi Core",
+    "description":  "Naruto-themed combat and jutsu mod for Minecraft",
+    "authors":  [
+                    "You"
+                ],
+    "contact":  {
+
+                },
+    "license":  "MIT",
+    "icon":  "assets/shinobicore/icon.png",
+    "environment":  "*",
+    "entrypoints":  {
+                        "main":  [
+                                     "com.example.shinobicore.ShinobiCore"
+                                 ],
+                        "client":  [
+                                       "com.example.shinobicore.client.ShinobiCoreClient"
+                                   ]
+                    },
+    "mixins":  [
+                   "shinobicore.mixins.json"
+               ],
+    "depends":  {
+                    "fabricloader":  "\u003e=0.15.0",
+                    "minecraft":  "~1.20.1",
+                    "java":  "\u003e=17",
+                    "fabric-api":  "*",
+                    "cardinal-components-base":  "*",
+                    "cardinal-components-entity":  "*",
+                    "bettercombat":  "*",
+                    "geckolib":  "*",
+                    "cloth-config":  "*",
+                    "player-animator":  "*"
+                },
+    "suggests":  {
+                     "artifacts":  "*"
+                 }
 }
