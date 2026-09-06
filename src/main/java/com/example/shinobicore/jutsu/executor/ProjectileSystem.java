@@ -106,6 +106,7 @@ public class ProjectileSystem {
         for (int i = 0; i < count; i++) {
             double angle = count <= 1 ? 0 : (-spread / 2.0 + spread * i / Math.max(1, count - 1.0)) * Math.PI / 180.0;
             Vec3d d = angle == 0 ? vel : rotY(vel, angle);
+            VoxelNet.sendSpawn(ctx, pos, d, gravity, lifetime);
             ACTIVE.add(new Projectile(ctx, pos, d, gravity, size, lifetime, pierce, bounce, homing, turnRate,
                     trajectory, amp, freq, spiralRate, invisible, silent));
         }
@@ -163,6 +164,7 @@ public class ProjectileSystem {
                     p.pos = prev;
                 } else {
                     HitProperties.apply(p.ctx, display);
+                    VoxelNet.sendImpact(p.ctx, display);
                     it.remove();
                     continue;
                 }
@@ -182,7 +184,7 @@ public class ProjectileSystem {
                 if (p.pierceLeft > 0) { p.pierceLeft--; }
                 else { p.removed = true; break; }
             }
-            if (p.removed) { it.remove(); continue; }
+            if (p.removed) { VoxelNet.sendImpact(p.ctx, display); it.remove(); continue; }
 
             PropertyDefinition sp = p.ctx.prop("splitting");
             if (sp != null && !p.splitDone && p.age >= p.maxLifetime / 3) {
@@ -206,6 +208,7 @@ public class ProjectileSystem {
             p.lifetime--;
             if (p.lifetime <= 0) {
                 if (!p.invisible) Fx.elementBurst(world, display, p.ctx.jutsu.getElement(), 12);
+                VoxelNet.sendImpact(p.ctx, display);
                 it.remove();
             }
         }
