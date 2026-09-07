@@ -40,8 +40,9 @@ public class ShinobiCoreClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         KeyBindings.register();
+        com.example.shinobicore.client.command.AnimDebugCommand.register();
 com.example.shinobicore.client.anim.json.JsonAnimLibrary.loadAll();
-        ClientInputHandler.register();
+                ClientInputHandler.register();
         ChakraPhysicsClient.register();
         ParkourManager.register();
         TaijutsuClientHandler.register();
@@ -55,7 +56,8 @@ com.example.shinobicore.client.anim.json.JsonAnimLibrary.loadAll();
         EntityRendererRegistry.register(ModEntities.NINJA_PROJECTILE, NinjaProjectileRenderer::new);
         EntityRendererRegistry.register(ModEntities.SHURIKEN, ShurikenRenderer::new);
         // PHASE_K3_KATANA_RENDERER_REGISTERED
-        BuiltinItemRendererRegistry.INSTANCE.register(com.example.shinobicore.item.ModItems.KATANA, com.example.shinobicore.client.render.KatanaBuiltinRenderer::render);
+        //// [SHINOBICORE] Builtin katana renderer DISABLED: katana now uses Blockbench JSON model (models/item/katana.json -> parent katana_default)
+// BuiltinItemRendererRegistry.INSTANCE.register(com.example.shinobicore.item.ModItems.KATANA, com.example.shinobicore.client.render.KatanaBuiltinRenderer::render);
         
         // === РЕГИСТРАЦИЯ ЗВУКОВ ===
         Registry.register(Registries.SOUND_EVENT, TaijutsuSounds.PUNCH_LIGHT.getId(), TaijutsuSounds.PUNCH_LIGHT);
@@ -179,6 +181,8 @@ com.example.shinobicore.client.anim.json.JsonAnimLibrary.loadAll();
         VoxelCastVisual.register();
         com.example.shinobicore.client.voxel.VoxelClientInit.register();
         com.example.shinobicore.client.combat.SwordTrailRenderer.register(); // PHASE_K1_TRAIL_REGISTERED
+com.example.shinobicore.client.render.WeaponVisualRegistry.register(); // SHINOBICORE: weapon visuals JSON
+com.example.shinobicore.client.render.KatanaAuraRenderer.register(); // SHINOBICORE: katana aura particles
         ChakraAuraRenderer.register(); // PHASE_E_AURA_REGISTERED
                 ClientPlayNetworking.registerGlobalReceiver(ModPackets.HIT_STOP_ID, (client, handler, buf, responseSender) -> {
             int entityId = buf.readInt();

@@ -28,12 +28,13 @@ public class JsonAnimLibrary {
 
     public static void loadAll() {
         ANIMS.clear();
-        String[] files = {"shinobi_player_animations.json", "shinobi_player_idle.animation.json"};
+        // Single file containing all animations including idle
+        String[] files = {"shinobi_player_animations.json"};
         for (String f : files) {
             try (InputStream is = JsonAnimLibrary.class.getResourceAsStream("/assets/shinobicore/animations/" + f)) {
                 if (is != null) {
                     parseFile(is);
-                    System.out.println("[ShinobiAnim] Loaded: " + f);
+                    System.out.println("[ShinobiAnim] Loaded: " + f + " (" + ANIMS.size() + " animations)");
                 } else {
                     System.out.println("[ShinobiAnim] NOT FOUND: " + f);
                 }
@@ -47,6 +48,7 @@ public class JsonAnimLibrary {
         JsonObject root = JsonParser.parseReader(new InputStreamReader(is, StandardCharsets.UTF_8)).getAsJsonObject();
         JsonObject anims = root.getAsJsonObject("animations");
         if (anims == null) return;
+
         for (Map.Entry<String, JsonElement> entry : anims.entrySet()) {
             String animName = entry.getKey().trim().replace("animation.shinobi_player.", "");
             JsonObject animObj = entry.getValue().getAsJsonObject();
@@ -54,14 +56,14 @@ public class JsonAnimLibrary {
             anim.name = animName;
             anim.length = animObj.has("animation_length") ? animObj.get("animation_length").getAsFloat() : 1.0f;
             anim.loop = animObj.has("loop") && animObj.get("loop").getAsBoolean();
-            
+
             JsonObject bones = animObj.getAsJsonObject("bones");
             if (bones != null) {
                 for (Map.Entry<String, JsonElement> boneEntry : bones.entrySet()) {
-                    String boneName = boneEntry.getKey().trim();
+                    String boneName = normalizeBoneName(boneEntry.getKey().trim());
                     JsonElement boneEl = boneEntry.getValue();
                     BoneAnim boneAnim = new BoneAnim();
-                    
+
                     if (boneEl.isJsonArray()) {
                         for (JsonElement kfEl : boneEl.getAsJsonArray()) {
                             JsonObject kf = kfEl.getAsJsonObject();
@@ -79,14 +81,16 @@ public class JsonAnimLibrary {
                             JsonElement rotEl = boneObj.get("rotation");
                             if (rotEl.isJsonObject()) {
                                 for (Map.Entry<String, JsonElement> timeEntry : rotEl.getAsJsonObject().entrySet()) {
-                                    Keyframe k = new Keyframe();
-                                    k.time = Float.parseFloat(timeEntry.getKey().trim());
-                                    JsonObject kfObj = timeEntry.getValue().getAsJsonObject();
-                                    JsonArray vec = kfObj.getAsJsonArray("vector");
-                                    k.x = vec.get(0).getAsFloat();
-                                    k.y = vec.get(1).getAsFloat();
-                                    k.z = vec.get(2).getAsFloat();
-                                    boneAnim.rotation.add(k);
+                                    try {
+                                        Keyframe k = new Keyframe();
+                                        k.time = Float.parseFloat(timeEntry.getKey().trim());
+                                        JsonObject kfObj = timeEntry.getValue().getAsJsonObject();
+                                        JsonArray vec = kfObj.getAsJsonArray("vector");
+                                        k.x = vec.get(0).getAsFloat();
+                                        k.y = vec.get(1).getAsFloat();
+                                        k.z = vec.get(2).getAsFloat();
+                                        boneAnim.rotation.add(k);
+                                    } catch (Exception ignored) {}
                                 }
                             }
                         }
@@ -103,25 +107,30 @@ public class JsonAnimLibrary {
         return ANIMS.get(name);
     }
 
+    /**
+     * Apply animation to ALL 11 bones.
+     * Maps Blockbench bone names to ModelPart references.
+     */
     public static void applyAnim(JsonAnim anim, float timeSec, Map<String, ModelPart> parts) {
         if (anim == null) return;
+
         float t = timeSec;
         if (anim.loop) {
             t = t % anim.length;
         } else {
             t = MathHelper.clamp(t, 0, anim.length);
         }
-        
+
         for (Map.Entry<String, BoneAnim> entry : anim.bones.entrySet()) {
             ModelPart part = parts.get(entry.getKey());
-            if (part == null) continue;
-            
+            if (part == null) continue; // Skip unmapped bones safely
+
             BoneAnim bone = entry.getValue();
             if (bone.rotation.isEmpty()) continue;
-            
+
             Keyframe prev = bone.rotation.get(0);
             Keyframe next = bone.rotation.get(bone.rotation.size() - 1);
-            
+
             for (int i = 0; i < bone.rotation.size() - 1; i++) {
                 if (t >= bone.rotation.get(i).time && t <= bone.rotation.get(i+1).time) {
                     prev = bone.rotation.get(i);
@@ -129,19 +138,36 @@ public class JsonAnimLibrary {
                     break;
                 }
             }
-            
+
             float dt = next.time - prev.time;
             float progress = (dt > 0) ? (t - prev.time) / dt : 0;
             progress = MathHelper.clamp(progress, 0, 1);
-            float s = progress * progress * (3 - 2 * progress); // smoothstep
-            
+
+            // Smoothstep interpolation
+            float s = progress * progress * (3 - 2 * progress);
             float rx = prev.x + (next.x - prev.x) * s;
             float ry = prev.y + (next.y - prev.y) * s;
             float rz = prev.z + (next.z - prev.z) * s;
-            
+
             part.pitch = (float) Math.toRadians(rx);
-            part.yaw = (float) Math.toRadians(ry);
-            part.roll = (float) Math.toRadians(rz);
+            part.yaw   = (float) Math.toRadians(ry);
+            part.roll  = (float) Math.toRadians(rz);
         }
     }
-}
+
+    /**
+     * Преобразует названия костей из Blockbench в ванильные имена ModelPart.
+     * Поддерживает форматы: RightArm, right_arm, biped_right_arm и т.д.
+     */
+    private static String normalizeBoneName(String bbName) {
+        String lower = bbName.toLowerCase().replace("_", "").replace("biped", "");
+        
+        if (lower.contains("rightarm")) return "rightArm";
+        if (lower.contains("leftarm")) return "leftArm";
+        if (lower.contains("rightleg")) return "rightLeg";
+        if (lower.contains("leftleg")) return "leftLeg";
+        if (lower.contains("head")) return "head";
+        if (lower.contains("body") || lower.contains("torso")) return "body";
+        
+        return bbName; // Возвращаем как есть, если это кастомная кость
+    }}

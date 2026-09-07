@@ -11,22 +11,19 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * Phase 3.5: All animation logic moved to PlayerAnimationOrchestrator.
- * This mixin is now a thin delegation layer only.
+ * Phase 3.5: All animation logic delegated to PlayerAnimationOrchestrator.
+ * This mixin works with both vanilla PlayerEntityModel and ShinobiPlayerModel.
  */
 @Mixin(BipedEntityModel.class)
 public abstract class PlayerRenderAnimationMixin {
-
     @Inject(method = "setAngles", at = @At("TAIL"))
     private void shinobicore_applyAnimations(LivingEntity entity, float limbAngle, float limbDistance,
-            float animationProgress, float headYaw, float headPitch,
-            CallbackInfo ci) {
+                                              float animationProgress, float headYaw, float headPitch,
+                                              CallbackInfo ci) {
         if (!(entity instanceof AbstractClientPlayerEntity player)) return;
+        if (HitStopManager.isFrozen(entity.getId())) return;
 
-        if (HitStopManager.isFrozen(entity.getId())) {
-            return;
-        }
-
+        // Cast is safe: ShinobiPlayerModel extends PlayerEntityModel extends BipedEntityModel
         PlayerAnimationOrchestrator.apply(
             player,
             (BipedEntityModel<?>) (Object) this,

@@ -8,7 +8,7 @@ import net.minecraft.util.Identifier;
 
 public class ModItems {
     public static final Item KATANA = Registry.register(Registries.ITEM,
-        new Identifier(ShinobiCore.MOD_ID, "katana"), new KatanaItem());
+        new Identifier(ShinobiCore.MOD_ID, "katana"), new KatanaItem("katana_default"));
     public static final Item SHURIKEN = Registry.register(Registries.ITEM,
         new Identifier(ShinobiCore.MOD_ID, "shuriken"),
         new ThrowingWeaponItem(new Item.Settings().maxCount(16), 3f, 3.0f, 8));

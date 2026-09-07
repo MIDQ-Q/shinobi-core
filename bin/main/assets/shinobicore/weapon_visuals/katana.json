@@ -1,0 +1,14 @@
+{
+  "item": "shinobicore:katana",
+  "model": "shinobicore:item/katana_default",
+  "glint": false,
+  "particles": {
+    "enabled": true,
+    "type": "dust",
+    "color": "#DDEEFF",
+    "rate": 1,
+    "intervalTicks": 12,
+    "spread": 0.15
+  },
+  "slashAnimations": ["slash_h1", "slash_h2", "slash_v", "slash_360"]
+}

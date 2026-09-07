@@ -23,6 +23,8 @@
     "MobEntityAccessor"
   ],
   "client": [
+        "VanillaAnimSuppressMixin",
+        "PlayerRendererMixin",
     "HotbarScaleMixin",
     "SakuraScreenOpenMixin"
   ],

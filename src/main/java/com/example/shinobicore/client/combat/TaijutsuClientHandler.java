@@ -25,6 +25,21 @@ public class TaijutsuClientHandler {
 
     public static void register() {
         ClientTickEvents.END_CLIENT_TICK.register(TaijutsuClientHandler::onClientTick);
+
+        ClientPlayNetworking.registerGlobalReceiver(ModPackets.COMBO_SYNC_ID, (client, handler, buf, responseSender) -> {
+            int serverStep = buf.readInt();
+            int nextStep = buf.readInt();
+            boolean success = buf.readBoolean();
+            
+            client.execute(() -> {
+                if (success) {
+                    comboStep = nextStep;
+                    lastAttackTime = System.currentTimeMillis();
+                } else {
+                    comboStep = serverStep;
+                }
+            });
+        });
     }
 
     private static void onClientTick(MinecraftClient client) {
@@ -84,10 +99,8 @@ public class TaijutsuClientHandler {
         TaijutsuSounds.playWhoosh();
         lastAttackTime = now;
         cooldownEndTime = now + (cooldown * 50L);
-
-        int oldStep = comboStep;
-        comboStep = (comboStep + 1) % TaijutsuCombo.MAX_STEPS;
-        ShinobiCore.LOGGER.debug("[ATTACK] Combo step updated: {} -> {}", oldStep, comboStep);
+        // НЕ инкрементируем comboStep здесь! Ждем пакет S2C_COMBO_SYNC от сервера.
+        // lastAttackTime обновится при получении подтверждения.
         
         return true;
     }

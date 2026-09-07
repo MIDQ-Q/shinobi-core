@@ -31,7 +31,6 @@
                     "fabric-api":  "*",
                     "cardinal-components-base":  "*",
                     "cardinal-components-entity":  "*",
-                    "bettercombat":  "*",
                     "geckolib":  "*",
                     "cloth-config":  "*",
                     "player-animator":  "*"

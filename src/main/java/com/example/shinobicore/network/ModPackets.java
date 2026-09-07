@@ -35,6 +35,8 @@ import com.example.shinobicore.network.PacketValidator;
 import com.example.shinobicore.network.PacketRateLimiter;
 public class ModPackets {
     public static final Identifier CHAKRA_SYNC_ID = new Identifier("shinobicore", "chakra_sync");
+    public static final Identifier COMBO_SYNC_ID = new Identifier("shinobicore", "combo_sync");
+
     public static final Identifier MEDITATE_ID = new Identifier("shinobicore", "meditate");
     public static final Identifier SELECT_SLOT_ID = new Identifier("shinobicore", "select_slot");
     public static final Identifier CAST_SLOT_ID = new Identifier("shinobicore", "cast_slot");

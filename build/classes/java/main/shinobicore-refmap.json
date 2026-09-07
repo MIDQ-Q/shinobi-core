@@ -45,6 +45,9 @@
     "com/example/shinobicore/mixin/PlayerRenderAnimationMixin": {
       "setAngles": "Lnet/minecraft/class_572;method_17087(Lnet/minecraft/class_1309;FFFFF)V"
     },
+    "com/example/shinobicore/mixin/PlayerRendererMixin": {
+      "<init>": "Lnet/minecraft/class_1007;<init>(Lnet/minecraft/class_5617$class_5618;Z)V"
+    },
     "com/example/shinobicore/mixin/RollPoseMixin": {
       "updatePose": "Lnet/minecraft/class_1657;method_7318()V"
     },
@@ -64,6 +67,9 @@
     },
     "com/example/shinobicore/mixin/SlideTravelMixin": {
       "travel": "Lnet/minecraft/class_1309;method_6091(Lnet/minecraft/class_243;)V"
+    },
+    "com/example/shinobicore/mixin/VanillaAnimSuppressMixin": {
+      "setAngles": "Lnet/minecraft/class_572;method_17087(Lnet/minecraft/class_1309;FFFFF)V"
     }
   },
   "data": {
@@ -113,6 +119,9 @@
       "com/example/shinobicore/mixin/PlayerRenderAnimationMixin": {
         "setAngles": "Lnet/minecraft/class_572;method_17087(Lnet/minecraft/class_1309;FFFFF)V"
       },
+      "com/example/shinobicore/mixin/PlayerRendererMixin": {
+        "<init>": "Lnet/minecraft/class_1007;<init>(Lnet/minecraft/class_5617$class_5618;Z)V"
+      },
       "com/example/shinobicore/mixin/RollPoseMixin": {
         "updatePose": "Lnet/minecraft/class_1657;method_7318()V"
       },
@@ -132,6 +141,9 @@
       },
       "com/example/shinobicore/mixin/SlideTravelMixin": {
         "travel": "Lnet/minecraft/class_1309;method_6091(Lnet/minecraft/class_243;)V"
+      },
+      "com/example/shinobicore/mixin/VanillaAnimSuppressMixin": {
+        "setAngles": "Lnet/minecraft/class_572;method_17087(Lnet/minecraft/class_1309;FFFFF)V"
       }
     }
   }

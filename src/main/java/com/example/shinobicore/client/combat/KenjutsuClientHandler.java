@@ -29,7 +29,14 @@ public class KenjutsuClientHandler {
         buf.writeInt(comboStep);
         buf.writeString(stance);
         ClientPlayNetworking.send(ModPackets.KATANA_ATTACK_ID, buf);
-        if (stance.equals("iai")) KenjutsuAnimations.playIaiSlash(player); else KenjutsuAnimations.playSlash(player, comboStep); // PHASE_A_IAI_HOOK
+        String slashAnim = com.example.shinobicore.client.render.WeaponVisualRegistry.getSlashAnim(player.getMainHandStack(), comboStep);
+        if (slashAnim != null) {
+            com.example.shinobicore.client.anim.json.PlayerJsonAnimState.play(slashAnim, true); // my Blockbench slash anims
+        } else if (stance.equals("iai")) {
+            KenjutsuAnimations.playIaiSlash(player);
+        } else {
+            KenjutsuAnimations.playSlash(player, comboStep);
+        }
         playSlashParticles(player, comboStep);
         SwordTrailRenderer.playSlashTrail(player, comboStep); // PHASE_K1_TRAIL_HOOKED
         TaijutsuSounds.playWhoosh();
