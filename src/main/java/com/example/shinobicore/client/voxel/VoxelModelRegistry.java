@@ -41,7 +41,7 @@ public final class VoxelModelRegistry implements SimpleSynchronousResourceReload
                     ? root.getAsJsonArray("elements")
                     : (root.has("voxels") && root.get("voxels").isJsonArray() ? root.getAsJsonArray("voxels") : null);
                 collect(arr, elements, bb, name);
-                MODELS.put(name, build(name, elements, textures));
+                MODELS.put(name, build(root, name, elements, textures));
                 ShinobiCore.LOGGER.info("[Voxel] Loaded '{}' ({} elements, {} textures) [{}]",
                     name, elements.size(), textures.size(), bb ? "bbmodel" : "json");
             } catch (Exception ex) {
@@ -125,7 +125,8 @@ public final class VoxelModelRegistry implements SimpleSynchronousResourceReload
                 r.has("angle") && r.get("angle").isJsonPrimitive() ? r.get("angle").getAsFloat() : 0f,
                 origin != null ? origin : new float[]{0.5f, 0.5f, 0.5f});
         }
-        return new VoxelModel.CubeElement(f, t, parseColor(o.get("color")), faces, rot);
+        float alpha = o.has("alpha") && o.get("alpha").isJsonPrimitive() ? o.get("alpha").getAsFloat() : 1f;
+        return new VoxelModel.CubeElement(f, t, parseColor(o.get("color")), faces, rot, alpha);
     }
 
     private static VoxelModel.MeshElement parseMesh(JsonObject o, boolean bb) {
@@ -209,7 +210,7 @@ public final class VoxelModelRegistry implements SimpleSynchronousResourceReload
         return new VoxelModel.MeshElement(verts.toArray(new float[0][]), faces.toArray(new VoxelModel.MeshFace[0]));
     }
 
-    private static VoxelModel build(String name, List<VoxelModel.Element> elements, List<VoxelModel.TextureRef> textures) {
+    private static VoxelModel build(JsonObject root, String name, List<VoxelModel.Element> elements, List<VoxelModel.TextureRef> textures) {
         float minX=99,minY=99,minZ=99,maxX=-99,maxY=-99,maxZ=-99;
         for (VoxelModel.Element e : elements) {
             if (e instanceof VoxelModel.CubeElement c) {
@@ -224,7 +225,27 @@ public final class VoxelModelRegistry implements SimpleSynchronousResourceReload
                 }
             }
         }
-        return new VoxelModel(name, elements, textures, (minX+maxX)/2f, (minY+maxY)/2f, (minZ+maxZ)/2f);
+        String particle = root.has("particle") && root.get("particle").isJsonPrimitive() ? root.get("particle").getAsString() : "";
+        String pcolor = root.has("particleColor") && root.get("particleColor").isJsonPrimitive() ? root.get("particleColor").getAsString() : "#FF6600";
+        int prate = root.has("particleRate") && root.get("particleRate").isJsonPrimitive() ? root.get("particleRate").getAsInt() : 1;
+        float prad = root.has("particleRadius") && root.get("particleRadius").isJsonPrimitive() ? root.get("particleRadius").getAsFloat() : 0.5f;
+        VoxelModel.AnimDef anim = parseAnim(root);
+        return new VoxelModel(name, elements, textures, (minX+maxX)/2f, (minY+maxY)/2f, (minZ+maxZ)/2f, particle, pcolor, prate, prad, anim);
+    }
+
+    private static VoxelModel.AnimDef parseAnim(JsonObject root) {
+        if (!root.has("anim") || !root.get("anim").isJsonObject()) return new VoxelModel.AnimDef(0,0,0,0,0,0,0);
+        JsonObject a = root.getAsJsonObject("anim");
+        float sx = 0, sy = 0, sz = 0;
+        if (a.has("spin") && a.get("spin").isJsonArray()) {
+            JsonArray s = a.getAsJsonArray("spin");
+            if (s.size() >= 3) { sx = s.get(0).getAsFloat(); sy = s.get(1).getAsFloat(); sz = s.get(2).getAsFloat(); }
+        }
+        float pulse = a.has("pulse") ? a.get("pulse").getAsFloat() : 0;
+        float pulseSpeed = a.has("pulseSpeed") ? a.get("pulseSpeed").getAsFloat() : 3f;
+        float bob = a.has("bob") ? a.get("bob").getAsFloat() : 0;
+        float bobSpeed = a.has("bobSpeed") ? a.get("bobSpeed").getAsFloat() : 2f;
+        return new VoxelModel.AnimDef(sx, sy, sz, pulse, pulseSpeed, bob, bobSpeed);
     }
 
     private static void div16(float[] a) { for (int i = 0; i < a.length; i++) a[i] /= 16f; }

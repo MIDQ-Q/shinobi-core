@@ -10,6 +10,11 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix4f;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.particle.DustParticleEffect;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleTypes;
+import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +23,7 @@ public final class ClientVoxelProjectiles {
     private static final List<VisProj> ACTIVE = new ArrayList<>();
     private static final Identifier WHITE = new Identifier("textures/misc/white.png");
     private static final int FULL_LIGHT = 0x00F000F0;
+    private static float CUR_ALPHA = 0.95f;
     private static final float BASE_YAW = -90f;
     private static final float BASE_PITCH = 0f;
     private static final float BASE_ROLL = 0f;
@@ -72,6 +78,7 @@ public final class ClientVoxelProjectiles {
                 p.vel = p.vel.add(0, -p.gravity, 0);
                 p.pos = p.pos.add(p.vel);
                 updateOrientation(p);
+                spawnAura(p);
                 p.life--;
                 if (p.life <= 0) ACTIVE.remove(i);
             }
@@ -85,6 +92,7 @@ public final class ClientVoxelProjectiles {
             VertexConsumerProvider consumers = ctx.consumers();
             Vec3d cam = ctx.camera().getPos();
             float tickDelta = ctx.tickDelta();
+            float tSec = System.nanoTime() / 1e9f;
             for (VisProj p : ACTIVE) {
                 VoxelModel m = VoxelModelRegistry.get(p.model);
                 if (m == null || m.elements().isEmpty()) continue;
@@ -100,6 +108,7 @@ public final class ClientVoxelProjectiles {
                 matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees((float) p.pitch + BASE_PITCH + p.off[1]));
                 matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(BASE_ROLL + p.off[2]));
                 matrices.scale(p.scale, p.scale, p.scale);
+                applyAnim(matrices, m, tSec);
                 matrices.translate(-m.cx(), -m.cy(), -m.cz());
                 for (VoxelModel.Element e : m.elements()) {
                     if (e instanceof VoxelModel.CubeElement c) drawCube(consumers, matrices, c, p.model, alpha);
@@ -116,6 +125,7 @@ public final class ClientVoxelProjectiles {
         registerTextures(m);
         matrices.push();
         matrices.scale(scale, scale, scale);
+        applyAnim(matrices, m, System.nanoTime() / 1e9f);
         matrices.translate(-m.cx(), -m.cy(), -m.cz());
         for (VoxelModel.Element e : m.elements()) {
             if (e instanceof VoxelModel.CubeElement c) drawCube(consumers, matrices, c, modelName, 1.0f);
@@ -145,10 +155,11 @@ public final class ClientVoxelProjectiles {
             matrices.multiply(axis.rotationDegrees(c.rotation().angle()));
             matrices.translate(-o[0], -o[1], -o[2]);
         }
+        CUR_ALPHA = c.alpha();
         float x1 = c.from()[0], y1 = c.from()[1], z1 = c.from()[2];
         float x2 = c.to()[0], y2 = c.to()[1], z2 = c.to()[2];
         Matrix4f m = matrices.peek().getPositionMatrix();
-        if (c.faces().isEmpty()) {
+        if (c.faces().isEmpty() || c.alpha() < 0.999f) {
             float r = ((c.color() >> 16) & 0xFF) / 255f;
             float g = ((c.color() >> 8) & 0xFF) / 255f;
             float b = (c.color() & 0xFF) / 255f;
@@ -167,6 +178,7 @@ public final class ClientVoxelProjectiles {
             face(consumers, m, c, modelName, "up", 0,1,0, new float[][]{{x1,y2,z1},{x2,y2,z1},{x2,y2,z2},{x1,y2,z2}}, alpha);
             face(consumers, m, c, modelName, "down", 0,-1,0, new float[][]{{x1,y1,z1},{x2,y1,z1},{x2,y1,z2},{x1,y1,z2}}, alpha);
         }
+        CUR_ALPHA = 0.95f;
         if (hasRot) matrices.pop();
     }
 
@@ -204,6 +216,63 @@ public final class ClientVoxelProjectiles {
         }
     }
 
+    private static void applyAnim(MatrixStack ms, VoxelModel m, float t) {
+        VoxelModel.AnimDef a = m.anim();
+        if (a == null) return;
+        if (a.spinX() != 0) ms.multiply(RotationAxis.POSITIVE_X.rotationDegrees(a.spinX() * t));
+        if (a.spinY() != 0) ms.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(a.spinY() * t));
+        if (a.spinZ() != 0) ms.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(a.spinZ() * t));
+        if (a.pulse() != 0) { float s = 1f + a.pulse() * (float) Math.sin(t * a.pulseSpeed()); ms.scale(s, s, s); }
+        if (a.bob() != 0) ms.translate(0, a.bob() * (float) Math.sin(t * a.bobSpeed()), 0);
+    }
+
+    private static void spawnAura(VisProj p) {
+        MinecraftClient mc = MinecraftClient.getInstance();
+        if (mc.world == null || p.model == null) return;
+        VoxelModel m = VoxelModelRegistry.get(p.model);
+        if (m == null) return;
+        String preset = m.particle();
+        if (preset == null || preset.isEmpty() || preset.equals("none")) return;
+        int rate = Math.max(1, m.particleRate());
+        float radius = m.particleRadius() > 0 ? m.particleRadius() : 0.5f;
+        Vector3f col = parseColorVec(m.particleColor());
+        for (int i = 0; i < rate; i++) {
+            double u = Math.random() * Math.PI * 2;
+            double v = Math.acos(2 * Math.random() - 1);
+            double r = radius * (0.7 + Math.random() * 0.5);
+            double x = p.pos.x + r * Math.sin(v) * Math.cos(u);
+            double y = p.pos.y + r * Math.cos(v);
+            double z = p.pos.z + r * Math.sin(v) * Math.sin(u);
+            ParticleEffect eff = resolveParticle(preset, col);
+            if (eff != null) mc.world.addParticle(eff, x, y, z, 0, 0.02, 0);
+        }
+    }
+
+    private static ParticleEffect resolveParticle(String preset, Vector3f col) {
+        switch (preset) {
+            case "flame": return ParticleTypes.FLAME;
+            case "smoke": return ParticleTypes.LARGE_SMOKE;
+            case "spark": return ParticleTypes.ELECTRIC_SPARK;
+            case "soul_fire": return ParticleTypes.SOUL_FIRE_FLAME;
+            case "enchant": return ParticleTypes.ENCHANT;
+            case "cloud": return ParticleTypes.CLOUD;
+            case "splash": return ParticleTypes.SPLASH;
+            case "crit": return ParticleTypes.CRIT;
+            case "end_rod": return ParticleTypes.END_ROD;
+            default: return new DustParticleEffect(col, 0.8f);
+        }
+    }
+
+    private static Vector3f parseColorVec(String hex) {
+        if (hex != null && hex.startsWith("#") && hex.length() >= 7) {
+            try {
+                int n = (int) Long.parseLong(hex.substring(1, 7), 16);
+                return new Vector3f(((n >> 16) & 255) / 255f, ((n >> 8) & 255) / 255f, (n & 255) / 255f);
+            } catch (Exception ignored) {}
+        }
+        return new Vector3f(1f, 0.4f, 0.1f);
+    }
+
     private static void emit(VertexConsumer vc, Matrix4f m, float[] p, float[] uv, float w, float h, float alpha) {
         vc.vertex(m, p[0], p[1], p[2]).color(1f, 1f, 1f, alpha).texture(uv[0]/w, uv[1]/h)
           .overlay(OverlayTexture.DEFAULT_UV).light(FULL_LIGHT).normal(0,1,0).next();
@@ -226,7 +295,7 @@ public final class ClientVoxelProjectiles {
 
     private static void sv(VertexConsumer vc, Matrix4f m, float x, float y, float z,
                            float r, float g, float b, float alpha, float nx, float ny, float nz) {
-        vc.vertex(m, x, y, z).color(r, g, b, alpha).texture(0, 0)
+        vc.vertex(m, x, y, z).color(r, g, b, CUR_ALPHA).texture(0, 0)
           .overlay(OverlayTexture.DEFAULT_UV).light(FULL_LIGHT).normal(nx, ny, nz).next();
     }
 }

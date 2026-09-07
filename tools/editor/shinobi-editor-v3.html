@@ -219,22 +219,22 @@ else{alert("Ошибка сканирования: "+err.message)}
 function pickFileLegacy(accept){return new Promise(function(resolve){var inp=document.createElement("input");inp.type="file";inp.accept=accept||"*/*";inp.style.position="fixed";inp.style.left="-9999px";document.body.appendChild(inp);function done(f){if(inp.parentNode)inp.parentNode.removeChild(inp);resolve(f)}inp.addEventListener("change",function(){done(inp.files&&inp.files[0]?inp.files[0]:null)});inp.addEventListener("cancel",function(){done(null)});inp.click();});}
 async function importBB(){try{const file=await pickFileLegacy(".bbmodel,.json");if(!file)return;const bb=JSON.parse(await file.text());const elements=[];const textures=[];const textureMap={};
 if(bb.textures&&Array.isArray(bb.textures)){for(let i=0;i<bb.textures.length;i++){const t=bb.textures[i];if(t.source&&t.source.startsWith("data:image")){textures.push({name:t.name||("tex_"+i),source:t.source,uuid:t.uuid||("t"+i),width:t.width||16,height:t.height||16});textureMap[t.uuid||i]=i;}}}
-function col(list){for(const el of(list||[])){
-if(el.type==="group"&&el.children){col(el.children);continue;}
+function col(list,fx){for(const el of(list||[])){
+if(el.type==="group"&&el.children){col(el.children,fx||/^fx[_\-]/i.test(el.name||""));continue;}
 if(el.type==="mesh"){const verts=el.vertices||{};const faces=el.faces||{};const keys=Object.keys(verts);const idx={};const vlist=[];for(let i=0;i<keys.length;i++){idx[keys[i]]=i;const v=verts[keys[i]];vlist.push([v[0]/16,v[1]/16,v[2]/16]);}
 const mf=[];for(const fk of Object.keys(faces)){const f=faces[fk];const vk=Array.isArray(f.vertices)?f.vertices.slice():Object.keys(f.vertices||{});const uvMap=(!Array.isArray(f.vertices)&&f.vertices)?f.vertices:(f.uv||{});const uvFor=function(k){var u=uvMap[k];return Array.isArray(u)?u:[0,0];};const ti=f.texture!==undefined?(textureMap[f.texture]!==undefined?textureMap[f.texture]:f.texture):0;if(vk.length>=3&&idx[vk[0]]!==undefined&&idx[vk[1]]!==undefined&&idx[vk[2]]!==undefined){mf.push({indices:[idx[vk[0]],idx[vk[1]],idx[vk[2]]],uv:[uvFor(vk[0]),uvFor(vk[1]),uvFor(vk[2])],texture:ti});if(vk.length>=4&&idx[vk[3]]!==undefined){mf.push({indices:[idx[vk[0]],idx[vk[2]],idx[vk[3]]],uv:[uvFor(vk[0]),uvFor(vk[2]),uvFor(vk[3])],texture:ti});}}}
 elements.push({type:"mesh",vertices:vlist,faces:mf});}
-else if(el.from&&el.to){const cube={type:"cube",from:[el.from[0]/16,el.from[1]/16,el.from[2]/16],to:[el.to[0]/16,el.to[1]/16,el.to[2]/16],color:el.color||"#ff6600",faces:{}};
+else if(el.from&&el.to){const cube={type:"cube",from:[el.from[0]/16,el.from[1]/16,el.from[2]/16],to:[el.to[0]/16,el.to[1]/16,el.to[2]/16],color:el.color||"#ff6600",faces:{},name:el.name||"",alpha:(fx||/^(fx|outline|shell)[_\-]/i.test(el.name||""))?0.35:1};
 if(el.rotation){cube.rotation={axis:el.rotation.axis||"y",angle:el.rotation.angle||0,origin:el.rotation.origin?[el.rotation.origin[0]/16,el.rotation.origin[1]/16,el.rotation.origin[2]/16]:[0.5,0.5,0.5]};}
 if(el.faces){for(const fn of["north","south","east","west","up","down"]){const f=el.faces[fn];if(f&&f.uv){cube.faces[fn]={uv:f.uv,texture:f.texture!==undefined?textureMap[f.texture]:0};}}}
 elements.push(cube);}}}
-col(bb.elements||[]);
+col(bb.elements||[],false);
 if(elements.length===0){alert("В файле не найдено элементов.");return}
 const name=String(file.name||"model").replace(/\.bbmodel$/i,"").toLowerCase().replace(/\s+/g,"_");
 if(assetsDir){try{
 const vd=await assetsDir.getDirectoryHandle("voxels",{create:true});
 const out=await vd.getFileHandle(name+".json",{create:true});const w=await out.createWritable();
-await w.write(JSON.stringify({name:name,version:"2.0",elements:elements,textures:textures,imported_from:file.name,imported_at:new Date().toISOString()},null,2));
+await w.write(JSON.stringify({name:name,version:"2.1",elements:elements,textures:textures,particle:(state.visual&&state.visual.particle)||"",particleColor:(state.visual&&state.visual.color)||"#FF6600",particleRate:2,particleRadius:0.6,imported_from:file.name,imported_at:new Date().toISOString()},null,2));
 await w.close();
 const td=await assetsDir.getDirectoryHandle("textures",{create:true});const vtd=await td.getDirectoryHandle("voxel",{create:true});
 for(let i=0;i<textures.length;i++){const t=textures[i];const b64=t.source.split(",")[1];if(b64){const bin=atob(b64);const bytes=new Uint8Array(bin.length);for(let j=0;j<bin.length;j++)bytes[j]=bin.charCodeAt(j);const tf=await vtd.getFileHandle(name+"_"+i+".png",{create:true});const tw=await tf.createWritable();await tw.write(bytes);await tw.close();}}

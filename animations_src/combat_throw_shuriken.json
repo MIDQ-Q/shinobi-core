@@ -1,0 +1,95 @@
+{
+    "format_version":  "1.10.0",
+    "animations":  {
+                       "animation.shinobicore.combat_throw_shuriken":  {
+                                                                           "loop":  false,
+                                                                           "animation_length":  0.4,
+                                                                           "bones":  {
+                                                                                         "rightArm":  {
+                                                                                                          "rotation":  [
+                                                                                                                           {
+                                                                                                                               "time":  0,
+                                                                                                                               "value":  [
+                                                                                                                                             -140,
+                                                                                                                                             0,
+                                                                                                                                             -30
+                                                                                                                                         ]
+                                                                                                                           },
+                                                                                                                           {
+                                                                                                                               "time":  0.15,
+                                                                                                                               "value":  [
+                                                                                                                                             -60,
+                                                                                                                                             0,
+                                                                                                                                             0
+                                                                                                                                         ]
+                                                                                                                           },
+                                                                                                                           {
+                                                                                                                               "time":  0.25,
+                                                                                                                               "value":  [
+                                                                                                                                             30,
+                                                                                                                                             0,
+                                                                                                                                             10
+                                                                                                                                         ]
+                                                                                                                           },
+                                                                                                                           {
+                                                                                                                               "time":  0.4,
+                                                                                                                               "value":  [
+                                                                                                                                             0,
+                                                                                                                                             0,
+                                                                                                                                             0
+                                                                                                                                         ]
+                                                                                                                           }
+                                                                                                                       ]
+                                                                                                      },
+                                                                                         "body":  {
+                                                                                                      "rotation":  [
+                                                                                                                       {
+                                                                                                                           "time":  0,
+                                                                                                                           "value":  [
+                                                                                                                                         0,
+                                                                                                                                         -20,
+                                                                                                                                         0
+                                                                                                                                     ]
+                                                                                                                       },
+                                                                                                                       {
+                                                                                                                           "time":  0.2,
+                                                                                                                           "value":  [
+                                                                                                                                         0,
+                                                                                                                                         25,
+                                                                                                                                         0
+                                                                                                                                     ]
+                                                                                                                       },
+                                                                                                                       {
+                                                                                                                           "time":  0.4,
+                                                                                                                           "value":  [
+                                                                                                                                         0,
+                                                                                                                                         0,
+                                                                                                                                         0
+                                                                                                                                     ]
+                                                                                                                       }
+                                                                                                                   ]
+                                                                                                  },
+                                                                                         "head":  {
+                                                                                                      "rotation":  [
+                                                                                                                       {
+                                                                                                                           "time":  0,
+                                                                                                                           "value":  [
+                                                                                                                                         0,
+                                                                                                                                         -10,
+                                                                                                                                         0
+                                                                                                                                     ]
+                                                                                                                       },
+                                                                                                                       {
+                                                                                                                           "time":  0.4,
+                                                                                                                           "value":  [
+                                                                                                                                         0,
+                                                                                                                                         0,
+                                                                                                                                         0
+                                                                                                                                     ]
+                                                                                                                       }
+                                                                                                                   ]
+                                                                                                  }
+                                                                                     }
+                                                                       }
+                   }
+}

@@ -54,7 +54,7 @@ function buildFaces(model) {
       var col = hexColor(e.color); var fu = e.faces || {};
       function quad(pts, fn) {
         var f = fu[fn];
-        faces.push({ pts: pts, color: col, tex: f ? (f.texture || 0) : 0,
+        faces.push({ pts: pts, color: col, alpha: e.alpha || 1, tex: f ? (f.texture || 0) : 0,
                      uvs: (f && f.uv) ? [[f.uv[0],f.uv[1]],[f.uv[2],f.uv[1]],[f.uv[2],f.uv[3]],[f.uv[0],f.uv[3]]] : null });
       }
       quad([[x2,y1,z1],[x1,y1,z1],[x1,y2,z1],[x2,y2,z1]], "north");
@@ -167,7 +167,7 @@ function draw() {
     var shade = 0.45 + 0.55 * Math.abs(dot(n, L));
     ctx.shadowBlur = VP.glow ? 16 : 0; ctx.shadowColor = "#ff8c40";
     var okUv = it.f.uvs && it.f.uvs.length === it.f.pts.length && it.f.uvs.every(function (u) { return !!u; });
-    var img = okUv ? VP.imgs[it.f.tex] : null;
+    var img = (okUv && (it.f.alpha == null || it.f.alpha >= 0.999)) ? VP.imgs[it.f.tex] : null;
     if (img) {
       var tris = it.p2.length === 4 ? [[0,1,2],[0,2,3]] : [[0,1,2]];
       tris.forEach(function (tr) {
@@ -179,7 +179,7 @@ function draw() {
       });
     } else {
       var col = rgbArr(it.f.color || 0xff6600);
-      ctx.fillStyle = "rgb(" + Math.round(col[0]*shade) + "," + Math.round(col[1]*shade) + "," + Math.round(col[2]*shade) + ")";
+      ctx.fillStyle = "rgba(" + Math.round(col[0]*shade) + "," + Math.round(col[1]*shade) + "," + Math.round(col[2]*shade) + "," + (it.f.alpha != null ? it.f.alpha : 1) + ")";
       ctx.beginPath(); ctx.moveTo(it.p2[0][0], it.p2[0][1]);
       for (var k = 1; k < it.p2.length; k++) ctx.lineTo(it.p2[k][0], it.p2[k][1]);
       ctx.closePath(); ctx.fill();

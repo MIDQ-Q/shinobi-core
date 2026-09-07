@@ -40,6 +40,7 @@ public class ShinobiCoreClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         KeyBindings.register();
+com.example.shinobicore.client.anim.json.JsonAnimLibrary.loadAll();
         ClientInputHandler.register();
         ChakraPhysicsClient.register();
         ParkourManager.register();

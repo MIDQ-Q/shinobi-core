@@ -1,0 +1,292 @@
+{
+  "format_version": "1.12.0",
+  "minecraft:geometry": [
+    {
+      "description": {
+        "identifier": "geometry.shinobi_player",
+        "texture_width": 64,
+        "texture_height": 64
+      },
+      "bones": [
+        {
+          "name": "root",
+          "pivot": [
+            8,
+            12,
+            8
+          ]
+        },
+        {
+          "name": "body",
+          "parent": "root",
+          "pivot": [
+            8,
+            24,
+            8
+          ],
+          "cubes": [
+            {
+              "origin": [
+                4,
+                12,
+                4
+              ],
+              "size": [
+                8,
+                12,
+                4
+              ],
+              "uv": [
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "head",
+          "parent": "body",
+          "pivot": [
+            8,
+            24,
+            8
+          ],
+          "cubes": [
+            {
+              "origin": [
+                4,
+                24,
+                4
+              ],
+              "size": [
+                8,
+                8,
+                8
+              ],
+              "uv": [
+                24,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rightArm",
+          "parent": "body",
+          "pivot": [
+            2,
+            23,
+            8
+          ],
+          "cubes": [
+            {
+              "origin": [
+                0,
+                17,
+                4
+              ],
+              "size": [
+                4,
+                7,
+                4
+              ],
+              "uv": [
+                40,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rightForeArm",
+          "parent": "rightArm",
+          "pivot": [
+            2,
+            17,
+            8
+          ],
+          "cubes": [
+            {
+              "origin": [
+                0,
+                12,
+                4
+              ],
+              "size": [
+                4,
+                5,
+                4
+              ],
+              "uv": [
+                48,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "leftArm",
+          "parent": "body",
+          "pivot": [
+            14,
+            23,
+            8
+          ],
+          "cubes": [
+            {
+              "origin": [
+                12,
+                17,
+                4
+              ],
+              "size": [
+                4,
+                7,
+                4
+              ],
+              "uv": [
+                0,
+                16
+              ]
+            }
+          ]
+        },
+        {
+          "name": "leftForeArm",
+          "parent": "leftArm",
+          "pivot": [
+            14,
+            17,
+            8
+          ],
+          "cubes": [
+            {
+              "origin": [
+                12,
+                12,
+                4
+              ],
+              "size": [
+                4,
+                5,
+                4
+              ],
+              "uv": [
+                8,
+                16
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rightLeg",
+          "parent": "root",
+          "pivot": [
+            6,
+            12,
+            8
+          ],
+          "cubes": [
+            {
+              "origin": [
+                4,
+                6,
+                4
+              ],
+              "size": [
+                4,
+                6,
+                4
+              ],
+              "uv": [
+                16,
+                16
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rightShin",
+          "parent": "rightLeg",
+          "pivot": [
+            6,
+            6,
+            8
+          ],
+          "cubes": [
+            {
+              "origin": [
+                4,
+                0,
+                4
+              ],
+              "size": [
+                4,
+                6,
+                4
+              ],
+              "uv": [
+                24,
+                16
+              ]
+            }
+          ]
+        },
+        {
+          "name": "leftLeg",
+          "parent": "root",
+          "pivot": [
+            10,
+            12,
+            8
+          ],
+          "cubes": [
+            {
+              "origin": [
+                8,
+                6,
+                4
+              ],
+              "size": [
+                4,
+                6,
+                4
+              ],
+              "uv": [
+                32,
+                16
+              ]
+            }
+          ]
+        },
+        {
+          "name": "leftShin",
+          "parent": "leftLeg",
+          "pivot": [
+            10,
+            6,
+            8
+          ],
+          "cubes": [
+            {
+              "origin": [
+                8,
+                0,
+                4
+              ],
+              "size": [
+                4,
+                6,
+                4
+              ],
+              "uv": [
+                40,
+                16
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
