@@ -1,7 +1,7 @@
 package com.example.shinobicore.client.physics;
 
 import com.example.shinobicore.client.ChakraHudRenderer;
-import com.example.shinobicore.client.ClientNinjaState;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.fluid.FluidState;

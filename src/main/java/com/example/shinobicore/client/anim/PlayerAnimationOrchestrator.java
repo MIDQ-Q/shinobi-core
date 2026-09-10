@@ -14,6 +14,8 @@ import com.example.shinobicore.client.combat.ThrowAnimations;
 import com.example.shinobicore.client.combat.ChakraBurstAnimations;
 import com.example.shinobicore.client.LandingAnimations;
 import com.example.shinobicore.client.parkour.ParkourManager;
+import com.example.shinobicore.client.anim.json.PlayerJsonAnimOverride;
+import com.example.shinobicore.client.anim.json.PlayerJsonAnimState;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
@@ -26,6 +28,15 @@ public final class PlayerAnimationOrchestrator {
             float limbAngle, float limbDistance, float animationProgress) {
         if (HitStopManager.isFrozen(player.getId())) return;
 
+        // === MASTER PATCH: JSON animation layer ===
+        PlayerJsonAnimOverride.apply(player, model, limbAngle, limbDistance);
+        
+        // Hurt animations override
+        if (!PlayerJsonAnimState.isPlayingOneShot()
+                && player.hurtTime == player.maxHurtTime && player.maxHurtTime > 0) {
+            PlayerJsonAnimState.play(player.getHealth() / player.getMaxHealth() < 0.35f ? "hurt_heavy" : "hurt_light", true);
+        }
+
         ModelPart rightArm = model.rightArm;
         ModelPart leftArm = model.leftArm;
         ModelPart rightLeg = model.rightLeg;
@@ -37,36 +48,20 @@ public final class PlayerAnimationOrchestrator {
         boolean chakraMode = state.isChakraMode() && ChakraHudRenderer.currentChakra > 0;
         boolean sprinting = player.isSprinting();
         boolean sliding = ParkourManager.isSliding();
-        boolean rolling = ParkourManager.isRolling();
-
-        // Water run
+        
+        // Water run (Hardcoded override)
         if (chakraMode && ChakraPhysicsClient.standingOnWater && sprinting) {
             applyWaterRun(limbAngle, limbDistance, rightArm, leftArm, body, head, rightLeg, leftLeg);
             return;
         }
 
-        // Wall run
+        // Wall run (Hardcoded override)
         if (ParkourManager.isWallRunning()) {
             applyWallRun(limbAngle, limbDistance, rightArm, leftArm, body, head, rightLeg, leftLeg);
             return;
         }
 
-        // Slide
-        if (sliding) {
-            applySlidePose(rightArm, leftArm, body, head, rightLeg, leftLeg);
-            return;
-        }
-
-        // Naruto run
-        if (chakraMode && sprinting && !sliding && !rolling) {
-            applyNarutoRun(limbAngle, limbDistance, rightArm, leftArm, body, head, rightLeg, leftLeg);
-            return;
-        }
-
-        // Normal walk/run
-        if (!sliding && !rolling) {
-            applyEnhancedWalkRun(limbAngle, limbDistance, sprinting, rightArm, leftArm, body, rightLeg, leftLeg);
-        }
+                // We skip hardcoded poses for them to prevent fighting with JSON keyframes.
 
         // Taijutsu attack animation
         TaijutsuAnimations.AttackAnimationState attackState = TaijutsuAnimations.getAnimationState(player);
@@ -104,9 +99,13 @@ public final class PlayerAnimationOrchestrator {
             applyKickAnimation(player, rightArm, leftArm, body, rightLeg, leftLeg);
         }
 
-        // Idle poses
-        if (!TaijutsuAnimations.isAttacking(player) && !TaijutsuAnimations.isKicking(player)) {
-            IdlePoseSystem.apply(player, model, limbDistance, animationProgress);
+        // Idle poses (Only for meditation or wall stick, others handled by JSON idle/combat_idle)
+        boolean isJsonOneShot = PlayerJsonAnimState.isPlayingOneShot();
+        if (!TaijutsuAnimations.isAttacking(player) && !TaijutsuAnimations.isKicking(player) 
+            && !KenjutsuAnimations.isAttacking(player) && !isJsonOneShot) {
+            if (ClientNinjaStateHolder.get().isMeditating() || ChakraPhysicsClient.stickingToWall) { 
+                IdlePoseSystem.apply(player, model, limbDistance, animationProgress); 
+            }
         }
     }
 
@@ -132,52 +131,6 @@ public final class PlayerAnimationOrchestrator {
         head.yaw += 0.2f; head.pitch -= 0.1f;
         float legSwing = MathHelper.cos(limbAngle) * limbDistance * 1.2f;
         rLeg.pitch = legSwing; lLeg.pitch = -legSwing;
-    }
-
-    private static void applySlidePose(ModelPart rArm, ModelPart lArm, ModelPart body,
-            ModelPart head, ModelPart rLeg, ModelPart lLeg) {
-        rLeg.pitch = -1.0f; rLeg.yaw = 0.1f;
-        lLeg.pitch = -0.7f; lLeg.yaw = -0.1f;
-        body.pitch = -0.4f; body.roll = 0.05f;
-        rArm.pitch = 0.6f; rArm.yaw = -0.3f;
-        lArm.pitch = 0.6f; lArm.yaw = 0.3f;
-        head.pitch -= 0.2f;
-    }
-
-    private static void applyNarutoRun(float limbAngle, float limbDistance,
-            ModelPart rArm, ModelPart lArm, ModelPart body, ModelPart head,
-            ModelPart rLeg, ModelPart lLeg) {
-        float bobbing = MathHelper.sin(limbAngle * 2.0f) * 0.08f * limbDistance;
-        float armPitchBack = 1.35f + bobbing;
-        rArm.pitch = armPitchBack; lArm.pitch = armPitchBack;
-        rArm.yaw = -0.35f; lArm.yaw = 0.35f;
-        rArm.roll = 0.15f; lArm.roll = -0.15f;
-        body.pitch = 0.55f; body.yaw = 0f; body.roll = 0f;
-        head.pitch -= 0.15f;
-        float legSwing = MathHelper.cos(limbAngle) * limbDistance * 1.4f;
-        rLeg.pitch = legSwing; lLeg.pitch = -legSwing;
-    }
-
-    private static void applyEnhancedWalkRun(float limbAngle, float limbDistance, boolean sprinting,
-            ModelPart rArm, ModelPart lArm, ModelPart body, ModelPart rLeg, ModelPart lLeg) {
-        float speedMultiplier = sprinting ? 1.5f : 1.0f;
-        float armSwingAmplitude = limbDistance * 0.8f * speedMultiplier;
-        float legSwingAmplitude = limbDistance * 1.2f * speedMultiplier;
-        if (sprinting) {
-            rArm.pitch = MathHelper.cos(limbAngle + (float) Math.PI) * armSwingAmplitude * 1.3f;
-            lArm.pitch = MathHelper.cos(limbAngle) * armSwingAmplitude * 1.3f;
-            body.pitch = 0.15f;
-            rLeg.pitch = MathHelper.cos(limbAngle) * legSwingAmplitude * 1.2f;
-            lLeg.pitch = MathHelper.cos(limbAngle + (float) Math.PI) * legSwingAmplitude * 1.2f;
-            rArm.yaw = 0.1f; lArm.yaw = -0.1f;
-        } else {
-            rArm.pitch = MathHelper.cos(limbAngle + (float) Math.PI) * armSwingAmplitude * 0.8f;
-            lArm.pitch = MathHelper.cos(limbAngle) * armSwingAmplitude * 0.8f;
-            body.pitch = 0.05f;
-            rLeg.pitch = MathHelper.cos(limbAngle) * legSwingAmplitude;
-            lLeg.pitch = MathHelper.cos(limbAngle + (float) Math.PI) * legSwingAmplitude;
-            body.yaw = MathHelper.sin(limbAngle) * 0.05f;
-        }
     }
 
     private static void applyTaijutsuAttack(TaijutsuAnimations.AttackAnimationState attackState,

@@ -1157,3 +1157,111 @@
 [2026-09-07 17:23:49] [HIT] Caster: Player99 | Target: Zombie | Effect: DAMAGE | Damage: 8,0
 [2026-09-07 17:23:49] [EFFECT] Jutsu: shinobicore:test | Type: debuff | Subtype: burn | 
 [2026-09-07 17:23:49] [HIT] Caster: Player99 | Target: Zombie | Effect: DAMAGE | Damage: 8,0
+[2026-09-07 23:14:26] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:14:26] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:14:26] [PROGRESSION] Player: Player269 | Jutsu: shinobicore:test | Level: 1 | Uses: 1
+[2026-09-07 23:14:28] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:14:28] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:14:28] [PROGRESSION] Player: Player269 | Jutsu: shinobicore:test | Level: 1 | Uses: 2
+[2026-09-07 23:14:30] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:14:30] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:14:30] [PROGRESSION] Player: Player269 | Jutsu: shinobicore:test | Level: 1 | Uses: 3
+[2026-09-07 23:14:37] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:14:37] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:14:37] [PROGRESSION] Player: Player269 | Jutsu: shinobicore:test | Level: 1 | Uses: 4
+[2026-09-07 23:14:40] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:14:40] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:14:40] [PROGRESSION] Player: Player269 | Jutsu: shinobicore:test | Level: 1 | Uses: 5
+[2026-09-07 23:14:44] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:14:44] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:14:44] [PROGRESSION] Player: Player269 | Jutsu: shinobicore:test | Level: 1 | Uses: 6
+[2026-09-07 23:20:58] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:20:58] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:20:58] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:test | Level: 1 | Uses: 1
+[2026-09-07 23:21:01] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:21:01] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:21:01] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:test | Level: 1 | Uses: 2
+[2026-09-07 23:25:46] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:25:46] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:25:46] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:test | Level: 1 | Uses: 3
+[2026-09-07 23:25:54] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:25:54] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:25:54] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:test | Level: 1 | Uses: 4
+[2026-09-07 23:27:19] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:27:19] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:27:19] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:test | Level: 1 | Uses: 5
+[2026-09-07 23:27:20] [EFFECT] Jutsu: shinobicore:test | Type: damage | Subtype: instant | 
+[2026-09-07 23:27:20] [HIT] Caster: Player536 | Target: Pillager | Effect: DAMAGE | Damage: 8,0
+[2026-09-07 23:27:20] [EFFECT] Jutsu: shinobicore:test | Type: debuff | Subtype: burn | 
+[2026-09-07 23:27:20] [HIT] Caster: Player536 | Target: Pillager | Effect: DAMAGE | Damage: 8,0
+[2026-09-07 23:27:38] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:27:38] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:27:38] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:test | Level: 1 | Uses: 6
+[2026-09-07 23:27:39] [HIT] Caster: Player536 | Target: Spider | Effect: DAMAGE | Damage: 8,0
+[2026-09-07 23:27:40] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:27:40] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:27:40] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:test | Level: 1 | Uses: 7
+[2026-09-07 23:27:41] [HIT] Caster: Player536 | Target: Spider | Effect: DAMAGE | Damage: 8,0
+[2026-09-07 23:27:41] [HIT] Caster: Player536 | Target: Spider | Effect: DAMAGE | Damage: 8,0
+[2026-09-07 23:27:41] [HIT] Caster: Player536 | Target: Skeleton | Effect: DAMAGE | Damage: 8,0
+[2026-09-07 23:27:43] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:27:43] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:27:43] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:test | Level: 1 | Uses: 8
+[2026-09-07 23:27:44] [EFFECT] Jutsu: shinobicore:test | Type: damage | Subtype: instant | 
+[2026-09-07 23:27:44] [HIT] Caster: Player536 | Target: Spider | Effect: DAMAGE | Damage: 8,0
+[2026-09-07 23:27:44] [EFFECT] Jutsu: shinobicore:test | Type: debuff | Subtype: burn | 
+[2026-09-07 23:27:46] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:27:46] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:27:46] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:test | Level: 1 | Uses: 9
+[2026-09-07 23:27:47] [EFFECT] Jutsu: shinobicore:test | Type: damage | Subtype: instant | 
+[2026-09-07 23:27:47] [HIT] Caster: Player536 | Target: Skeleton | Effect: DAMAGE | Damage: 8,0
+[2026-09-07 23:27:47] [EFFECT] Jutsu: shinobicore:test | Type: debuff | Subtype: burn | 
+[2026-09-07 23:27:47] [HIT] Caster: Player536 | Target: Skeleton | Effect: DAMAGE | Damage: 8,0
+[2026-09-07 23:28:26] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:28:26] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:28:26] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:test | Level: 1 | Uses: 10
+[2026-09-07 23:28:27] [EFFECT] Jutsu: shinobicore:test | Type: damage | Subtype: instant | 
+[2026-09-07 23:28:27] [HIT] Caster: Player536 | Target: Skeleton | Effect: DAMAGE | Damage: 8,0
+[2026-09-07 23:28:27] [EFFECT] Jutsu: shinobicore:test | Type: debuff | Subtype: burn | 
+[2026-09-07 23:28:27] [HIT] Caster: Player536 | Target: Skeleton | Effect: DAMAGE | Damage: 8,0
+[2026-09-07 23:28:30] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:28:30] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:28:30] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:test | Level: 1 | Uses: 11
+[2026-09-07 23:28:30] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: INTERRUPTED by damage
+[2026-09-07 23:28:37] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:28:37] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:28:37] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:test | Level: 1 | Uses: 12
+[2026-09-07 23:28:40] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:28:40] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:28:40] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:test | Level: 1 | Uses: 13
+[2026-09-07 23:28:40] [EFFECT] Jutsu: shinobicore:test | Type: damage | Subtype: instant | 
+[2026-09-07 23:28:40] [HIT] Caster: Player536 | Target: Spider | Effect: DAMAGE | Damage: 8,0
+[2026-09-07 23:28:40] [EFFECT] Jutsu: shinobicore:test | Type: debuff | Subtype: burn | 
+[2026-09-07 23:28:40] [HIT] Caster: Player536 | Target: Spider | Effect: DAMAGE | Damage: 8,0
+[2026-09-07 23:28:40] [HIT] Caster: Player536 | Target: Zombie | Effect: DAMAGE | Damage: 8,0
+[2026-09-07 23:39:47] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:39:47] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:39:47] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:test | Level: 1 | Uses: 14
+[2026-09-07 23:39:48] [EFFECT] Jutsu: shinobicore:test | Type: damage | Subtype: instant | 
+[2026-09-07 23:39:48] [HIT] Caster: Player536 | Target: Cow | Effect: DAMAGE | Damage: 8,0
+[2026-09-07 23:39:48] [EFFECT] Jutsu: shinobicore:test | Type: debuff | Subtype: burn | 
+[2026-09-07 23:39:48] [HIT] Caster: Player536 | Target: Cow | Effect: DAMAGE | Damage: 8,0
+[2026-09-07 23:39:48] [HIT] Caster: Player536 | Target: Cow | Effect: DAMAGE | Damage: 8,0
+[2026-09-07 23:39:52] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:39:52] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:39:52] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:test | Level: 1 | Uses: 15
+[2026-09-07 23:39:54] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:39:54] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:39:54] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:test | Level: 1 | Uses: 16
+[2026-09-07 23:40:01] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:40:01] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:40:01] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:test | Level: 1 | Uses: 17
+[2026-09-07 23:40:03] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:40:03] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:40:03] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:test | Level: 1 | Uses: 18
+[2026-09-07 23:40:08] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:40:08] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:40:08] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:test | Level: 1 | Uses: 19
+[2026-09-07 23:40:12] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
+[2026-09-07 23:40:12] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
+[2026-09-07 23:40:12] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:test | Level: 1 | Uses: 20

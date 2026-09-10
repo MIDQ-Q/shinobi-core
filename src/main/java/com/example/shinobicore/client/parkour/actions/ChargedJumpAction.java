@@ -2,7 +2,6 @@ package com.example.shinobicore.client.parkour.actions;
 
 import com.example.shinobicore.client.ChakraHudRenderer;
 import com.example.shinobicore.client.ChakraPhysicsClient;
-import com.example.shinobicore.client.ClientNinjaState;
 import com.example.shinobicore.client.parkour.ParkourManager;
 import com.example.shinobicore.client.parkour.util.ParkourSounds;
 import com.example.shinobicore.stat.NinjaFormula;

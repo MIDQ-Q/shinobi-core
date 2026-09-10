@@ -1,5 +1,7 @@
 package com.example.shinobicore.jutsu.executor;
 
+import com.example.shinobicore.ShinobiCore;
+
 import com.example.shinobicore.jutsu.core.VisualDefinition;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
@@ -19,7 +21,7 @@ public final class VoxelNet {
         if (vis == null || vis.getVoxelModel() == null || vis.getVoxelModel().isEmpty()) return;
         float scale = (float) vis.getScale();
         if (scale <= 0) scale = 1.0f;
-        System.out.println("[DIAG] voxel sendSpawn: model=" + vis.getVoxelModel() + " scale=" + scale + " life=" + lifetime);
+        ShinobiCore.LOGGER.info("[DIAG] voxel sendSpawn: model=" + vis.getVoxelModel() + " scale=" + scale + " life=" + lifetime);
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeDouble(pos.x); buf.writeDouble(pos.y); buf.writeDouble(pos.z);
         buf.writeDouble(vel.x); buf.writeDouble(vel.y); buf.writeDouble(vel.z);

@@ -2,7 +2,6 @@ package com.example.shinobicore.client.parkour.actions;
 
 import com.example.shinobicore.ShinobiCore;
 import com.example.shinobicore.client.ChakraHudRenderer;
-import com.example.shinobicore.client.ClientNinjaState;
 import com.example.shinobicore.client.KeyBindings;
 import com.example.shinobicore.client.parkour.util.ParkourSounds;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -23,7 +22,7 @@ public class DodgeAction implements ParkourAction {
     private int dodgeTicks = 0;
     private int pendingDirection = 0;
     
-    // ✅ Отслеживаем состояние клавиш КАЖДЫЙ тик (static чтобы работало всегда)
+    // вњ… РћС‚СЃР»РµР¶РёРІР°РµРј СЃРѕСЃС‚РѕСЏРЅРёРµ РєР»Р°РІРёС€ РљРђР–Р”Р«Р™ С‚РёРє (static С‡С‚РѕР±С‹ СЂР°Р±РѕС‚Р°Р»Рѕ РІСЃРµРіРґР°)
     private static boolean prevLeftDown = false;
     private static boolean prevRightDown = false;
     private static long lastDodgeTime = 0;
@@ -33,27 +32,27 @@ public class DodgeAction implements ParkourAction {
 
     @Override
     public boolean canActivate(ClientPlayerEntity player, ParkourContext ctx) {
-        // ✅ Читаем текущее состояние клавиш
+        // вњ… Р§РёС‚Р°РµРј С‚РµРєСѓС‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ РєР»Р°РІРёС€
         boolean leftDown = KeyBindings.DODGE_LEFT.isPressed();
         boolean rightDown = KeyBindings.DODGE_RIGHT.isPressed();
         
-        // ✅ Определяем НОВОЕ нажатие (переход false → true)
+        // вњ… РћРїСЂРµРґРµР»СЏРµРј РќРћР’РћР• РЅР°Р¶Р°С‚РёРµ (РїРµСЂРµС…РѕРґ false в†’ true)
         boolean leftJustPressed = leftDown && !prevLeftDown;
         boolean rightJustPressed = rightDown && !prevRightDown;
         
-        // ✅ ОБНОВЛЯЕМ предыдущее состояние КАЖДЫЙ тик (критично!)
+        // вњ… РћР‘РќРћР’Р›РЇР•Рњ РїСЂРµРґС‹РґСѓС‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ РљРђР–Р”Р«Р™ С‚РёРє (РєСЂРёС‚РёС‡РЅРѕ!)
         prevLeftDown = leftDown;
         prevRightDown = rightDown;
         
-        // Если нет нового нажатия — выходим
+        // Р•СЃР»Рё РЅРµС‚ РЅРѕРІРѕРіРѕ РЅР°Р¶Р°С‚РёСЏ вЂ” РІС‹С…РѕРґРёРј
         if (!leftJustPressed && !rightJustPressed) {
             return false;
         }
         
-        // Если dodge уже активен — не активируем повторно
+        // Р•СЃР»Рё dodge СѓР¶Рµ Р°РєС‚РёРІРµРЅ вЂ” РЅРµ Р°РєС‚РёРІРёСЂСѓРµРј РїРѕРІС‚РѕСЂРЅРѕ
         if (active) return false;
         
-        // Кулдаун
+        // РљСѓР»РґР°СѓРЅ
         long now = System.currentTimeMillis();
         if (now - lastDodgeTime < COOLDOWN_MS) {
             ShinobiCore.LOGGER.debug("[DODGE] Cooldown: {}ms remaining", COOLDOWN_MS - (now - lastDodgeTime));
@@ -64,7 +63,7 @@ public class DodgeAction implements ParkourAction {
         if (ChakraHudRenderer.currentChakra <= 0) return false;
         if (ChakraHudRenderer.exhausted) return false;
         
-        // Определяем направление
+        // РћРїСЂРµРґРµР»СЏРµРј РЅР°РїСЂР°РІР»РµРЅРёРµ
         if (leftJustPressed && !rightJustPressed) {
             pendingDirection = -1;
             ShinobiCore.LOGGER.debug("[DODGE] NEW PRESS: LEFT");
@@ -72,8 +71,8 @@ public class DodgeAction implements ParkourAction {
             pendingDirection = 1;
             ShinobiCore.LOGGER.debug("[DODGE] NEW PRESS: RIGHT");
         } else {
-            pendingDirection = -1; // Обе нажаты → влево
-            ShinobiCore.LOGGER.debug("[DODGE] NEW PRESS: BOTH → LEFT");
+            pendingDirection = -1; // РћР±Рµ РЅР°Р¶Р°С‚С‹ в†’ РІР»РµРІРѕ
+            ShinobiCore.LOGGER.debug("[DODGE] NEW PRESS: BOTH в†’ LEFT");
         }
         
         return true;
@@ -92,6 +91,9 @@ public class DodgeAction implements ParkourAction {
         
         player.addVelocity(right.x * direction * DODGE_IMPULSE, 0.2, right.z * direction * DODGE_IMPULSE);
         player.velocityModified = true;
+        // Play dodge JSON animation
+        com.example.shinobicore.client.anim.json.PlayerJsonAnimState.play(
+            direction < 0 ? "dodge_left" : "dodge_right", true);
         player.timeUntilRegen = INVULNERABILITY_TICKS;
         
         ShinobiCore.LOGGER.debug("[DODGE] Activated: direction={} ({})", 

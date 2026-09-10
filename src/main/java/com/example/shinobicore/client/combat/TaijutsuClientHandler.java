@@ -2,7 +2,6 @@ package com.example.shinobicore.client.combat;
 
 import com.example.shinobicore.ShinobiCore;
 import com.example.shinobicore.client.ChakraHudRenderer;
-import com.example.shinobicore.client.ClientNinjaState;
 import com.example.shinobicore.client.RasenganClientState;
 import com.example.shinobicore.combat.TaijutsuCombo;
 import com.example.shinobicore.tree.TreePassives;

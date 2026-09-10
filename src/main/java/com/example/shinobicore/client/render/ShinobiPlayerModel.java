@@ -26,6 +26,7 @@ import java.util.Collections;
 public class ShinobiPlayerModel<T extends LivingEntity> extends PlayerEntityModel<T> {
 
     // Extra bones rotation holders (not rendered, just store anim data)
+    public float rootOffsetY = 0;
     public final ModelPart leftForeArm;
     public final ModelPart rightForeArm;
     public final ModelPart leftShin;
@@ -50,6 +51,13 @@ public class ShinobiPlayerModel<T extends LivingEntity> extends PlayerEntityMode
     /**
      * Reset extra bones each frame before animation applies.
      */
+        @Override
+    public void render(net.minecraft.client.util.math.MatrixStack matrices, net.minecraft.client.render.VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
+        matrices.push();
+        matrices.translate(0, this.rootOffsetY, 0);
+        super.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+        matrices.pop();
+    }
     public void resetExtraBones() {
         this.leftForeArm.pitch = 0;
         this.leftForeArm.yaw = 0;

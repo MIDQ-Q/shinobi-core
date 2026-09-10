@@ -1,4 +1,4 @@
-{
+﻿{
   "item": "shinobicore:katana",
   "model": "shinobicore:item/katana_default",
   "glint": false,
@@ -10,5 +10,5 @@
     "intervalTicks": 12,
     "spread": 0.15
   },
-  "slashAnimations": ["slash_h1", "slash_h2", "slash_v", "slash_360"]
+  "slashAnimations": ["slash_1", "slash_2", "slash_3", "slash_4", "slash_5"]
 }

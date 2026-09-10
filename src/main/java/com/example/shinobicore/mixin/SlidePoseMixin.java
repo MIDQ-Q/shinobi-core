@@ -19,7 +19,7 @@ public abstract class SlidePoseMixin {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;setPose(Lnet/minecraft/entity/EntityPose;)V")
     )
     private void shinobicore_overridePose(PlayerEntity self, EntityPose vanillaPose) {
-        // === СЕРВЕРНАЯ ЧАСТЬ: читаем флаг из трекера ===
+        // === РЎР•Р Р’Р•Р РќРђРЇ Р§РђРЎРўР¬: С‡РёС‚Р°РµРј С„Р»Р°Рі РёР· С‚СЂРµРєРµСЂР° ===
         if (self instanceof ServerPlayerEntity sp) {
             if (LowPoseTracker.isLow(sp.getUuid())) {
                 if (self.getPose() != EntityPose.SWIMMING) {
@@ -32,11 +32,10 @@ public abstract class SlidePoseMixin {
             return;
         }
 
-        // === КЛИЕНТСКАЯ ЧАСТЬ ===
+        // === РљР›РР•РќРўРЎРљРђРЇ Р§РђРЎРўР¬ ===
         if (self instanceof ClientPlayerEntity cp) {
             boolean needsLow = ParkourManager.isSliding()
                 || ParkourManager.isCrawling()
-                || ParkourManager.isRolling()
                 || PoseHelper.cannotStand(cp);
 
             if (needsLow) {

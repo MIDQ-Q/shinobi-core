@@ -1,7 +1,6 @@
 package com.example.shinobicore.mixin;
 
 import com.example.shinobicore.client.ChakraPhysicsClient;
-import com.example.shinobicore.client.ClientNinjaState;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;

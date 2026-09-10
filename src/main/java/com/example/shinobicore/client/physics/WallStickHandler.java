@@ -1,7 +1,7 @@
 package com.example.shinobicore.client.physics;
 
 import com.example.shinobicore.client.ChakraHudRenderer;
-import com.example.shinobicore.client.ClientNinjaState;
+import com.example.shinobicore.client.ClientNinjaStateHolder;
 import com.example.shinobicore.client.parkour.ParkourManager;
 import com.example.shinobicore.client.parkour.util.ParkourSounds;
 import com.example.shinobicore.client.parkour.util.WallDetector;

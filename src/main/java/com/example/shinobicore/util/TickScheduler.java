@@ -23,7 +23,7 @@ public class TickScheduler {
                     t.delay--;
                     if (t.delay > 0) continue;
                     t.delay = t.interval;
-                    try { t.action.accept(world); } catch (Exception ignored) {}
+                    try { t.action.accept(world); } catch (Exception ignored) { /* ignored */ }
                     t.count--;
                     if (t.count <= 0) it.remove();
                 }

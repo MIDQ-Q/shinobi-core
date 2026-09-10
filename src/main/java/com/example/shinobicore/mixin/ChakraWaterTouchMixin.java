@@ -1,7 +1,6 @@
 package com.example.shinobicore.mixin;
 
 import com.example.shinobicore.client.ChakraHudRenderer;
-import com.example.shinobicore.client.ClientNinjaState;
 import com.example.shinobicore.stat.NinjaDataHolder;
 import com.example.shinobicore.stat.NinjaPlayerData;
 import net.minecraft.client.network.ClientPlayerEntity;

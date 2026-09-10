@@ -159,12 +159,12 @@ public class DiagnosticCommands {
     private static int showCacheStats(CommandContext<ServerCommandSource> ctx) {
         ServerCommandSource src = ctx.getSource();
         src.sendFeedback(() -> Text.literal("=== CACHE STATISTICS ===").formatted(Formatting.GOLD), false);
-        try { src.sendFeedback(() -> Text.literal("CastingClientState: " + CastingClientState.size()), false); } catch (Exception ignored) {}
-        try { src.sendFeedback(() -> Text.literal("KenjutsuAnimations: " + KenjutsuAnimations.size()), false); } catch (Exception ignored) {}
-        try { src.sendFeedback(() -> Text.literal("TaijutsuAnimations: " + TaijutsuAnimations.size()), false); } catch (Exception ignored) {}
-        try { src.sendFeedback(() -> Text.literal("HitStopManager: " + HitStopManager.size()), false); } catch (Exception ignored) {}
-        try { src.sendFeedback(() -> Text.literal("ChakraBurstAnimations: " + ChakraBurstAnimations.size()), false); } catch (Exception ignored) {}
-        try { src.sendFeedback(() -> Text.literal("IdlePoseSystem: " + IdlePoseSystem.size()), false); } catch (Exception ignored) {}
+        try { src.sendFeedback(() -> Text.literal("CastingClientState: " + CastingClientState.size()), false); } catch (Exception ignored) { /* ignored */ }
+        try { src.sendFeedback(() -> Text.literal("KenjutsuAnimations: " + KenjutsuAnimations.size()), false); } catch (Exception ignored) { /* ignored */ }
+        try { src.sendFeedback(() -> Text.literal("TaijutsuAnimations: " + TaijutsuAnimations.size()), false); } catch (Exception ignored) { /* ignored */ }
+        try { src.sendFeedback(() -> Text.literal("HitStopManager: " + HitStopManager.size()), false); } catch (Exception ignored) { /* ignored */ }
+        try { src.sendFeedback(() -> Text.literal("ChakraBurstAnimations: " + ChakraBurstAnimations.size()), false); } catch (Exception ignored) { /* ignored */ }
+        try { src.sendFeedback(() -> Text.literal("IdlePoseSystem: " + IdlePoseSystem.size()), false); } catch (Exception ignored) { /* ignored */ }
         return 1;
     }
 

@@ -11,13 +11,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * When JSON animation system is active, suppresses vanilla angle calculations
- * to prevent fighting between vanilla walk/idle and our custom animations.
- * Only suppresses the 6 main bones; extra bones (forearms/shins) are untouched by vanilla.
+ * When a JSON one-shot animation is active, zeroes out vanilla bone angles
+ * so they don't fight with our keyframes.
  */
 @Mixin(BipedEntityModel.class)
 public abstract class VanillaAnimSuppressMixin {
-
     @Shadow public ModelPart body;
     @Shadow public ModelPart head;
     @Shadow public ModelPart rightArm;
@@ -28,16 +26,15 @@ public abstract class VanillaAnimSuppressMixin {
     @Inject(method = "setAngles", at = @At("TAIL"))
     private void shinobicore$suppressVanillaWhenJsonActive(LivingEntity entity, float limbAngle,
             float limbDistance, float animationProgress, float headYaw, float headPitch, CallbackInfo ci) {
-        
-        // Only suppress when JSON animation system has an active animation playing
-        // (not during idle/walk which blend with vanilla)
         if (!PlayerJsonAnimState.isActive()) return;
         if (!PlayerJsonAnimState.isPlayingOneShot()) return;
 
-        // For one-shot animations (attacks, dodges, etc.), zero out vanilla angles
-        // so they don't fight with JSON keyframes.
-        // JSON system applies its own angles AFTER this via PlayerAnimationOrchestrator.
-        // We do NOT reset here because the JSON override happens after setAngles.
-        // This mixin just ensures vanilla doesn't add ON TOP of JSON angles.
+        // Zero out vanilla angles — JSON override will set them properly
+        body.pitch = 0;     body.yaw = 0;     body.roll = 0;
+        head.pitch = 0;     head.yaw = 0;     head.roll = 0;
+        rightArm.pitch = 0; rightArm.yaw = 0; rightArm.roll = 0;
+        leftArm.pitch = 0;  leftArm.yaw = 0;  leftArm.roll = 0;
+        rightLeg.pitch = 0; rightLeg.yaw = 0; rightLeg.roll = 0;
+        leftLeg.pitch = 0;  leftLeg.yaw = 0;  leftLeg.roll = 0;
     }
 }

@@ -1,6 +1,5 @@
 package com.example.shinobicore.client.combat;
 import com.example.shinobicore.ShinobiCore;
-import com.example.shinobicore.client.ClientNinjaState;
 import com.example.shinobicore.combat.TaijutsuStyle;
 import com.example.shinobicore.network.ModPackets;
 import io.netty.buffer.Unpooled;

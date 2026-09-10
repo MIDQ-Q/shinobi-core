@@ -8,6 +8,7 @@ public class PlayerJsonAnimState {
     private static boolean oneShot = false;
     private static long startTimeMs = 0;
     private static boolean active = false;
+    public static float lastRootOffsetY = 0;
 
     public static void play(String animName, boolean isOneShot) {
         currentAnim = animName;
@@ -26,28 +27,45 @@ public class PlayerJsonAnimState {
     public static String getCurrentAnim() { return currentAnim; }
     public static boolean isOneShot() { return oneShot; }
     public static long getStartTimeMs() { return startTimeMs; }
-
-    public static boolean isActive() {
-        return active;
-    }
+    public static boolean isActive() { return active; }
 
     /** Returns true if currently playing a one-shot animation (attack, dodge, etc.) */
     public static boolean isPlayingOneShot() {
         return active && oneShot;
     }
 
-    public static void tickAndApply(Map<String, ModelPart> parts, boolean isMoving,
-                                     boolean isSprinting, boolean isChakra,
-                                     boolean isSliding, boolean isRolling) {
+    public static void tickAndApply(Map<String, ModelPart> parts, 
+                                boolean isMoving, boolean isSprinting, boolean isChakra,
+                                boolean isSliding, boolean isJumping, boolean isFalling, float limbAngle,
+                                boolean isCrawling, boolean isWallRunning, boolean isWaterRunning, 
+                                boolean isSneaking, boolean isChargingJump, boolean isMeditating) {
         if (!active) {
-            // Auto-select looping animation based on state
-            if (isSliding) currentAnim = "slide";
-            else if (isRolling) currentAnim = "roll";
-            else if (isSprinting && isChakra) currentAnim = "naruto_run";
-            else if (isSprinting) currentAnim = "run";
-            else if (isMoving) currentAnim = "walk";
-            else currentAnim = "idle";
+            String newAnim;
 
+            if (isSliding) {
+                // Slide: play "slide" intro, then loop "slide_process"
+                JsonAnimLibrary.JsonAnim slideAnim = JsonAnimLibrary.get("slide");
+                if (slideAnim != null && startTimeMs > 0 && "slide".equals(currentAnim)) {
+                    float elapsed = (System.currentTimeMillis() - startTimeMs) / 1000f;
+                    newAnim = (elapsed >= slideAnim.length) ? "slide_process" : "slide";
+                } else if ("slide_process".equals(currentAnim)) {
+                    newAnim = "slide_process"; // keep looping
+                } else {
+                    newAnim = "slide"; // fresh slide start
+                }
+            }
+            else if (isJumping)  newAnim = "jump_up";
+            else if (isFalling)  newAnim = "fall";
+            else if (isSprinting && isChakra) newAnim = "naruto_run";
+            else if (isSprinting) newAnim = "run";
+            else if (isMoving)   newAnim = "walk";
+            else                 newAnim = "idle";
+
+            // FIX: reset startTimeMs when animation changes (prevents visual jump)
+            if (!newAnim.equals(currentAnim)) {
+                startTimeMs = System.currentTimeMillis();
+            }
+            currentAnim = newAnim;
             if (startTimeMs == 0) startTimeMs = System.currentTimeMillis();
         }
 
@@ -57,7 +75,17 @@ public class PlayerJsonAnimState {
         }
         if (anim == null) return;
 
-        float timeSec = (System.currentTimeMillis() - startTimeMs) / 1000f;
+        float timeSec;
+    // === ФИКС: Синхронизируем анимации движения со скоростью игрока ===
+    if (!active && (currentAnim.equals("walk") || currentAnim.equals("run") || 
+                    currentAnim.equals("naruto_run") || currentAnim.equals("combat_walk") || 
+                    currentAnim.equals("combat_run"))) {
+        float cycle = (limbAngle % (float)(Math.PI * 2)) / (float)(Math.PI * 2);
+        if (cycle < 0) cycle += 1.0f;
+        timeSec = cycle * anim.length;
+    } else {
+        timeSec = (System.currentTimeMillis() - startTimeMs) / 1000f;
+    }
 
         // One-shot animations stop after completing
         if (oneShot && timeSec >= anim.length) {
@@ -67,6 +95,8 @@ public class PlayerJsonAnimState {
             return;
         }
 
+        float[] rootPos = JsonAnimLibrary.getRootOffset(anim, timeSec);
+        lastRootOffsetY = (rootPos != null) ? rootPos[1] / 16.0f : 0f;
         JsonAnimLibrary.applyAnim(anim, timeSec, parts);
     }
 }

@@ -12,6 +12,6 @@ public class ActionLogger {
         try {
             String line = "[" + LocalTime.now() + "] " + msg + "\n";
             Files.write(FILE, line.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-        } catch (Exception e) { }
+        } catch (Exception e) { /* ignored */ }
     }
 }

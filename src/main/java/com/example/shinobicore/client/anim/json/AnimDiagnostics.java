@@ -6,12 +6,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
- * Полная диагностика анимационной системы.
- * Проверяет: файлы, парсинг, маппинг костей, загрузку, конфликты.
+ * РџРѕР»РЅР°СЏ РґРёР°РіРЅРѕСЃС‚РёРєР° Р°РЅРёРјР°С†РёРѕРЅРЅРѕР№ СЃРёСЃС‚РµРјС‹.
+ * РџСЂРѕРІРµСЂСЏРµС‚: С„Р°Р№Р»С‹, РїР°СЂСЃРёРЅРі, РјР°РїРїРёРЅРі РєРѕСЃС‚РµР№, Р·Р°РіСЂСѓР·РєСѓ, РєРѕРЅС„Р»РёРєС‚С‹.
  */
 public class AnimDiagnostics {
 
-    // ── Результат диагностики ──────────────────────────────
+    // в”Ђв”Ђ Р РµР·СѓР»СЊС‚Р°С‚ РґРёР°РіРЅРѕСЃС‚РёРєРё в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
     public static class DiagResult {
         public final String category;
         public final boolean ok;
@@ -34,7 +34,7 @@ public class AnimDiagnostics {
         }
     }
 
-    // ── Рантайм-счётчики (для диагностики в реальном времени) ──
+    // в”Ђв”Ђ Р Р°РЅС‚Р°Р№Рј-СЃС‡С‘С‚С‡РёРєРё (РґР»СЏ РґРёР°РіРЅРѕСЃС‚РёРєРё РІ СЂРµР°Р»СЊРЅРѕРј РІСЂРµРјРµРЅРё) в”Ђв”Ђ
     private static int applyCallCount = 0;
     private static long lastApplyTimeMs = 0;
     private static String lastAppliedAnim = "none";
@@ -64,28 +64,30 @@ public class AnimDiagnostics {
     public static List<String> getRuntimeLog() { return new ArrayList<>(runtimeLog); }
     public static void clearRuntimeLog() { runtimeLog.clear(); }
 
-    // ── Ванильные кости (маппятся на модель) ───────────────
+    // в”Ђв”Ђ Р’Р°РЅРёР»СЊРЅС‹Рµ РєРѕСЃС‚Рё (РјР°РїРїСЏС‚СЃСЏ РЅР° РјРѕРґРµР»СЊ) в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
     private static final Set<String> VANILLA_BONES = new HashSet<>(Arrays.asList(
         "body", "head", "rightArm", "leftArm", "rightLeg", "leftLeg"
     ));
 
-    // ── Кости которые НЕ маппятся ──────────────────────────
+    // в”Ђв”Ђ РљРѕСЃС‚Рё РєРѕС‚РѕСЂС‹Рµ РќР• РјР°РїРїСЏС‚СЃСЏ в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
     private static final Set<String> EXTRA_BONES = new HashSet<>(Arrays.asList(
         "root", "leftForeArm", "rightForeArm", "leftShin", "rightShin"
     ));
 
-    // ── Все ожидаемые анимации ─────────────────────────────
+    // в”Ђв”Ђ Р’СЃРµ РѕР¶РёРґР°РµРјС‹Рµ Р°РЅРёРјР°С†РёРё в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
     private static final String[] EXPECTED_ANIMS = {
-        "idle", "walk", "run", "naruto_run", "jump_up", "landing",
-        "slide", "roll", "dodge_left", "dodge_right",
-        "punch_1", "punch_2", "punch_3", "kick",
-        "slash_h1", "slash_h2", "slash_v", "slash_360",
-        "seal_cast", "throw_shuriken", "chakra_burst"
-    };
+"idle", "walk", "run", "naruto_run", "jump_up", "landing", "fall",
+"slide", "slide_process", "dodge_left", "dodge_right",
+"punch_1", "punch_2", "kick", "slash_quick",
+"draw_katana", "sheathe_katana",
+"combat_idle", "combat_walk", "combat_run", "combat_jump", "combat_fall",
+"slash_1", "slash_2", "slash_3", "slash_4", "slash_5",
+"slash_air", "hurt_light", "hurt_heavy"
+};
 
-    // ═══════════════════════════════════════════════════════
-    //  1. ПРОВЕРКА ФАЙЛОВ
-    // ═══════════════════════════════════════════════════════
+    // в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+    //  1. РџР РћР’Р•Р РљРђ Р¤РђР™Р›РћР’
+    // в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
     public static List<DiagResult> checkFiles() {
         List<DiagResult> results = new ArrayList<>();
 
@@ -101,10 +103,10 @@ public class AnimDiagnostics {
                 "/assets/shinobicore/animations/" + name);
             if (is != null) {
                 anyFound = true;
-                try { is.close(); } catch (Exception ignored) {}
+                try { is.close(); } catch (Exception ignored) { /* ignored */ }
                 DiagResult r = new DiagResult("FILE", true, "Found: " + name);
 
-                // Проверяем что файл корректный для загрузчика
+                // РџСЂРѕРІРµСЂСЏРµРј С‡С‚Рѕ С„Р°Р№Р» РєРѕСЂСЂРµРєС‚РЅС‹Р№ РґР»СЏ Р·Р°РіСЂСѓР·С‡РёРєР°
                 if (name.equals("shinobi_player_animations.json")) {
                     r.details.add("  -> This is the name JsonAnimLibrary expects");
                 } else {
@@ -127,9 +129,9 @@ public class AnimDiagnostics {
         return results;
     }
 
-    // ═══════════════════════════════════════════════════════
-    //  2. ПАРСИНГ АНИМАЦИЙ
-    // ═══════════════════════════════════════════════════════
+    // в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+    //  2. РџРђР РЎРРќР“ РђРќРРњРђР¦РР™
+    // в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
     public static List<DiagResult> parseAnimations() {
         List<DiagResult> results = new ArrayList<>();
         boolean anyLoaded = false;
@@ -214,9 +216,9 @@ public class AnimDiagnostics {
         return 0;
     }
 
-    // ═══════════════════════════════════════════════════════
-    //  3. МАППИНГ КОСТЕЙ
-    // ═══════════════════════════════════════════════════════
+    // в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+    //  3. РњРђРџРџРРќР“ РљРћРЎРўР•Р™
+    // в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
     public static List<DiagResult> checkBoneMapping() {
         List<DiagResult> results = new ArrayList<>();
 
@@ -244,7 +246,7 @@ public class AnimDiagnostics {
                     List<String> unmapped = new ArrayList<>();
 
                     for (String boneName : bones.keySet()) {
-                        if (VANILLA_BONES.contains(boneName)) mapped.add(boneName);
+                        if (VANILLA_BONES.contains(boneName) || EXTRA_BONES.contains(boneName)) mapped.add(boneName);
                         else unmapped.add(boneName);
                     }
 
@@ -266,9 +268,9 @@ public class AnimDiagnostics {
         return results;
     }
 
-    // ═══════════════════════════════════════════════════════
-    //  4. ПРОВЕРКА ЗАГРУЗКИ В РАНТАЙМ
-    // ═══════════════════════════════════════════════════════
+    // в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+    //  4. РџР РћР’Р•Р РљРђ Р—РђР“Р РЈР—РљР Р’ Р РђРќРўРђР™Рњ
+    // в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
     public static List<DiagResult> checkLoaded() {
         List<DiagResult> results = new ArrayList<>();
 
@@ -278,7 +280,7 @@ public class AnimDiagnostics {
                 DiagResult r = new DiagResult("LOADED", true, name);
                 r.details.add("  length=" + anim.length + "s  loop=" + anim.loop
                     + "  bones=" + anim.bones.size());
-                // Проверяем какие кости реально загружены
+                // РџСЂРѕРІРµСЂСЏРµРј РєР°РєРёРµ РєРѕСЃС‚Рё СЂРµР°Р»СЊРЅРѕ Р·Р°РіСЂСѓР¶РµРЅС‹
                 List<String> boneNames = new ArrayList<>(anim.bones.keySet());
                 r.details.add("  bone names: " + String.join(", ", boneNames));
                 results.add(r);
@@ -291,19 +293,19 @@ public class AnimDiagnostics {
         return results;
     }
 
-    // ═══════════════════════════════════════════════════════
-    //  5. КОНФЛИКТЫ С ДРУГИМИ СИСТЕМАМИ
-    // ═══════════════════════════════════════════════════════
+    // в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+    //  5. РљРћРќР¤Р›РРљРўР« РЎ Р”Р РЈР“РРњР РЎРРЎРўР•РњРђРњР
+    // в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
     public static List<DiagResult> checkConflicts() {
         List<DiagResult> results = new ArrayList<>();
 
-        // 1. Проверяем что оркестратор вызывает наш override
+        // 1. РџСЂРѕРІРµСЂСЏРµРј С‡С‚Рѕ РѕСЂРєРµСЃС‚СЂР°С‚РѕСЂ РІС‹Р·С‹РІР°РµС‚ РЅР°С€ override
         results.add(new DiagResult("ORDER", true,
             "PlayerAnimationOrchestrator calls PlayerJsonAnimOverride.apply()"));
         results.add(new DiagResult("ORDER", true,
             "But IdlePoseSystem.apply() is called AFTER -> may overwrite idle anim"));
 
-        // 2. Проверяем ранние ретурны
+        // 2. РџСЂРѕРІРµСЂСЏРµРј СЂР°РЅРЅРёРµ СЂРµС‚СѓСЂРЅС‹
         results.add(new DiagResult("ORDER", false,
             "EARLY RETURN: water run -> JSON anim SKIPPED"));
         results.add(new DiagResult("ORDER", false,
@@ -313,7 +315,7 @@ public class AnimDiagnostics {
         results.add(new DiagResult("ORDER", false,
             "EARLY RETURN: naruto run (hardcoded) -> JSON anim SKIPPED"));
 
-        // 3. Проверяем что миксин активен
+        // 3. РџСЂРѕРІРµСЂСЏРµРј С‡С‚Рѕ РјРёРєСЃРёРЅ Р°РєС‚РёРІРµРЅ
         results.add(new DiagResult("MIXIN", true,
             "PlayerRenderAnimationMixin injects at TAIL of setAngles"));
         results.add(new DiagResult("MIXIN", true,
@@ -322,9 +324,9 @@ public class AnimDiagnostics {
         return results;
     }
 
-    // ═══════════════════════════════════════════════════════
-    //  6. РАНТАЙМ-СОСТОЯНИЕ
-    // ═══════════════════════════════════════════════════════
+    // в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+    //  6. Р РђРќРўРђР™Рњ-РЎРћРЎРўРћРЇРќРР•
+    // в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
     public static List<DiagResult> getRuntimeState() {
         List<DiagResult> results = new ArrayList<>();
 
@@ -352,9 +354,9 @@ public class AnimDiagnostics {
         return results;
     }
 
-    // ═══════════════════════════════════════════════════════
-    //  7. ТЕСТ АНИМАЦИИ
-    // ═══════════════════════════════════════════════════════
+    // в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+    //  7. РўР•РЎРў РђРќРРњРђР¦РР
+    // в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
     public static List<DiagResult> testAnimation(String animName) {
         List<DiagResult> results = new ArrayList<>();
 
@@ -371,13 +373,13 @@ public class AnimDiagnostics {
             "Found '" + animName + "': length=" + anim.length
             + "s loop=" + anim.loop + " bones=" + anim.bones.size()));
 
-        // Запускаем принудительно
+        // Р—Р°РїСѓСЃРєР°РµРј РїСЂРёРЅСѓРґРёС‚РµР»СЊРЅРѕ
         boolean isLoop = anim.loop;
         PlayerJsonAnimState.play(animName, !isLoop);
         results.add(new DiagResult("TEST", true,
             "Started animation '" + animName + "' (oneShot=" + !isLoop + ")"));
 
-        // Проверяем кости
+        // РџСЂРѕРІРµСЂСЏРµРј РєРѕСЃС‚Рё
         List<String> mappedBones = new ArrayList<>();
         List<String> unmappedBones = new ArrayList<>();
         for (String bone : anim.bones.keySet()) {
@@ -403,9 +405,9 @@ public class AnimDiagnostics {
         return names;
     }
 
-    // ═══════════════════════════════════════════════════════
-    //  ПОЛНАЯ ДИАГНОСТИКА
-    // ═══════════════════════════════════════════════════════
+    // в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+    //  РџРћР›РќРђРЇ Р”РРђР“РќРћРЎРўРРљРђ
+    // в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
     public static String runFullDiagnostics() {
         StringBuilder sb = new StringBuilder();
         sb.append("=== ANIMATION DIAGNOSTICS ===\n\n");

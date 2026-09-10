@@ -268,7 +268,7 @@ public final class ClientVoxelProjectiles {
             try {
                 int n = (int) Long.parseLong(hex.substring(1, 7), 16);
                 return new Vector3f(((n >> 16) & 255) / 255f, ((n >> 8) & 255) / 255f, (n & 255) / 255f);
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) { /* ignored */ }
         }
         return new Vector3f(1f, 0.4f, 0.1f);
     }

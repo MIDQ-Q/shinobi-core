@@ -1,11 +1,5 @@
 {
   "mappings": {
-    "com/example/shinobicore/mixin/CameraAccessor": {
-      "setPos": "method_19327(DDD)V"
-    },
-    "com/example/shinobicore/mixin/CameraMixin": {
-      "update": "Lnet/minecraft/class_4184;method_19321(Lnet/minecraft/class_1922;Lnet/minecraft/class_1297;ZZF)V"
-    },
     "com/example/shinobicore/mixin/ChakraWaterTouchMixin": {
       "isTouchingWater": "Lnet/minecraft/class_1297;method_5799()Z"
     },
@@ -48,9 +42,6 @@
     "com/example/shinobicore/mixin/PlayerRendererMixin": {
       "<init>": "Lnet/minecraft/class_1007;<init>(Lnet/minecraft/class_5617$class_5618;Z)V"
     },
-    "com/example/shinobicore/mixin/RollPoseMixin": {
-      "updatePose": "Lnet/minecraft/class_1657;method_7318()V"
-    },
     "com/example/shinobicore/mixin/SakuraScreenOpenMixin": {
       "onOpenScreen": "Lnet/minecraft/class_634;method_17587(Lnet/minecraft/class_3944;)V"
     },
@@ -74,12 +65,6 @@
   },
   "data": {
     "named:intermediary": {
-      "com/example/shinobicore/mixin/CameraAccessor": {
-        "setPos": "method_19327(DDD)V"
-      },
-      "com/example/shinobicore/mixin/CameraMixin": {
-        "update": "Lnet/minecraft/class_4184;method_19321(Lnet/minecraft/class_1922;Lnet/minecraft/class_1297;ZZF)V"
-      },
       "com/example/shinobicore/mixin/ChakraWaterTouchMixin": {
         "isTouchingWater": "Lnet/minecraft/class_1297;method_5799()Z"
       },
@@ -121,9 +106,6 @@
       },
       "com/example/shinobicore/mixin/PlayerRendererMixin": {
         "<init>": "Lnet/minecraft/class_1007;<init>(Lnet/minecraft/class_5617$class_5618;Z)V"
-      },
-      "com/example/shinobicore/mixin/RollPoseMixin": {
-        "updatePose": "Lnet/minecraft/class_1657;method_7318()V"
       },
       "com/example/shinobicore/mixin/SakuraScreenOpenMixin": {
         "onOpenScreen": "Lnet/minecraft/class_634;method_17587(Lnet/minecraft/class_3944;)V"

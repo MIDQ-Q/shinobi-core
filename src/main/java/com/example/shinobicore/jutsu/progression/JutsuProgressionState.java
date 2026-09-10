@@ -39,14 +39,14 @@ public class JutsuProgressionState extends PersistentState {
             NbtCompound pm = lv.getCompound(uuid);
             Map<String, Integer> m = new HashMap<>();
             for (String id : pm.getKeys()) m.put(id, pm.getInt(id));
-            try { s.levels.put(UUID.fromString(uuid), m); } catch (Exception ignored) {}
+            try { s.levels.put(UUID.fromString(uuid), m); } catch (Exception ignored) { /* ignored */ }
         }
         NbtCompound us = nbt.getCompound("uses");
         for (String uuid : us.getKeys()) {
             NbtCompound pm = us.getCompound(uuid);
             Map<String, Integer> m = new HashMap<>();
             for (String id : pm.getKeys()) m.put(id, pm.getInt(id));
-            try { s.uses.put(UUID.fromString(uuid), m); } catch (Exception ignored) {}
+            try { s.uses.put(UUID.fromString(uuid), m); } catch (Exception ignored) { /* ignored */ }
         }
         return s;
     }

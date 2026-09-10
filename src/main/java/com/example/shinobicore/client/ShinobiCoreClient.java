@@ -41,17 +41,16 @@ public class ShinobiCoreClient implements ClientModInitializer {
     public void onInitializeClient() {
         KeyBindings.register();
         com.example.shinobicore.client.command.AnimDebugCommand.register();
-com.example.shinobicore.client.anim.json.JsonAnimLibrary.loadAll();
+        com.example.shinobicore.client.anim.json.JsonAnimLibrary.loadAll();
+        com.example.shinobicore.client.anim.json.KatanaFsmTracker.register();
+        com.example.shinobicore.client.anim.json.KatanaFsmTracker.register();
                 ClientInputHandler.register();
         ChakraPhysicsClient.register();
         ParkourManager.register();
         TaijutsuClientHandler.register();
         RasenganClientVisual.register();
-        com.example.shinobicore.client.ChakraAuraVisual.register();
-        HudRenderCallback.EVENT.register(ChakraHudRenderer::render);
-        // TargetFrameHud disabled by design (HUD v3)
-        com.example.shinobicore.client.RpgCameraKeybind.register(); // PHASE_H_CAMERA // BATCH3_AURA
-        com.example.shinobicore.client.LandingAnimations.register(); // PHASE_A_REG
+                HudRenderCallback.EVENT.register(ChakraHudRenderer::render);
+                        com.example.shinobicore.client.LandingAnimations.register(); // PHASE_A_REG
         // === РЕГИСТРАЦИЯ РЕНДЕРЕРОВ (было потеряно!) ===
         EntityRendererRegistry.register(ModEntities.NINJA_PROJECTILE, NinjaProjectileRenderer::new);
         EntityRendererRegistry.register(ModEntities.SHURIKEN, ShurikenRenderer::new);

@@ -1,6 +1,5 @@
 package com.example.shinobicore.client.attunement;
 
-import com.example.shinobicore.client.ClientNinjaState;
 import com.example.shinobicore.network.ModPackets;
 import com.example.shinobicore.stat.ElementType;
 import io.netty.buffer.Unpooled;

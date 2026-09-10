@@ -1,0 +1,189 @@
+Collecting all Java files...
+Found 283 Java files
+
+
+======================================================================
+  SECTION 1: LOW PRIORITY FILES
+======================================================================
+
+--- Checking: mixin\GameRendererMixin.java ---
+  Reason: Class body is empty
+  [OK] Not in mixins
+  [OK] Not in fabric.mod.json
+  [OK] No references in other files
+  >> VERDICT: SAFE TO DELETE
+
+--- Checking: mixin\VanillaAnimSuppressMixin.java ---
+  Reason: Method body is empty
+  [BLOCK] Registered in shinobicore.mixins.json
+  [OK] Not in fabric.mod.json
+  [OK] No references in other files
+  >> VERDICT: BLOCKED
+
+--- Checking: client\TargetFrameHud.java ---
+  Reason: Disabled by design
+  [OK] Not in mixins
+  [OK] Not in fabric.mod.json
+  [BLOCK] Found 2 referencing file(s):
+    -> client\ShinobiCoreClient.java
+           L52: // TargetFrameHud disabled by design (HUD v3)
+  >> VERDICT: BLOCKED
+
+--- Checking: network\MeditatePacket.java ---
+  Reason: Never used directly
+  [OK] Not in mixins
+  [OK] Not in fabric.mod.json
+  [BLOCK] Found 2 referencing file(s):
+    -> client\ClientInputHandler.java
+           L34: if (meditatePressed && !prevMeditatePressed) sendMeditatePacket(client, true);
+           L35: else if (!meditatePressed && prevMeditatePressed) sendMeditatePacket(client, false);
+           L93: private static void sendMeditatePacket(MinecraftClient client, boolean start) {
+  >> VERDICT: BLOCKED
+
+--- Checking: DebugCommands.java ---
+  Reason: Debug-only command
+  [OK] Not in mixins
+  [OK] Not in fabric.mod.json
+  [OK] No references in other files
+  >> VERDICT: SAFE TO DELETE
+
+LOW PRIORITY SUMMARY: 2 safe, 3 blocked
+
+======================================================================
+  SECTION 2: MEDIUM PRIORITY (migration required)
+======================================================================
+
+--- ClientNinjaState (delegate) ---
+  [MIGRATE] 15 file(s) still use ClientNinjaState:
+    -> client\attunement\AttunementScreen.java
+           L3: import com.example.shinobicore.client.ClientNinjaState;
+    -> client\combat\KenjutsuClientHandler.java
+           L3: import com.example.shinobicore.client.ClientNinjaState;
+    -> client\combat\TaijutsuClientHandler.java
+           L5: import com.example.shinobicore.client.ClientNinjaState;
+    -> client\combat\TaijutsuKickHandler.java
+           L3: import com.example.shinobicore.client.ClientNinjaState;
+    -> client\hud\sections\StatusIndicatorsSection.java
+           L3: import com.example.shinobicore.client.ClientNinjaState;
+    -> client\parkour\actions\ChargedJumpAction.java
+           L5: import com.example.shinobicore.client.ClientNinjaState;
+    -> client\parkour\actions\DodgeAction.java
+           L5: import com.example.shinobicore.client.ClientNinjaState;
+    -> client\parkour\actions\EdgeGrabAction.java
+           L4: import com.example.shinobicore.client.ClientNinjaState;
+    -> client\parkour\actions\WallRunAction.java
+           L4: import com.example.shinobicore.client.ClientNinjaState;
+    -> client\physics\WallStickHandler.java
+           L4: import com.example.shinobicore.client.ClientNinjaState;
+    -> client\physics\WaterWalkHandler.java
+           L4: import com.example.shinobicore.client.ClientNinjaState;
+    -> mixin\ChakraWaterTouchMixin.java
+           L4: import com.example.shinobicore.client.ClientNinjaState;
+    -> mixin\ChargedJumpMixin.java
+           L4: import com.example.shinobicore.client.ClientNinjaState;
+    -> tree\SkillTreeRegistry.java
+           L3: import com.example.shinobicore.client.ClientNinjaState;
+    -> tree\TreePassives.java
+           L3: import com.example.shinobicore.client.ClientNinjaState;
+
+--- ChakraAuraVisual ---
+  [MIGRATE] 2 file(s):
+    -> client\ShinobiCoreClient.java
+
+--- RpgCamera ---
+  [MIGRATE] 3 file(s):
+    -> client\RpgCameraKeybind.java
+    -> client\ShinobiCoreClient.java
+    -> mixin\CameraMixin.java
+
+--- CastingServerState ---
+  [MIGRATE] 4 file(s):
+    -> ShinobiCore.java
+    -> ai\v2\AiReactionSystem.java
+    -> mixin\InterruptCastMixin.java
+    -> modules\jutsu\JutsuModule.java
+
+
+======================================================================
+  SECTION 3: HIGH PRIORITY
+======================================================================
+
+--- Config duplication ---
+  ModConfig referenced by: 12 files
+  ConfigManager referenced by: 2 files
+  ShinobiCoreConfig referenced by: 0 files
+
+--- Duplicate packet registration ---
+  [CONFLICT] MEDITATE_ID registered in BOTH ModPackets AND ChakraPacketHandlers.java
+  [CONFLICT] CHAKRA_MODE_ID registered in BOTH ModPackets AND ChakraPacketHandlers.java
+  [CONFLICT] TAIJUTSU_ATTACK_ID registered in BOTH ModPackets AND CombatPacketHandlers.java
+  [CONFLICT] TAIJUTSU_KICK_ID registered in BOTH ModPackets AND CombatPacketHandlers.java
+  [CONFLICT] TAIJUTSU_STYLE_ID registered in BOTH ModPackets AND CombatPacketHandlers.java
+  [CONFLICT] KATANA_ATTACK_ID registered in BOTH ModPackets AND CombatPacketHandlers.java
+  [CONFLICT] KATANA_STANCE_ID registered in BOTH ModPackets AND CombatPacketHandlers.java
+  [CONFLICT] KATANA_DEFLECT_ID registered in BOTH ModPackets AND CombatPacketHandlers.java
+  [CONFLICT] SELECT_SLOT_ID registered in BOTH ModPackets AND LoadoutPacketHandlers.java
+  [CONFLICT] CAST_SLOT_ID registered in BOTH ModPackets AND LoadoutPacketHandlers.java
+  [CONFLICT] SET_SLOT_ID registered in BOTH ModPackets AND LoadoutPacketHandlers.java
+  [CONFLICT] DODGE_ID registered in BOTH ModPackets AND MovementPacketHandlers.java
+  [CONFLICT] POSE_SYNC_ID registered in BOTH ModPackets AND MovementPacketHandlers.java
+  [CONFLICT] PARKOUR_ACTION_ID registered in BOTH ModPackets AND MovementPacketHandlers.java
+  [CONFLICT] SPEND_SP_ID registered in BOTH ModPackets AND ProgressionPacketHandlers.java
+  [CONFLICT] UNLOCK_NODE_ID registered in BOTH ModPackets AND ProgressionPacketHandlers.java
+  [CONFLICT] ATTUNEMENT_ID registered in BOTH ModPackets AND ProgressionPacketHandlers.java
+  [CONFLICT] CONTROL_TRAIN_ID registered in BOTH ModPackets AND ProgressionPacketHandlers.java
+  [CONFLICT] SENSORY_TOGGLE_ID registered in BOTH ModPackets AND SensoryPacketHandlers.java
+  [CONFLICT] RASENGAN_STRIKE_ID registered in BOTH ModPackets AND SensoryPacketHandlers.java
+  TOTAL CONFLICTS: 20
+
+
+======================================================================
+  SECTION 4: ADDITIONAL CHECKS
+======================================================================
+
+--- Empty catch blocks ---
+  ai\AiStates.java : 1 empty catch(es)
+  ai\SummonCloneEntity.java : 2 empty catch(es)
+  client\anim\json\AnimDiagnostics.java : 1 empty catch(es)
+  client\anim\json\JsonAnimLibrary.java : 1 empty catch(es)
+  client\voxel\ClientVoxelProjectiles.java : 1 empty catch(es)
+  client\voxel\VoxelModelRegistry.java : 1 empty catch(es)
+  command\DiagnosticCommands.java : 6 empty catch(es)
+  command\JutsuTestCommand.java : 1 empty catch(es)
+  jutsu\executor\VerificationLogger.java : 1 empty catch(es)
+  jutsu\progression\JutsuProgressionState.java : 2 empty catch(es)
+  util\ActionLogger.java : 1 empty catch(es)
+  util\TickScheduler.java : 1 empty catch(es)
+  TOTAL: 19
+
+--- System.out.println ---
+  client\anim\json\JsonAnimLibrary.java : 2 occurrence(s)
+  jutsu\executor\VoxelNet.java : 1 occurrence(s)
+  TOTAL: 3
+
+--- Version check ---
+  [MISMATCH] gradle=4.0.0 vs fabric.mod.json=3.0.0
+
+
+======================================================================
+  SECTION 5: RECOMMENDED EXECUTION ORDER
+======================================================================
+
+PHASE 1 - Safe deletions:
+  DELETE: mixin\GameRendererMixin.java
+  DELETE: DebugCommands.java
+
+PHASE 2 - Quick migrations:
+  1. Remove ChakraAuraVisual.register() from ShinobiCoreClient
+  2. Remove CameraMixin + CameraAccessor from mixins JSON
+  3. Remove RpgCamera + RpgCameraKeybind
+
+PHASE 3 - Medium migrations:
+  1. ClientNinjaState -> ClientNinjaStateHolder
+  2. CastingServerState -> ActivationSystem
+  3. Fix duplicate packet registrations
+
+PHASE 4 - Complex migrations:
+  1. Config consolidation (ModConfig vs ConfigManager vs ShinobiCoreConfig)
+  2. AI system consolidation (V1 vs V2)
+

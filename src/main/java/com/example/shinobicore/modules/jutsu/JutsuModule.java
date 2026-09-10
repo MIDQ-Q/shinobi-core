@@ -60,7 +60,6 @@ public final class JutsuModule {
         com.example.shinobicore.ai.AiSystem.tick(server);
 
         for (ServerPlayerEntity p : server.getPlayerManager().getPlayerList()) {
-            com.example.shinobicore.combat.CastingServerState.tickPlayer(p);
-        }
+}
     }
 }

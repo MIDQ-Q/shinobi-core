@@ -152,4 +152,23 @@ public class ActivationSystem {
             }
         }
     }
-}
+
+    /**
+     * Interrupts an active cast due to taking damage.
+     * Only interrupts cast modes that are interruptible (HANDSEALS, CHARGE, HOLD).
+     */
+    public static void interruptByDamage(net.minecraft.server.network.ServerPlayerEntity player) {
+        Active active = ACTIVE.remove(player.getUuid());
+        if (active == null) return;
+        
+        if (active.mode == Mode.HANDSEALS || active.mode == Mode.CHARGE || active.mode == Mode.HOLD) {
+            CastContext ctx = active.ctx;
+            if (ctx != null && ctx.caster instanceof net.minecraft.server.network.ServerPlayerEntity sp) {
+                sp.sendMessage(net.minecraft.text.Text.literal("§c§lINTERRUPTED! §7Cast lost"), false);
+                VerificationLogger.logActivation(ctx.jutsu.getId(), active.mode.name(), "INTERRUPTED by damage");
+            }
+        } else {
+            // If not interruptible (e.g. COUNTER, PASSIVE), put it back
+            ACTIVE.put(player.getUuid(), active);
+        }
+    }}

@@ -1,0 +1,32 @@
+﻿{
+    "required":  true,
+    "package":  "com.example.shinobicore.mixin",
+    "compatibilityLevel":  "JAVA_21",
+    "mixins":  [
+                   "ServerPlayerEntityMixin",
+                   "FallDamageMixin",
+                   "ChakraWaterTouchMixin",
+                   "SlideTravelMixin",
+                   "SlidePoseMixin",
+                   "RollPoseMixin",
+                   "ChargedJumpMixin",
+                   "HideVanillaStatusMixin",
+                   "PlayerAttackMixin",
+                   "SlideDimensionsMixin",
+                   "KatanaDeflectMixin",
+                   "PlayerCopyMixin",
+                   "PlayerParryMixin",
+                   "InterruptCastMixin",
+                   "MobEntityAccessor"
+               ],
+    "client":  [
+                   "VanillaAnimSuppressMixin",
+                   "PlayerRendererMixin",
+                   "HotbarScaleMixin",
+                   "SakuraScreenOpenMixin",
+                   "PlayerRenderAnimationMixin"
+               ],
+    "injectors":  {
+                      "defaultRequire":  1
+                  }
+}

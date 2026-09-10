@@ -19,7 +19,7 @@ public abstract class SlideDimensionsMixin {
     private void shinobicore_slideDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> cir) {
         Entity self = (Entity) (Object) this;
 
-        // === КЛИЕНТ: локальный игрок ===
+        // === РљР›РР•РќРў: Р»РѕРєР°Р»СЊРЅС‹Р№ РёРіСЂРѕРє ===
         if (self instanceof ClientPlayerEntity) {
             if (ParkourManager.isSliding()) {
                 cir.setReturnValue(EntityDimensions.fixed(0.6f, 1.0f));
@@ -27,7 +27,7 @@ public abstract class SlideDimensionsMixin {
             return;
         }
 
-        // === СЕРВЕР: все игроки через LowPoseTracker ===
+        // === РЎР•Р Р’Р•Р : РІСЃРµ РёРіСЂРѕРєРё С‡РµСЂРµР· LowPoseTracker ===
         if (self instanceof ServerPlayerEntity sp) {
             if (LowPoseTracker.isLow(sp.getUuid())) {
                 cir.setReturnValue(EntityDimensions.fixed(0.6f, 1.0f));

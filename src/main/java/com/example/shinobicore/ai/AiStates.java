@@ -53,7 +53,7 @@ public class AiStates {
             for (ServerPlayerEntity p : PlayerLookup.tracking(b.entity)) {
                 ServerPlayNetworking.send(p, id, buf);
             }
-        } catch (Throwable ignored) {}
+        } catch (Throwable ignored) { /* ignored */ }
     }
 
     private static class RootState implements AiState {

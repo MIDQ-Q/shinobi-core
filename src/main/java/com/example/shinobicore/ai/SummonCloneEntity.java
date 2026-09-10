@@ -31,7 +31,7 @@ public class SummonCloneEntity extends WolfEntity {
                 if (v instanceof Collection<?> col) { col.clear(); return; }
                 if (v instanceof Map<?, ?> map) { map.clear(); return; }
             } catch (NoSuchFieldException ignored) {
-            } catch (Throwable ignored) { }
+            } catch (Throwable ignored) { /* ignored */ }
         }
     }
 }

@@ -8,7 +8,6 @@ import com.example.shinobicore.client.parkour.actions.DodgeAction;
 import com.example.shinobicore.client.parkour.actions.EdgeGrabAction;
 import com.example.shinobicore.client.parkour.actions.ParkourAction;
 import com.example.shinobicore.client.parkour.actions.ParkourContext;
-import com.example.shinobicore.client.parkour.actions.RollAction;
 import com.example.shinobicore.client.parkour.actions.SlideAction;
 import com.example.shinobicore.client.parkour.actions.WallRunAction;
 import com.example.shinobicore.network.ModPackets;
@@ -32,9 +31,8 @@ public class ParkourManager {
         actions.add(new SlideAction());
         actions.add(new WallRunAction());
         actions.add(new EdgeGrabAction());
-        actions.add(new RollAction());
         actions.add(new CrawlAction());
-        actions.add(new DodgeAction());  // ← ДОДЖ
+        actions.add(new DodgeAction());  // в†ђ Р”РћР”Р–
         chargedJumpAction = new ChargedJumpAction();
         ShinobiCore.LOGGER.debug("ParkourManager: registered {} actions", actions.size());
     }
@@ -49,9 +47,8 @@ public class ParkourManager {
 
         chargedJumpAction.tick(player, ctx);
 
-        // Синхронизация низкой позы с сервером
-        boolean needsLow = isSliding() || isCrawling() || isRolling()
-            || com.example.shinobicore.client.parkour.util.PoseHelper.cannotStand(player);
+        // РЎРёРЅС…СЂРѕРЅРёР·Р°С†РёСЏ РЅРёР·РєРѕР№ РїРѕР·С‹ СЃ СЃРµСЂРІРµСЂРѕРј
+        boolean needsLow = isSliding() || isCrawling() || com.example.shinobicore.client.parkour.util.PoseHelper.cannotStand(player);
         if (needsLow != lastLowPose) {
             lastLowPose = needsLow;
             PacketByteBuf poseBuf = new PacketByteBuf(Unpooled.buffer());
@@ -82,13 +79,6 @@ public class ParkourManager {
                     edgeGrab.activate(player, ctx);
                     if (doLog) ShinobiCore.LOGGER.debug("[parkour] edge grab activated");
                 }
-            } else if (action instanceof RollAction roll) {
-                if (roll.isActive()) {
-                    roll.tick(player, ctx);
-                } else if (roll.canActivate(player, ctx)) {
-                    roll.activate(player, ctx);
-                    if (doLog) ShinobiCore.LOGGER.debug("[parkour] roll activated");
-                }
             } else if (action instanceof CrawlAction crawl) {
                 if (crawl.isActive()) {
                     crawl.tick(player, ctx);
@@ -103,7 +93,7 @@ public class ParkourManager {
                     dodge.activate(player, ctx);
                     if (doLog) ShinobiCore.LOGGER.debug("[parkour] dodge activated");
                     
-                    // Отправляем пакет на сервер
+                    // РћС‚РїСЂР°РІР»СЏРµРј РїР°РєРµС‚ РЅР° СЃРµСЂРІРµСЂ
                     PacketByteBuf dodgeBuf = new PacketByteBuf(Unpooled.buffer());
                     dodgeBuf.writeInt(KeyBindings.DODGE_LEFT.wasPressed() ? -1 : 1);
                     ClientPlayNetworking.send(ModPackets.DODGE_ID, dodgeBuf);
@@ -122,10 +112,7 @@ public class ParkourManager {
         return false;
     }
     
-    public static boolean isRolling() {
-        for (ParkourAction a : actions) if (a instanceof RollAction r && r.isActive()) return true;
-        return false;
-    }
+    
     
     public static boolean isWallRunning() {
         for (ParkourAction a : actions) if (a instanceof WallRunAction w && w.isActive()) return true;

@@ -1,6 +1,5 @@
 package com.example.shinobicore.tree;
 
-import com.example.shinobicore.client.ClientNinjaState;
 import com.example.shinobicore.stat.NinjaPlayerData;
 import com.example.shinobicore.client.ClientNinjaStateHolder;
 

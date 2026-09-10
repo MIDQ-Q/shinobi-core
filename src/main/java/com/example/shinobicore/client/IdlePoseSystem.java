@@ -73,28 +73,14 @@ public class IdlePoseSystem {
         m.leftLeg.pitch += 0.08f;
         m.head.pitch -= 0.10f;
     }
-    private static void applyKatanaStance(BipedEntityModel<?> m, float breath) {
-        String st = ClientNinjaStateHolder.get().getKenjutsuStance();
-        switch (st) {
-            case "seigan" -> {
-                m.rightArm.pitch = -1.2f + breath;
-                m.rightArm.yaw = -0.2f;
-                m.leftArm.pitch = -0.7f + breath;
-                m.leftArm.yaw = 0.3f;
-            }
-            case "iai" -> {
-                m.rightArm.pitch = 0.15f + breath;
-                m.rightArm.yaw = -0.5f;
-                m.leftArm.pitch = -0.9f + breath;
-                m.leftArm.yaw = 0.6f;
-            }
-            default -> {
-                m.rightArm.pitch = -1.1f + breath;
-                m.rightArm.yaw = -0.3f;
-                m.leftArm.pitch = -1.0f + breath;
-                m.leftArm.yaw = 0.2f;
-            }
-        }
+        private static void applyKatanaStance(BipedEntityModel<?> m, float breath) {
+        // Унифицированная idle-поза для всех стоек катаны (aggressive, seigan, iai)
+        // Используется одна базовая анимация, пока не будут добавлены уникальные.
+        m.rightArm.pitch = -1.1f + breath;
+        m.rightArm.yaw = -0.3f;
+        m.leftArm.pitch = -1.0f + breath;
+        m.leftArm.yaw = 0.2f;
+        
         m.body.pitch += 0.08f;
         m.rightLeg.yaw = -0.2f;
         m.leftLeg.yaw = 0.2f;

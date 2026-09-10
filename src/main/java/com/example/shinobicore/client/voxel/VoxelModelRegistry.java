@@ -261,7 +261,7 @@ public final class VoxelModelRegistry implements SimpleSynchronousResourceReload
         if (el != null && el.isJsonPrimitive() && el.getAsJsonPrimitive().isString()) {
             String s = el.getAsString();
             if (s.startsWith("#") && s.length() >= 7) {
-                try { return (int) Long.parseLong(s.substring(1, 7), 16); } catch (Exception ignored) {}
+                try { return (int) Long.parseLong(s.substring(1, 7), 16); } catch (Exception ignored) { /* ignored */ }
             }
         }
         return 0xFF6600;

@@ -1,6 +1,5 @@
 package com.example.shinobicore.client.hud.sections;
 
-import com.example.shinobicore.client.ClientNinjaState;
 import com.example.shinobicore.client.ChakraHudRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;

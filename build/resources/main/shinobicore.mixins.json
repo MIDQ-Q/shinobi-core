@@ -1,34 +1,32 @@
-{
-  "required": true,
-  "package": "com.example.shinobicore.mixin",
-  "compatibilityLevel": "JAVA_21",
-  "mixins": [
-    "ServerPlayerEntityMixin",
-    "FallDamageMixin",
-    "ChakraWaterTouchMixin",
-    "SlideTravelMixin",
-    "SlidePoseMixin",
-    "RollPoseMixin",
-    "ChargedJumpMixin",
-    "HideVanillaStatusMixin",
-    "PlayerAttackMixin",
-    "PlayerRenderAnimationMixin",
-    "SlideDimensionsMixin",
-    "CameraMixin",
-    "CameraAccessor",
-    "KatanaDeflectMixin",
-    "PlayerCopyMixin",
-    "PlayerParryMixin",
-    "InterruptCastMixin",
-    "MobEntityAccessor"
-  ],
-  "client": [
-        "VanillaAnimSuppressMixin",
-        "PlayerRendererMixin",
-    "HotbarScaleMixin",
-    "SakuraScreenOpenMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  }
+﻿{
+    "required":  true,
+    "package":  "com.example.shinobicore.mixin",
+    "compatibilityLevel":  "JAVA_21",
+    "mixins":  [
+                   "ServerPlayerEntityMixin",
+                   "FallDamageMixin",
+                   "ChakraWaterTouchMixin",
+                   "SlideTravelMixin",
+                   "SlidePoseMixin",
+                   "ChargedJumpMixin",
+                   "HideVanillaStatusMixin",
+                   "PlayerAttackMixin",
+                   "SlideDimensionsMixin",
+                   "KatanaDeflectMixin",
+                   "PlayerCopyMixin",
+                   "PlayerParryMixin",
+                   "InterruptCastMixin",
+                   "MobEntityAccessor"
+               ],
+    "client":  [
+                   "VanillaAnimSuppressMixin",
+                   "PlayerRendererMixin",
+                   "HotbarScaleMixin",
+                   "SakuraScreenOpenMixin",
+                   "PlayerRenderAnimationMixin"
+               ],
+    "injectors":  {
+                      "defaultRequire":  1
+                  }
 }
+

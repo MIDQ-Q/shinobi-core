@@ -1,5 +1,7 @@
 package com.example.shinobicore;
 
+import com.example.shinobicore.ShinobiCore;
+
 import com.example.shinobicore.jutsu.loader.JutsuResourceListener;
 
 import com.example.shinobicore.clan.ClanDefinition;
@@ -86,8 +88,7 @@ public class ShinobiCore implements ModInitializer {
         // === PHASE5_CAST_TICK ===
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             for (ServerPlayerEntity p : server.getPlayerManager().getPlayerList()) {
-                com.example.shinobicore.combat.CastingServerState.tickPlayer(p);
-            }
+}
         });
         ModPackets.register();
         com.example.shinobicore.network.JutsuCastBridge.register();

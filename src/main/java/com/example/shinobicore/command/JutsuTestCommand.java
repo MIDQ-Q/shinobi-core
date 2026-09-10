@@ -163,7 +163,7 @@ public class JutsuTestCommand {
                                 "§cNeed " + e.getKey() + " " + e.getValue()), false);
                             return 0;
                         }
-                    } catch (Exception ignored) {}
+                    } catch (Exception ignored) { /* ignored */ }
                 }
                 if (spCost > 0) data.addSkillPoints(-spCost);
                 prog.setLevel(p.getUuid(), id, nextKey);
