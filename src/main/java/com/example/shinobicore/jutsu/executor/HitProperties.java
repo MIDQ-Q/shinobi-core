@@ -25,6 +25,7 @@ public class HitProperties {
                         e.addVelocity(dir.x * kb, dir.y * kb, dir.z * kb);
                         e.velocityModified = true;
                     }
+                    Fx.impactFlash(world, center, ctx.jutsu.getElement(), ctx.jutsu.getVisual(), radius);
                     Fx.elementBurst(world, center, ctx.jutsu.getElement(), 40);
                     JutsuSoundHelper.playImpactSound(world, center, ctx.jutsu);
                 }

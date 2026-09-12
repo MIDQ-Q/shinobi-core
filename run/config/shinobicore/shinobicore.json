@@ -13,11 +13,6 @@
     "chakraModeToggleCooldownTicks": 20
   },
   "combat": {
-    "taijutsuBaseDamage": 2.0,
-    "taijutsuDamagePerLevel": 0.3,
-    "chakraModeDamageMult": 1.2,
-    "chakraModeSpeedMult": 1.15,
-    "strongFistUnlockLevel": 50,
     "parryWindowMs": 400.0,
     "parryCooldownMs": 200.0,
     "blockStaminaPerSecond": 3.0,

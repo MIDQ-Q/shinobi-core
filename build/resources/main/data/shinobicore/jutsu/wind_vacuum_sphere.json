@@ -1,0 +1,44 @@
+{
+  "id": "shinobicore:wind_vacuum_sphere",
+  "name": "Vacuum Sphere",
+  "description": "Huge knockback blast",
+  "category": "shape_ninjutsu",
+  "rank": "A",
+  "tags": ["wind", "projectile", "offensive"],
+  "form": {
+    "type": "projectile",
+    "params": { "speed": 1, "gravity": 0, "lifetime": 100, "size": 1.4 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 11 }
+    }
+  ],
+  "properties": [
+    {
+      "id": "explode_on_hit",
+      "params": { "radius": 4.5, "damage": 11, "knockback": 3 }
+    }
+  ],
+  "element": "wind",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 10,
+  "cost": {
+    "chakra": 30
+  },
+  "requirements": {
+    "stats": {
+      "control": 25,
+      "ninjutsu": 30
+    },
+    "elements": {
+      "wind": 2
+    }
+  },
+  "visual": {"particle": "cloud", "trail": "cloud", "color": "#B8FFD8", "voxelModel": "wind_orb", "scale": 1.4, "glow": true}
+}

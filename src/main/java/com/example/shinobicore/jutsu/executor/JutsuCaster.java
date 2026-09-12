@@ -28,7 +28,7 @@ public class JutsuCaster {
 
         if (CooldownSystem.isOnCooldown(uid, id)) {
             double sec = CooldownSystem.getRemaining(uid, id) / 20.0;
-            player.sendMessage(Text.literal(String.format("В§cCooldown: %.1fs", sec)), true);
+            player.sendMessage(Text.literal(String.format("§cCooldown: %.1fs", sec)), true);
             return false;
         }
 
@@ -44,7 +44,7 @@ public class JutsuCaster {
         }
 
         if (!player.hasPermissionLevel(2) && !NinjaFormula.checkRequirements(jutsu, data)) {
-            player.sendMessage(Text.literal("В§cRequirements not met for " + jutsu.getName()), false);
+            player.sendMessage(Text.literal("§cRequirements not met for " + jutsu.getName()), false);
             return false;
         }
 
@@ -62,7 +62,7 @@ public class JutsuCaster {
             }
         }
         if (data.getCurrentChakra() < chakra) {
-            player.sendMessage(Text.literal("В§cNot enough chakra!"), false);
+            player.sendMessage(Text.literal("§cNot enough chakra!"), false);
             return false;
         }
         data.setCurrentChakra(data.getCurrentChakra() - chakra);
@@ -103,14 +103,14 @@ public class JutsuCaster {
                 double spd = act.getDouble("sealSpeed", 1.0);
                 VerificationLogger.logActivation(id, "HANDSEALS", String.format("STARTED duration=%d seals=%d", (int) (seals * 10 / spd), seals));
                 ActivationSystem.start(ctx, ActivationSystem.Mode.HANDSEALS, (int) (seals * 10 / spd), 0, 0);
-                player.sendMessage(Text.literal("В§bWeaving " + seals + " seals..."), true);
+                player.sendMessage(Text.literal("§bWeaving " + seals + " seals..."), true);
             }
             case CHARGE -> {
                 int min = act.getInt("minCharge", 20);
                 int max = act.getInt("maxCharge", 60);
                 VerificationLogger.logActivation(id, "CHARGE", String.format("STARTED duration=%d min=%d", max, min));
                 ActivationSystem.start(ctx, ActivationSystem.Mode.CHARGE, max, min, 0);
-                player.sendMessage(Text.literal("В§eCharging... В§7(/shinobicore jutsu release)"), true);
+                player.sendMessage(Text.literal("§eCharging... §7(/shinobicore jutsu release)"), true);
             }
             case HOLD -> {
                 double drain = act.getDouble("chakraPerTick", 0.5);
@@ -118,25 +118,25 @@ public class JutsuCaster {
                 FormExecutor.executeForm(ctx);
                 VerificationLogger.logActivation(id, "HOLD", "STARTED drain=" + drain);
                 ActivationSystem.start(ctx, ActivationSystem.Mode.HOLD, Integer.MAX_VALUE, 0, drain);
-                player.sendMessage(Text.literal("В§bChanneling... В§7(release to stop)"), true);
+                player.sendMessage(Text.literal("§bChanneling... §7(release to stop)"), true);
             }
             case COUNTER -> {
                 int window = (int) (act.getDouble("windowMs", 400) / 50.0) + 1;
                 double threshold = act.getDouble("damageThreshold", 1.0);
                 VerificationLogger.logActivation(id, "COUNTER", String.format("STARTED window=%d threshold=%.1f", window * 4, threshold));
                 ActivationSystem.start(ctx, ActivationSystem.Mode.COUNTER, window * 4, 0, threshold);
-                player.sendMessage(Text.literal("В§eCounter stance!"), false);
+                player.sendMessage(Text.literal("§eCounter stance!"), false);
             }
             case ON_DEATH -> {
                 VerificationLogger.logActivation(id, "ON_DEATH", "STARTED (Izanagi armed)");
                 ActivationSystem.start(ctx, ActivationSystem.Mode.ON_DEATH, Integer.MAX_VALUE, 0, 0);
-                player.sendMessage(Text.literal("В§dIzanagi armed..."), false);
+                player.sendMessage(Text.literal("§dIzanagi armed..."), false);
             }
             case PASSIVE -> {
                 VerificationLogger.logActivation(id, "PASSIVE", "STARTED (aura active)");
                 EffectExecutor.applyEffects(ctx, player);
                 ActivationSystem.start(ctx, ActivationSystem.Mode.PASSIVE, Integer.MAX_VALUE, 0, 0);
-                player.sendMessage(Text.literal("В§aPassive active В§7(release to disable)"), false);
+                player.sendMessage(Text.literal("§aPassive active §7(release to disable)"), false);
             }
         }
 
@@ -156,7 +156,19 @@ public class JutsuCaster {
 
     public static boolean beginCast(ServerPlayerEntity player, String jutsuId) {
         JutsuDefinition def = JutsuRegistry.get(jutsuId);
-        if (def == null) return false;
+        if (def == null) {
+            // Задача 1.13a: раньше был молчаливый return false.
+            // Древо навыков ссылается на 82 техники, из которых реализованы 3 —
+            // игрок тратил SP и получал "Unlocked", а каст не делал ничего и без лога.
+            if (player != null) {
+                player.sendMessage(net.minecraft.text.Text.translatable(
+                    "jutsu.shinobicore.missing", String.valueOf(jutsuId)), true);
+            }
+            com.example.shinobicore.ShinobiCore.LOGGER.warn(
+                "[JUTSU] cast of unregistered jutsu '{}' requested by {}",
+                jutsuId, player != null ? player.getName().getString() : "null");
+            return false;
+        }
         return cast(player, def);
     }
 }

@@ -1,0 +1,43 @@
+{
+  "id": "shinobicore:water_release_great_waterfall",
+  "name": "Great Waterfall",
+  "description": "Water dash attack",
+  "category": "elemental_ninjutsu",
+  "rank": "A",
+  "tags": ["water", "dash", "offensive"],
+  "form": {
+    "type": "dash",
+    "params": { "distance": 9, "speed": 2.2, "damageOnPath": 16 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 16 }
+    },
+    {
+      "type": "control",
+      "subtype": "launch",
+      "params": { "force": 1.2 }
+    }
+  ],
+  "element": "water",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 10,
+  "cost": {
+    "chakra": 30
+  },
+  "requirements": {
+    "stats": {
+      "control": 25,
+      "ninjutsu": 30
+    },
+    "elements": {
+      "water": 2
+    }
+  },
+  "visual": {"particle": "splash", "trail": "splash", "color": "#3FA9FF", "scale": 1.0, "glow": true}
+}

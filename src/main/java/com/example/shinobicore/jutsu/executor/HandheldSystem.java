@@ -32,6 +32,12 @@ public class HandheldSystem {
             int holdDuration = form.getInt("holdDuration", 400);
             if (!held.ready) {
                 held.chargeTicks++;
+                if (held.chargeTicks % 2 == 0 && !held.ready) {
+                    Vec3d gatherAt = player.getEyePos()
+                            .add(player.getRotationVector().multiply(0.9)).add(0, -0.2, 0);
+                    Fx.chargeGather(player.getServerWorld(), gatherAt,
+                            held.ctx.jutsu.getElement(), held.ctx.jutsu.getVisual(), held.chargeTicks);
+                }
                 if (held.chargeTicks >= chargeTime) {
                     held.ready = true;
                     player.sendMessage(Text.literal("\u00a7a" + held.ctx.jutsu.getName() + " ready! Strike or throw!"), false);
@@ -39,7 +45,8 @@ public class HandheldSystem {
             } else {
                 held.holdTicks++;
                 Vec3d hand = player.getEyePos().add(player.getRotationVector().multiply(0.9)).add(0, -0.2, 0);
-                Fx.spinningSphere(player.getServerWorld(), hand, held.ctx.jutsu.getElement(), 0.5, held.holdTicks);
+                Fx.spinningSphere(player.getServerWorld(), hand, held.ctx.jutsu.getElement(), held.ctx.jutsu.getVisual(),
+                        Math.max(0.3, held.ctx.jutsu.getForm().getDouble("size", 0.5)), held.holdTicks);
                 if (held.holdTicks >= holdDuration) {
                     player.sendMessage(Text.literal("\u00a77" + held.ctx.jutsu.getName() + " dissipated..."), false);
                     it.remove();

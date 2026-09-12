@@ -1,0 +1,43 @@
+{
+  "id": "shinobicore:wind_pressure_damage",
+  "name": "Pressure Damage",
+  "description": "Top-down stun",
+  "category": "shape_ninjutsu",
+  "rank": "B",
+  "tags": ["wind", "zone", "offensive"],
+  "form": {
+    "type": "zone",
+    "params": { "radius": 4, "duration": 20, "shape": "cylinder", "tickRate": 20 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 7 }
+    },
+    {
+      "type": "control",
+      "subtype": "stun",
+      "params": { "duration": 40 }
+    }
+  ],
+  "element": "wind",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 6,
+  "cost": {
+    "chakra": 18
+  },
+  "requirements": {
+    "stats": {
+      "control": 15,
+      "ninjutsu": 20
+    },
+    "elements": {
+      "wind": 1
+    }
+  },
+  "visual": {"particle": "cloud", "trail": "cloud", "color": "#B8FFD8", "scale": 1.0, "glow": true}
+}

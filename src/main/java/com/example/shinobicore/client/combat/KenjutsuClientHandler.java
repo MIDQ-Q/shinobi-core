@@ -14,14 +14,52 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import com.example.shinobicore.client.ClientNinjaStateHolder;
 public class KenjutsuClientHandler {
+
+    /**
+     * P1-5: приёмник подтверждения шага комбо катаны.
+     * Вызывается из ShinobiCoreClient.onInitializeClient().
+     */
+    public static void register() {
+        net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking.registerGlobalReceiver(
+                ModPackets.KATANA_COMBO_SYNC_ID, (client, handler, buf, responseSender) -> {
+            int serverStep = buf.readInt();
+            int nextStep = buf.readInt();
+            boolean success = buf.readBoolean();
+            byte reasonCode = buf.readByte();
+
+            client.execute(() -> {
+                awaitingComboSync = false;
+                comboStep = success ? nextStep : serverStep;
+                lastAttack = System.currentTimeMillis();
+                if (!success) {
+                    com.example.shinobicore.combat.ComboMachine.RejectReason reason =
+                            com.example.shinobicore.combat.ComboMachine.RejectReason.fromCode(reasonCode);
+                    com.example.shinobicore.ShinobiCore.LOGGER.debug(
+                            "[KATANA-COMBO-SYNC] step={} reason={}", comboStep, reason);
+                }
+            });
+        });
+    }
+
     private static int comboStep = 0;
     private static long lastAttack = 0;
     private static long cooldownEnd = 0;
-    private static final String[] ORDER = {"aggressive", "seigan", "iai"};
+    // P1-5: ждём подтверждения сервера. Снаружи — таймаут, чтобы потерянный
+    // пакет не блокировал катану навсегда.
+    private static boolean awaitingComboSync = false;
+    private static long syncWaitStartMs = 0L;
+    private static final long SYNC_WAIT_TIMEOUT_MS = 500L;
+    private static final String[] ORDER = {"aggressive", "defensive"};
     public static boolean tryAttack(ClientPlayerEntity player) {
         if (!(player.getMainHandStack().getItem() instanceof KatanaItem)) return false;
         long now = System.currentTimeMillis();
         if (now < cooldownEnd) return false;
+        // P1-5: не отправляем второй пакет, пока не пришло подтверждение.
+        // Иначе клиент убегает вперёд сервера — это и был рассинхрон.
+        if (awaitingComboSync) {
+            if (now - syncWaitStartMs < SYNC_WAIT_TIMEOUT_MS) return false;
+            awaitingComboSync = false;   // пакет потерялся — разблокируемся
+        }
         if (now - lastAttack > 1500) comboStep = 0;
         String stance = ClientNinjaStateHolder.get().getKenjutsuStance();
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
@@ -31,8 +69,6 @@ public class KenjutsuClientHandler {
         String slashAnim = com.example.shinobicore.client.render.WeaponVisualRegistry.getSlashAnim(player.getMainHandStack(), comboStep);
         if (slashAnim != null) {
             com.example.shinobicore.client.anim.json.PlayerJsonAnimState.play(slashAnim, true); // my Blockbench slash anims
-        } else if (stance.equals("iai")) {
-            KenjutsuAnimations.playIaiSlash(player);
         } else {
             KenjutsuAnimations.playSlash(player, comboStep);
         }
@@ -44,10 +80,15 @@ public class KenjutsuClientHandler {
             CinematicCamera.addShake(0.12f);
         }
         player.swingHand(Hand.MAIN_HAND);
-        long cd = stance.equals("aggressive") ? 350 : stance.equals("seigan") ? 450 : 500;
+        // D4: кулдаун из единого источника. Было 350/450/500 мс на клиенте при
+        // серверном пороге 341/400/450 мс — запас 9 мс, любой лаг ломал удар.
+        long cd = com.example.shinobicore.combat.KenjutsuBalance.clientCooldownMs(
+                com.example.shinobicore.combat.KenjutsuStance.fromId(stance));
         cooldownEnd = now + cd;
         lastAttack = now;
-        comboStep = (comboStep + 1) % 4;
+        // P1-5: шаг НЕ инкрементируем локально — ждём KATANA_COMBO_SYNC.
+        awaitingComboSync = true;
+        syncWaitStartMs = now;
         return true;
     }
     public static void setDeflectHeld(ClientPlayerEntity player, boolean held) {
@@ -67,7 +108,7 @@ public class KenjutsuClientHandler {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeString(next);
         ClientPlayNetworking.send(ModPackets.KATANA_STANCE_ID, buf);
-        player.sendMessage(Text.literal("В§aStance: " + next), false);
+        player.sendMessage(Text.translatable("stance.shinobicore." + next), false);
     }
     private static void playSlashParticles(ClientPlayerEntity player, int step) {
         MinecraftClient client = MinecraftClient.getInstance();

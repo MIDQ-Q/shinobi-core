@@ -123,10 +123,14 @@ public class ParkourManager {
         return chargedJumpAction;
     }
     
-    public static void sendChargedJumpFatigue(float fatigue) {
+    /**
+     * ADR-004: передаёт ДОЛЮ ЗАРЯДА (0..1), а не стоимость.
+     * Стоимость вычисляет сервер из конфига.
+     */
+    public static void sendChargedJumpRatio(float chargeRatio) {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeString("charged_jump");
-        buf.writeFloat(fatigue);
+        buf.writeFloat(chargeRatio);
         ClientPlayNetworking.send(ModPackets.PARKOUR_ACTION_ID, buf);
     }
 }

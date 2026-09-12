@@ -6,11 +6,6 @@ import java.util.*;
  * Combat system configuration.
  */
 public class CombatConfigSection implements ConfigSection {
-    public float taijutsuBaseDamage = 2.0f;
-    public float taijutsuDamagePerLevel = 0.3f;
-    public float chakraModeDamageMult = 1.2f;
-    public float chakraModeSpeedMult = 1.15f;
-    public int strongFistUnlockLevel = 50;
     public float parryWindowMs = 400.0f;
     public float parryCooldownMs = 200.0f;
     public float blockStaminaPerSecond = 3.0f;
@@ -25,11 +20,6 @@ public class CombatConfigSection implements ConfigSection {
 
     @Override
     public void load(Map<String, Object> data) {
-        taijutsuBaseDamage = getFloat(data, "taijutsuBaseDamage", taijutsuBaseDamage);
-        taijutsuDamagePerLevel = getFloat(data, "taijutsuDamagePerLevel", taijutsuDamagePerLevel);
-        chakraModeDamageMult = getFloat(data, "chakraModeDamageMult", chakraModeDamageMult);
-        chakraModeSpeedMult = getFloat(data, "chakraModeSpeedMult", chakraModeSpeedMult);
-        strongFistUnlockLevel = getInt(data, "strongFistUnlockLevel", strongFistUnlockLevel);
         parryWindowMs = getFloat(data, "parryWindowMs", parryWindowMs);
         parryCooldownMs = getFloat(data, "parryCooldownMs", parryCooldownMs);
         blockStaminaPerSecond = getFloat(data, "blockStaminaPerSecond", blockStaminaPerSecond);
@@ -43,11 +33,6 @@ public class CombatConfigSection implements ConfigSection {
     @Override
     public Map<String, Object> save() {
         Map<String, Object> data = new LinkedHashMap<>();
-        data.put("taijutsuBaseDamage", taijutsuBaseDamage);
-        data.put("taijutsuDamagePerLevel", taijutsuDamagePerLevel);
-        data.put("chakraModeDamageMult", chakraModeDamageMult);
-        data.put("chakraModeSpeedMult", chakraModeSpeedMult);
-        data.put("strongFistUnlockLevel", strongFistUnlockLevel);
         data.put("parryWindowMs", parryWindowMs);
         data.put("parryCooldownMs", parryCooldownMs);
         data.put("blockStaminaPerSecond", blockStaminaPerSecond);
@@ -70,11 +55,6 @@ public class CombatConfigSection implements ConfigSection {
 
     @Override
     public void resetToDefaults() {
-        taijutsuBaseDamage = 2.0f;
-        taijutsuDamagePerLevel = 0.3f;
-        chakraModeDamageMult = 1.2f;
-        chakraModeSpeedMult = 1.15f;
-        strongFistUnlockLevel = 50;
         parryWindowMs = 400.0f;
         parryCooldownMs = 200.0f;
         blockStaminaPerSecond = 3.0f;

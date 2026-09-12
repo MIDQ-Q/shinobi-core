@@ -1,0 +1,29 @@
+{
+  "id": "shinobicore:summon_iron_golem",
+  "name": "Iron Guardian",
+  "description": "Summon iron golem",
+  "category": "summon",
+  "rank": "S",
+  "tags": ["summon", "summon", "utility"],
+  "form": {
+    "type": "summon",
+    "params": { "entityType": "minecraft:iron_golem", "count": 1, "lifetime": 2400, "behavior": "fight_for_caster", "spawnPosition": "near_caster" }
+  },
+  "effects": [],
+  "element": "none",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 20,
+  "cost": {
+    "chakra": 50
+  },
+  "requirements": {
+    "stats": {
+      "control": 35,
+      "ninjutsu": 40
+    }
+  },
+  "visual": {"particle": "soul_fire_flame", "trail": "end_rod", "color": "#5FA8FF", "scale": 1.0, "glow": true}
+}

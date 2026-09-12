@@ -26,5 +26,6 @@
       "10": { "damage": 16, "cost": 22, "requirements": { "uses": 80, "sp": 7, "stats": { "ninjutsu": 30 } }, "unlock": { "properties": ["piercing"] } },
       "15": { "damage": 20, "cost": 18, "requirements": { "uses": 150, "sp": 12 }, "unlock": { "effects": [ { "type": "control", "subtype": "stun", "params": { "duration": 10 } } ] } }
     }
-  }
+  },
+  "visual": {"particle": "flame", "trail": "flame", "color": "#FF7A1A", "voxelModel": "fireball", "scale": 0.5, "glow": true}
 }

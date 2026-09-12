@@ -5,19 +5,19 @@ import net.minecraft.util.math.Vec3d;
 import java.util.ArrayList;
 import java.util.List;
 public class KenjutsuFormulas {
-    private static final float[] STEP_MULT = {1.0f, 1.0f, 1.2f, 1.8f};
-    private static final float[] STEP_KB = {0.3f, 0.3f, 0.4f, 1.2f};
+    // ADR-002: таблицы шагов удалены — единый источник в ComboMachine.
     public static float baseDamage(int taiLevel) { return 6.0f + taiLevel * 0.35f; }
     public static float computeDamage(int taiLevel, KenjutsuStance stance, boolean chakraMode, int step, boolean exhausted) {
-        float d = baseDamage(taiLevel) * STEP_MULT[Math.max(0, Math.min(3, step))] * stance.getDamageMult();
+        float d = baseDamage(taiLevel) * ComboMachine.damageMult(step) * stance.getDamageMult();
         if (chakraMode) d *= 1.2f;
         if (exhausted) d *= 0.5f;
         return d;
     }
     public static long cooldownMs(KenjutsuStance stance) {
-        return Math.max(200, (long)(450 / stance.getSpeedMult()));
+        // D4: единый источник для клиента и сервера (устраняет расхождение 350 vs 391 мс)
+        return KenjutsuBalance.serverCooldownMs(stance);
     }
-    public static float getKnockback(int step) { return STEP_KB[Math.max(0, Math.min(3, step))]; }
+    public static float getKnockback(int step) { return ComboMachine.knockback(step); }
     public static List<LivingEntity> findTargetsInCone(ServerWorld world, LivingEntity attacker, Vec3d look, double range, double angleDeg) {
         List<LivingEntity> out = new ArrayList<>();
         Vec3d dir = look.normalize();

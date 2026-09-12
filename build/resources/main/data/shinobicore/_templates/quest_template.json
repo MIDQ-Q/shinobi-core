@@ -1,0 +1,25 @@
+{
+  "_doc": "docs/formats/quests.md — квест: цели любого порядка, награды (xp/sp/предметы/репутация/техника), цепочки через next.",
+  "id": "shinobicore:q_bandit_camp",
+  "type": "random",
+  "displayName": { "en_us": "Bandit Camp", "ru_ru": "Лагерь бандитов" },
+  "description": { "en_us": "Bandits settled too close to the road.", "ru_ru": "Бандиты обосновались слишком близко к дороге." },
+  "giver": { "kind": "faction_board", "faction": "leaf" },
+  "reputationRequired": { "faction": "leaf", "min": 0 },
+  "rankHint": "C",
+  "order": "any",
+  "objectives": [
+    { "type": "kill", "target": "shinobicore:rogue_ninja", "count": 5, "radius": 96 },
+    { "type": "reach", "structure": "shinobicore:bandit_camp", "radius": 32 }
+  ],
+  "rewards": {
+    "xp": 300,
+    "sp": 3,
+    "items": [ { "item": "shinobicore:kunai", "count": 6 } ],
+    "reputation": { "leaf": 60, "bandits": -40 },
+    "unlockJutsu": null
+  },
+  "next": null,
+  "timeLimitTicks": null,
+  "failConditions": []
+}

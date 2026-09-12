@@ -36,6 +36,7 @@ public class DashSystem {
         ACTIVE.add(new Dash(ctx, Math.max(4, ticks), damageOnPath));
         JutsuSoundHelper.playCastSound(ctx.caster, ctx.jutsu);
         Fx.elementBurst(ctx.world(), ctx.caster.getPos().add(0, 1, 0), ctx.jutsu.getElement(), 15);
+        Fx.impactFlash(ctx.world(), ctx.caster.getPos().add(0, 1, 0), ctx.jutsu.getElement(), ctx.jutsu.getVisual(), 0.9);
     }
 
     public static void tick(MinecraftServer server) {
@@ -54,7 +55,7 @@ public class DashSystem {
                     HitProperties.apply(d.ctx, e.getPos());
                 }
             }
-            Fx.trail(d.ctx.world(), player.getPos().add(0, 1, 0), d.ctx.jutsu.getElement());
+            Fx.dashGhost(d.ctx.world(), player.getPos().add(0, 1, 0), d.ctx.jutsu.getElement(), d.ctx.jutsu.getVisual(), d.ticks);
             d.ticks--;
             if (d.ticks <= 0) it.remove();
         }

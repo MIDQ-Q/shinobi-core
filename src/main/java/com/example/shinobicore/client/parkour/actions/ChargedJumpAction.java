@@ -71,6 +71,7 @@ public class ChargedJumpAction implements ParkourAction {
                     player.velocityModified = true;
                     
                     ParkourSounds.playChargedJump();
+                    com.example.shinobicore.client.movement.MovementFeel.onChargedJumpRelease(player, chargeRatio);
                     sendChargedJumpPacket(chargeRatio);
                 }
                 resetCharge();
@@ -143,7 +144,12 @@ public class ChargedJumpAction implements ParkourAction {
     public float getFatigueCost() { return 0f; }
 
     private void sendChargedJumpPacket(float chargeRatio) {
-        float fatigue = chargeRatio * 2.0f;
-        ParkourManager.sendChargedJumpFatigue(fatigue);
+        // ADR-004: клиент сообщает ФАКТ (долю заряда 0..1), стоимость считает сервер
+        // из ModConfig.parkour.chargedJumpFatiguePerCharge. Раньше клиент присылал
+        // готовую усталость, и модифицированный клиент мог прислать <= 0
+        // и прыгать бесконечно (P1-4).
+        float safeRatio = Math.min(1.0f, Math.max(0.0f, chargeRatio));
+        if (Float.isNaN(safeRatio)) safeRatio = 0.0f;
+        ParkourManager.sendChargedJumpRatio(safeRatio);
     }
 }

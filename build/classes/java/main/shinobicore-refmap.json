@@ -1,5 +1,8 @@
 {
   "mappings": {
+    "com/example/shinobicore/mixin/CameraFxMixin": {
+      "update": "Lnet/minecraft/class_4184;method_19321(Lnet/minecraft/class_1922;Lnet/minecraft/class_1297;ZZF)V"
+    },
     "com/example/shinobicore/mixin/ChakraWaterTouchMixin": {
       "isTouchingWater": "Lnet/minecraft/class_1297;method_5799()Z"
     },
@@ -33,9 +36,6 @@
     "com/example/shinobicore/mixin/PlayerCopyMixin": {
       "copyFrom": "Lnet/minecraft/class_3222;method_14203(Lnet/minecraft/class_3222;Z)V"
     },
-    "com/example/shinobicore/mixin/PlayerParryMixin": {
-      "damage": "Lnet/minecraft/class_1309;method_5643(Lnet/minecraft/class_1282;F)Z"
-    },
     "com/example/shinobicore/mixin/PlayerRenderAnimationMixin": {
       "setAngles": "Lnet/minecraft/class_572;method_17087(Lnet/minecraft/class_1309;FFFFF)V"
     },
@@ -65,6 +65,9 @@
   },
   "data": {
     "named:intermediary": {
+      "com/example/shinobicore/mixin/CameraFxMixin": {
+        "update": "Lnet/minecraft/class_4184;method_19321(Lnet/minecraft/class_1922;Lnet/minecraft/class_1297;ZZF)V"
+      },
       "com/example/shinobicore/mixin/ChakraWaterTouchMixin": {
         "isTouchingWater": "Lnet/minecraft/class_1297;method_5799()Z"
       },
@@ -97,9 +100,6 @@
       },
       "com/example/shinobicore/mixin/PlayerCopyMixin": {
         "copyFrom": "Lnet/minecraft/class_3222;method_14203(Lnet/minecraft/class_3222;Z)V"
-      },
-      "com/example/shinobicore/mixin/PlayerParryMixin": {
-        "damage": "Lnet/minecraft/class_1309;method_5643(Lnet/minecraft/class_1282;F)Z"
       },
       "com/example/shinobicore/mixin/PlayerRenderAnimationMixin": {
         "setAngles": "Lnet/minecraft/class_572;method_17087(Lnet/minecraft/class_1309;FFFFF)V"

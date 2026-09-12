@@ -1,0 +1,29 @@
+{
+  "id": "shinobicore:mystical_palm_jutsu",
+  "name": "Mystical Palm",
+  "description": "Heal self",
+  "category": "medical",
+  "rank": "D",
+  "tags": ["yang", "point", "medical", "support"],
+  "form": {
+    "type": "point",
+    "params": { "range": 0, "targetMode": "self" }
+  },
+  "effects": [
+    {
+      "type": "buff",
+      "subtype": "heal",
+      "params": { "amount": 8 }
+    }
+  ],
+  "element": "yang",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 1,
+  "cost": {
+    "chakra": 5
+  },
+  "visual": {"particle": "happy_villager", "trail": "end_rod", "color": "#FFF6C8", "scale": 1.0, "glow": true}
+}

@@ -1,0 +1,35 @@
+{
+  "id": "shinobicore:sealing_bind",
+  "name": "Binding Seal",
+  "description": "Root a target",
+  "category": "sealing",
+  "rank": "B",
+  "tags": ["yin", "point", "sealing", "utility"],
+  "form": {
+    "type": "point",
+    "params": { "range": 9, "targetMode": "look_entity" }
+  },
+  "effects": [
+    {
+      "type": "control",
+      "subtype": "root",
+      "params": { "duration": 120, "breakDamage": 12 }
+    }
+  ],
+  "element": "yin",
+  "activation": {
+    "type": "handseals",
+    "params": { "sealCount": 2, "sealSpeed": 1.2 }
+  },
+  "cooldown": 6,
+  "cost": {
+    "chakra": 18
+  },
+  "requirements": {
+    "stats": {
+      "control": 15,
+      "ninjutsu": 20
+    }
+  },
+  "visual": {"particle": "reverse_portal", "trail": "reverse_portal", "color": "#C56BFF", "scale": 1.0, "glow": true}
+}

@@ -27,6 +27,16 @@ public final class ConfigManager {
         ShinobiLogger.module("config", "Registered config section: " + section.id());
     }
 
+    /**
+     * C4 / ADR-003 (уточнение): файл секций ОТДЕЛЬНЫЙ от ModConfig намеренно.
+     *
+     * ModConfig.save() сериализует POJO целиком (GSON.toJson(instance, writer))
+     * и вызывается в ShinobiCore ПОСЛЕ ConfigManager.load(). При общем файле
+     * значения секций затирались бы на каждом запуске.
+     *
+     * Объединять только после того, как ModConfig будет сохранять неизвестные
+     * ключи (чтение в JsonObject, слияние, запись JsonObject).
+     */
     public static Path getConfigPath() {
         return FabricLoader.getInstance().getConfigDir()
                 .resolve("shinobicore").resolve("shinobicore.json");

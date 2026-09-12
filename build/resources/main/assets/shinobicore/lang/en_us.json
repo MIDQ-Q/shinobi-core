@@ -5,7 +5,6 @@
     "gui.shinobicore.equipment":  "EQUIPMENT",
     "gui.shinobicore.stash":  "STASH",
     "gui.shinobicore.hotbar":  "HOTBAR",
-    "key.shinobicore.progression":  "Open Shinobi Hub",
     "key.categories.shinobicore":  "Shinobi Core",
     "gui.shinobicore.slot.feet":  "FEET",
     "gui.shinobicore.hint.inv":  "LMB - take/put · Shift - quick move",
@@ -20,15 +19,58 @@
     "gui.shinobicore.tree.element":  "Element",
     "gui.shinobicore.tree.unlocked":  "Unlocked",
     "gui.shinobicore.tree.cost":  "Cost: ",
-    "gui.shinobicore.tree.locked":  "Locked"
+    "gui.shinobicore.tree.locked":  "Locked",
+  "key.categories.shinobicore.combat": "Shinobi Core: Combat",
+  "key.shinobicore.meditate": "Meditate",
+  "key.shinobicore.chakra_mode": "Chakra Mode",
+  "key.shinobicore.cast": "Cast Jutsu A",
+  "key.shinobicore.cast_b": "Cast Jutsu B",
+  "key.shinobicore.cycle_slot": "Cycle Slot A",
+  "key.shinobicore.cycle_b": "Cycle Slot B",
+  "key.shinobicore.dodge_left": "Dodge Left",
+  "key.shinobicore.dodge_right": "Dodge Right",
+  "key.shinobicore.crawl": "Crawl",
+  "key.shinobicore.kick": "Kick",
+  "key.shinobicore.switch_style": "Switch Taijutsu Style",
+  "key.shinobicore.switch_stance": "Switch Stance",
+  "key.shinobicore.katana_deflect": "Deflect / Block",
+  "key.shinobicore.toggle_sensory": "Toggle Sensory",
+  "key.shinobicore.lock_on": "Toggle Lock-On",
+  "item.shinobicore.scroll": "Scroll",
+  "item.shinobicore.explosive_tag": "Explosive Tag",
+  "stance.shinobicore.aggressive": "Aggressive Stance",
+  "stance.shinobicore.defensive": "Defensive Stance",
+  "jutsu.shinobicore.missing": "Technique not implemented yet: %s",
+  "subtitles.shinobicore.punch_light": "Punch",
+  "subtitles.shinobicore.punch_heavy": "Heavy punch",
+  "subtitles.shinobicore.kick": "Kick",
+  "subtitles.shinobicore.whoosh": "Whoosh"
 ,
-  "item.shinobicore.shinobi_charm": "Shinobi Charm"
+  "itemGroup.shinobicore.main": "ShinobiCore"
 ,
-  "gui.shinobicore.artifacts": "Artifacts",
-  "gui.shinobicore.artifact.necklace": "Necklace",
-  "gui.shinobicore.artifact.ring": "Ring",
-  "gui.shinobicore.artifact.belt": "Belt",
-  "gui.shinobicore.artifact.head": "Head",
-  "gui.shinobicore.artifact.hands": "Hands",
-  "gui.shinobicore.artifact.feet": "Feet"
+  "subtitles.shinobicore.jutsu.fire": "Fire jutsu"
+,
+  "subtitles.shinobicore.jutsu.water": "Water jutsu"
+,
+  "subtitles.shinobicore.jutsu.wind": "Wind jutsu"
+,
+  "subtitles.shinobicore.jutsu.earth": "Earth jutsu"
+,
+  "subtitles.shinobicore.jutsu.lightning": "Lightning jutsu"
+,
+  "subtitles.shinobicore.jutsu.yin": "Yin jutsu"
+,
+  "subtitles.shinobicore.jutsu.yang": "Yang jutsu"
+,
+  "subtitles.shinobicore.jutsu.impact": "Jutsu impact"
+,
+  "subtitles.shinobicore.jutsu.hit": "Jutsu hit"
+,
+  "subtitles.shinobicore.jutsu.charge": "Chakra charging"
+,
+  "subtitles.shinobicore.jutsu.end": "Jutsu ends"
+,
+  "subtitles.shinobicore.jutsu.seal": "Hand seals weaving"
+,
+  "subtitles.shinobicore.jutsu.summon": "Summoning"
 }

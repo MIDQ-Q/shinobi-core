@@ -1,0 +1,45 @@
+{
+  "id": "shinobicore:healing_resuscitation",
+  "name": "Resuscitation",
+  "description": "Big heal and cleanse",
+  "category": "medical",
+  "rank": "A",
+  "tags": ["yang", "point", "medical", "support"],
+  "form": {
+    "type": "point",
+    "params": { "range": 0, "targetMode": "self" }
+  },
+  "effects": [
+    {
+      "type": "buff",
+      "subtype": "heal",
+      "params": { "amount": 20 }
+    },
+    {
+      "type": "buff",
+      "subtype": "purify",
+      "params": {}
+    },
+    {
+      "type": "buff",
+      "subtype": "regen",
+      "params": { "rate": 1, "duration": 200 }
+    }
+  ],
+  "element": "yang",
+  "activation": {
+    "type": "charge",
+    "params": { "minCharge": 30, "maxCharge": 80 }
+  },
+  "cooldown": 10,
+  "cost": {
+    "chakra": 30
+  },
+  "requirements": {
+    "stats": {
+      "control": 25,
+      "medical": 30
+    }
+  },
+  "visual": {"particle": "happy_villager", "trail": "end_rod", "color": "#FFF6C8", "scale": 1.0, "glow": true}
+}

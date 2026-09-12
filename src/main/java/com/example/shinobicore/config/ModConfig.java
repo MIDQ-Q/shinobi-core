@@ -25,6 +25,8 @@ public class ModConfig {
     }
 
     public Parkour parkour = new Parkour();
+    public Movement movement = new Movement();
+    public CameraFx cameraFx = new CameraFx();
 
     public static class Parkour {
         public float doubleJumpFatigue = 0.5f;
@@ -50,6 +52,34 @@ public class ModConfig {
         public float dodgeFatigue = 2.0f;
     }
     
+        /** Movement Pack v1 (1.1.4): ощущения движения — всё tunable без кода. */
+    public static class Movement {
+        // Бег по воде
+        public float waterRunMaxSpeed = 0.32f;      // потолок скорости (блоки/тик)
+        public float waterRunAccel = 0.020f;        // база разгона (кривая ease-out)
+        public float waterBobAmplitude = 0.035f;    // амплитуда покачивания камеры
+        public float waterStepDistance = 1.1f;      // блоков на один «шаг» (брызги+звук)
+        public int waterGraceTicks = 5;             // тики на поверхности после потери чакры
+        // Стены
+        public float wallClimbSpeed = 0.16f;        // быстрый подъём (W) — как в аниме
+        public float wallClimbSilentSpeed = 0.05f;  // тихий подъём (Shift+W) — для стелса
+        public float wallDescendSpeed = 0.06f;      // тихий спуск (Shift)
+        public float wallClimbStepDistance = 0.75f; // блоков на «шаг» подъёма
+        public float wallRunMaxSpeed = 0.36f;       // потолок горизонтального wall-run
+        public float wallRunRollDeg = 5.0f;         // наклон камеры к стене, градусы
+        // Приземление
+        public float landingDipMax = 0.22f;         // макс. просадка камеры
+    }
+
+    /** Camera FX (1.1.4): всё можно отключить, не трогая код. */
+    public static class CameraFx {
+        public boolean shoulderEnabled = true;   // камера «за правым плечом» в 3-м лице
+        public boolean effectsEnabled = true;    // тряска/качание/просадка
+        public boolean rollEnabled = true;       // наклон к стене при wall-run
+        public boolean bobEnabled = true;        // покачивание на воде
+        public float shakeScale = 1.0f;          // множитель тряски (0 = выкл)
+    }
+
     public static class Fatigue {
         public float decayPerSecond = 2.0f;
         public float softThreshold = 50f;
@@ -101,6 +131,26 @@ public class ModConfig {
         public float affinityXpMultiplier = 1.25f;
         public float costMasteryReductionMax = 0.25f;
         public Map<String, Map<String, Float>> categoryWeights = defaultCategoryWeights();
+        // === Combat Pack v1 (1.1.4) ===
+        // Блок и парирование
+        public boolean blockEnabled = true;
+        public long parryWindowMs = 400L;        // окно парирования от нажатия отражения
+        public float blockReduction = 0.6f;      // доля урона, срезаемая блоком
+        public float blockFatigue = 2.5f;        // усталость за заблокированный удар
+        public float parryKnockback = 0.9f;      // отброс атакующего при парировании
+        // Боевой раж (frenzy)
+        public boolean frenzyEnabled = true;
+        public long frenzyWindowMs = 3000L;      // окно серии убийств
+        public float frenzyDamage1 = 0.10f;
+        public float frenzyDamage2 = 0.20f;
+        public float frenzyDamage3 = 0.35f;
+        public float frenzyDamage4 = 0.50f;
+        // Мягкое наведение (soft lock-on)
+        public boolean lockOnEnabled = true;
+        public float lockOnRange = 8.0f;         // блоков
+        public float lockOnConeDeg = 60.0f;      // конус обнаружения
+        public float lockOnMagnet = 0.08f;       // сила «магнита» камеры (0 = выкл)
+        public boolean lockOnShowIndicator = true;
     }
 
     public static class Hud {

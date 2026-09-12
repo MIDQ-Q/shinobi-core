@@ -1,0 +1,48 @@
+{
+  "id": "shinobicore:earth_earthquake",
+  "name": "Earthquake",
+  "description": "AOE knockdown",
+  "category": "elemental_ninjutsu",
+  "rank": "A",
+  "tags": ["earth", "zone", "offensive"],
+  "form": {
+    "type": "zone",
+    "params": { "radius": 7, "duration": 20, "shape": "cylinder", "tickRate": 20 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 16 }
+    },
+    {
+      "type": "control",
+      "subtype": "stun",
+      "params": { "duration": 40 }
+    },
+    {
+      "type": "control",
+      "subtype": "launch",
+      "params": { "force": 0.8 }
+    }
+  ],
+  "element": "earth",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 10,
+  "cost": {
+    "chakra": 30
+  },
+  "requirements": {
+    "stats": {
+      "control": 25,
+      "ninjutsu": 30
+    },
+    "elements": {
+      "earth": 2
+    }
+  },
+  "visual": {"particle": "large_smoke", "trail": "crit", "color": "#C98F4E", "scale": 1.0, "glow": false}
+}

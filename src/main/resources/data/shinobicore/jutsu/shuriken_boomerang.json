@@ -1,0 +1,46 @@
+{
+  "id": "shinobicore:shuriken_boomerang",
+  "name": "Boomerang",
+  "description": "Returning shuriken",
+  "category": "shuriken",
+  "rank": "B",
+  "tags": ["projectile", "shuriken", "offensive"],
+  "form": {
+    "type": "projectile",
+    "params": { "speed": 1.8, "gravity": 0, "lifetime": 90, "size": 0.3 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 7 }
+    }
+  ],
+  "properties": [
+    {
+      "id": "bouncing",
+      "params": { "maxBounces": 3 }
+    },
+    {
+      "id": "piercing",
+      "params": { "maxHits": 2 }
+    }
+  ],
+  "element": "none",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 6,
+  "cost": {
+    "chakra": 18,
+    "fatigue": 6
+  },
+  "requirements": {
+    "stats": {
+      "control": 15,
+      "perception": 20
+    }
+  },
+  "visual": {"particle": "soul_fire_flame", "trail": "end_rod", "color": "#5FA8FF", "voxelModel": "chakra_orb", "scale": 0.3, "glow": true}
+}

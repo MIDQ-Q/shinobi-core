@@ -1,0 +1,23 @@
+{
+  "id": "shinobicore:earth_release_earth_wall",
+  "name": "Earth Wall",
+  "description": "Temporary wall",
+  "category": "elemental_ninjutsu",
+  "rank": "D",
+  "tags": ["earth", "construct", "utility"],
+  "form": {
+    "type": "construct",
+    "params": { "shape": "wall", "blockType": "stone", "width": 5, "height": 3, "depth": 1, "duration": 400 }
+  },
+  "effects": [],
+  "element": "earth",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 1,
+  "cost": {
+    "chakra": 5
+  },
+  "visual": {"particle": "large_smoke", "trail": "crit", "color": "#C98F4E", "scale": 1.0, "glow": false}
+}

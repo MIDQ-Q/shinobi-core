@@ -107,6 +107,19 @@ public class ActivationSystem {
             if (!(a.ctx.caster instanceof ServerPlayerEntity p)) { it.remove(); continue; }
             if (!p.isAlive()) { it.remove(); continue; }
             a.elapsed++;
+            // VISUAL PACK: круг каста под ногами (печати/удержание) и сбор чакры в руку (зарядка)
+            if ((a.mode == Mode.HANDSEALS || a.mode == Mode.CHARGE || a.mode == Mode.HOLD)
+                    && a.ctx != null && a.ctx.jutsu != null) {
+                if (a.mode == Mode.CHARGE) {
+                    net.minecraft.util.math.Vec3d handPos = p.getEyePos()
+                            .add(p.getRotationVector().multiply(0.8)).add(0, -0.25, 0);
+                    Fx.chargeGather(p.getServerWorld(), handPos,
+                            a.ctx.jutsu.getElement(), a.ctx.jutsu.getVisual(), a.elapsed);
+                } else {
+                    Fx.castCircle(p.getServerWorld(), p.getPos(),
+                            a.ctx.jutsu.getElement(), a.ctx.jutsu.getVisual(), 1.25, a.elapsed);
+                }
+            }
             switch (a.mode) {
                 case HANDSEALS -> {
                     p.sendMessage(Text.literal("§bWeaving seals... §f" + a.elapsed + "/" + a.duration), true);
@@ -171,4 +184,14 @@ public class ActivationSystem {
             // If not interruptible (e.g. COUNTER, PASSIVE), put it back
             ACTIVE.put(player.getUuid(), active);
         }
-    }}
+    }
+
+    /**
+     * H3: полная очистка состояния игрока при выходе из мира.
+     * Без неё записи PASSIVE / ON_DEATH (duration = Integer.MAX_VALUE) текут.
+     */
+    public static void removePlayer(java.util.UUID uid) {
+        if (uid == null) return;
+        ACTIVE.remove(uid);
+    }
+}

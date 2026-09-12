@@ -1,0 +1,40 @@
+{
+  "id": "shinobicore:uzumaki_chains",
+  "name": "Chains Bind",
+  "description": "Root enemies nearby",
+  "category": "sealing",
+  "rank": "A",
+  "tags": ["zone", "sealing", "utility"],
+  "form": {
+    "type": "zone",
+    "params": { "radius": 5, "duration": 100, "shape": "cylinder", "tickRate": 20 }
+  },
+  "effects": [
+    {
+      "type": "control",
+      "subtype": "root",
+      "params": { "duration": 100, "breakDamage": 14 }
+    },
+    {
+      "type": "debuff",
+      "subtype": "chakra_drain",
+      "params": { "rate": 1.5, "duration": 100 }
+    }
+  ],
+  "element": "none",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 10,
+  "cost": {
+    "chakra": 30
+  },
+  "requirements": {
+    "stats": {
+      "control": 25,
+      "ninjutsu": 30
+    }
+  },
+  "visual": {"particle": "soul_fire_flame", "trail": "end_rod", "color": "#5FA8FF", "scale": 1.0, "glow": true}
+}

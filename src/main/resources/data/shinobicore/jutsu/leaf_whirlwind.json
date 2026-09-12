@@ -1,0 +1,34 @@
+{
+  "id": "shinobicore:leaf_whirlwind",
+  "name": "Leaf Whirlwind",
+  "description": "360 kick",
+  "category": "taijutsu",
+  "rank": "D",
+  "tags": ["zone", "taijutsu", "offensive"],
+  "form": {
+    "type": "zone",
+    "params": { "radius": 3, "duration": 10, "shape": "cylinder", "tickRate": 10 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 7 }
+    },
+    {
+      "type": "control",
+      "subtype": "launch",
+      "params": { "force": 1 }
+    }
+  ],
+  "element": "none",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 1,
+  "cost": {
+    "chakra": 5
+  },
+  "visual": {"particle": "soul_fire_flame", "trail": "end_rod", "color": "#5FA8FF", "scale": 1.0, "glow": true}
+}

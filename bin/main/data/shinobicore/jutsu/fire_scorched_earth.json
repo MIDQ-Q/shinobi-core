@@ -1,0 +1,43 @@
+{
+  "id": "shinobicore:fire_scorched_earth",
+  "name": "Scorched Earth",
+  "description": "Burning ground zone",
+  "category": "elemental_ninjutsu",
+  "rank": "A",
+  "tags": ["fire", "zone", "utility"],
+  "form": {
+    "type": "zone",
+    "params": { "radius": 6, "duration": 200, "shape": "cylinder", "tickRate": 20 }
+  },
+  "effects": [
+    {
+      "type": "world",
+      "subtype": "ignite",
+      "params": { "area": 5 }
+    },
+    {
+      "type": "debuff",
+      "subtype": "burn",
+      "params": { "dps": 1.5, "duration": 80 }
+    }
+  ],
+  "element": "fire",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 10,
+  "cost": {
+    "chakra": 30
+  },
+  "requirements": {
+    "stats": {
+      "control": 25,
+      "ninjutsu": 30
+    },
+    "elements": {
+      "fire": 2
+    }
+  },
+  "visual": {"particle": "flame", "trail": "flame", "color": "#FF7A1A", "scale": 1.0, "glow": true}
+}

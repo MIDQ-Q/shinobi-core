@@ -38,5 +38,5 @@
       "15": { "damage": 90, "cost": 80 }
     }
   },
-  "visual": { "voxelModel": "rasenshuriken", "particle": "cloud" }
+  "visual": { "particle": "cloud", "trail": "crit", "color": "#B8FFD8", "voxelModel": "rasenshuriken", "scale": 1.4, "glow": true }
 }

@@ -1,0 +1,12 @@
+{
+  "elements": [
+    {"from":[0.47,0.47,0.06],"to":[0.53,0.53,0.62],"color":"#B9C2CC"},
+    {"from":[0.485,0.485,0.62],"to":[0.515,0.515,0.78],"color":"#5C4A33"},
+    {"from":[0.475,0.475,0.78],"to":[0.525,0.525,0.82],"color":"#3E3223"}
+  ],
+  "particle": "none",
+  "particleColor": "#FFFFFF",
+  "particleRate": 1,
+  "particleRadius": 0.3,
+  "anim": { "spin": [0,0,0], "pulse": 0, "pulseSpeed": 3, "bob": 0, "bobSpeed": 2 }
+}

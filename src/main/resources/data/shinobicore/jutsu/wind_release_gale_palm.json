@@ -1,0 +1,34 @@
+{
+  "id": "shinobicore:wind_release_gale_palm",
+  "name": "Gale Palm",
+  "description": "Wind dash",
+  "category": "elemental_ninjutsu",
+  "rank": "D",
+  "tags": ["wind", "dash", "offensive"],
+  "form": {
+    "type": "dash",
+    "params": { "distance": 7, "speed": 2, "damageOnPath": 4 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 4 }
+    },
+    {
+      "type": "control",
+      "subtype": "push",
+      "params": { "force": 1.6 }
+    }
+  ],
+  "element": "wind",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 1,
+  "cost": {
+    "chakra": 5
+  },
+  "visual": {"particle": "cloud", "trail": "cloud", "color": "#B8FFD8", "scale": 1.0, "glow": true}
+}

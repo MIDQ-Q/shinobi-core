@@ -1,0 +1,45 @@
+{
+  "id": "shinobicore:sealing_chakra_lock",
+  "name": "Chakra Lock",
+  "description": "Weaken and drain target",
+  "category": "sealing",
+  "rank": "A",
+  "tags": ["yin", "point", "sealing", "utility"],
+  "form": {
+    "type": "point",
+    "params": { "range": 8, "targetMode": "look_entity" }
+  },
+  "effects": [
+    {
+      "type": "debuff",
+      "subtype": "weakness",
+      "params": { "duration": 200 }
+    },
+    {
+      "type": "debuff",
+      "subtype": "slow",
+      "params": { "duration": 200, "percent": 30 }
+    },
+    {
+      "type": "debuff",
+      "subtype": "chakra_drain",
+      "params": { "rate": 1, "duration": 200 }
+    }
+  ],
+  "element": "yin",
+  "activation": {
+    "type": "handseals",
+    "params": { "sealCount": 3, "sealSpeed": 1 }
+  },
+  "cooldown": 10,
+  "cost": {
+    "chakra": 30
+  },
+  "requirements": {
+    "stats": {
+      "control": 25,
+      "ninjutsu": 30
+    }
+  },
+  "visual": {"particle": "reverse_portal", "trail": "reverse_portal", "color": "#C56BFF", "scale": 1.0, "glow": true}
+}

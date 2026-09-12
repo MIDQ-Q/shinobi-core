@@ -36,5 +36,5 @@
       "15": { "damage": 40, "cost": 35 }
     }
   },
-  "visual": { "voxelModel": "rasengan_blue", "particle": "soul_fire_flame" }
+  "visual": { "particle": "soul_fire_flame", "trail": "end_rod", "color": "#5FA8FF", "voxelModel": "rasengan_blue", "scale": 1.0, "glow": true }
 }

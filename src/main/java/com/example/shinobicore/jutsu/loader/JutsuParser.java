@@ -168,7 +168,12 @@ public class JutsuParser {
                 o.has("color") ? o.get("color").getAsString() : null,
                 o.has("voxelModel") ? o.get("voxelModel").getAsString() : null,
                 o.has("scale") ? o.get("scale").getAsDouble() : 1.0,
-                o.has("glow") && o.get("glow").getAsBoolean());
+                o.has("glow") && o.get("glow").getAsBoolean(),
+                o.has("trailStyle") ? o.get("trailStyle").getAsString() : null,
+                o.has("impactStyle") ? o.get("impactStyle").getAsString() : null,
+                o.has("castStyle") ? o.get("castStyle").getAsString() : null,
+                o.has("zoneStyle") ? o.get("zoneStyle").getAsString() : null,
+                o.has("beamStyle") ? o.get("beamStyle").getAsString() : null);
     }
 
     private static SoundDefinition parseSound(JsonObject o) {

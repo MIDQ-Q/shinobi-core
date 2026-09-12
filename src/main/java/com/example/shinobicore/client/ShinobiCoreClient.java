@@ -43,11 +43,12 @@ public class ShinobiCoreClient implements ClientModInitializer {
         com.example.shinobicore.client.command.AnimDebugCommand.register();
         com.example.shinobicore.client.anim.json.JsonAnimLibrary.loadAll();
         com.example.shinobicore.client.anim.json.KatanaFsmTracker.register();
-        com.example.shinobicore.client.anim.json.KatanaFsmTracker.register();
                 ClientInputHandler.register();
         ChakraPhysicsClient.register();
+        com.example.shinobicore.client.movement.MovementFeel.register();   // Movement Pack 1.1.4
         ParkourManager.register();
         TaijutsuClientHandler.register();
+        com.example.shinobicore.client.combat.KenjutsuClientHandler.register();   // P1-5
         RasenganClientVisual.register();
                 HudRenderCallback.EVENT.register(ChakraHudRenderer::render);
                         com.example.shinobicore.client.LandingAnimations.register(); // PHASE_A_REG
@@ -179,6 +180,9 @@ public class ShinobiCoreClient implements ClientModInitializer {
         CastingClientVisual.register();
         VoxelCastVisual.register();
         com.example.shinobicore.client.voxel.VoxelClientInit.register();
+        com.example.shinobicore.client.combat.frenzy.FrenzyClientState.register();          // Combat Pack v1
+        com.example.shinobicore.client.combat.lockon.SoftLockOnSystem.register();           // Combat Pack v1
+        com.example.shinobicore.client.combat.lockon.LockOnIndicatorRenderer.register();    // Combat Pack v1
         com.example.shinobicore.client.combat.SwordTrailRenderer.register(); // PHASE_K1_TRAIL_REGISTERED
 com.example.shinobicore.client.render.WeaponVisualRegistry.register(); // SHINOBICORE: weapon visuals JSON
 com.example.shinobicore.client.render.KatanaAuraRenderer.register(); // SHINOBICORE: katana aura particles
@@ -186,7 +190,11 @@ com.example.shinobicore.client.render.KatanaAuraRenderer.register(); // SHINOBIC
                 ClientPlayNetworking.registerGlobalReceiver(ModPackets.HIT_STOP_ID, (client, handler, buf, responseSender) -> {
             int entityId = buf.readInt();
             int durationMs = buf.readInt();
-            client.execute(() -> HitStopManager.freeze(entityId, durationMs));
+            client.execute(() -> {
+                HitStopManager.freeze(entityId, durationMs);
+                // Combat Pack v1: тряска камеры и искры в момент подтверждённого попадания
+                com.example.shinobicore.client.combat.CombatFeelClient.onHitStop(client, entityId, durationMs);
+            });
         });
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
             ClientEventBus.clearAll();
@@ -202,6 +210,7 @@ com.example.shinobicore.client.render.KatanaAuraRenderer.register(); // SHINOBIC
             HitStopManager.clear();
             HandSignsClientState.clear();
             RasenganClientState.reset();
+            com.example.shinobicore.client.movement.MovementFeel.reset();
             com.example.shinobicore.client.combat.TaichiComboVariants.cleanupAll();
             com.example.shinobicore.client.combat.ThrowAnimations.cleanupAll();
         });

@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["p", "p", "s"],
+  "key": { "p": { "item": "minecraft:paper" }, "s": { "item": "minecraft:string" } },
+  "result": { "item": "shinobicore:scroll", "count": 2 }
+}

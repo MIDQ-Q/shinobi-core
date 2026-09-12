@@ -1,0 +1,43 @@
+{
+  "id": "shinobicore:lightning_armor",
+  "name": "Lightning Armor",
+  "description": "Absorption shield",
+  "category": "elemental_ninjutsu",
+  "rank": "A",
+  "tags": ["lightning", "point", "utility"],
+  "form": {
+    "type": "point",
+    "params": { "range": 0, "targetMode": "self" }
+  },
+  "effects": [
+    {
+      "type": "buff",
+      "subtype": "shield",
+      "params": { "amount": 16, "duration": 240 }
+    },
+    {
+      "type": "buff",
+      "subtype": "speed",
+      "params": { "bonus": 0.15, "duration": 240 }
+    }
+  ],
+  "element": "lightning",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 10,
+  "cost": {
+    "chakra": 30
+  },
+  "requirements": {
+    "stats": {
+      "control": 25,
+      "ninjutsu": 30
+    },
+    "elements": {
+      "lightning": 2
+    }
+  },
+  "visual": {"particle": "electric_spark", "trail": "electric_spark", "color": "#FFF25E", "scale": 1.0, "glow": true}
+}

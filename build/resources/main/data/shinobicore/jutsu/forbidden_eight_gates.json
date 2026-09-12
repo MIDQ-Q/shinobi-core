@@ -1,0 +1,51 @@
+{
+  "id": "shinobicore:forbidden_eight_gates",
+  "name": "Open the Gates",
+  "description": "Massive strength buff with a price",
+  "category": "forbidden",
+  "rank": "S",
+  "tags": ["point", "forbidden", "offensive"],
+  "form": {
+    "type": "point",
+    "params": { "range": 0, "targetMode": "self" }
+  },
+  "effects": [
+    {
+      "type": "buff",
+      "subtype": "strength",
+      "params": { "duration": 400 }
+    },
+    {
+      "type": "buff",
+      "subtype": "speed",
+      "params": { "bonus": 0.6, "duration": 400 }
+    },
+    {
+      "type": "buff",
+      "subtype": "haste",
+      "params": { "duration": 400 }
+    },
+    {
+      "type": "damage",
+      "subtype": "dot",
+      "params": { "amount": 1, "duration": 400 }
+    }
+  ],
+  "element": "none",
+  "activation": {
+    "type": "charge",
+    "params": { "minCharge": 40, "maxCharge": 100 }
+  },
+  "cooldown": 20,
+  "cost": {
+    "chakra": 50,
+    "fatigue": 16
+  },
+  "requirements": {
+    "stats": {
+      "control": 35,
+      "taijutsu": 40
+    }
+  },
+  "visual": {"particle": "soul_fire_flame", "trail": "end_rod", "color": "#5FA8FF", "scale": 1.0, "glow": true}
+}

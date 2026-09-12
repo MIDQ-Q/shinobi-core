@@ -1,0 +1,41 @@
+{
+  "id": "shinobicore:summon_arrow_rain",
+  "name": "Arrow Rain",
+  "description": "Rain arrows from sky",
+  "category": "summon",
+  "rank": "A",
+  "tags": ["projectile", "summon", "offensive"],
+  "form": {
+    "type": "projectile",
+    "params": { "speed": 1.2, "gravity": 0.08, "lifetime": 120, "size": 0.25, "count": 12, "spread": 0.6 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 7 }
+    }
+  ],
+  "properties": [
+    {
+      "id": "volley",
+      "params": { "interval": 2 }
+    }
+  ],
+  "element": "none",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 10,
+  "cost": {
+    "chakra": 30
+  },
+  "requirements": {
+    "stats": {
+      "control": 25,
+      "ninjutsu": 30
+    }
+  },
+  "visual": {"particle": "soul_fire_flame", "trail": "end_rod", "color": "#5FA8FF", "voxelModel": "chakra_orb", "scale": 0.25, "glow": true}
+}

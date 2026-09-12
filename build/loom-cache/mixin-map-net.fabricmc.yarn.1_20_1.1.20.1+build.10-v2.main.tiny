@@ -5,3 +5,5 @@ FIELD	com/example/shinobicore/mixin/VanillaAnimSuppressMixin	Lnet/minecraft/clie
 FIELD	com/example/shinobicore/mixin/VanillaAnimSuppressMixin	Lnet/minecraft/client/model/ModelPart;	leftArm	field_27433
 FIELD	com/example/shinobicore/mixin/VanillaAnimSuppressMixin	Lnet/minecraft/client/model/ModelPart;	rightLeg	field_3392
 FIELD	com/example/shinobicore/mixin/VanillaAnimSuppressMixin	Lnet/minecraft/client/model/ModelPart;	leftLeg	field_3397
+METHOD	com/example/shinobicore/mixin/CameraFxMixin	(DDD)V	setPos	method_19327
+METHOD	com/example/shinobicore/mixin/CameraFxMixin	(FF)V	setRotation	method_19325

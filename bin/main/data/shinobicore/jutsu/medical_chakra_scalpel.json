@@ -1,0 +1,49 @@
+{
+  "id": "shinobicore:medical_chakra_scalpel",
+  "name": "Chakra Scalpel",
+  "description": "Precise multi-hit, ignores block",
+  "category": "medical",
+  "rank": "B",
+  "tags": ["yang", "point", "medical", "offensive"],
+  "form": {
+    "type": "point",
+    "params": { "range": 3.5, "targetMode": "look_entity" }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "true",
+      "params": { "amount": 11 }
+    }
+  ],
+  "properties": [
+    {
+      "id": "multi_use",
+      "params": { "uses": 3 }
+    },
+    {
+      "id": "unblockable",
+      "params": {}
+    },
+    {
+      "id": "silent",
+      "params": {}
+    }
+  ],
+  "element": "yang",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 6,
+  "cost": {
+    "chakra": 18
+  },
+  "requirements": {
+    "stats": {
+      "control": 15,
+      "medical": 20
+    }
+  },
+  "visual": {"particle": "happy_villager", "trail": "end_rod", "color": "#FFF6C8", "scale": 1.0, "glow": true}
+}

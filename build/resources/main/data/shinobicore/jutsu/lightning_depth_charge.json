@@ -1,0 +1,44 @@
+{
+  "id": "shinobicore:lightning_depth_charge",
+  "name": "Depth Charge",
+  "description": "Dash + AOE",
+  "category": "shape_ninjutsu",
+  "rank": "A",
+  "tags": ["lightning", "dash", "offensive"],
+  "form": {
+    "type": "dash",
+    "params": { "distance": 8, "speed": 2.4, "damageOnPath": 7 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 11 }
+    }
+  ],
+  "properties": [
+    {
+      "id": "explode_on_hit",
+      "params": { "radius": 3.5, "damage": 16, "knockback": 1.6 }
+    }
+  ],
+  "element": "lightning",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 10,
+  "cost": {
+    "chakra": 30
+  },
+  "requirements": {
+    "stats": {
+      "control": 25,
+      "ninjutsu": 30
+    },
+    "elements": {
+      "lightning": 2
+    }
+  },
+  "visual": {"particle": "electric_spark", "trail": "electric_spark", "color": "#FFF25E", "scale": 1.0, "glow": true}
+}

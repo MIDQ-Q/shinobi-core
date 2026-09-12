@@ -1,0 +1,35 @@
+{
+  "id": "shinobicore:flying_swallow",
+  "name": "Flying Swallow",
+  "description": "Long-range thrust",
+  "category": "taijutsu",
+  "rank": "C",
+  "tags": ["wind", "dash", "taijutsu", "offensive"],
+  "form": {
+    "type": "dash",
+    "params": { "distance": 10, "speed": 2.6, "damageOnPath": 7 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 11 }
+    }
+  ],
+  "element": "wind",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 3,
+  "cost": {
+    "chakra": 10,
+    "fatigue": 3
+  },
+  "requirements": {
+    "stats": {
+      "taijutsu": 10
+    }
+  },
+  "visual": {"particle": "cloud", "trail": "cloud", "color": "#B8FFD8", "scale": 1.0, "glow": true}
+}

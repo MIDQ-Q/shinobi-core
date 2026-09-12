@@ -1,0 +1,43 @@
+{
+  "id": "shinobicore:fire_release_dragon_flame",
+  "name": "Dragon Flame",
+  "description": "Massive fire dragon",
+  "category": "elemental_ninjutsu",
+  "rank": "A",
+  "tags": ["fire", "beam", "offensive"],
+  "form": {
+    "type": "beam",
+    "params": { "width": 1.6, "maxRange": 18, "duration": 50, "tickRate": 5 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "dot",
+      "params": { "amount": 2.5, "duration": 40 }
+    },
+    {
+      "type": "debuff",
+      "subtype": "burn",
+      "params": { "dps": 1.5, "duration": 80 }
+    }
+  ],
+  "element": "fire",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 10,
+  "cost": {
+    "chakra": 30
+  },
+  "requirements": {
+    "stats": {
+      "control": 25,
+      "ninjutsu": 30
+    },
+    "elements": {
+      "fire": 2
+    }
+  },
+  "visual": {"particle": "flame", "trail": "flame", "color": "#FF7A1A", "scale": 1.0, "glow": true}
+}

@@ -1,0 +1,38 @@
+{
+  "id": "shinobicore:lightning_release_false_darkness",
+  "name": "False Darkness",
+  "description": "Lightning beam AOE",
+  "category": "elemental_ninjutsu",
+  "rank": "B",
+  "tags": ["lightning", "beam", "offensive"],
+  "form": {
+    "type": "beam",
+    "params": { "width": 2, "maxRange": 16, "duration": 40, "tickRate": 5 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "dot",
+      "params": { "amount": 2, "duration": 40 }
+    }
+  ],
+  "element": "lightning",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 6,
+  "cost": {
+    "chakra": 18
+  },
+  "requirements": {
+    "stats": {
+      "control": 15,
+      "ninjutsu": 20
+    },
+    "elements": {
+      "lightning": 1
+    }
+  },
+  "visual": {"particle": "electric_spark", "trail": "electric_spark", "color": "#FFF25E", "scale": 1.0, "glow": true}
+}

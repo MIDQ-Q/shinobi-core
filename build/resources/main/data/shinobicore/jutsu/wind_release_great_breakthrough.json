@@ -1,0 +1,43 @@
+{
+  "id": "shinobicore:wind_release_great_breakthrough",
+  "name": "Great Breakthrough",
+  "description": "AOE wind blast",
+  "category": "elemental_ninjutsu",
+  "rank": "B",
+  "tags": ["wind", "zone", "offensive"],
+  "form": {
+    "type": "zone",
+    "params": { "radius": 5, "duration": 20, "shape": "cylinder", "tickRate": 20 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 11 }
+    },
+    {
+      "type": "control",
+      "subtype": "push",
+      "params": { "force": 2 }
+    }
+  ],
+  "element": "wind",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 6,
+  "cost": {
+    "chakra": 18
+  },
+  "requirements": {
+    "stats": {
+      "control": 15,
+      "ninjutsu": 20
+    },
+    "elements": {
+      "wind": 1
+    }
+  },
+  "visual": {"particle": "cloud", "trail": "cloud", "color": "#B8FFD8", "scale": 1.0, "glow": true}
+}

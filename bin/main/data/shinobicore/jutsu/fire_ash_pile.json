@@ -1,0 +1,43 @@
+{
+  "id": "shinobicore:fire_ash_pile",
+  "name": "Ash Pile Burn",
+  "description": "Blinding smoke AOE",
+  "category": "shape_ninjutsu",
+  "rank": "A",
+  "tags": ["fire", "zone", "utility"],
+  "form": {
+    "type": "zone",
+    "params": { "radius": 4, "duration": 100, "shape": "cylinder", "tickRate": 10 }
+  },
+  "effects": [
+    {
+      "type": "control",
+      "subtype": "blind",
+      "params": { "duration": 60 }
+    },
+    {
+      "type": "debuff",
+      "subtype": "burn",
+      "params": { "dps": 2, "duration": 60 }
+    }
+  ],
+  "element": "fire",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 10,
+  "cost": {
+    "chakra": 30
+  },
+  "requirements": {
+    "stats": {
+      "control": 25,
+      "ninjutsu": 30
+    },
+    "elements": {
+      "fire": 2
+    }
+  },
+  "visual": {"particle": "flame", "trail": "flame", "color": "#FF7A1A", "scale": 1.0, "glow": true}
+}

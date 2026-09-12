@@ -1,0 +1,41 @@
+{
+  "id": "shinobicore:kenjutsu_wind_slash",
+  "name": "Wind Slash",
+  "description": "Ranged blade wave",
+  "category": "kenjutsu",
+  "rank": "C",
+  "tags": ["wind", "projectile", "kenjutsu", "offensive"],
+  "form": {
+    "type": "projectile",
+    "params": { "speed": 2, "gravity": 0, "lifetime": 60, "size": 0.6 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 11 }
+    }
+  ],
+  "properties": [
+    {
+      "id": "piercing",
+      "params": { "maxHits": 2 }
+    }
+  ],
+  "element": "wind",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 3,
+  "cost": {
+    "chakra": 10,
+    "fatigue": 3
+  },
+  "requirements": {
+    "stats": {
+      "taijutsu": 10
+    }
+  },
+  "visual": {"particle": "cloud", "trail": "cloud", "color": "#B8FFD8", "voxelModel": "wind_orb", "scale": 0.6, "glow": true}
+}

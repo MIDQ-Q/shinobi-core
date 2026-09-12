@@ -49,6 +49,7 @@ public class FormExecutor {
             ctx.markHit(target);
             EffectExecutor.applyEffects(ctx, target);
             HitProperties.apply(ctx, target.getPos());
+            Fx.impactFlash(ctx.world(), target.getPos().add(0, 1, 0), ctx.jutsu.getElement(), ctx.jutsu.getVisual(), 1.2);
             Fx.elementBurst(ctx.world(), target.getPos().add(0, 1, 0), ctx.jutsu.getElement(), 20);
         } else if (mode.equals("raycast_point")) {
             net.minecraft.util.hit.HitResult hit = ctx.caster.raycast(range, 0.0f, false);

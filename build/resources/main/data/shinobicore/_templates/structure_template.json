@@ -1,0 +1,23 @@
+{
+  "_doc": "docs/formats/structures.md — структура: placement (ванильный structure_set) + pieces (NBT-кусочки) + markers (интерактивность Спринта 21).",
+  "id": "shinobicore:training_camp",
+  "placement": {
+    "biomes": "#shinobicore:has_structure/training_camp",
+    "type": "minecraft:random_spread",
+    "spacing": 34,
+    "separation": 12,
+    "salt": 81003,
+    "terrain_adaptation": "beard_thin"
+  },
+  "pieces": [
+    { "template": "shinobicore:training_camp_main", "rotation": "none", "position": [0, 0, 0], "processors": "shinobicore:weathered_wood" }
+  ],
+  "markers": [
+    { "kind": "training_dummy", "block": "shinobicore:marker_training_dummy", "data": { "tier": 1, "hp": 40 } },
+    { "kind": "altar", "block": "shinobicore:marker_altar", "data": { "blessing": "chakra_regen", "amount": 0.15, "radius": 12, "duration": 600 } },
+    { "kind": "loot", "block": "shinobicore:marker_loot", "data": { "table": "shinobicore:chests/camp_basic", "tier": "D" } },
+    { "kind": "npc_spawn", "block": "shinobicore:marker_npc", "data": { "npcId": "shinobicore:village_merchant", "count": 1 } }
+  ],
+  "boss": null,
+  "darkSouls": { "shortcutDoors": false, "bonfire": false, "fogGates": false }
+}

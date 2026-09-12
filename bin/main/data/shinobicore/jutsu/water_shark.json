@@ -1,0 +1,44 @@
+{
+  "id": "shinobicore:water_shark",
+  "name": "Water Shark",
+  "description": "Fast shark projectile",
+  "category": "shape_ninjutsu",
+  "rank": "B",
+  "tags": ["water", "projectile", "offensive"],
+  "form": {
+    "type": "projectile",
+    "params": { "speed": 2, "gravity": 0, "lifetime": 70, "size": 0.7 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 13.2 }
+    }
+  ],
+  "properties": [
+    {
+      "id": "homing",
+      "params": { "turnRate": 0.08 }
+    }
+  ],
+  "element": "water",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 6,
+  "cost": {
+    "chakra": 18
+  },
+  "requirements": {
+    "stats": {
+      "control": 15,
+      "ninjutsu": 20
+    },
+    "elements": {
+      "water": 1
+    }
+  },
+  "visual": {"particle": "splash", "trail": "splash", "color": "#3FA9FF", "voxelModel": "water_orb", "scale": 0.7, "glow": true}
+}

@@ -111,6 +111,11 @@ public class CinematicCamera {
         return new Vec3d(x, y, z);
     }
 
+    /** Текущая интенсивность тряски (0..~1) — читает CameraFxMixin. */
+    public static float getShakeIntensity() {
+        return shakeIntensity;
+    }
+
     public static boolean isEnabled() {
         return enabled;
     }

@@ -1,0 +1,39 @@
+{
+  "id": "shinobicore:medical_poison_mist",
+  "name": "Poison Mist",
+  "description": "AOE poison cloud",
+  "category": "medical",
+  "rank": "C",
+  "tags": ["yin", "zone", "medical", "utility"],
+  "form": {
+    "type": "zone",
+    "params": { "radius": 4, "duration": 140, "shape": "cylinder", "tickRate": 20 }
+  },
+  "effects": [
+    {
+      "type": "debuff",
+      "subtype": "poison",
+      "params": { "duration": 120 }
+    },
+    {
+      "type": "debuff",
+      "subtype": "slow",
+      "params": { "duration": 100, "percent": 20 }
+    }
+  ],
+  "element": "yin",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 3,
+  "cost": {
+    "chakra": 10
+  },
+  "requirements": {
+    "stats": {
+      "medical": 10
+    }
+  },
+  "visual": {"particle": "reverse_portal", "trail": "reverse_portal", "color": "#C56BFF", "scale": 1.0, "glow": true}
+}

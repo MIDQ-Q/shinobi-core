@@ -1,0 +1,44 @@
+{
+  "id": "shinobicore:water_dragon_bullet",
+  "name": "Water Dragon",
+  "description": "Massive water sphere",
+  "category": "elemental_ninjutsu",
+  "rank": "S",
+  "tags": ["water", "projectile", "offensive"],
+  "form": {
+    "type": "projectile",
+    "params": { "speed": 1.1, "gravity": 0, "lifetime": 120, "size": 1.6 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 22 }
+    }
+  ],
+  "properties": [
+    {
+      "id": "explode_on_hit",
+      "params": { "radius": 3.5, "damage": 16, "knockback": 1.8 }
+    }
+  ],
+  "element": "water",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 20,
+  "cost": {
+    "chakra": 50
+  },
+  "requirements": {
+    "stats": {
+      "control": 35,
+      "ninjutsu": 40
+    },
+    "elements": {
+      "water": 3
+    }
+  },
+  "visual": {"particle": "splash", "trail": "splash", "color": "#3FA9FF", "voxelModel": "water_orb", "scale": 1.6, "glow": true}
+}

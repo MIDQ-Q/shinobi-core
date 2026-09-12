@@ -1,0 +1,44 @@
+{
+  "id": "shinobicore:hiding_camouflage",
+  "name": "Camouflage",
+  "description": "Turn invisible",
+  "category": "sensory",
+  "rank": "C",
+  "tags": ["point", "sensory", "utility"],
+  "form": {
+    "type": "point",
+    "params": { "range": 0, "targetMode": "self" }
+  },
+  "effects": [
+    {
+      "type": "buff",
+      "subtype": "invisibility",
+      "params": { "duration": 200 }
+    }
+  ],
+  "properties": [
+    {
+      "id": "silent",
+      "params": {}
+    },
+    {
+      "id": "toggle",
+      "params": {}
+    }
+  ],
+  "element": "none",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 3,
+  "cost": {
+    "chakra": 10
+  },
+  "requirements": {
+    "stats": {
+      "perception": 10
+    }
+  },
+  "visual": {"particle": "soul_fire_flame", "trail": "end_rod", "color": "#5FA8FF", "scale": 1.0, "glow": true}
+}

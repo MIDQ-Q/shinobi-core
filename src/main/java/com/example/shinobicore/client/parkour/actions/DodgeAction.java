@@ -95,6 +95,8 @@ public class DodgeAction implements ParkourAction {
         com.example.shinobicore.client.anim.json.PlayerJsonAnimState.play(
             direction < 0 ? "dodge_left" : "dodge_right", true);
         player.timeUntilRegen = INVULNERABILITY_TICKS;
+        com.example.shinobicore.client.movement.MovementFeel.onDodge(player,
+                new Vec3d(right.x * direction, 0, right.z * direction));
         
         ShinobiCore.LOGGER.debug("[DODGE] Activated: direction={} ({})", 
             direction, direction < 0 ? "LEFT" : "RIGHT");

@@ -1,0 +1,40 @@
+{
+  "id": "shinobicore:medical_regeneration",
+  "name": "Strength of a Hundred",
+  "description": "Long regeneration buff",
+  "category": "medical",
+  "rank": "S",
+  "tags": ["yang", "point", "medical", "support"],
+  "form": {
+    "type": "point",
+    "params": { "range": 0, "targetMode": "self" }
+  },
+  "effects": [
+    {
+      "type": "buff",
+      "subtype": "regen",
+      "params": { "rate": 2, "duration": 600 }
+    },
+    {
+      "type": "buff",
+      "subtype": "shield",
+      "params": { "amount": 20, "duration": 600 }
+    }
+  ],
+  "element": "yang",
+  "activation": {
+    "type": "passive",
+    "params": {}
+  },
+  "cooldown": 20,
+  "cost": {
+    "chakra": 50
+  },
+  "requirements": {
+    "stats": {
+      "control": 35,
+      "medical": 40
+    }
+  },
+  "visual": {"particle": "happy_villager", "trail": "end_rod", "color": "#FFF6C8", "scale": 1.0, "glow": true}
+}

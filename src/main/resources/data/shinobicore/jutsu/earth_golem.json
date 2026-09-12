@@ -1,0 +1,32 @@
+{
+  "id": "shinobicore:earth_golem",
+  "name": "Stone Golem",
+  "description": "Summon golem",
+  "category": "shape_ninjutsu",
+  "rank": "A",
+  "tags": ["earth", "summon", "utility"],
+  "form": {
+    "type": "summon",
+    "params": { "entityType": "minecraft:iron_golem", "count": 1, "lifetime": 1200, "behavior": "fight_for_caster", "spawnPosition": "near_caster" }
+  },
+  "effects": [],
+  "element": "earth",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 10,
+  "cost": {
+    "chakra": 30
+  },
+  "requirements": {
+    "stats": {
+      "control": 25,
+      "ninjutsu": 30
+    },
+    "elements": {
+      "earth": 2
+    }
+  },
+  "visual": {"particle": "large_smoke", "trail": "crit", "color": "#C98F4E", "scale": 1.0, "glow": false}
+}

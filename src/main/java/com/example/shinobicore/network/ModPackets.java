@@ -46,6 +46,8 @@ public final class ModPackets {
     public static final Identifier KATANA_STANCE_ID = new Identifier("shinobicore", "katana_stance");
     public static final Identifier KATANA_DEFLECT_ID = new Identifier("shinobicore", "katana_deflect");
     public static final Identifier COMBO_SYNC_ID = new Identifier("shinobicore", "combo_sync");
+    /** P1-5: отдельный канал синхронизации комбо катаны (своя машина состояний). */
+    public static final Identifier KATANA_COMBO_SYNC_ID = new Identifier("shinobicore", "katana_combo_sync");
     public static final Identifier HIT_STOP_ID = new Identifier("shinobicore", "hit_stop");
 
     // Movement
@@ -66,6 +68,9 @@ public final class ModPackets {
 
     // Cooldown
     public static final Identifier COOLDOWN_SYNC_ID = new Identifier("shinobicore", "cooldown_sync");
+
+    // Combat Pack v1 (1.1.4): боевой раж
+    public static final Identifier FRENZY_SYNC_ID = new Identifier("shinobicore", "frenzy_sync");
 
     /**
      * Called from ShinobiCore.onInitialize() to register all handler classes.

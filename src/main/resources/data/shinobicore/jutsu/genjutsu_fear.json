@@ -1,0 +1,29 @@
+{
+  "id": "shinobicore:genjutsu_fear",
+  "name": "Genjutsu: Fear",
+  "description": "Slowness, nausea and mining fatigue",
+  "category": "genjutsu",
+  "rank": "D",
+  "tags": ["yin", "point", "genjutsu", "utility"],
+  "form": {
+    "type": "point",
+    "params": { "range": 8, "targetMode": "look_entity" }
+  },
+  "effects": [
+    {
+      "type": "control",
+      "subtype": "fear",
+      "params": { "duration": 100 }
+    }
+  ],
+  "element": "yin",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 1,
+  "cost": {
+    "chakra": 5
+  },
+  "visual": {"particle": "reverse_portal", "trail": "reverse_portal", "color": "#C56BFF", "scale": 1.0, "glow": true}
+}

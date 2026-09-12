@@ -28,6 +28,7 @@ public class ZoneSystem {
         boolean toggle = ctx.hasProp("toggle");
         ACTIVE.add(new Zone(ctx, center, radius, duration, tickRate, aura, toggle));
         Fx.elementBurst(ctx.world(), center, ctx.jutsu.getElement(), 30);
+        Fx.zoneVisual(ctx.world(), center, radius, ctx.jutsu.getElement(), ctx.jutsu.getVisual(), 0);
     }
     public static void tick(MinecraftServer server) {
         if (ACTIVE.isEmpty()) return;
@@ -39,6 +40,8 @@ public class ZoneSystem {
             ServerWorld world = z.ctx.world();
             if (z.aura) z.center = caster.getPos().add(0, 0.5, 0);
             z.duration--;
+            // VISUAL PACK: граница зоны рисуется каждый тик, эффект — по tickRate
+            Fx.zoneVisual(world, z.center, z.radius, z.ctx.jutsu.getElement(), z.ctx.jutsu.getVisual(), z.duration);
             if (z.duration % z.tickRate == 0) {
                 for (Object o : world.getOtherEntities(caster, new Box(z.center, z.center).expand(z.radius))) {
                     if (o instanceof LivingEntity e && e.isAlive() && !e.equals(caster)) EffectExecutor.applyEffects(z.ctx, e);

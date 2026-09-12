@@ -29,13 +29,18 @@ public class TaijutsuClientHandler {
             int serverStep = buf.readInt();
             int nextStep = buf.readInt();
             boolean success = buf.readBoolean();
-            
+            // P0-3: 4-е поле — причина (ComboMachine.RejectReason).
+            // Все чтения ОБЯЗАТЕЛЬНО до client.execute (см. javadoc PacketValidator).
+            byte reasonCode = buf.readByte();
+
             client.execute(() -> {
-                if (success) {
-                    comboStep = nextStep;
-                    lastAttackTime = System.currentTimeMillis();
-                } else {
-                    comboStep = serverStep;
+                comboStep = success ? nextStep : serverStep;
+                // ADR-011 (D-2): окно комбо продлевается ЛЮБЫМ исходом, включая WHIFF.
+                lastAttackTime = System.currentTimeMillis();
+                if (!success) {
+                    com.example.shinobicore.combat.ComboMachine.RejectReason reason =
+                            com.example.shinobicore.combat.ComboMachine.RejectReason.fromCode(reasonCode);
+                    ShinobiCore.LOGGER.debug("[COMBO-SYNC] step={} reason={}", comboStep, reason);
                 }
             });
         });

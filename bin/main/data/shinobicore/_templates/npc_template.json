@@ -1,0 +1,23 @@
+{
+  "_doc": "docs/formats/npcs.md — NPC: внешность, ИИ (tier из ai_tiers), расписание, торговля, диалог, репутационные пороги.",
+  "id": "shinobicore:village_merchant",
+  "kind": "merchant",
+  "displayName": { "en_us": "Merchant", "ru_ru": "Торговец" },
+  "faction": "leaf",
+  "model": "shinobi_npc",
+  "textures": ["merchant_1", "merchant_2"],
+  "ai": { "tier": "genin", "behavior": "passive", "fleeOnLowHp": true },
+  "schedule": [
+    { "from": 0, "to": 12000, "action": "at_structure", "poi": "market_stall" },
+    { "from": 12000, "to": 13500, "action": "patrol", "poi": "village_center", "radius": 24 },
+    { "from": 13500, "to": 24000, "action": "idle_home" }
+  ],
+  "dialog": "shinobicore:merchant_greeting",
+  "trades": [
+    { "buy": { "item": "minecraft:emerald", "count": 2 }, "sell": { "item": "shinobicore:kunai", "count": 4 }, "reputationDiscount": true, "maxUses": 12 },
+    { "buy": { "item": "minecraft:emerald", "count": 5 }, "sell": { "item": "shinobicore:explosive_tag", "count": 2 }, "reputationDiscount": true, "maxUses": 4 }
+  ],
+  "teaches": [],
+  "reputationGates": { "minReputation": -100 },
+  "spawn": { "structures": ["shinobicore:village_small"], "biomes": [], "weight": 1 }
+}

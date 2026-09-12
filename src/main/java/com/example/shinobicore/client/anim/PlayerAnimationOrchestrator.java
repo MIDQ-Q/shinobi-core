@@ -55,9 +55,16 @@ public final class PlayerAnimationOrchestrator {
             return;
         }
 
-        // Wall run (Hardcoded override)
+        // Wall run (Movement Pack: фаза от пройденного пути — ноги не «умирают» в воздухе)
         if (ParkourManager.isWallRunning()) {
             applyWallRun(limbAngle, limbDistance, rightArm, leftArm, body, head, rightLeg, leftLeg);
+            return;
+        }
+
+        // Wall climb (Movement Pack: цикл карабканья вместо застывшей позы прилипания)
+        if (ChakraPhysicsClient.stickingToWall
+                && com.example.shinobicore.client.movement.MovementFeel.isWallClimbing()) {
+            applyWallClimb(rightArm, leftArm, body, head, rightLeg, leftLeg);
             return;
         }
 
@@ -103,7 +110,7 @@ public final class PlayerAnimationOrchestrator {
         boolean isJsonOneShot = PlayerJsonAnimState.isPlayingOneShot();
         if (!TaijutsuAnimations.isAttacking(player) && !TaijutsuAnimations.isKicking(player) 
             && !KenjutsuAnimations.isAttacking(player) && !isJsonOneShot) {
-            if (ClientNinjaStateHolder.get().isMeditating() || ChakraPhysicsClient.stickingToWall) { 
+            if (ClientNinjaStateHolder.get().isMeditating() || (ChakraPhysicsClient.stickingToWall && !com.example.shinobicore.client.movement.MovementFeel.isWallClimbing())) { 
                 IdlePoseSystem.apply(player, model, limbDistance, animationProgress); 
             }
         }
@@ -112,25 +119,79 @@ public final class PlayerAnimationOrchestrator {
     private static void applyWaterRun(float limbAngle, float limbDistance,
             ModelPart rArm, ModelPart lArm, ModelPart body, ModelPart head,
             ModelPart rLeg, ModelPart lLeg) {
-        float bob = MathHelper.sin(limbAngle * 2.0f) * 0.1f * limbDistance;
-        rArm.pitch = -0.3f + bob; rArm.yaw = -0.9f; rArm.roll = 0.3f;
-        lArm.pitch = -0.3f + bob; lArm.yaw = 0.9f; lArm.roll = -0.3f;
-        body.pitch = 0.25f;
-        head.pitch -= 0.15f;
-        float legSwing = MathHelper.cos(limbAngle) * limbDistance * 1.3f;
-        rLeg.pitch = legSwing; rLeg.yaw = -0.15f;
-        lLeg.pitch = -legSwing; lLeg.yaw = 0.15f;
+        // Movement Pack (1.1.4): бег по воде как в аниме — корпус низко и вперёд,
+        // руки отведены назад, шаг укороченный и учащённый (cycle x1.45),
+        // лёгкое встречное покачивание корпуса и «компенсация» головой.
+        float cycle = limbAngle * 1.45f;
+        float amp = MathHelper.clamp(limbDistance * 1.25f, 0.25f, 1.4f);
+        float bob = MathHelper.sin(cycle * 2.0f) * 0.05f * amp;
+        body.pitch = 0.42f + bob * 0.4f;
+        body.roll = MathHelper.sin(cycle) * 0.035f;
+        head.pitch -= 0.40f;
+        rArm.pitch = -0.55f + bob;
+        rArm.yaw = -0.32f;
+        rArm.roll = 0.16f;
+        lArm.pitch = -0.55f - bob;
+        lArm.yaw = 0.32f;
+        lArm.roll = -0.16f;
+        float swing = MathHelper.cos(cycle) * amp * 1.15f;
+        rLeg.pitch = swing - 0.10f;
+        lLeg.pitch = -swing - 0.10f;
+        rLeg.yaw = -0.10f;
+        lLeg.yaw = 0.10f;
     }
 
     private static void applyWallRun(float limbAngle, float limbDistance,
             ModelPart rArm, ModelPart lArm, ModelPart body, ModelPart head,
             ModelPart rLeg, ModelPart lLeg) {
-        body.roll = 0.3f; body.pitch = 0.2f;
-        rArm.pitch = -1.5f; rArm.yaw = -0.8f; rArm.roll = 0.5f;
-        lArm.pitch = 0.5f; lArm.yaw = 0.5f;
-        head.yaw += 0.2f; head.pitch -= 0.1f;
-        float legSwing = MathHelper.cos(limbAngle) * limbDistance * 1.2f;
-        rLeg.pitch = legSwing; lLeg.pitch = -legSwing;
+        // Movement Pack (1.1.4): фаза цикла берётся из MovementFeel (накоплена
+        // по ПРОЙДЕННОМУ ПУТИ) — раньше использовался limbAngle, который в
+        // воздухе обнуляется, и ноги «застывали»: бег выглядел как ползание.
+        // Наклон корпуса теперь в сторону стены (wallSide), а не константой.
+        float phase = com.example.shinobicore.client.movement.MovementFeel.getWallRunPhase();
+        float side = com.example.shinobicore.client.movement.MovementFeel.getWallSide();
+        float swing = MathHelper.sin(phase) * 1.0f;
+        body.roll = side * 0.40f;
+        body.pitch = 0.30f;
+        rArm.pitch = -0.95f + swing * 0.55f;
+        lArm.pitch = -0.95f - swing * 0.55f;
+        rArm.yaw = side > 0 ? -0.55f : -0.22f;
+        lArm.yaw = side > 0 ? 0.22f : 0.55f;
+        rArm.roll = 0.22f;
+        lArm.roll = -0.22f;
+        head.yaw = side * 0.28f;
+        head.pitch -= 0.24f;
+        head.roll = -side * 0.16f;
+        rLeg.pitch = swing - 0.12f;
+        lLeg.pitch = -swing * 0.85f - 0.12f;
+        rLeg.yaw = -0.07f;
+        lLeg.yaw = 0.07f;
+    }
+
+    /**
+     * Movement Pack (1.1.4): цикл карабканья по стене (вертикальный подъём).
+     * Руки поочерёдно тянутся вверх и подтягиваются, ноги толкают в противофазе.
+     * Фаза — из MovementFeel.getClimbPhase() (накоплена по высоте подъёма),
+     * поэтому частота движений совпадает с реальной скоростью.
+     */
+    private static void applyWallClimb(ModelPart rArm, ModelPart lArm, ModelPart body,
+            ModelPart head, ModelPart rLeg, ModelPart lLeg) {
+        float phase = com.example.shinobicore.client.movement.MovementFeel.getClimbPhase();
+        float s1 = MathHelper.sin(phase);
+        float s2 = MathHelper.sin(phase + (float) Math.PI);
+        body.pitch = -0.14f;
+        body.roll = 0f;
+        head.pitch = 0.30f;
+        rArm.pitch = -2.25f + s1 * 0.85f;
+        lArm.pitch = -2.25f + s2 * 0.85f;
+        rArm.yaw = -0.22f;
+        lArm.yaw = 0.22f;
+        rArm.roll = 0.10f;
+        lArm.roll = -0.10f;
+        rLeg.pitch = -0.45f + s2 * 0.50f;
+        lLeg.pitch = -0.45f + s1 * 0.50f;
+        rLeg.yaw = -0.10f;
+        lLeg.yaw = 0.10f;
     }
 
     private static void applyTaijutsuAttack(TaijutsuAnimations.AttackAnimationState attackState,

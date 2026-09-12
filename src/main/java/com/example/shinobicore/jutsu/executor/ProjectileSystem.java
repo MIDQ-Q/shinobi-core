@@ -111,7 +111,11 @@ public class ProjectileSystem {
                     trajectory, amp, freq, spiralRate, invisible, silent));
         }
 
-        if (!silent && !invisible) Fx.elementBurst(ctx.world(), pos, ctx.jutsu.getElement(), 8);
+        if (!silent && !invisible) {
+            Fx.muzzleFlash(ctx.world(), pos, vel.lengthSquared() > 1e-9 ? vel.normalize() : Vec3d.ZERO,
+                    ctx.jutsu.getElement(), ctx.jutsu.getVisual());
+            Fx.elementBurst(ctx.world(), pos, ctx.jutsu.getElement(), 8);
+        }
     }
 
     private static Vec3d rotY(Vec3d v, double a) {
@@ -163,6 +167,8 @@ public class ProjectileSystem {
                     else p.vel = new Vec3d(p.vel.x, p.vel.y, -p.vel.z * 0.8);
                     p.pos = prev;
                 } else {
+                    if (!p.invisible) Fx.impactFlash(world, display, p.ctx.jutsu.getElement(),
+                            p.ctx.jutsu.getVisual(), Math.max(0.8, p.size * 1.6));
                     HitProperties.apply(p.ctx, display);
                     VoxelNet.sendImpact(p.ctx, display);
                     it.remove();
@@ -177,6 +183,8 @@ public class ProjectileSystem {
                 p.localHit.add(e.getUuid());
                 EffectExecutor.applyEffects(p.ctx, e);
                 HitProperties.apply(p.ctx, e.getPos());
+                if (!p.invisible) Fx.impactFlash(world, e.getPos().add(0, e.getHeight() * 0.5, 0),
+                        p.ctx.jutsu.getElement(), p.ctx.jutsu.getVisual(), Math.max(0.7, p.size * 1.2));
                 PropertyDefinition ch = p.ctx.prop("chaining");
                 if (ch != null) Combat.chain(p.ctx, e, ch);
                 PropertyDefinition st = p.ctx.prop("stick_on_hit");
@@ -191,6 +199,7 @@ public class ProjectileSystem {
                 p.splitDone = true;
                 int count = sp.getInt("count", 3);
                 double angle = sp.getDouble("angle", 30) * Math.PI / 180.0;
+                Fx.impactFlash(world, display, p.ctx.jutsu.getElement(), p.ctx.jutsu.getVisual(), Math.max(1.0, p.size * 1.5));
                 Fx.elementBurst(world, display, p.ctx.jutsu.getElement(), 25);
                 JutsuSoundHelper.playImpactSound(world, display, p.ctx.jutsu);
                 VerificationLogger.logProperty(p.ctx.jutsu.getId(), "splitting", "SPLIT into " + count + " shards at age=" + p.age);
@@ -204,10 +213,14 @@ public class ProjectileSystem {
                 continue;
             }
 
-            if (!p.invisible) Fx.trail(world, display, p.ctx.jutsu.getElement());
+            if (!p.invisible) Fx.trailRich(world, display, p.vel, p.ctx.jutsu.getElement(), p.ctx.jutsu.getVisual(), p.size, p.age);
             p.lifetime--;
             if (p.lifetime <= 0) {
-                if (!p.invisible) Fx.elementBurst(world, display, p.ctx.jutsu.getElement(), 12);
+                if (!p.invisible) {
+                    Fx.impactFlash(world, display, p.ctx.jutsu.getElement(),
+                            p.ctx.jutsu.getVisual(), Math.max(0.8, p.size * 1.4));
+                    Fx.elementBurst(world, display, p.ctx.jutsu.getElement(), 12);
+                }
                 VoxelNet.sendImpact(p.ctx, display);
                 it.remove();
             }

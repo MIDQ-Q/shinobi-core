@@ -1,0 +1,50 @@
+{
+  "id": "shinobicore:sealing_reaper",
+  "name": "Reaper Strike",
+  "description": "Heavy multi-hit",
+  "category": "sealing",
+  "rank": "S",
+  "tags": ["yin", "point", "sealing", "offensive"],
+  "form": {
+    "type": "point",
+    "params": { "range": 4, "targetMode": "look_entity" }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 22 }
+    },
+    {
+      "type": "damage",
+      "subtype": "dot",
+      "params": { "amount": 3, "duration": 100 }
+    }
+  ],
+  "properties": [
+    {
+      "id": "multi_use",
+      "params": { "uses": 2 }
+    },
+    {
+      "id": "execute_bonus",
+      "params": { "threshold": 0.3, "multiplier": 2 }
+    }
+  ],
+  "element": "yin",
+  "activation": {
+    "type": "handseals",
+    "params": { "sealCount": 5, "sealSpeed": 0.8 }
+  },
+  "cooldown": 20,
+  "cost": {
+    "chakra": 50
+  },
+  "requirements": {
+    "stats": {
+      "control": 35,
+      "ninjutsu": 40
+    }
+  },
+  "visual": {"particle": "reverse_portal", "trail": "reverse_portal", "color": "#C56BFF", "scale": 1.0, "glow": true}
+}

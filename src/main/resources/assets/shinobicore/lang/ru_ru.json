@@ -5,7 +5,6 @@
     "gui.shinobicore.equipment":  "СНАРЯЖЕНИЕ",
     "gui.shinobicore.stash":  "ИНВЕНТАРЬ",
     "gui.shinobicore.hotbar":  "БЫСТРЫЙ ДОСТУП",
-    "key.shinobicore.progression":  "Открыть меню шиноби",
     "key.categories.shinobicore":  "Shinobi Core",
     "gui.shinobicore.slot.feet":  "СТУПНИ",
     "gui.shinobicore.hint.inv":  "ЛКМ - взять/положить · Shift - быстрое перемещение",
@@ -20,7 +19,58 @@
     "gui.shinobicore.tree.element":  "Стихия",
     "gui.shinobicore.tree.unlocked":  "Изучено",
     "gui.shinobicore.tree.cost":  "Цена: ",
-    "gui.shinobicore.tree.locked":  "Закрыто"
+    "gui.shinobicore.tree.locked":  "Закрыто",
+  "key.categories.shinobicore.combat": "Shinobi Core: ",
+  "key.shinobicore.meditate": "Медитация",
+  "key.shinobicore.chakra_mode": "Режим чакры",
+  "key.shinobicore.cast": "Дзюцу A",
+  "key.shinobicore.cast_b": "Дзюцу B",
+  "key.shinobicore.cycle_slot": "Смена слота A",
+  "key.shinobicore.cycle_b": "Смена слота B",
+  "key.shinobicore.dodge_left": "Рывок влево",
+  "key.shinobicore.dodge_right": "Рывок вправо",
+  "key.shinobicore.crawl": "Ползти",
+  "key.shinobicore.kick": "Удар ногой",
+  "key.shinobicore.switch_style": "Стиль тай-дзюцу",
+  "key.shinobicore.switch_stance": "Смена стойки",
+  "key.shinobicore.katana_deflect": "Отражение / Блок",
+  "key.shinobicore.toggle_sensory": "Сенсорика",
+  "key.shinobicore.lock_on": "Захват цели",
+  "item.shinobicore.scroll": "Свиток",
+  "item.shinobicore.explosive_tag": "Взрывная печать",
+  "stance.shinobicore.aggressive": "Агрессивная стойка",
+  "stance.shinobicore.defensive": "Защитная стойка",
+  "jutsu.shinobicore.missing": "Техника ещё не реализована: %s",
+  "subtitles.shinobicore.punch_light": "Удар",
+  "subtitles.shinobicore.punch_heavy": "Тяжёлый удар",
+  "subtitles.shinobicore.kick": "Удар ногой",
+  "subtitles.shinobicore.whoosh": "Взмах"
 ,
-  "item.shinobicore.shinobi_charm": "Печать шиноби"
+  "itemGroup.shinobicore.main": "ShinobiCore"
+,
+  "subtitles.shinobicore.jutsu.fire": "Техника огня"
+,
+  "subtitles.shinobicore.jutsu.water": "Техника воды"
+,
+  "subtitles.shinobicore.jutsu.wind": "Техника ветра"
+,
+  "subtitles.shinobicore.jutsu.earth": "Техника земли"
+,
+  "subtitles.shinobicore.jutsu.lightning": "Техника молнии"
+,
+  "subtitles.shinobicore.jutsu.yin": "Техника инь"
+,
+  "subtitles.shinobicore.jutsu.yang": "Техника ян"
+,
+  "subtitles.shinobicore.jutsu.impact": "Попадание техники"
+,
+  "subtitles.shinobicore.jutsu.hit": "Урон техники"
+,
+  "subtitles.shinobicore.jutsu.charge": "Накопление чакры"
+,
+  "subtitles.shinobicore.jutsu.end": "Техника завершается"
+,
+  "subtitles.shinobicore.jutsu.seal": "Плетение печатей"
+,
+  "subtitles.shinobicore.jutsu.summon": "Призыв"
 }

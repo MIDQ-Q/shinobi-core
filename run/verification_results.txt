@@ -1265,3 +1265,18 @@
 [2026-09-07 23:40:12] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 seals=3
 [2026-09-07 23:40:12] [ACTIVATION] Jutsu: shinobicore:test | Type: HANDSEALS | Status: STARTED duration=30 min=0
 [2026-09-07 23:40:12] [PROGRESSION] Player: Player536 | Jutsu: shinobicore:test | Level: 1 | Uses: 20
+[2026-09-11 20:01:07] [ACTIVATION] Jutsu: shinobicore:rasengan | Type: CHARGE | Status: STARTED duration=60 min=20
+[2026-09-11 20:01:07] [ACTIVATION] Jutsu: shinobicore:rasengan | Type: CHARGE | Status: STARTED duration=60 min=20
+[2026-09-11 20:01:07] [PROGRESSION] Player: Player319 | Jutsu: shinobicore:rasengan | Level: 1 | Uses: 1
+[2026-09-11 20:01:25] [ACTIVATION] Jutsu: shinobicore:rasengan | Type: CHARGE | Status: STARTED duration=60 min=20
+[2026-09-11 20:01:25] [ACTIVATION] Jutsu: shinobicore:rasengan | Type: CHARGE | Status: STARTED duration=60 min=20
+[2026-09-11 20:01:25] [PROGRESSION] Player: Player319 | Jutsu: shinobicore:rasengan | Level: 1 | Uses: 2
+[2026-09-11 20:01:38] [ACTIVATION] Jutsu: shinobicore:rasengan | Type: CHARGE | Status: STARTED duration=60 min=20
+[2026-09-11 20:01:38] [ACTIVATION] Jutsu: shinobicore:rasengan | Type: CHARGE | Status: STARTED duration=60 min=20
+[2026-09-11 20:01:38] [PROGRESSION] Player: Player319 | Jutsu: shinobicore:rasengan | Level: 1 | Uses: 3
+[2026-09-11 20:01:48] [EFFECT] Jutsu: shinobicore:rasengan | Type: damage | Subtype: instant | 
+[2026-09-11 20:01:48] [HIT] Caster: Player319 | Target: Fox | Effect: DAMAGE | Damage: 16,0
+[2026-09-11 20:01:48] [EFFECT] Jutsu: shinobicore:rasengan | Type: control | Subtype: launch | 
+[2026-09-11 20:01:54] [ACTIVATION] Jutsu: shinobicore:rasengan | Type: CHARGE | Status: STARTED duration=60 min=20
+[2026-09-11 20:01:54] [ACTIVATION] Jutsu: shinobicore:rasengan | Type: CHARGE | Status: STARTED duration=60 min=20
+[2026-09-11 20:01:54] [PROGRESSION] Player: Player319 | Jutsu: shinobicore:rasengan | Level: 1 | Uses: 4

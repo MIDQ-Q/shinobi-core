@@ -1,0 +1,46 @@
+{
+  "id": "shinobicore:kenjutsu_blade_dance",
+  "name": "Blade Dance",
+  "description": "Multi-slash combo",
+  "category": "kenjutsu",
+  "rank": "B",
+  "tags": ["handheld", "kenjutsu", "offensive"],
+  "form": {
+    "type": "handheld",
+    "params": { "chargeTime": 6, "holdDuration": 100, "size": 1, "throwable": false, "activation": "on_hit" }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 7 }
+    }
+  ],
+  "properties": [
+    {
+      "id": "multi_use",
+      "params": { "uses": 4 }
+    },
+    {
+      "id": "channeled",
+      "params": { "chakraPerTick": 0.2 }
+    }
+  ],
+  "element": "none",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 6,
+  "cost": {
+    "chakra": 18,
+    "fatigue": 6
+  },
+  "requirements": {
+    "stats": {
+      "control": 15,
+      "taijutsu": 20
+    }
+  },
+  "visual": {"particle": "soul_fire_flame", "trail": "end_rod", "color": "#5FA8FF", "voxelModel": "chakra_orb", "scale": 1, "glow": true}
+}

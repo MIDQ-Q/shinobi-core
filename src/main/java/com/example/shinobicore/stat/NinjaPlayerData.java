@@ -136,7 +136,18 @@ public class NinjaPlayerData {
     public String getCurrentStyleId() { return currentStyleId; }
     public Set<String> getUnlockedNodes() { return unlockedNodes; }
     public boolean isNodeUnlocked(String nodeId) { return unlockedNodes.contains(nodeId); }
-    public void unlockNode(String nodeId) { unlockedNodes.add(nodeId); statsDirty = true; }
+    public void unlockNode(String nodeId) { unlockedNodes.add(nodeId); statsDirty = true; bumpPassivesVersion(); }
+
+    // === H5: версия пассивок для кэша TreePassives ===
+    /** Владелец данных. Устанавливается из ServerPlayerEntity при первом обращении. */
+    private transient java.util.UUID ownerId = null;
+    private transient int passivesVersion = 0;
+
+    public void setOwnerId(java.util.UUID uid) { this.ownerId = uid; }
+    public java.util.UUID getOwnerId() { return ownerId; }
+    public int getPassivesVersion() { return passivesVersion; }
+    /** Инвалидирует кэш TreePassives. Вызывается при любом изменении набора узлов. */
+    public void bumpPassivesVersion() { passivesVersion++; }
 
     // === Сеттеры ===
     public void setCurrentChakra(float v) { this.currentChakra = Math.max(0, Math.min(v, NinjaFormula.maxChakra(this))); }
@@ -425,5 +436,37 @@ public class NinjaPlayerData {
             NbtCompound cnb = nbt.getCompound("ClanNatureBonuses");
             for (String k : cnb.getKeys()) appliedClanNatureBonuses.put(k, cnb.getInt(k));
         }
+
+        // === D-3 MIGRATION: узлы, удалённые из дерева, возвращают потраченные SP ===
+        shinobicore$migrateRemovedNodes();
+        bumpPassivesVersion();   // H5: набор узлов изменился
     }
+
+    /**
+     * Возвращает SP за узлы, которые были куплены, но удалены из tree.json.
+     * Вызывается один раз при загрузке; результат сохраняется, потому что
+     * ID узла физически удаляется из unlockedNodes.
+     */
+    private void shinobicore$migrateRemovedNodes() {
+        java.util.Iterator<String> it = unlockedNodes.iterator();
+        int refunded = 0;
+        while (it.hasNext()) {
+            String id = it.next();
+            Integer cost = REMOVED_NODE_SP_COSTS.get(id);
+            if (cost != null) {
+                it.remove();
+                refunded += cost;
+            }
+        }
+        if (refunded > 0) {
+            addSkillPoints(refunded);
+            statsDirty = true;
+        }
+    }
+
+    /** Узлы, удалённые из дерева, и их историческая цена в SP. */
+    private static final java.util.Map<String, Integer> REMOVED_NODE_SP_COSTS =
+        java.util.Collections.unmodifiableMap(new java.util.HashMap<String, Integer>() {{
+            put("tai_counter", 6);   // D-3: авто-парирование удалено
+        }});
 }

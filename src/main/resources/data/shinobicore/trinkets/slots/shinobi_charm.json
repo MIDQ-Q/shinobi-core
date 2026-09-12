@@ -1,9 +1,0 @@
-{
-  "replace": false,
-  "icon": "shinobicore:item/shinobi_charm",
-  "order": 0,
-  "amount": 1,
-  "quick_move": true,
-  "validator_predicates": [],
-  "tooltip_predicates": []
-}

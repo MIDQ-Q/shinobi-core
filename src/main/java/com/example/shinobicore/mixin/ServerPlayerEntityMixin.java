@@ -18,6 +18,11 @@ public abstract class ServerPlayerEntityMixin implements NinjaDataHolder {
 
     @Override
     public NinjaPlayerData shinobicore_getData() {
+        // H5: кэш TreePassives ключуется по UUID, поэтому данным нужен владелец.
+        // Проверяем лениво: UUID сущности может быть ещё не назначен в конструкторе.
+        if (shinobicore_data.getOwnerId() == null) {
+            shinobicore_data.setOwnerId(((net.minecraft.entity.Entity) (Object) this).getUuid());
+        }
         return shinobicore_data;
     }
 

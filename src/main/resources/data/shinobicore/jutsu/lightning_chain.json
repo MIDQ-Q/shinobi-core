@@ -1,0 +1,44 @@
+{
+  "id": "shinobicore:lightning_chain",
+  "name": "Chain Lightning",
+  "description": "Jumping bolt",
+  "category": "shape_ninjutsu",
+  "rank": "S",
+  "tags": ["lightning", "projectile", "offensive"],
+  "form": {
+    "type": "projectile",
+    "params": { "speed": 2.6, "gravity": 0, "lifetime": 40, "size": 0.3 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 16 }
+    }
+  ],
+  "properties": [
+    {
+      "id": "chaining",
+      "params": { "maxJumps": 4, "range": 6, "falloff": 0.75 }
+    }
+  ],
+  "element": "lightning",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 20,
+  "cost": {
+    "chakra": 50
+  },
+  "requirements": {
+    "stats": {
+      "control": 35,
+      "ninjutsu": 40
+    },
+    "elements": {
+      "lightning": 3
+    }
+  },
+  "visual": {"particle": "electric_spark", "trail": "electric_spark", "color": "#FFF25E", "voxelModel": "lightning_orb", "scale": 0.3, "glow": true}
+}

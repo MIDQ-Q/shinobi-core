@@ -23,6 +23,7 @@ public class KeyBindings {
     public static KeyBinding SWITCH_STANCE;
     public static KeyBinding KATANA_DEFLECT;
     public static KeyBinding TOGGLE_SENSORY;
+    public static KeyBinding LOCK_ON;
 
     public static void register() {
         MEDITATE = KeyBindingHelper.registerKeyBinding(new KeyBinding(
@@ -53,5 +54,7 @@ public class KeyBindings {
             "key.shinobicore.katana_deflect", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_X, COMBAT_CATEGORY));
         TOGGLE_SENSORY = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "key.shinobicore.toggle_sensory", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_Y, CATEGORY));
+        LOCK_ON = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+            "key.shinobicore.lock_on", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_J, COMBAT_CATEGORY));
     }
 }

@@ -1,0 +1,28 @@
+{
+  "_doc": "docs/formats/dialogs.md — граф диалога: узлы (speaker/text/choices), условия видимости, эффекты выбора.",
+  "id": "shinobicore:merchant_greeting",
+  "start": "greet",
+  "nodes": {
+    "greet": {
+      "speaker": "npc",
+      "text": { "en_us": "Looking for something sharp, shinobi?", "ru_ru": "Ищете что-то острое, шиноби?" },
+      "choices": [
+        { "text": { "en_us": "Show me your goods", "ru_ru": "Покажи свой товар" }, "action": { "type": "open_trades" } },
+        {
+          "text": { "en_us": "Any work for a blade?", "ru_ru": "Есть работа для клинка?" },
+          "goto": "work",
+          "condition": { "type": "reputation_min", "faction": "leaf", "value": 50 }
+        },
+        { "text": { "en_us": "Farewell", "ru_ru": "Прощай" }, "action": { "type": "close" } }
+      ]
+    },
+    "work": {
+      "speaker": "npc",
+      "text": { "en_us": "Bandits by the old road. Clear them out and the village will owe you.", "ru_ru": "Бандиты у старой дороги. Вычисти их — деревня будет в долгу." },
+      "onEnter": { "type": "start_quest", "quest": "shinobicore:q_bandit_camp" },
+      "choices": [
+        { "text": { "en_us": "Consider it done", "ru_ru": "Считай, что сделано" }, "action": { "type": "close" } }
+      ]
+    }
+  }
+}

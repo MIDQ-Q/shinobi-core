@@ -1,0 +1,29 @@
+{
+  "id": "shinobicore:summon_wolf",
+  "name": "Wolf Pack",
+  "description": "Summon 2 tamed wolves",
+  "category": "summon",
+  "rank": "A",
+  "tags": ["summon", "summon", "utility"],
+  "form": {
+    "type": "summon",
+    "params": { "entityType": "minecraft:wolf", "count": 2, "lifetime": 1800, "behavior": "fight_for_caster", "spawnPosition": "near_caster" }
+  },
+  "effects": [],
+  "element": "none",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 10,
+  "cost": {
+    "chakra": 30
+  },
+  "requirements": {
+    "stats": {
+      "control": 25,
+      "ninjutsu": 30
+    }
+  },
+  "visual": {"particle": "soul_fire_flame", "trail": "end_rod", "color": "#5FA8FF", "scale": 1.0, "glow": true}
+}

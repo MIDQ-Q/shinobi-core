@@ -51,6 +51,10 @@ public class DelayedExplosionSystem {
         while (it.hasNext()) {
             Pending p = it.next();
             p.delay--;
+            // VISUAL PACK: искры фитиля, пока идёт отсчёт
+            if (p.delay > 0 && p.delay % 4 == 0) {
+                Fx.fuseSpark(p.ctx.world(), p.pos, p.ctx.jutsu.getElement(), p.ctx.jutsu.getVisual(), p.delay);
+            }
             if (p.delay <= 0) { triggered.add(p); it.remove(); }
         }
         for (Pending p : triggered) explode(p);
@@ -58,6 +62,7 @@ public class DelayedExplosionSystem {
 
     private static void explode(Pending p) {
         ServerWorld world = p.ctx.world();
+        Fx.impactFlash(world, p.pos, p.ctx.jutsu.getElement(), p.ctx.jutsu.getVisual(), p.radius);
         Fx.elementBurst(world, p.pos, p.ctx.jutsu.getElement(), 40);
         Fx.impactRing(world, p.pos, p.ctx.jutsu.getElement(), p.radius, 0, 10);
         JutsuSoundHelper.playImpactSound(world, p.pos, p.ctx.jutsu);

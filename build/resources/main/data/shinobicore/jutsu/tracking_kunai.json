@@ -1,0 +1,51 @@
+{
+  "id": "shinobicore:tracking_kunai",
+  "name": "Tracking Kunai",
+  "description": "Long-lasting tracking mark",
+  "category": "shuriken",
+  "rank": "B",
+  "tags": ["projectile", "shuriken", "offensive"],
+  "form": {
+    "type": "projectile",
+    "params": { "speed": 2.2, "gravity": 0, "lifetime": 120, "size": 0.25 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 7 }
+    },
+    {
+      "type": "debuff",
+      "subtype": "vulnerability",
+      "params": { "duration": 300, "percent": 20 }
+    }
+  ],
+  "properties": [
+    {
+      "id": "homing",
+      "params": { "turnRate": 0.12 }
+    },
+    {
+      "id": "stick_on_hit",
+      "params": { "duration": 200 }
+    }
+  ],
+  "element": "none",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 6,
+  "cost": {
+    "chakra": 18,
+    "fatigue": 6
+  },
+  "requirements": {
+    "stats": {
+      "control": 15,
+      "perception": 20
+    }
+  },
+  "visual": {"particle": "soul_fire_flame", "trail": "end_rod", "color": "#5FA8FF", "voxelModel": "chakra_orb", "scale": 0.25, "glow": true}
+}

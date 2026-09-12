@@ -1,0 +1,44 @@
+{
+  "id": "shinobicore:water_rain_arrows",
+  "name": "Rain of Arrows",
+  "description": "Sky arrows",
+  "category": "shape_ninjutsu",
+  "rank": "B",
+  "tags": ["water", "projectile", "offensive"],
+  "form": {
+    "type": "projectile",
+    "params": { "speed": 1.6, "gravity": 0.05, "lifetime": 100, "size": 0.3, "count": 7, "spread": 0.35 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 7 }
+    }
+  ],
+  "properties": [
+    {
+      "id": "volley",
+      "params": { "interval": 3 }
+    }
+  ],
+  "element": "water",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 6,
+  "cost": {
+    "chakra": 18
+  },
+  "requirements": {
+    "stats": {
+      "control": 15,
+      "ninjutsu": 20
+    },
+    "elements": {
+      "water": 1
+    }
+  },
+  "visual": {"particle": "splash", "trail": "splash", "color": "#3FA9FF", "voxelModel": "water_orb", "scale": 0.3, "glow": true}
+}

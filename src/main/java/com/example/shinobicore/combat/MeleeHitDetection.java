@@ -10,25 +10,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MeleeHitDetection {
-    public static final double RANGE = 3.0;
-    public static final double CONE_ANGLE_DEG = 120.0;
+    // Активированы фантомные поля конфига ModConfig.taijutsu.range / .coneAngle.
+    // ВАЖНО: это МЕТОДЫ, а не static final. static final инициализируется
+    // один раз при загрузке класса — ДО ModConfig.load() — и навсегда
+    // остался бы дефолтным.
+    public static double range() {
+        return com.example.shinobicore.config.ModConfig.instance.taijutsu.range;
+    }
+    public static double coneAngleDeg() {
+        return com.example.shinobicore.config.ModConfig.instance.taijutsu.coneAngle;
+    }
 
     public static List<LivingEntity> findTargetsInCone(ServerWorld world, PlayerEntity attacker, Vec3d lookDir) {
         List<LivingEntity> targets = new ArrayList<>();
         if (lookDir.lengthSquared() < 0.001) return targets;
         Vec3d dir = lookDir.normalize();
 
-        Box searchBox = attacker.getBoundingBox().expand(RANGE + 1.0);
+        Box searchBox = attacker.getBoundingBox().expand(range() + 1.0);
         List<LivingEntity> entities = world.getEntitiesByClass(LivingEntity.class, searchBox,
             e -> e != attacker && e.isAlive());
 
         for (LivingEntity target : entities) {
             Vec3d toTarget = target.getPos().add(0, target.getHeight() / 2.0, 0)
                 .subtract(attacker.getPos().add(0, attacker.getEyeHeight(attacker.getPose()), 0));
-            if (toTarget.length() > RANGE) continue;
+            if (toTarget.length() > range()) continue;
             double dot = dir.dotProduct(toTarget.normalize());
             double angle = Math.toDegrees(Math.acos(Math.max(-1.0, Math.min(1.0, dot))));
-            if (angle <= CONE_ANGLE_DEG / 2.0) {
+            if (angle <= coneAngleDeg() / 2.0) {
                 targets.add(target);
             }
         }

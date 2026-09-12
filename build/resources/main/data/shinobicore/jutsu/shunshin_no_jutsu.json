@@ -1,0 +1,35 @@
+{
+  "id": "shinobicore:shunshin_no_jutsu",
+  "name": "Shunshin no Jutsu",
+  "description": "High-speed dash technique",
+  "category": "space_time",
+  "rank": "B",
+  "tags": ["dash", "space_time", "utility"],
+  "form": {
+    "type": "dash",
+    "params": { "distance": 14, "speed": 3.2, "damageOnPath": 0 }
+  },
+  "effects": [],
+  "properties": [
+    {
+      "id": "silent",
+      "params": {}
+    }
+  ],
+  "element": "none",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 6,
+  "cost": {
+    "chakra": 18
+  },
+  "requirements": {
+    "stats": {
+      "control": 15,
+      "space_time": 20
+    }
+  },
+  "visual": {"particle": "soul_fire_flame", "trail": "end_rod", "color": "#5FA8FF", "scale": 1.0, "glow": true}
+}

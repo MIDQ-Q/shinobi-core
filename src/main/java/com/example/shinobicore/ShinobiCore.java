@@ -56,7 +56,7 @@ public class ShinobiCore implements ModInitializer {
         JutsuResourceListener.register();
         com.example.shinobicore.modules.jutsu.JutsuModule.init();
         com.example.shinobicore.jutsu.executor.JutsuRuntime.register();
-        ShinobiEventBus.setEnabled(true);
+        com.example.shinobicore.combat.FrenzyTracker.register();   // Combat Pack v1 (1.1.4)
         LOGGER.info("Shinobi Core загружается...");
         // Phase 7: Modular config registration
         ConfigManager.registerSection(new ChakraConfigSection());
@@ -72,6 +72,8 @@ public class ShinobiCore implements ModInitializer {
         com.example.shinobicore.ai.AiEntities.register();
         com.example.shinobicore.client.sakura.SakuraNetwork.register();
         ModItems.register();
+        com.example.shinobicore.sound.ModSounds.register();
+        com.example.shinobicore.item.ShinobiItemGroup.register();
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             NinjaCommand.register(dispatcher);
             com.example.shinobicore.command.JutsuTestCommand.register(dispatcher);
@@ -85,11 +87,7 @@ public class ShinobiCore implements ModInitializer {
                 com.example.shinobicore.combat.MarkTracker.cleanupExpired();
             }
         });
-        // === PHASE5_CAST_TICK ===
-        ServerTickEvents.END_SERVER_TICK.register(server -> {
-            for (ServerPlayerEntity p : server.getPlayerManager().getPlayerList()) {
-}
-        });
+
         ModPackets.register();
         com.example.shinobicore.network.JutsuCastBridge.register();
 
@@ -97,6 +95,15 @@ public class ShinobiCore implements ModInitializer {
             // Phase 2: Clean rate limiter on server side
             if (handler.player != null) {
                 com.example.shinobicore.network.PacketRateLimiter.removePlayer(handler.player.getUuid());
+                // H3: PASSIVE/ON_DEATH стартуют с duration=Integer.MAX_VALUE ->
+                // без этой очистки запись в ActivationSystem.ACTIVE остаётся навсегда.
+                com.example.shinobicore.jutsu.executor.ActivationSystem.removePlayer(handler.player.getUuid());
+                // P1-1 / H5: очистка per-player состояний
+                com.example.shinobicore.event.tick.CombatStatusService.removePlayer(handler.player.getUuid());
+                com.example.shinobicore.tree.TreePassives.removePlayer(handler.player.getUuid());
+                com.example.shinobicore.combat.FrenzyTracker.removePlayer(handler.player.getUuid());
+                com.example.shinobicore.combat.CombatFeelServer.removePlayer(handler.player.getUuid());
+                com.example.shinobicore.event.tick.SpeedModifierService.removePlayer(handler.player.getUuid());
             }
         });
 
@@ -445,25 +452,35 @@ public class ShinobiCore implements ModInitializer {
         NinjaPlayerData data = ((NinjaDataHolder) player).shinobicore_getData();
         SkillTreeNode node = SkillTreeRegistry.get(nodeId);
         if (node == null) {
-            player.sendMessage(Text.literal("В§cUnknown node: " + nodeId), false);
+            player.sendMessage(Text.literal("§cUnknown node: " + nodeId), false);
             return;
         }
         if (data.isNodeUnlocked(nodeId)) {
-            player.sendMessage(Text.literal("В§cAlready unlocked!"), false);
+            player.sendMessage(Text.literal("§cAlready unlocked!"), false);
             return;
         }
         if (!SkillTreeRegistry.isVisibleServer(node, data)) {
-            player.sendMessage(Text.literal("В§cThis node is not available to you!"), false);
+            player.sendMessage(Text.literal("§cThis node is not available to you!"), false);
             return;
         }
         for (String req : node.requires()) {
             if (!data.isNodeUnlocked(req)) {
-                player.sendMessage(Text.literal("В§cRequires: " + req), false);
+                player.sendMessage(Text.literal("§cRequires: " + req), false);
                 return;
             }
         }
+        // Задача 1.13c: не списывать SP за технику, которой нет в реестре.
+        // Иначе игрок покупает узел и получает нерабочий jutsuId (79 из 82 в tree.json).
+        if ("jutsu".equals(node.type()) && node.jutsuId() != null
+                && com.example.shinobicore.jutsu.registry.JutsuRegistry.get(node.jutsuId()) == null) {
+            player.sendMessage(Text.literal("\u00A7cThis technique is not implemented yet: "
+                + node.jutsuId()), false);
+            ShinobiCore.LOGGER.warn("[TREE] refused to unlock '{}' — jutsu '{}' is not registered",
+                nodeId, node.jutsuId());
+            return;
+        }
         if (data.getSkillPoints() < node.spCost()) {
-            player.sendMessage(Text.literal("В§cNot enough SP! Need " + node.spCost()), false);
+            player.sendMessage(Text.literal("§cNot enough SP! Need " + node.spCost()), false);
             return;
         }
         if (!node.branch().equals("general") && !node.branch().equals("taijutsu")
@@ -473,7 +490,7 @@ public class ShinobiCore implements ModInitializer {
                 if (e.getId().equals(node.branch())) { nature = e; break; }
             }
             if (nature != null && !data.isNatureUnlocked(nature)) {
-                player.sendMessage(Text.literal("В§cUnlock this nature first!"), false);
+                player.sendMessage(Text.literal("§cUnlock this nature first!"), false);
                 return;
             }
         }
@@ -490,7 +507,7 @@ public class ShinobiCore implements ModInitializer {
         sendStatsSync(player);
         sendLoadoutSync(player);
         sendTreeSync(player);
-        player.sendMessage(Text.literal("В§aUnlocked: " + nodeId), false);
+        player.sendMessage(Text.literal("§aUnlocked: " + nodeId), false);
     }
 
     private static StatType statById(String id) {

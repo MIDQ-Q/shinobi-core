@@ -1,0 +1,29 @@
+{
+  "id": "shinobicore:water_release_water_bullet",
+  "name": "Water Bullet",
+  "description": "Basic water projectile",
+  "category": "elemental_ninjutsu",
+  "rank": "D",
+  "tags": ["water", "projectile", "offensive"],
+  "form": {
+    "type": "projectile",
+    "params": { "speed": 1.4, "gravity": 0, "lifetime": 80, "size": 0.4 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 4 }
+    }
+  ],
+  "element": "water",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 1,
+  "cost": {
+    "chakra": 5
+  },
+  "visual": {"particle": "splash", "trail": "splash", "color": "#3FA9FF", "voxelModel": "water_orb", "scale": 0.4, "glow": true}
+}

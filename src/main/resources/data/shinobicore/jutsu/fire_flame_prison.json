@@ -1,0 +1,43 @@
+{
+  "id": "shinobicore:fire_flame_prison",
+  "name": "Flame Prison",
+  "description": "Ring of fire DOT",
+  "category": "shape_ninjutsu",
+  "rank": "B",
+  "tags": ["fire", "zone", "utility"],
+  "form": {
+    "type": "zone",
+    "params": { "radius": 3.5, "duration": 140, "shape": "cylinder", "tickRate": 10 }
+  },
+  "effects": [
+    {
+      "type": "debuff",
+      "subtype": "burn",
+      "params": { "dps": 2.5, "duration": 60 }
+    },
+    {
+      "type": "control",
+      "subtype": "root",
+      "params": { "duration": 40, "breakDamage": 6 }
+    }
+  ],
+  "element": "fire",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 6,
+  "cost": {
+    "chakra": 18
+  },
+  "requirements": {
+    "stats": {
+      "control": 15,
+      "ninjutsu": 20
+    },
+    "elements": {
+      "fire": 1
+    }
+  },
+  "visual": {"particle": "flame", "trail": "flame", "color": "#FF7A1A", "scale": 1.0, "glow": true}
+}

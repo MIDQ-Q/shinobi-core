@@ -1,0 +1,45 @@
+{
+  "id": "shinobicore:genjutsu_hell_viewing",
+  "name": "Hell Viewing",
+  "description": "Targeted illusion debuff",
+  "category": "genjutsu",
+  "rank": "A",
+  "tags": ["yin", "point", "genjutsu", "utility"],
+  "form": {
+    "type": "point",
+    "params": { "range": 12, "targetMode": "look_entity" }
+  },
+  "effects": [
+    {
+      "type": "control",
+      "subtype": "confusion",
+      "params": { "duration": 200 }
+    },
+    {
+      "type": "control",
+      "subtype": "fear",
+      "params": { "duration": 140 }
+    },
+    {
+      "type": "debuff",
+      "subtype": "vulnerability",
+      "params": { "duration": 140, "percent": 25 }
+    }
+  ],
+  "element": "yin",
+  "activation": {
+    "type": "handseals",
+    "params": { "sealCount": 3, "sealSpeed": 1 }
+  },
+  "cooldown": 10,
+  "cost": {
+    "chakra": 30
+  },
+  "requirements": {
+    "stats": {
+      "control": 25,
+      "genjutsu": 30
+    }
+  },
+  "visual": {"particle": "reverse_portal", "trail": "reverse_portal", "color": "#C56BFF", "scale": 1.0, "glow": true}
+}

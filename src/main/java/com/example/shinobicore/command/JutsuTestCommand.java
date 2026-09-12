@@ -38,7 +38,8 @@ public class JutsuTestCommand {
         jutsu.then(releaseBranch());
         jutsu.then(throwBranch());
         jutsu.then(bindBranch());
-        dispatcher.register(literal("shinobicore").then(jutsu).then(aiBranch()).then(aiV2Branch()));
+        dispatcher.register(literal("shinobicore").then(jutsu).then(aiBranch()).then(aiV2Branch()
+                .then(com.example.shinobicore.command.FxPreviewCommand.branch())));
     }
 
     private static String norm(String raw) {

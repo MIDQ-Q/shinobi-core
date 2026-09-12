@@ -1,11 +1,14 @@
 package com.example.shinobicore.client.anim.json;
 
+import com.example.shinobicore.client.movement.AnimClock;
 import net.minecraft.client.model.ModelPart;
 import java.util.Map;
 
 public class PlayerJsonAnimState {
     private static String currentAnim = "idle";
     private static boolean oneShot = false;
+    // Combat Pack v1: время анимаций идёт через AnimClock — в боевом раже
+    // (FrenzyClientState) оно визуально замедляется, сервер не затрагивается.
     private static long startTimeMs = 0;
     private static boolean active = false;
     public static float lastRootOffsetY = 0;
@@ -13,7 +16,7 @@ public class PlayerJsonAnimState {
     public static void play(String animName, boolean isOneShot) {
         currentAnim = animName;
         oneShot = isOneShot;
-        startTimeMs = System.currentTimeMillis();
+        startTimeMs = AnimClock.scaledNow();
         active = true;
     }
 
@@ -21,7 +24,7 @@ public class PlayerJsonAnimState {
         active = false;
         currentAnim = "idle";
         oneShot = false;
-        startTimeMs = System.currentTimeMillis();
+        startTimeMs = AnimClock.scaledNow();
     }
 
     public static String getCurrentAnim() { return currentAnim; }
@@ -34,10 +37,10 @@ public class PlayerJsonAnimState {
         return active && oneShot;
     }
 
-    public static void tickAndApply(Map<String, ModelPart> parts, 
+    public static void tickAndApply(Map<String, ModelPart> parts,
                                 boolean isMoving, boolean isSprinting, boolean isChakra,
                                 boolean isSliding, boolean isJumping, boolean isFalling, float limbAngle,
-                                boolean isCrawling, boolean isWallRunning, boolean isWaterRunning, 
+                                boolean isCrawling, boolean isWallRunning, boolean isWaterRunning,
                                 boolean isSneaking, boolean isChargingJump, boolean isMeditating) {
         if (!active) {
             String newAnim;
@@ -46,7 +49,7 @@ public class PlayerJsonAnimState {
                 // Slide: play "slide" intro, then loop "slide_process"
                 JsonAnimLibrary.JsonAnim slideAnim = JsonAnimLibrary.get("slide");
                 if (slideAnim != null && startTimeMs > 0 && "slide".equals(currentAnim)) {
-                    float elapsed = (System.currentTimeMillis() - startTimeMs) / 1000f;
+                    float elapsed = (AnimClock.scaledNow() - startTimeMs) / 1000f;
                     newAnim = (elapsed >= slideAnim.length) ? "slide_process" : "slide";
                 } else if ("slide_process".equals(currentAnim)) {
                     newAnim = "slide_process"; // keep looping
@@ -63,10 +66,10 @@ public class PlayerJsonAnimState {
 
             // FIX: reset startTimeMs when animation changes (prevents visual jump)
             if (!newAnim.equals(currentAnim)) {
-                startTimeMs = System.currentTimeMillis();
+                startTimeMs = AnimClock.scaledNow();
             }
             currentAnim = newAnim;
-            if (startTimeMs == 0) startTimeMs = System.currentTimeMillis();
+            if (startTimeMs == 0) startTimeMs = AnimClock.scaledNow();
         }
 
         JsonAnimLibrary.JsonAnim anim = JsonAnimLibrary.get(currentAnim);
@@ -76,22 +79,22 @@ public class PlayerJsonAnimState {
         if (anim == null) return;
 
         float timeSec;
-    // === ФИКС: Синхронизируем анимации движения со скоростью игрока ===
-    if (!active && (currentAnim.equals("walk") || currentAnim.equals("run") || 
-                    currentAnim.equals("naruto_run") || currentAnim.equals("combat_walk") || 
+        // === ФИКС: Синхронизируем анимации движения со скоростью игрока ===
+        if (!active && (currentAnim.equals("walk") || currentAnim.equals("run") ||
+                    currentAnim.equals("naruto_run") || currentAnim.equals("combat_walk") ||
                     currentAnim.equals("combat_run"))) {
-        float cycle = (limbAngle % (float)(Math.PI * 2)) / (float)(Math.PI * 2);
-        if (cycle < 0) cycle += 1.0f;
-        timeSec = cycle * anim.length;
-    } else {
-        timeSec = (System.currentTimeMillis() - startTimeMs) / 1000f;
-    }
+            float cycle = (limbAngle % (float)(Math.PI * 2)) / (float)(Math.PI * 2);
+            if (cycle < 0) cycle += 1.0f;
+            timeSec = cycle * anim.length;
+        } else {
+            timeSec = (AnimClock.scaledNow() - startTimeMs) / 1000f;
+        }
 
         // One-shot animations stop after completing
         if (oneShot && timeSec >= anim.length) {
             active = false;
             oneShot = false;
-            startTimeMs = System.currentTimeMillis();
+            startTimeMs = AnimClock.scaledNow();
             return;
         }
 

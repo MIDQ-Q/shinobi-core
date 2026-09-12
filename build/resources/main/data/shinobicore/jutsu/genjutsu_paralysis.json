@@ -1,0 +1,35 @@
+{
+  "id": "shinobicore:genjutsu_paralysis",
+  "name": "Genjutsu: Paralysis",
+  "description": "Complete freeze",
+  "category": "genjutsu",
+  "rank": "B",
+  "tags": ["yin", "point", "genjutsu", "utility"],
+  "form": {
+    "type": "point",
+    "params": { "range": 7, "targetMode": "look_entity" }
+  },
+  "effects": [
+    {
+      "type": "control",
+      "subtype": "paralysis",
+      "params": { "duration": 80 }
+    }
+  ],
+  "element": "yin",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 6,
+  "cost": {
+    "chakra": 18
+  },
+  "requirements": {
+    "stats": {
+      "control": 15,
+      "genjutsu": 20
+    }
+  },
+  "visual": {"particle": "reverse_portal", "trail": "reverse_portal", "color": "#C56BFF", "scale": 1.0, "glow": true}
+}

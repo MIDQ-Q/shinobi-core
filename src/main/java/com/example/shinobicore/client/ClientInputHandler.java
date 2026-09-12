@@ -56,7 +56,7 @@ public class ClientInputHandler {
                 if (currentStyle == TaijutsuStyle.STANDARD) {
                     int taijutsuLevel = ClientNinjaStateHolder.get().getStatLevels().getOrDefault("taijutsu", 0);
                     if (!TaijutsuFormulas.canUseStrongFist(taijutsuLevel)) {
-                        client.player.sendMessage(Text.literal("В§cYou need Taijutsu level " +
+                        client.player.sendMessage(Text.literal("§cYou need Taijutsu level " +
                                 TaijutsuFormulas.strongFistUnlockLevel() + " to use Strong Fist!"), false);
                         return;
                     }
@@ -65,13 +65,16 @@ public class ClientInputHandler {
                     newStyle = TaijutsuStyle.STANDARD;
                 }
                 TaijutsuClientHandler.setStyle(newStyle);
-                client.player.sendMessage(Text.literal("В§aStyle: " + newStyle.getId()), false);
+                client.player.sendMessage(Text.literal("§aStyle: " + newStyle.getId()), false);
                 if (client.getNetworkHandler() != null) {
                     PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
                     buf.writeString(newStyle.getId());
                     ClientPlayNetworking.send(ModPackets.TAIJUTSU_STYLE_ID, buf);
                 }
             }
+        }
+        if (KeyBindings.LOCK_ON.wasPressed()) {
+            com.example.shinobicore.client.combat.lockon.SoftLockOnSystem.toggle(client.player);
         }
         if (KeyBindings.TOGGLE_SENSORY.wasPressed()) {
             boolean newState = !ClientNinjaStateHolder.get().isSensoryEnabled();
@@ -81,7 +84,7 @@ public class ClientInputHandler {
                 senBuf.writeBoolean(newState);
                 ClientPlayNetworking.send(ModPackets.SENSORY_TOGGLE_ID, senBuf);
             }
-            client.player.sendMessage(Text.literal(newState ? "В§aSensory: ON" : "В§7Sensory: OFF"), false);
+            client.player.sendMessage(Text.literal(newState ? "§aSensory: ON" : "§7Sensory: OFF"), false);
         }
         if (KeyBindings.CAST_A.wasPressed()) ClientNinjaStateHolder.get().castActiveJutsu(0);
         if (KeyBindings.CAST_B.wasPressed()) ClientNinjaStateHolder.get().castActiveJutsu(1);

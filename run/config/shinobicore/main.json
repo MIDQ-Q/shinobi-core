@@ -11,6 +11,27 @@
     "chargedJumpFatiguePerCharge": 2.0,
     "dodgeFatigue": 2.0
   },
+  "movement": {
+    "waterRunMaxSpeed": 0.32,
+    "waterRunAccel": 0.02,
+    "waterBobAmplitude": 0.035,
+    "waterStepDistance": 1.1,
+    "waterGraceTicks": 5,
+    "wallClimbSpeed": 0.16,
+    "wallClimbSilentSpeed": 0.05,
+    "wallDescendSpeed": 0.06,
+    "wallClimbStepDistance": 0.75,
+    "wallRunMaxSpeed": 0.36,
+    "wallRunRollDeg": 5.0,
+    "landingDipMax": 0.22
+  },
+  "cameraFx": {
+    "shoulderEnabled": true,
+    "effectsEnabled": true,
+    "rollEnabled": true,
+    "bobEnabled": true,
+    "shakeScale": 1.0
+  },
   "taijutsu": {
     "baseDamage": 2.0,
     "damagePerLevel": 0.3,
@@ -107,7 +128,23 @@
         "control": 0.45,
         "perception": 0.1
       }
-    }
+    },
+    "blockEnabled": true,
+    "parryWindowMs": 400,
+    "blockReduction": 0.6,
+    "blockFatigue": 2.5,
+    "parryKnockback": 0.9,
+    "frenzyEnabled": true,
+    "frenzyWindowMs": 3000,
+    "frenzyDamage1": 0.1,
+    "frenzyDamage2": 0.2,
+    "frenzyDamage3": 0.35,
+    "frenzyDamage4": 0.5,
+    "lockOnEnabled": true,
+    "lockOnRange": 8.0,
+    "lockOnConeDeg": 60.0,
+    "lockOnMagnet": 0.08,
+    "lockOnShowIndicator": true
   },
   "hud": {
     "x": 10,

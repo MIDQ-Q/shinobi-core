@@ -1,0 +1,44 @@
+{
+  "id": "shinobicore:wind_sickle",
+  "name": "Wind Sickle",
+  "description": "Piercing wind blade",
+  "category": "shape_ninjutsu",
+  "rank": "A",
+  "tags": ["wind", "projectile", "offensive"],
+  "form": {
+    "type": "projectile",
+    "params": { "speed": 2.2, "gravity": 0, "lifetime": 60, "size": 0.5 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 16 }
+    }
+  ],
+  "properties": [
+    {
+      "id": "piercing",
+      "params": { "maxHits": 4 }
+    }
+  ],
+  "element": "wind",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 10,
+  "cost": {
+    "chakra": 30
+  },
+  "requirements": {
+    "stats": {
+      "control": 25,
+      "ninjutsu": 30
+    },
+    "elements": {
+      "wind": 2
+    }
+  },
+  "visual": {"particle": "cloud", "trail": "cloud", "color": "#B8FFD8", "voxelModel": "wind_orb", "scale": 0.5, "glow": true}
+}

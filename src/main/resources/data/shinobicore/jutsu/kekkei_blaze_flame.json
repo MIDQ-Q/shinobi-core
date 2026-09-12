@@ -1,0 +1,53 @@
+{
+  "id": "shinobicore:kekkei_blaze_flame",
+  "name": "Blaze Flame",
+  "description": "Black fire that does not die",
+  "category": "kekkei",
+  "rank": "S",
+  "tags": ["fire", "projectile", "kekkei", "offensive"],
+  "form": {
+    "type": "projectile",
+    "params": { "speed": 1.4, "gravity": 0, "lifetime": 120, "size": 0.6 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 16 }
+    },
+    {
+      "type": "debuff",
+      "subtype": "burn",
+      "params": { "dps": 4, "duration": 200 }
+    }
+  ],
+  "properties": [
+    {
+      "id": "permanent",
+      "params": {}
+    },
+    {
+      "id": "unblockable",
+      "params": {}
+    }
+  ],
+  "element": "fire",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 20,
+  "cost": {
+    "chakra": 50
+  },
+  "requirements": {
+    "stats": {
+      "control": 35,
+      "ninjutsu": 40
+    },
+    "elements": {
+      "fire": 3
+    }
+  },
+  "visual": {"particle": "flame", "trail": "flame", "color": "#FF7A1A", "voxelModel": "fireball", "scale": 0.6, "glow": true}
+}

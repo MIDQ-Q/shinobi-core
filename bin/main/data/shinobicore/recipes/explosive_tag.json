@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["g", "p"],
+  "key": { "g": { "item": "minecraft:gunpowder" }, "p": { "item": "minecraft:paper" } },
+  "result": { "item": "shinobicore:explosive_tag", "count": 4 }
+}

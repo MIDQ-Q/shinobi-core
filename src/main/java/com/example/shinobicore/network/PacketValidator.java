@@ -42,13 +42,16 @@ public final class PacketValidator {
         if (styleId == null || styleId.isEmpty()) return false;
         return switch (styleId) {
             case "standard", "strong_fist",
-                 "aggressive", "seigan", "iai" -> true;
+                 "aggressive", "defensive", "seigan", "iai" -> true;
             default -> false;
         };
     }
 
     public static boolean validJutsuId(String jutsuId) {
-        if (jutsuId == null || jutsuId.isEmpty()) return true;
+        // H4: было return true для null/empty — несогласованно с validStyleId
+        // и позволяло прислать пустой ID. Если "пусто" легально для какого-то
+        // пакета (снятие каста) — нужен отдельный валидатор, а не дырка здесь.
+        if (jutsuId == null || jutsuId.isEmpty()) return false;
         return JutsuRegistry.get(jutsuId) != null;
     }
 

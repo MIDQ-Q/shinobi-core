@@ -1,0 +1,46 @@
+{
+  "id": "shinobicore:shuriken_explosive_tag",
+  "name": "Explosive Tag",
+  "description": "Blasting shuriken",
+  "category": "shuriken",
+  "rank": "A",
+  "tags": ["fire", "projectile", "shuriken", "offensive"],
+  "form": {
+    "type": "projectile",
+    "params": { "speed": 1.6, "gravity": 0.02, "lifetime": 100, "size": 0.3 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 7 }
+    }
+  ],
+  "properties": [
+    {
+      "id": "delayed_explosion",
+      "params": { "delay": 40, "radius": 3, "damage": 16 }
+    },
+    {
+      "id": "stick_on_hit",
+      "params": { "duration": 200 }
+    }
+  ],
+  "element": "fire",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 10,
+  "cost": {
+    "chakra": 30,
+    "fatigue": 10
+  },
+  "requirements": {
+    "stats": {
+      "control": 25,
+      "perception": 30
+    }
+  },
+  "visual": {"particle": "flame", "trail": "flame", "color": "#FF7A1A", "voxelModel": "fireball", "scale": 0.3, "glow": true}
+}

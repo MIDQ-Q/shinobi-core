@@ -1,0 +1,49 @@
+{
+  "_doc": "docs/formats/items.md — каталог предметов Content Pack (Спринт 2). Из записей генерируются: регистрация ModItems, модели, lang, рецепты.",
+  "items": [
+    {
+      "id": "shinobicore:tanto",
+      "kind": "sword",
+      "tier": "steel",
+      "displayName": { "en_us": "Tanto", "ru_ru": "Танто" },
+      "texture": "item/tanto",
+      "model": "item/handheld",
+      "stats": { "damage": 4.5, "attackSpeed": -1.6, "durability": 280, "reach": 0.0 },
+      "stanceBonuses": { "aggressive": 1.1, "defensive": 1.0 },
+      "craft": {
+        "recipeFile": "recipes/tanto.json",
+        "ingredients": [
+          { "item": "shinobicore:steel_ingot", "count": 2 },
+          { "item": "minecraft:stick", "count": 1 }
+        ]
+      },
+      "forgeUpgrades": ["sharpening", "tempering"],
+      "infusable": true,
+      "creativeTab": "shinobicore.main"
+    },
+    {
+      "id": "shinobicore:steel_ingot",
+      "kind": "material",
+      "tier": "steel",
+      "displayName": { "en_us": "Steel Ingot", "ru_ru": "Стальной слиток" },
+      "texture": "item/steel_ingot",
+      "model": "item/generated",
+      "creativeTab": "shinobicore.main"
+    },
+    {
+      "id": "shinobicore:senbon",
+      "kind": "throwable",
+      "tier": "iron",
+      "displayName": { "en_us": "Senbon", "ru_ru": "Сэнбон" },
+      "texture": "item/senbon",
+      "model": "item/generated",
+      "stats": { "damage": 1.5, "durability": 0 },
+      "throw": { "speed": 2.2, "gravity": 0.01, "pierce": 0, "silent": true },
+      "craft": {
+        "recipeFile": "recipes/senbon.json",
+        "ingredients": [ { "item": "minecraft:iron_nugget", "count": 2 } ]
+      },
+      "creativeTab": "shinobicore.main"
+    }
+  ]
+}

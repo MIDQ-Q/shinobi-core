@@ -1,0 +1,43 @@
+{
+  "id": "shinobicore:kekkei_lava_golem",
+  "name": "Lava Golem",
+  "description": "Summon magma cube",
+  "category": "kekkei",
+  "rank": "S",
+  "tags": ["fire", "summon", "kekkei", "offensive"],
+  "form": {
+    "type": "summon",
+    "params": { "entityType": "minecraft:magma_cube", "count": 2, "lifetime": 1200, "behavior": "kamikaze", "spawnPosition": "near_caster" }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 11 }
+    },
+    {
+      "type": "world",
+      "subtype": "ignite",
+      "params": { "area": 2 }
+    }
+  ],
+  "element": "fire",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 20,
+  "cost": {
+    "chakra": 50
+  },
+  "requirements": {
+    "stats": {
+      "control": 35,
+      "ninjutsu": 40
+    },
+    "elements": {
+      "fire": 3
+    }
+  },
+  "visual": {"particle": "flame", "trail": "flame", "color": "#FF7A1A", "scale": 1.0, "glow": true}
+}

@@ -1,0 +1,38 @@
+{
+  "id": "shinobicore:lightning_thunder_cut",
+  "name": "Thunder Cut",
+  "description": "Melee x2.5",
+  "category": "shape_ninjutsu",
+  "rank": "B",
+  "tags": ["lightning", "handheld", "offensive"],
+  "form": {
+    "type": "handheld",
+    "params": { "chargeTime": 10, "holdDuration": 60, "size": 1, "throwable": false, "activation": "on_hit" }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 17.5 }
+    }
+  ],
+  "element": "lightning",
+  "activation": {
+    "type": "charge",
+    "params": { "minCharge": 6, "maxCharge": 30 }
+  },
+  "cooldown": 6,
+  "cost": {
+    "chakra": 18
+  },
+  "requirements": {
+    "stats": {
+      "control": 15,
+      "ninjutsu": 20
+    },
+    "elements": {
+      "lightning": 1
+    }
+  },
+  "visual": {"particle": "electric_spark", "trail": "electric_spark", "color": "#FFF25E", "voxelModel": "lightning_orb", "scale": 1, "glow": true}
+}

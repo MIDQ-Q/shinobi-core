@@ -41,7 +41,7 @@ public class OrbitingSystem {
             for (int i = 0; i < o.count; i++) {
                 double a = (o.angle * 0.1) + (i * 2 * Math.PI / o.count);
                 Vec3d pos = center.add(Math.cos(a) * o.radius, 0, Math.sin(a) * o.radius);
-                Fx.trail(world, pos, o.ctx.jutsu.getElement());
+                Fx.trailRich(world, pos, o.ctx.jutsu.getElement(), o.ctx.jutsu.getVisual(), 0.45, o.angle + i * 7);
                 // Damage nearby enemies
                 for (Object e : world.getOtherEntities(o.ctx.caster, new net.minecraft.util.math.Box(pos, pos).expand(0.5))) {
                     if (e instanceof LivingEntity le && le.isAlive() && !le.equals(o.ctx.caster)) {

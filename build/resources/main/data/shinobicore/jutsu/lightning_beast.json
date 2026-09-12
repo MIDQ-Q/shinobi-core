@@ -1,0 +1,43 @@
+{
+  "id": "shinobicore:lightning_beast",
+  "name": "Beast Dash",
+  "description": "Lightning dash strike",
+  "category": "shape_ninjutsu",
+  "rank": "A",
+  "tags": ["lightning", "dash", "offensive"],
+  "form": {
+    "type": "dash",
+    "params": { "distance": 11, "speed": 2.8, "damageOnPath": 11 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 16 }
+    },
+    {
+      "type": "control",
+      "subtype": "stun",
+      "params": { "duration": 20 }
+    }
+  ],
+  "element": "lightning",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 10,
+  "cost": {
+    "chakra": 30
+  },
+  "requirements": {
+    "stats": {
+      "control": 25,
+      "ninjutsu": 30
+    },
+    "elements": {
+      "lightning": 2
+    }
+  },
+  "visual": {"particle": "electric_spark", "trail": "electric_spark", "color": "#FFF25E", "scale": 1.0, "glow": true}
+}

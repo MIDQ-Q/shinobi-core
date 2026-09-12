@@ -1,0 +1,44 @@
+{
+  "id": "shinobicore:earth_spear",
+  "name": "Earth Spear",
+  "description": "Piercing ground strike",
+  "category": "shape_ninjutsu",
+  "rank": "B",
+  "tags": ["earth", "projectile", "offensive"],
+  "form": {
+    "type": "projectile",
+    "params": { "speed": 1.8, "gravity": 0, "lifetime": 60, "size": 0.5 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 11 }
+    }
+  ],
+  "properties": [
+    {
+      "id": "piercing",
+      "params": { "maxHits": 3 }
+    }
+  ],
+  "element": "earth",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 6,
+  "cost": {
+    "chakra": 18
+  },
+  "requirements": {
+    "stats": {
+      "control": 15,
+      "ninjutsu": 20
+    },
+    "elements": {
+      "earth": 1
+    }
+  },
+  "visual": {"particle": "large_smoke", "trail": "crit", "color": "#C98F4E", "voxelModel": "earth_orb", "scale": 0.5, "glow": false}
+}

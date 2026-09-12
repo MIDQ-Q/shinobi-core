@@ -65,6 +65,7 @@ public class SlideAction implements ParkourAction {
         }
 
         player.setSprinting(true);
+        com.example.shinobicore.client.movement.MovementFeel.onSlideTick(player, ticks);
         if (ticks % 6 == 0) ParkourSounds.playSlideLoop();
     }
 

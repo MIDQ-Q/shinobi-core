@@ -19,7 +19,10 @@
                                  ],
                         "client":  [
                                        "com.example.shinobicore.client.ShinobiCoreClient"
-                                   ]
+                                   ],
+                        "cardinal-components-entity":  [
+                                                           "com.example.shinobicore.compat.ShinobiCCA"
+                                                       ]
                     },
     "mixins":  [
                    "shinobicore.mixins.json"
@@ -32,10 +35,16 @@
                     "cardinal-components-base":  "*",
                     "cardinal-components-entity":  "*",
                     "geckolib":  "*",
-                    "cloth-config":  "*",
-                    "player-animator":  "*"
+                    "cloth-config":  "*"
                 },
     "suggests":  {
-                     "artifacts":  "*"
-                 }
+                     "artifacts":  "*",
+                     "player-animator":  "*"
+                 },
+    "custom":  {
+                    "cardinal-components":  [
+                                                "shinobicore:stealth",
+                                                "shinobicore:reputation"
+                                            ]
+                }
 }

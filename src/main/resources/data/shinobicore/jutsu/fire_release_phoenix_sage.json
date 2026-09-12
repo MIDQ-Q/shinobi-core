@@ -1,0 +1,49 @@
+{
+  "id": "shinobicore:fire_release_phoenix_sage",
+  "name": "Phoenix Sage",
+  "description": "Scattered fire shots",
+  "category": "elemental_ninjutsu",
+  "rank": "B",
+  "tags": ["fire", "projectile", "offensive"],
+  "form": {
+    "type": "projectile",
+    "params": { "speed": 1.6, "gravity": 0.02, "lifetime": 70, "size": 0.3, "count": 5, "spread": 0.22 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 7 }
+    },
+    {
+      "type": "debuff",
+      "subtype": "burn",
+      "params": { "dps": 0.8, "duration": 40 }
+    }
+  ],
+  "properties": [
+    {
+      "id": "volley",
+      "params": { "interval": 4 }
+    }
+  ],
+  "element": "fire",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 6,
+  "cost": {
+    "chakra": 18
+  },
+  "requirements": {
+    "stats": {
+      "control": 15,
+      "ninjutsu": 20
+    },
+    "elements": {
+      "fire": 1
+    }
+  },
+  "visual": {"particle": "flame", "trail": "flame", "color": "#FF7A1A", "voxelModel": "fireball", "scale": 0.3, "glow": true}
+}

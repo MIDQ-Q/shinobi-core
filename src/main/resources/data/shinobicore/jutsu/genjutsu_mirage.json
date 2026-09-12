@@ -1,0 +1,40 @@
+{
+  "id": "shinobicore:genjutsu_mirage",
+  "name": "Mirage",
+  "description": "Long-range confusion",
+  "category": "genjutsu",
+  "rank": "A",
+  "tags": ["yin", "zone", "genjutsu", "utility"],
+  "form": {
+    "type": "zone",
+    "params": { "radius": 6, "duration": 200, "shape": "cylinder", "tickRate": 40 }
+  },
+  "effects": [
+    {
+      "type": "control",
+      "subtype": "confusion",
+      "params": { "duration": 160 }
+    },
+    {
+      "type": "control",
+      "subtype": "blind",
+      "params": { "duration": 80 }
+    }
+  ],
+  "element": "yin",
+  "activation": {
+    "type": "handseals",
+    "params": { "sealCount": 4, "sealSpeed": 1 }
+  },
+  "cooldown": 10,
+  "cost": {
+    "chakra": 30
+  },
+  "requirements": {
+    "stats": {
+      "control": 25,
+      "genjutsu": 30
+    }
+  },
+  "visual": {"particle": "reverse_portal", "trail": "reverse_portal", "color": "#C56BFF", "scale": 1.0, "glow": true}
+}

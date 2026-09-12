@@ -1,0 +1,43 @@
+{
+  "id": "shinobicore:water_prison",
+  "name": "Water Prison",
+  "description": "Trap target in water",
+  "category": "shape_ninjutsu",
+  "rank": "B",
+  "tags": ["water", "point", "offensive"],
+  "form": {
+    "type": "point",
+    "params": { "range": 6, "targetMode": "look_entity" }
+  },
+  "effects": [
+    {
+      "type": "control",
+      "subtype": "root",
+      "params": { "duration": 80, "breakDamage": 8 }
+    },
+    {
+      "type": "damage",
+      "subtype": "dot",
+      "params": { "amount": 1.5, "duration": 80 }
+    }
+  ],
+  "element": "water",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 6,
+  "cost": {
+    "chakra": 18
+  },
+  "requirements": {
+    "stats": {
+      "control": 15,
+      "ninjutsu": 20
+    },
+    "elements": {
+      "water": 1
+    }
+  },
+  "visual": {"particle": "splash", "trail": "splash", "color": "#3FA9FF", "scale": 1.0, "glow": true}
+}

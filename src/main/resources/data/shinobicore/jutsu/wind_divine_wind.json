@@ -1,0 +1,48 @@
+{
+  "id": "shinobicore:wind_divine_wind",
+  "name": "Divine Wind",
+  "description": "Piercing blade",
+  "category": "shape_ninjutsu",
+  "rank": "B",
+  "tags": ["wind", "projectile", "offensive"],
+  "form": {
+    "type": "projectile",
+    "params": { "speed": 2.4, "gravity": 0, "lifetime": 55, "size": 0.4 }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "true",
+      "params": { "amount": 11 }
+    }
+  ],
+  "properties": [
+    {
+      "id": "piercing",
+      "params": { "maxHits": 3 }
+    },
+    {
+      "id": "unblockable",
+      "params": {}
+    }
+  ],
+  "element": "wind",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 6,
+  "cost": {
+    "chakra": 18
+  },
+  "requirements": {
+    "stats": {
+      "control": 15,
+      "ninjutsu": 20
+    },
+    "elements": {
+      "wind": 1
+    }
+  },
+  "visual": {"particle": "cloud", "trail": "cloud", "color": "#B8FFD8", "voxelModel": "wind_orb", "scale": 0.4, "glow": true}
+}

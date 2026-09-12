@@ -2,6 +2,7 @@ package com.example.shinobicore.jutsu.executor;
 
 import com.example.shinobicore.ShinobiCore;
 import com.example.shinobicore.jutsu.core.JutsuDefinition;
+import com.example.shinobicore.jutsu.core.SoundDefinition;
 import com.example.shinobicore.jutsu.enums.ElementType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -19,6 +20,21 @@ public class JutsuSoundHelper {
         play(world, pos, resolve(jutsu, "hit"), SoundCategory.PLAYERS, 1.0f, 1.0f);
     }
     private static SoundEvent resolve(JutsuDefinition j, String phase) {
+        // Part 3 (WS-4): если у техники задано поле "sound", берём звук из него.
+        // На момент применения ни один файл техники поля "sound" не содержит,
+        // поэтому ветка является no-op и прежнее поведение сохранено полностью.
+        SoundDefinition sd = j.getSound();
+        if (sd != null) {
+            String custom = null;
+            if ("cast".equals(phase))      custom = sd.getCast();
+            else if ("hit".equals(phase))  custom = sd.getHit();
+            else if ("loop".equals(phase)) custom = sd.getLoop();
+            else if ("end".equals(phase))  custom = sd.getEnd();
+            if (custom != null && !custom.isEmpty()) {
+                Identifier cid = Identifier.tryParse(custom);
+                if (cid != null) return SoundEvent.of(cid);
+            }
+        }
         ElementType el = j.getElement();
         SoundEvent base = SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP;
         if (el != null) switch (el) {

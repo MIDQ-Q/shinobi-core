@@ -1,0 +1,34 @@
+{
+  "id": "shinobicore:wind_release_passing_gale",
+  "name": "Passing Gale",
+  "description": "Speed buff",
+  "category": "elemental_ninjutsu",
+  "rank": "C",
+  "tags": ["wind", "point", "utility"],
+  "form": {
+    "type": "point",
+    "params": { "range": 0, "targetMode": "self" }
+  },
+  "effects": [
+    {
+      "type": "buff",
+      "subtype": "speed",
+      "params": { "bonus": 0.3, "duration": 160 }
+    }
+  ],
+  "element": "wind",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 3,
+  "cost": {
+    "chakra": 10
+  },
+  "requirements": {
+    "stats": {
+      "ninjutsu": 10
+    }
+  },
+  "visual": {"particle": "cloud", "trail": "cloud", "color": "#B8FFD8", "scale": 1.0, "glow": true}
+}

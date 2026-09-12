@@ -1,0 +1,44 @@
+{
+  "id": "shinobicore:genjutsu_blindness",
+  "name": "Genjutsu: Darkness",
+  "description": "Blindness, weakness and slowness",
+  "category": "genjutsu",
+  "rank": "C",
+  "tags": ["yin", "point", "genjutsu", "utility"],
+  "form": {
+    "type": "point",
+    "params": { "range": 8, "targetMode": "look_entity" }
+  },
+  "effects": [
+    {
+      "type": "control",
+      "subtype": "blind",
+      "params": { "duration": 120 }
+    },
+    {
+      "type": "debuff",
+      "subtype": "weakness",
+      "params": { "duration": 120 }
+    },
+    {
+      "type": "debuff",
+      "subtype": "slow",
+      "params": { "duration": 120, "percent": 25 }
+    }
+  ],
+  "element": "yin",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 3,
+  "cost": {
+    "chakra": 10
+  },
+  "requirements": {
+    "stats": {
+      "genjutsu": 10
+    }
+  },
+  "visual": {"particle": "reverse_portal", "trail": "reverse_portal", "color": "#C56BFF", "scale": 1.0, "glow": true}
+}

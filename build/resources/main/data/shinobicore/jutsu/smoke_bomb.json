@@ -1,0 +1,35 @@
+{
+  "id": "shinobicore:smoke_bomb",
+  "name": "Smoke Bomb",
+  "description": "Blind enemies",
+  "category": "general",
+  "rank": "D",
+  "tags": ["zone", "general", "utility"],
+  "form": {
+    "type": "zone",
+    "params": { "radius": 4.5, "duration": 140, "shape": "cylinder", "tickRate": 20 }
+  },
+  "effects": [
+    {
+      "type": "control",
+      "subtype": "blind",
+      "params": { "duration": 100 }
+    }
+  ],
+  "properties": [
+    {
+      "id": "silent",
+      "params": {}
+    }
+  ],
+  "element": "none",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 1,
+  "cost": {
+    "chakra": 5
+  },
+  "visual": {"particle": "soul_fire_flame", "trail": "end_rod", "color": "#5FA8FF", "scale": 1.0, "glow": true}
+}

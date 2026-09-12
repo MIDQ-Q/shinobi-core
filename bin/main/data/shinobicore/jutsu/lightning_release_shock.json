@@ -1,0 +1,29 @@
+{
+  "id": "shinobicore:lightning_release_shock",
+  "name": "Lightning Shock",
+  "description": "Melee lightning",
+  "category": "elemental_ninjutsu",
+  "rank": "D",
+  "tags": ["lightning", "point", "offensive"],
+  "form": {
+    "type": "point",
+    "params": { "range": 3.5, "targetMode": "look_entity" }
+  },
+  "effects": [
+    {
+      "type": "damage",
+      "subtype": "instant",
+      "params": { "amount": 4.8 }
+    }
+  ],
+  "element": "lightning",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 1,
+  "cost": {
+    "chakra": 5
+  },
+  "visual": {"particle": "electric_spark", "trail": "electric_spark", "color": "#FFF25E", "scale": 1.0, "glow": true}
+}

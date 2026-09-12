@@ -58,10 +58,9 @@ public class BeamSystem {
             Vec3d start = caster.getEyePos();
             Vec3d dir = caster.getRotationVector().normalize();
             Vec3d end = start.add(dir.multiply(b.maxRange));
-            for (int i = 0; i < (int) b.maxRange; i++) {
-                Vec3d p = start.add(dir.multiply(i));
-                Fx.trail(world, p, b.ctx.jutsu.getElement());
-            }
+            // VISUAL PACK: слоистое ядро луча (пыль + стихия + бегущий импульс)
+            Fx.beamCore(world, start, dir, b.maxRange, b.width,
+                    b.ctx.jutsu.getElement(), b.ctx.jutsu.getVisual(), b.ticksLeft);
             b.ticksLeft--;
             if (b.ticksLeft % b.tickRate == 0) {
                 b.hitThisTick.clear();

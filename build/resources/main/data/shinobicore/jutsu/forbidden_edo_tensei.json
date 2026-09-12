@@ -1,0 +1,30 @@
+{
+  "id": "shinobicore:forbidden_edo_tensei",
+  "name": "Edo Tensei",
+  "description": "Summon zombie horde",
+  "category": "forbidden",
+  "rank": "S",
+  "tags": ["yin", "summon", "forbidden", "utility"],
+  "form": {
+    "type": "summon",
+    "params": { "entityType": "minecraft:zombie", "count": 4, "lifetime": 2400, "behavior": "fight_for_caster", "spawnPosition": "near_caster" }
+  },
+  "effects": [],
+  "element": "yin",
+  "activation": {
+    "type": "handseals",
+    "params": { "sealCount": 6, "sealSpeed": 0.7 }
+  },
+  "cooldown": 20,
+  "cost": {
+    "chakra": 50,
+    "fatigue": 16
+  },
+  "requirements": {
+    "stats": {
+      "control": 35,
+      "taijutsu": 40
+    }
+  },
+  "visual": {"particle": "reverse_portal", "trail": "reverse_portal", "color": "#C56BFF", "scale": 1.0, "glow": true}
+}

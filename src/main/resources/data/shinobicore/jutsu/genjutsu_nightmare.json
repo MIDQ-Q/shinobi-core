@@ -1,0 +1,50 @@
+{
+  "id": "shinobicore:genjutsu_nightmare",
+  "name": "Genjutsu: Nightmare",
+  "description": "All debuffs, long duration",
+  "category": "genjutsu",
+  "rank": "B",
+  "tags": ["yin", "point", "genjutsu", "utility"],
+  "form": {
+    "type": "point",
+    "params": { "range": 9, "targetMode": "look_entity" }
+  },
+  "effects": [
+    {
+      "type": "control",
+      "subtype": "fear",
+      "params": { "duration": 160 }
+    },
+    {
+      "type": "control",
+      "subtype": "blind",
+      "params": { "duration": 160 }
+    },
+    {
+      "type": "debuff",
+      "subtype": "weakness",
+      "params": { "duration": 160 }
+    },
+    {
+      "type": "debuff",
+      "subtype": "slow",
+      "params": { "duration": 160, "percent": 35 }
+    }
+  ],
+  "element": "yin",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 6,
+  "cost": {
+    "chakra": 18
+  },
+  "requirements": {
+    "stats": {
+      "control": 15,
+      "genjutsu": 20
+    }
+  },
+  "visual": {"particle": "reverse_portal", "trail": "reverse_portal", "color": "#C56BFF", "scale": 1.0, "glow": true}
+}

@@ -1,0 +1,43 @@
+{
+  "id": "shinobicore:wind_tornado_cage",
+  "name": "Tornado Cage",
+  "description": "Trap in tornado",
+  "category": "shape_ninjutsu",
+  "rank": "B",
+  "tags": ["wind", "zone", "offensive"],
+  "form": {
+    "type": "zone",
+    "params": { "radius": 3.5, "duration": 120, "shape": "cylinder", "tickRate": 10 }
+  },
+  "effects": [
+    {
+      "type": "control",
+      "subtype": "root",
+      "params": { "duration": 100, "breakDamage": 10 }
+    },
+    {
+      "type": "damage",
+      "subtype": "dot",
+      "params": { "amount": 1.5, "duration": 100 }
+    }
+  ],
+  "element": "wind",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 6,
+  "cost": {
+    "chakra": 18
+  },
+  "requirements": {
+    "stats": {
+      "control": 15,
+      "ninjutsu": 20
+    },
+    "elements": {
+      "wind": 1
+    }
+  },
+  "visual": {"particle": "cloud", "trail": "cloud", "color": "#B8FFD8", "scale": 1.0, "glow": true}
+}

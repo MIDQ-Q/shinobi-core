@@ -1,0 +1,43 @@
+{
+  "id": "shinobicore:water_maelstrom",
+  "name": "Maelstrom",
+  "description": "Pulls enemies",
+  "category": "shape_ninjutsu",
+  "rank": "B",
+  "tags": ["water", "zone", "offensive"],
+  "form": {
+    "type": "zone",
+    "params": { "radius": 6, "duration": 60, "shape": "cylinder", "tickRate": 10 }
+  },
+  "effects": [
+    {
+      "type": "control",
+      "subtype": "pull",
+      "params": { "force": 1.1 }
+    },
+    {
+      "type": "damage",
+      "subtype": "dot",
+      "params": { "amount": 1, "duration": 40 }
+    }
+  ],
+  "element": "water",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 6,
+  "cost": {
+    "chakra": 18
+  },
+  "requirements": {
+    "stats": {
+      "control": 15,
+      "ninjutsu": 20
+    },
+    "elements": {
+      "water": 1
+    }
+  },
+  "visual": {"particle": "splash", "trail": "splash", "color": "#3FA9FF", "scale": 1.0, "glow": true}
+}

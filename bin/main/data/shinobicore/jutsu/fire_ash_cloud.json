@@ -1,0 +1,43 @@
+{
+  "id": "shinobicore:fire_ash_cloud",
+  "name": "Ash Cloud",
+  "description": "Blinding smoke",
+  "category": "shape_ninjutsu",
+  "rank": "B",
+  "tags": ["fire", "zone", "utility"],
+  "form": {
+    "type": "zone",
+    "params": { "radius": 4.5, "duration": 120, "shape": "cylinder", "tickRate": 20 }
+  },
+  "effects": [
+    {
+      "type": "control",
+      "subtype": "blind",
+      "params": { "duration": 80 }
+    },
+    {
+      "type": "debuff",
+      "subtype": "slow",
+      "params": { "duration": 60, "percent": 20 }
+    }
+  ],
+  "element": "fire",
+  "activation": {
+    "type": "instant",
+    "params": {}
+  },
+  "cooldown": 6,
+  "cost": {
+    "chakra": 18
+  },
+  "requirements": {
+    "stats": {
+      "control": 15,
+      "ninjutsu": 20
+    },
+    "elements": {
+      "fire": 1
+    }
+  },
+  "visual": {"particle": "flame", "trail": "flame", "color": "#FF7A1A", "scale": 1.0, "glow": true}
+}

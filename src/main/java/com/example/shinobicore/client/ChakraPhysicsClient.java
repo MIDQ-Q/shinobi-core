@@ -1,16 +1,17 @@
 package com.example.shinobicore.client;
 
 import com.example.shinobicore.ShinobiCore;
+import com.example.shinobicore.client.movement.MovementFeel;
 import com.example.shinobicore.client.parkour.ParkourManager;
 import com.example.shinobicore.client.parkour.util.ParkourSounds;
 import com.example.shinobicore.client.parkour.util.WallDetector;
+import com.example.shinobicore.config.ModConfig;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import com.example.shinobicore.client.ClientNinjaStateHolder;
 
 public class ChakraPhysicsClient {
 
@@ -25,9 +26,18 @@ public class ChakraPhysicsClient {
     // Флаг "стоит на воде" — обновляется в onClientTick, читается в mixin и ChargedJumpAction
     public static boolean standingOnWater = false;
 
+    // === Movement Pack (1.1.4) ===
+    /**Grace-тики на поверхности после потери чакры: плавное погружение вместо мгновенного. */
+    private static int waterGrace = 0;
+    private static boolean prevStandingOnWater = false;
+    /** Нормаль текущей стены (для наклона камеры и анимаций) или null. */
+    private static Vec3d lastWallNormal = null;
+
     public static void register() {
         ClientTickEvents.END_CLIENT_TICK.register(ChakraPhysicsClient::onClientTick);
     }
+
+    public static Vec3d getLastWallNormal() { return lastWallNormal; }
 
     private static void onClientTick(MinecraftClient client) {
         ClientPlayerEntity player = client.player;
@@ -64,11 +74,22 @@ public class ChakraPhysicsClient {
             player.addVelocity(0, 0.42, 0);
             player.velocityModified = true;
             airJumpsUsed = 1;
+            MovementFeel.onDoubleJump(player);   // Movement Pack: кольцо чакры + звук + отдача камеры
             if (doLog) ShinobiCore.LOGGER.debug("[parkour] double jump");
         }
 
-        // === WATER + WALL PHYSICS ===
+        // === Grace: чакра только что кончилась, а игрок стоял на воде ===
+        if (!chakraOn && prevStandingOnWater && waterGrace == 0) {
+            waterGrace = Math.max(0, ModConfig.instance.movement.waterGraceTicks);
+        }
         if (chakraOn) {
+            waterGrace = Math.max(waterGrace, 0);
+        }
+
+        // === WATER + WALL PHYSICS ===
+        if (chakraOn || waterGrace > 0) {
+            if (!chakraOn) waterGrace--;
+
             BlockPos feet = player.getBlockPos();
             double surfaceY = Double.NaN;
             for (int dy = 0; dy <= 3; dy++) {
@@ -108,8 +129,15 @@ public class ChakraPhysicsClient {
                         } else {
                             standingOnWater = false;
                         }
-                        if (player.input.pressingForward && !player.input.sneaking && !player.isSprinting()) {
+                        if (chakraOn && player.input.pressingForward && !player.input.sneaking && !player.isSprinting()) {
                             player.setSprinting(true);
+                        }
+                        // === Movement Pack: разгон с кривой, покачивание, шаги по воде ===
+                        if (chakraOn && standingOnWater) {
+                            MovementFeel.waterRunTick(player, player.input.pressingForward, player.isSprinting());
+                            if (!prevStandingOnWater && !wasOnGroundOrWater) {
+                                MovementFeel.waterTouchdown(player);   // всплеск при касании после воздуха
+                            }
                         }
                     } else {
                         standingOnWater = false;
@@ -117,11 +145,12 @@ public class ChakraPhysicsClient {
                     if (doLog) ShinobiCore.LOGGER.debug("[chakra-water] y={} surfaceY={}", fmt(player.getY()), fmt(surfaceY));
                 }
                 player.fallDistance = 0f;
-            } else if (!player.isOnGround() && !ParkourManager.isWallRunning()) {
+            } else if (chakraOn && !player.isOnGround() && !ParkourManager.isWallRunning()) {
                 // === СТЕНЫ ===
                 standingOnWater = false;
                 Vec3d wallNormal = WallDetector.getWallNormal(player);
                 boolean stickingNow = wallNormal != null;
+                lastWallNormal = wallNormal;
 
                 // Wall jump
                 if (stickingNow && jumpEdge && wallJumpCooldown == 0) {
@@ -132,6 +161,7 @@ public class ChakraPhysicsClient {
                     airJumpsUsed = 0;
                     wasStickingToWall = false;
                     ParkourSounds.playWallStick();
+                    MovementFeel.onWallJump(player, wallNormal);   // Movement Pack: пыль со стены
                     if (doLog) ShinobiCore.LOGGER.debug("[parkour] wall jump");
                     logTimer = (logTimer + 1) % 20;
                     return;
@@ -142,7 +172,7 @@ public class ChakraPhysicsClient {
                     if (doLog) ShinobiCore.LOGGER.debug("[chakra-wall] stuck to wall");
                 }
                 wasStickingToWall = stickingNow;
-            stickingToWall = stickingNow;
+                stickingToWall = stickingNow;
 
                 if (stickingNow) {
                     Vec3d v = player.getVelocity();
@@ -155,6 +185,7 @@ public class ChakraPhysicsClient {
                         player.setOnGround(true);
                         wasStickingToWall = false;
                         ParkourSounds.playEdgeClimb();
+                        MovementFeel.onLedgeClimb(player, ledge.getY() + 1.0);   // Movement Pack: пыль у кромки
                         if (doLog) ShinobiCore.LOGGER.debug("[parkour] ledge climb");
                         logTimer = (logTimer + 1) % 20;
                         return;
@@ -166,10 +197,18 @@ public class ChakraPhysicsClient {
                         v = v.subtract(wallNormal.multiply(dotProduct));
                     }
 
+                    // === Movement Pack: подъём по стене ===
+                    //   W            — быстрый забег (как в аниме), шаги с пылью и звуком
+                    //   Shift+W      — тихий подъём (без звука, для стелса)
+                    //   Shift        — тихий спуск
+                    //   ничего       — висим (цепляемся чакрой)
                     float vy;
-                    if (player.input.sneaking) vy = -0.05f;
-                    else if (player.input.pressingForward || player.input.jumping) vy = 0.05f;
-                    else vy = 0f;
+                    if (player.input.sneaking && !player.input.pressingForward && !player.input.jumping) {
+                        vy = -Math.abs(ModConfig.instance.movement.wallDescendSpeed);
+                    } else {
+                        vy = MovementFeel.climbTick(player, player.input.sneaking,
+                                player.input.pressingForward || player.input.jumping, wallNormal);
+                    }
 
                     player.setVelocity(v.x, vy, v.z);
                     player.fallDistance = 0f;
@@ -177,12 +216,19 @@ public class ChakraPhysicsClient {
             } else {
                 wasStickingToWall = false;
                 standingOnWater = false;
+                lastWallNormal = null;
+                // P1-3: без этого строка поза "прилип к стене" залипала навсегда
+                // (читают IdlePoseSystem и PlayerAnimationOrchestrator).
+                stickingToWall = false;
             }
         } else {
             wasStickingToWall = false;
             standingOnWater = false;
+            lastWallNormal = null;
+            stickingToWall = false;   // P1-3
         }
 
+        prevStandingOnWater = standingOnWater;
         logTimer = (logTimer + 1) % 20;
     }
 
